@@ -1,0 +1,232 @@
+<div [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+    <div class="kt-subheader kt-grid__item">
+      <div [class]="containerClass">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("Departments")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("DepartmentsHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Departments.Create')" (click)="createDepartment()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewDepartment")}}</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getDepartments()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CodeFilter">{{l("Code")}}</label>
+									<input type="text" class="form-control" id="CodeFilter" name="codeFilter" [(ngModel)]="codeFilter">
+								</div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="IsControlTeamFilterSelect">{{l("IsControlTeam")}}</label>
+								<select class="form-control" name="IsControlTeamFilter" id="IsControlTeamFilterSelect" [(ngModel)]="isControlTeamFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="UserNameFilter" name="userNameFilter" [(ngModel)]="userNameFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserName2Filter">({{l("User2")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="UserName2Filter" name="userName2Filter" [(ngModel)]="userName2Filter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="OrganizationUnitDisplayNameFilter">({{l("OrganizationUnit")}}) {{l("DisplayName")}}</label>
+									<input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter" name="organizationUnitDisplayNameFilter" [(ngModel)]="organizationUnitDisplayNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getDepartments($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Departments.Edit', 'Pages.Departments.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="code">
+                                        {{l('Code')}}
+                                        <p-sortIcon field="department.code"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 250px" pSortableColumn="name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="department.name"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 200px" pSortableColumn="controlTeamFk.displayName">
+                             Supervising Unit
+                                        <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 200px" pSortableColumn="supervisorUserFk.name">
+                                     Unit Head
+                                        <p-sortIcon field="userName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 200px" pSortableColumn="controlOfficerUserFk.name">
+                                   Control Officer
+                                        <p-sortIcon field="userName2"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 150px" pSortableColumn="isAbstract">
+                                        {{l('IsAbstract')}}
+                                        <p-sortIcon field="department.isAbstract"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="isControlTeam">
+                                        {{l('IsControlTeam')}}
+                                        <p-sortIcon field="department.isControlTeam"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Departments.Edit', 'Pages.Departments.Delete')">
+                                        <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="viewDepartmentModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Departments.Edit')"
+                                                       (click)="createOrEditDepartmentModal.show(record.department.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Departments.Delete')"
+                                                       (click)="deleteDepartment(record.department)">{{l('Delete')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.department)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Code')}}</span>
+                                        {{record.department.code}}
+                                    </td>
+                                    <td style="width:250px">
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.department.name}}
+                                    </td>
+                                    <td style="width:200px">
+                                        <span class="ui-column-title"> {{l('DisplayName')}}</span>
+                                        {{record.supervsingUnitDisplaName}}
+                                    </td>
+                                    <td style="width:200px">
+                                        <span class="ui-column-title"> Unit Head</span>
+                                        {{record.userName}}
+                                    </td>
+                                    <td style="width:200px">
+                                        <span class="ui-column-title"> Control Officer</span>
+                                        {{record.userName2}}
+                                    </td>
+
+
+
+                   
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('IsAbstract')}}</span>
+                                        <div *ngIf="record.department.isAbstract" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+                                        <div *ngIf="!record.department.isAbstract" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('IsControlTeam')}}</span>
+                                        <div *ngIf="record.department.isControlTeam" class="text-center"><i class="fa fa-check-circle kt--font-success" title="True"></i></div>
+                                        <div *ngIf="!record.department.isControlTeam" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getDepartments($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditDepartmentModal #createOrEditDepartmentModal (modalSave)="getDepartments()"></createOrEditDepartmentModal>
+    <viewDepartmentModal #viewDepartmentModal></viewDepartmentModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+  </div>
+</div>

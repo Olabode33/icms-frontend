@@ -1,0 +1,73 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #controlForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="control.id">{{l("EditControl")}}</span>
+                        <span *ngIf="!control.id">{{l("CreateNewControl")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="Control_Code">{{l("Code")}} *</label>
+									<input type="text" id="Control_Code" class="form-control" [(ngModel)]="control.code" name="Code"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Control_Name">{{l("Name")}} *</label>
+									<input type="text" id="Control_Name" class="form-control" [(ngModel)]="control.name" name="Name"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Control_Description">{{l("Description")}}</label>
+									<input type="text" id="Control_Description" class="form-control" [(ngModel)]="control.description" name="Description"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Control_ControlType">{{l("ControlType")}}</label>
+									<select class="form-control" name="ControlType" id="Control_ControlType" [(ngModel)]="control.controlType">
+									<option value="0">{{l('Manual')}}</option>
+
+									<option value="1">{{l('Automated')}}</option>
+
+									<option value="2">{{l('ITDependent')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="Control_Frequency">{{l("Frequency")}}</label>
+									<select class="form-control" name="Frequency" id="Control_Frequency" [(ngModel)]="control.frequency">
+									<option value="0">{{l('Daily')}}</option>
+
+									<option value="1">{{l('Weekly')}}</option>
+
+									<option value="2">{{l('Monthly')}}</option>
+
+									<option value="3">{{l('Quarterly')}}</option>
+
+									<option value="4">{{l('Yearly')}}</option>
+
+
+									</select>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!controlForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

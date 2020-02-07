@@ -1,0 +1,61 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #exceptionTypeForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="exceptionType.id">{{l("EditExceptionType")}}</span>
+                        <span *ngIf="!exceptionType.id">{{l("CreateNewExceptionType")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ExceptionType_Code">{{l("Code")}} *</label>
+									<input type="text" id="ExceptionType_Code" class="form-control" [(ngModel)]="exceptionType.code" name="Code"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="ExceptionType_Name">{{l("Name")}} *</label>
+									<input type="text" id="ExceptionType_Name" class="form-control" [(ngModel)]="exceptionType.name" name="Name"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="ExceptionType_Description">{{l("Description")}}</label>
+									<input type="text" id="ExceptionType_Description" class="form-control" [(ngModel)]="exceptionType.description" name="Description"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="ExceptionType_Severity">{{l("Severity")}}</label>
+									<select class="form-control" name="Severity" id="ExceptionType_Severity" [(ngModel)]="exceptionType.severity">
+									<option value="0">{{l('Low')}}</option>
+
+									<option value="1">{{l('Medium')}}</option>
+
+									<option value="2">{{l('High')}}</option>
+
+
+									</select>
+								</div>
+					
+								<div class="form-group">
+									<label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}}</label>
+									<input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation"  min="0"  max="365"/>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!exceptionTypeForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,123 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #departmentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="department.id">{{l("EditDepartment")}}</span>
+                        <span *ngIf="!department.id">{{l("CreateNewDepartment")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <tabset>
+                        <tab heading="General">
+                            <div class="form-group">
+                                <label for="Department_Code">{{l("Code")}}</label>
+                                <input type="text" id="Department_Code" class="form-control" [(ngModel)]="department.code" name="Code" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Department_Name">{{l("Name")}}</label>
+                                <input type="text" id="Department_Name" class="form-control" [(ngModel)]="department.name" name="Name" />
+                            </div>
+
+                            <div class="form-group m-form__group">
+                                <label for="UserName">Unit Head</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setSupervisorUserIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="department.supervisorUserId" [(ngModel)]="department.supervisorUserId" type="text" hidden>
+
+                            <!--<div class="form-group m-form__group">
+                                <label for="OrganizationUnitDisplayName">Supervising Unit</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="supervisingTeamtDisplayName" name="supervisingTeamtDisplayName" [(ngModel)]="supervisingTeamtDisplayName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal2()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setSupervisingTeamIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="department.supervisingUnit" [(ngModel)]="department.supervisingUnit" type="text" hidden>-->
+
+                            <div class="form-group">
+                                <label for="Department_Description">{{l("Description")}}</label>
+                                <textarea type="text" id="Department_Description" class="form-control" [(ngModel)]="department.description" name="Description"></textarea>
+                            </div>
+
+                            <br /><div class="m-checkbox-list">
+                                <label for="Department_IsAbstract" class="kt-checkbox">
+                                    <input id="Department_IsAbstract" type="checkbox" name="IsAbstract" [(ngModel)]="department.isAbstract">
+                                  Is Abstract
+                                    <span></span>
+                                </label>
+                            </div>
+
+                            <br /><div class="m-checkbox-list">
+                                <label for="Department_IsControlTeam" class="kt-checkbox">
+                                    <input id="Department_IsControlTeam" type="checkbox" name="IsControlTeam" [(ngModel)]="department.isControlTeam">
+                                  Control Team
+                                    <span></span>
+                                </label>
+                            </div>
+                        </tab>
+                        <tab heading="Internal Control" *ngIf="!department.IsControlTeam">
+
+                            <div class="form-group m-form__group">
+                                <label for="OrganizationUnitDisplayName">Control Team</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setControlTeamIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="department.controlTeamId" [(ngModel)]="department.controlTeamId" type="text" hidden>
+
+                            <div class="form-group m-form__group">
+                                <label for="UserName2">Head of Control Team</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="UserName2" name="userName2" [(ngModel)]="userName2" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectUserModal2()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setControlOfficerUserIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="department.controlOfficerUserId" [(ngModel)]="department.controlOfficerUserId" type="text" hidden>
+
+
+                        </tab>
+
+
+
+
+
+                    </tabset>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!departmentForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<departmentUserLookupTableModal #departmentUserLookupTableModal (modalSave)="getNewSupervisorUserId()"></departmentUserLookupTableModal>
+		 <departmentUserLookupTableModal #departmentUserLookupTableModal2 (modalSave)="getNewControlOfficerUserId()"></departmentUserLookupTableModal>
+		 <departmentOrganizationUnitLookupTableModal #departmentOrganizationUnitLookupTableModal (modalSave)="getNewControlTeamId()"></departmentOrganizationUnitLookupTableModal>
+		 <departmentOrganizationUnitLookupTableModal #departmentOrganizationUnitLookupTableModal2 (modalSave)="getNewSupervisingTeamId()"></departmentOrganizationUnitLookupTableModal>
+		 
+</div>
