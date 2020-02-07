@@ -1,3 +1,12 @@
+:root {
+    --primary-color: #3C91E6;
+    --primary-dark: #000;
+    --primary-light: #000;
+    --accent-color: #FA824C;
+    --dark: #2C363F;
+    --light: #FCF7F8;
+}
+
 /* You can add global styles to this file, and also import other style files */
 .margin-left-5 {
     margin-left: 5px !important;
@@ -115,3 +124,23 @@ body.swal2-height-auto {
     animation: glowing 2s infinite;
 }
 
+.modal-header {
+    background-color: var(--primary-color) !important;
+}
+
+.modal .modal-content .modal-header .modal-title {
+    color: var(--light) !important;
+}
+
+.modal-content {
+    border: 1px solid var(--primary-color) !important; 
+}
+
+.modal .modal-content .modal-header .close {
+    color: var(--light) !important;
+}
+
+.btn-primary {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}

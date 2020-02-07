@@ -10,6 +10,7 @@ import { ExceptionTypesComponent } from './exceptionTypes/exceptionTypes/excepti
 import { ControlsComponent } from './controls/controls/controls.component';
 import { RisksComponent } from './risks/risks/risks.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
                     { path: 'controls/controls', component: ControlsComponent, data: { permission: 'Pages.Controls' }  },
                     { path: 'risks/risks', component: RisksComponent, data: { permission: 'Pages.Risks' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+                    { path: 'home', component: HomeComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
             }
         ])

@@ -17,29 +17,30 @@ export class AppNavigationService {
 
     getMenu(): AppMenu {
         return new AppMenu('MainMenu', 'MainMenu', [
+            new AppMenuItem('Home', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/home'),
             new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-           
+
             new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
-            
+
             new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
-            
+
             new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
-            
+
             new AppMenuItem('DataLists', 'Pages.DataLists', 'flaticon-more', '/app/main/dataLists/dataLists'),
-            
+
             new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
-            
+
             new AppMenuItem('DepartmentRisks', 'Pages.DepartmentRisks', 'flaticon-more', '/app/main/departmentRisks/departmentRisks'),
-            
+
             new AppMenuItem('DepartmentRiskControls', 'Pages.DepartmentRiskControls', 'flaticon-more', '/app/main/departmentRiskControls/departmentRiskControls'),
-            
+
             new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon-more', '/app/main/testingTemplates/testingTemplates'),
-            
+
             new AppMenuItem('ExceptionIncidents', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
-             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
+            new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),

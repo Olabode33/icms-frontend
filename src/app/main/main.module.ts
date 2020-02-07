@@ -51,7 +51,7 @@ import { CreateOrEditRiskModalComponent } from './risks/risks/create-or-edit-ris
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PaginatorModule } from 'primeng/paginator';
 import { EditorModule } from 'primeng/editor';
-import { InputMaskModule } from 'primeng/inputmask';import { FileUploadModule } from 'primeng/fileupload';
+import { InputMaskModule } from 'primeng/inputmask'; import { FileUploadModule } from 'primeng/fileupload';
 import { TableModule } from 'primeng/table';
 
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -63,16 +63,17 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
+import { HomeComponent } from './home/home.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
 @NgModule({
     imports: [
-		FileUploadModule,
-		AutoCompleteModule,
-		PaginatorModule,
-		EditorModule,
-		InputMaskModule,		TableModule,
+        FileUploadModule,
+        AutoCompleteModule,
+        PaginatorModule,
+        EditorModule,
+        InputMaskModule, TableModule,
 
         CommonModule,
         FormsModule,
@@ -89,36 +90,37 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		ExceptionIncidentsComponent,
-		ViewExceptionIncidentModalComponent,		CreateOrEditExceptionIncidentModalComponent,
-    ExceptionIncidentExceptionTypeLookupTableModalComponent,
-    ExceptionIncidentUserLookupTableModalComponent,
-    ExceptionIncidentTestingTemplateLookupTableModalComponent,
-    ExceptionIncidentOrganizationUnitLookupTableModalComponent,
-		TestingTemplatesComponent,
-		ViewTestingTemplateModalComponent,		CreateOrEditTestingTemplateModalComponent,
-    TestingTemplateDepartmentRiskControlLookupTableModalComponent,
-		DepartmentRiskControlsComponent,
-		ViewDepartmentRiskControlModalComponent,		CreateOrEditDepartmentRiskControlModalComponent,
-    DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
-    DepartmentRiskControlControlLookupTableModalComponent,
-		DepartmentRisksComponent,
-		ViewDepartmentRiskModalComponent,		CreateOrEditDepartmentRiskModalComponent,
-    DepartmentRiskDepartmentLookupTableModalComponent,
-    DepartmentRiskRiskLookupTableModalComponent,
-		DepartmentsComponent,
+        HomeComponent,
+        ExceptionIncidentsComponent,
+        ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
+        ExceptionIncidentExceptionTypeLookupTableModalComponent,
+        ExceptionIncidentUserLookupTableModalComponent,
+        ExceptionIncidentTestingTemplateLookupTableModalComponent,
+        ExceptionIncidentOrganizationUnitLookupTableModalComponent,
+        TestingTemplatesComponent,
+        ViewTestingTemplateModalComponent, CreateOrEditTestingTemplateModalComponent,
+        TestingTemplateDepartmentRiskControlLookupTableModalComponent,
+        DepartmentRiskControlsComponent,
+        ViewDepartmentRiskControlModalComponent, CreateOrEditDepartmentRiskControlModalComponent,
+        DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
+        DepartmentRiskControlControlLookupTableModalComponent,
+        DepartmentRisksComponent,
+        ViewDepartmentRiskModalComponent, CreateOrEditDepartmentRiskModalComponent,
+        DepartmentRiskDepartmentLookupTableModalComponent,
+        DepartmentRiskRiskLookupTableModalComponent,
+        DepartmentsComponent,
         ViewDepartmentModalComponent,
         //CreateOrEditDepartmentModalComponent,
-    //DepartmentUserLookupTableModalComponent,
-   // DepartmentOrganizationUnitLookupTableModalComponent,
-		DataListsComponent,
-		ViewDataListModalComponent,		CreateOrEditDataListModalComponent,
-		ExceptionTypesComponent,
-		ViewExceptionTypeModalComponent,		CreateOrEditExceptionTypeModalComponent,
-		ControlsComponent,
-		ViewControlModalComponent,		CreateOrEditControlModalComponent,
-		RisksComponent,
-		ViewRiskModalComponent,		CreateOrEditRiskModalComponent,
+        //DepartmentUserLookupTableModalComponent,
+        // DepartmentOrganizationUnitLookupTableModalComponent,
+        DataListsComponent,
+        ViewDataListModalComponent, CreateOrEditDataListModalComponent,
+        ExceptionTypesComponent,
+        ViewExceptionTypeModalComponent, CreateOrEditExceptionTypeModalComponent,
+        ControlsComponent,
+        ViewControlModalComponent, CreateOrEditControlModalComponent,
+        RisksComponent,
+        ViewRiskModalComponent, CreateOrEditRiskModalComponent,
         DashboardComponent
     ],
     providers: [
