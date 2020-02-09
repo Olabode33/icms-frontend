@@ -41,7 +41,7 @@ export class CreateOrEditDepartmentModalComponent extends AppComponentBase {
         super(injector);
     }
 
-    show(departmentId?: number,parentId?: number): void {
+    show(departmentId?: number,parentId?: number, displayName?: string): void {
 
         if (!departmentId) {
             this.department = new CreateOrEditDepartmentDto();
@@ -86,11 +86,7 @@ export class CreateOrEditDepartmentModalComponent extends AppComponentBase {
         this.departmentUserLookupTableModal.displayName = this.userName;
         this.departmentUserLookupTableModal.show();
     }
-    openSelectUserModal2() {
-        this.departmentUserLookupTableModal2.id = this.department.controlOfficerUserId;
-        this.departmentUserLookupTableModal2.displayName = this.userName;
-        this.departmentUserLookupTableModal2.show();
-    }
+
     openSelectOrganizationUnitModal() {
         this.departmentOrganizationUnitLookupTableModal.id = this.department.controlTeamId;
         this.departmentOrganizationUnitLookupTableModal.displayName = this.organizationUnitDisplayName;
@@ -113,10 +109,6 @@ export class CreateOrEditDepartmentModalComponent extends AppComponentBase {
 
 
 
-    setControlOfficerUserIdNull() {
-        this.department.controlOfficerUserId = null;
-        this.userName2 = '';
-    }
     setControlTeamIdNull() {
         this.department.controlTeamId = null;
         this.organizationUnitDisplayName = '';
@@ -132,10 +124,7 @@ export class CreateOrEditDepartmentModalComponent extends AppComponentBase {
         this.department.supervisorUserId = this.departmentUserLookupTableModal.id;
         this.userName = this.departmentUserLookupTableModal.displayName;
     }
-    getNewControlOfficerUserId() {
-        this.department.controlOfficerUserId = this.departmentUserLookupTableModal2.id;
-        this.userName2 = this.departmentUserLookupTableModal2.displayName;
-    }
+
     getNewControlTeamId() {
         this.department.controlTeamId = this.departmentOrganizationUnitLookupTableModal.id;
         this.organizationUnitDisplayName = this.departmentOrganizationUnitLookupTableModal.displayName;

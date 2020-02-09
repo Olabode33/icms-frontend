@@ -16,16 +16,9 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
 import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplates/testingTemplates/testingTemplate-departmentRiskControl-lookup-table-modal.component';
 
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
-import { ViewDepartmentRiskControlModalComponent } from './departmentRiskControls/departmentRiskControls/view-departmentRiskControl-modal.component';
-import { CreateOrEditDepartmentRiskControlModalComponent } from './departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
-import { DepartmentRiskControlDepartmentRiskLookupTableModalComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControl-departmentRisk-lookup-table-modal.component';
-import { DepartmentRiskControlControlLookupTableModalComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 
 import { DepartmentRisksComponent } from './departmentRisks/departmentRisks/departmentRisks.component';
 import { ViewDepartmentRiskModalComponent } from './departmentRisks/departmentRisks/view-departmentRisk-modal.component';
-import { CreateOrEditDepartmentRiskModalComponent } from './departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
-import { DepartmentRiskDepartmentLookupTableModalComponent } from './departmentRisks/departmentRisks/departmentRisk-department-lookup-table-modal.component';
-import { DepartmentRiskRiskLookupTableModalComponent } from './departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
 
 import { DepartmentsComponent } from './departments/departments/departments.component';
 import { ViewDepartmentModalComponent } from './departments/departments/view-department-modal.component';
@@ -99,13 +92,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 		ViewTestingTemplateModalComponent,		CreateOrEditTestingTemplateModalComponent,
     TestingTemplateDepartmentRiskControlLookupTableModalComponent,
 		DepartmentRiskControlsComponent,
-		ViewDepartmentRiskControlModalComponent,		CreateOrEditDepartmentRiskControlModalComponent,
-    DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
-    DepartmentRiskControlControlLookupTableModalComponent,
+		//ViewDepartmentRiskControlModalComponent,		CreateOrEditDepartmentRiskControlModalComponent,
+  //  DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
+  //  DepartmentRiskControlControlLookupTableModalComponent,
 		DepartmentRisksComponent,
-		ViewDepartmentRiskModalComponent,		CreateOrEditDepartmentRiskModalComponent,
-    DepartmentRiskDepartmentLookupTableModalComponent,
-    DepartmentRiskRiskLookupTableModalComponent,
+		ViewDepartmentRiskModalComponent,		
+  
 		DepartmentsComponent,
         ViewDepartmentModalComponent,
         //CreateOrEditDepartmentModalComponent,

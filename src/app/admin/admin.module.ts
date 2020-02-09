@@ -41,7 +41,8 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { CreateOrEditUnitModalComponent } from './organization-units/create-or-edit-unit-modal.component';
 import { OrganizationTreeComponent } from './organization-units/organization-tree.component';
 import { OrganizationUnitMembersComponent } from './organization-units/organization-unit-members.component';
-import { OrganizationUnitRolesComponent } from './organization-units/organization-unit-roles.component';
+import { OrganizationUnitRisksComponent } from './organization-units/organization-unit-risks.component';
+import { OrganizationUnitControlsComponent } from './organization-units/organization-unit-controls.component';
 import { OrganizationUnitsComponent } from './organization-units/organization-units.component';
 import { CreateOrEditRoleModalComponent } from './roles/create-or-edit-role-modal.component';
 import { RolesComponent } from './roles/roles.component';
@@ -82,6 +83,8 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { DropdownModule } from 'primeng/dropdown';
+
+
 
 // Metronic
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -131,6 +134,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         FeatureTreeComponent,
         OrganizationUnitsTreeComponent,
         RolesComponent,
+        OrganizationUnitRisksComponent,
         CreateOrEditRoleModalComponent,
         AuditLogsComponent,
         AuditLogDetailModalComponent,
@@ -153,7 +157,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         OrganizationUnitsComponent,
         OrganizationTreeComponent,
         OrganizationUnitMembersComponent,
-        OrganizationUnitRolesComponent,
+        OrganizationUnitControlsComponent,
         CreateOrEditUnitModalComponent,
         TenantSettingsComponent,
         HostDashboardComponent,

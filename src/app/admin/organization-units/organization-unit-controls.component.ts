@@ -1,25 +1,26 @@
-import { ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
-import { AddRoleModalComponent } from '@app/admin/organization-units/add-role-modal.component';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { OrganizationUnitServiceProxy, OrganizationUnitRoleListDto } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRiskControlsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
 import { IBasicOrganizationUnitInfo } from './basic-organization-unit-info';
-import { IRoleWithOrganizationUnit } from './role-with-organization-unit';
-import { IRolesWithOrganizationUnit } from './roles-with-organization-unit';
+import { IUserWithOrganizationUnit } from './user-with-organization-unit';
+import { IUsersWithOrganizationUnit } from './users-with-organization-unit';
 import { finalize } from 'rxjs/operators';
 
+
 @Component({
-    selector: 'organization-unit-roles',
-    templateUrl: './organization-unit-roles.component.html'
+    selector: 'organization-unit-controls',
+    templateUrl: './organization-unit-controls.component.html'
 })
-export class OrganizationUnitRolesComponent extends AppComponentBase implements OnInit {
+export class OrganizationUnitControlsComponent extends AppComponentBase implements OnInit {
 
-    @Output() roleRemoved = new EventEmitter<IRoleWithOrganizationUnit>();
-    @Output() rolesAdded = new EventEmitter<IRolesWithOrganizationUnit>();
+    @Output() controlsRemoved = new EventEmitter<any>();
+    @Output() controlsAdded = new EventEmitter<any>();
 
-    @ViewChild('addRoleModal', {static: true}) addRoleModal: AddRoleModalComponent;
+    //@ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
     @ViewChild('dataTable', {static: true}) dataTable: Table;
     @ViewChild('paginator', {static: true}) paginator: Paginator;
 
@@ -27,8 +28,8 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
 
     constructor(
         injector: Injector,
-        private _changeDetector: ChangeDetectorRef,
-        private _organizationUnitService: OrganizationUnitServiceProxy
+        private _organizationUnitService: OrganizationUnitServiceProxy,
+        private  _departmentRiskControlService: DepartmentRiskControlsServiceProxy
     ) {
         super(injector);
     }
@@ -43,9 +44,9 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
         }
 
         this._organizationUnit = ou;
-        this.addRoleModal.organizationUnitId = ou.id;
+       // this.createOrEditDepartmentRiskModal.organizationUnitId = ou.id;
         if (ou) {
-            this.refreshRoles();
+            this.refreshRisks();
         }
     }
 
@@ -53,7 +54,7 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
 
     }
 
-    getOrganizationUnitRoles(event?: LazyLoadEvent) {
+    getOrganizationUnitRisks(event?: LazyLoadEvent) {
         if (!this._organizationUnit) {
             return;
         }
@@ -65,11 +66,12 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
         }
 
         this.primengTableHelper.showLoadingIndicator();
-        this._organizationUnitService.getOrganizationUnitRoles(
-            this._organizationUnit.id,
+        this._departmentRiskControlService.getAllForDepartment('',-1,
+            this._organizationUnit.id,'','',
             this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event),
-            this.primengTableHelper.getSkipCount(this.paginator, event)
+       
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
@@ -81,42 +83,48 @@ export class OrganizationUnitRolesComponent extends AppComponentBase implements 
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    refreshRoles(): void {
+    refreshRisks(): void {
         this.reloadPage();
     }
 
-    openAddRoleModal(): void {
-        this.addRoleModal.show();
-    }
+    //addRiskToUnit(): void {
+    //    this.createOrEditDepartmentRiskModal.show(null, this._organizationUnit.id);
+    //}
 
-    removeRole(role: OrganizationUnitRoleListDto): void {
+
+    //addControlToRisk(riskId: number): void {
+    //    this.createOrEditDepartmentRiskControlModal.show(null, riskId);
+    //}
+
+
+    removeMember(user: OrganizationUnitUserListDto): void {
         this.message.confirm(
-            this.l('RemoveRoleFromOuWarningMessage', role.displayName, this.organizationUnit.displayName),
+            this.l('RemoveUserFromOuWarningMessage', user.userName, this.organizationUnit.displayName),
             this.l('AreYouSure'),
             isConfirmed => {
                 if (isConfirmed) {
                     this._organizationUnitService
-                        .removeRoleFromOrganizationUnit(role.id, this.organizationUnit.id)
+                        .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
                             this.notify.success(this.l('SuccessfullyRemoved'));
-                            this.roleRemoved.emit({
-                                roleId: role.id,
+                            this.controlsRemoved.emit({
+                                userId: user.id,
                                 ouId: this.organizationUnit.id
                             });
 
-                            this.refreshRoles();
+                            this.refreshRisks();
                         });
                 }
             }
         );
     }
 
-    addRoles(data: any): void {
-        this.rolesAdded.emit({
-            roleIds: data.roleIds,
+    addRisks(data: any): void {
+        this.controlsAdded.emit({
+            userIds: data.userIds,
             ouId: data.ouId
         });
 
-        this.refreshRoles();
+        this.refreshRisks();
     }
 }

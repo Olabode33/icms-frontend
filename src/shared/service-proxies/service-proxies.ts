@@ -3354,6 +3354,7 @@ export class DepartmentRiskControlsServiceProxy {
     /**
      * @param filter (optional) 
      * @param frequencyFilter (optional) 
+     * @param departmentId (optional) 
      * @param departmentRiskCodeFilter (optional) 
      * @param controlCodeFilter (optional) 
      * @param sorting (optional) 
@@ -3361,7 +3362,7 @@ export class DepartmentRiskControlsServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, frequencyFilter: number | undefined, departmentRiskCodeFilter: string | undefined, controlCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto> {
+    getAll(filter: string | undefined, frequencyFilter: number | undefined, departmentId: number | undefined, departmentRiskCodeFilter: string | undefined, controlCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/DepartmentRiskControls/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3371,6 +3372,10 @@ export class DepartmentRiskControlsServiceProxy {
             throw new Error("The parameter 'frequencyFilter' cannot be null.");
         else if (frequencyFilter !== undefined)
             url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
+        if (departmentId === null)
+            throw new Error("The parameter 'departmentId' cannot be null.");
+        else if (departmentId !== undefined)
+            url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&"; 
         if (departmentRiskCodeFilter === null)
             throw new Error("The parameter 'departmentRiskCodeFilter' cannot be null.");
         else if (departmentRiskCodeFilter !== undefined)
@@ -3416,6 +3421,97 @@ export class DepartmentRiskControlsServiceProxy {
     }
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetDepartmentRiskControlForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetDepartmentRiskControlForViewDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param frequencyFilter (optional) 
+     * @param departmentId (optional) 
+     * @param departmentRiskCodeFilter (optional) 
+     * @param controlCodeFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllForDepartment(filter: string | undefined, frequencyFilter: number | undefined, departmentId: number | undefined, departmentRiskCodeFilter: string | undefined, controlCodeFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/DepartmentRiskControls/GetAllForDepartment?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (frequencyFilter === null)
+            throw new Error("The parameter 'frequencyFilter' cannot be null.");
+        else if (frequencyFilter !== undefined)
+            url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
+        if (departmentId === null)
+            throw new Error("The parameter 'departmentId' cannot be null.");
+        else if (departmentId !== undefined)
+            url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&"; 
+        if (departmentRiskCodeFilter === null)
+            throw new Error("The parameter 'departmentRiskCodeFilter' cannot be null.");
+        else if (departmentRiskCodeFilter !== undefined)
+            url_ += "DepartmentRiskCodeFilter=" + encodeURIComponent("" + departmentRiskCodeFilter) + "&"; 
+        if (controlCodeFilter === null)
+            throw new Error("The parameter 'controlCodeFilter' cannot be null.");
+        else if (controlCodeFilter !== undefined)
+            url_ += "ControlCodeFilter=" + encodeURIComponent("" + controlCodeFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllForDepartment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllForDepartment(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllForDepartment(response: HttpResponseBase): Observable<PagedResultDtoOfGetDepartmentRiskControlForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3882,13 +3978,14 @@ export class DepartmentRisksServiceProxy {
      * @param filter (optional) 
      * @param codeFilter (optional) 
      * @param departmentNameFilter (optional) 
+     * @param departmentId (optional) 
      * @param riskNameFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, codeFilter: string | undefined, departmentNameFilter: string | undefined, riskNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskForViewDto> {
+    getAll(filter: string | undefined, codeFilter: string | undefined, departmentNameFilter: string | undefined, departmentId: number | undefined, riskNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/DepartmentRisks/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -3902,6 +3999,10 @@ export class DepartmentRisksServiceProxy {
             throw new Error("The parameter 'departmentNameFilter' cannot be null.");
         else if (departmentNameFilter !== undefined)
             url_ += "DepartmentNameFilter=" + encodeURIComponent("" + departmentNameFilter) + "&"; 
+        if (departmentId === null)
+            throw new Error("The parameter 'departmentId' cannot be null.");
+        else if (departmentId !== undefined)
+            url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&"; 
         if (riskNameFilter === null)
             throw new Error("The parameter 'riskNameFilter' cannot be null.");
         else if (riskNameFilter !== undefined)
@@ -3943,6 +4044,97 @@ export class DepartmentRisksServiceProxy {
     }
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetDepartmentRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetDepartmentRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetDepartmentRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param codeFilter (optional) 
+     * @param departmentNameFilter (optional) 
+     * @param departmentId (optional) 
+     * @param riskNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getRiskForDepartment(filter: string | undefined, codeFilter: string | undefined, departmentNameFilter: string | undefined, departmentId: number | undefined, riskNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetDepartmentRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/DepartmentRisks/GetRiskForDepartment?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (codeFilter === null)
+            throw new Error("The parameter 'codeFilter' cannot be null.");
+        else if (codeFilter !== undefined)
+            url_ += "CodeFilter=" + encodeURIComponent("" + codeFilter) + "&"; 
+        if (departmentNameFilter === null)
+            throw new Error("The parameter 'departmentNameFilter' cannot be null.");
+        else if (departmentNameFilter !== undefined)
+            url_ += "DepartmentNameFilter=" + encodeURIComponent("" + departmentNameFilter) + "&"; 
+        if (departmentId === null)
+            throw new Error("The parameter 'departmentId' cannot be null.");
+        else if (departmentId !== undefined)
+            url_ += "DepartmentId=" + encodeURIComponent("" + departmentId) + "&"; 
+        if (riskNameFilter === null)
+            throw new Error("The parameter 'riskNameFilter' cannot be null.");
+        else if (riskNameFilter !== undefined)
+            url_ += "RiskNameFilter=" + encodeURIComponent("" + riskNameFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRiskForDepartment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRiskForDepartment(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetDepartmentRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetDepartmentRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRiskForDepartment(response: HttpResponseBase): Observable<PagedResultDtoOfGetDepartmentRiskForViewDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8980,6 +9172,77 @@ export class OrganizationUnitServiceProxy {
     }
 
     protected processGetOrganizationUnitUsers(response: HttpResponseBase): Observable<PagedResultDtoOfOrganizationUnitUserListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfOrganizationUnitUserListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfOrganizationUnitUserListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getOrganizationUnitUsersRole(id: number | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfOrganizationUnitUserListDto> {
+        let url_ = this.baseUrl + "/api/services/app/OrganizationUnit/GetOrganizationUnitUsersRole?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOrganizationUnitUsersRole(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOrganizationUnitUsersRole(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfOrganizationUnitUserListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfOrganizationUnitUserListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOrganizationUnitUsersRole(response: HttpResponseBase): Observable<PagedResultDtoOfOrganizationUnitUserListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -17547,6 +17810,7 @@ export enum Frequency {
     Monthly = 2,
     Quarterly = 3,
     Yearly = 4,
+    Continuous = 5,
 }
 
 export class ControlDto implements IControlDto {
@@ -17690,7 +17954,6 @@ export interface IPagedResultDtoOfGetControlForViewDto {
 }
 
 export class CreateOrEditControlDto implements ICreateOrEditControlDto {
-    code!: string | undefined;
     name!: string | undefined;
     description!: string | undefined;
     controlType!: ControlType;
@@ -17708,7 +17971,6 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
 
     init(data?: any) {
         if (data) {
-            this.code = data["code"];
             this.name = data["name"];
             this.description = data["description"];
             this.controlType = data["controlType"];
@@ -17726,7 +17988,6 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
         data["name"] = this.name;
         data["description"] = this.description;
         data["controlType"] = this.controlType;
@@ -17737,7 +17998,6 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
 }
 
 export interface ICreateOrEditControlDto {
-    code: string | undefined;
     name: string | undefined;
     description: string | undefined;
     controlType: ControlType;
@@ -18637,8 +18897,11 @@ export class DepartmentRiskControlDto implements IDepartmentRiskControlDto {
     code!: string | undefined;
     notes!: string | undefined;
     frequency!: Frequency;
+    departmentId!: number | undefined;
     departmentRiskId!: number | undefined;
     controlId!: number | undefined;
+    inherited!: boolean;
+    departmentCode!: string | undefined;
     id!: number;
 
     constructor(data?: IDepartmentRiskControlDto) {
@@ -18655,8 +18918,11 @@ export class DepartmentRiskControlDto implements IDepartmentRiskControlDto {
             this.code = data["code"];
             this.notes = data["notes"];
             this.frequency = data["frequency"];
+            this.departmentId = data["departmentId"];
             this.departmentRiskId = data["departmentRiskId"];
             this.controlId = data["controlId"];
+            this.inherited = data["inherited"];
+            this.departmentCode = data["departmentCode"];
             this.id = data["id"];
         }
     }
@@ -18673,8 +18939,11 @@ export class DepartmentRiskControlDto implements IDepartmentRiskControlDto {
         data["code"] = this.code;
         data["notes"] = this.notes;
         data["frequency"] = this.frequency;
+        data["departmentId"] = this.departmentId;
         data["departmentRiskId"] = this.departmentRiskId;
         data["controlId"] = this.controlId;
+        data["inherited"] = this.inherited;
+        data["departmentCode"] = this.departmentCode;
         data["id"] = this.id;
         return data; 
     }
@@ -18684,8 +18953,11 @@ export interface IDepartmentRiskControlDto {
     code: string | undefined;
     notes: string | undefined;
     frequency: Frequency;
+    departmentId: number | undefined;
     departmentRiskId: number | undefined;
     controlId: number | undefined;
+    inherited: boolean;
+    departmentCode: string | undefined;
     id: number;
 }
 
@@ -18693,6 +18965,7 @@ export class GetDepartmentRiskControlForViewDto implements IGetDepartmentRiskCon
     departmentRiskControl!: DepartmentRiskControlDto;
     departmentRiskCode!: string | undefined;
     controlCode!: string | undefined;
+    department!: string | undefined;
 
     constructor(data?: IGetDepartmentRiskControlForViewDto) {
         if (data) {
@@ -18708,6 +18981,7 @@ export class GetDepartmentRiskControlForViewDto implements IGetDepartmentRiskCon
             this.departmentRiskControl = data["departmentRiskControl"] ? DepartmentRiskControlDto.fromJS(data["departmentRiskControl"]) : <any>undefined;
             this.departmentRiskCode = data["departmentRiskCode"];
             this.controlCode = data["controlCode"];
+            this.department = data["department"];
         }
     }
 
@@ -18723,6 +18997,7 @@ export class GetDepartmentRiskControlForViewDto implements IGetDepartmentRiskCon
         data["departmentRiskControl"] = this.departmentRiskControl ? this.departmentRiskControl.toJSON() : <any>undefined;
         data["departmentRiskCode"] = this.departmentRiskCode;
         data["controlCode"] = this.controlCode;
+        data["department"] = this.department;
         return data; 
     }
 }
@@ -18731,6 +19006,7 @@ export interface IGetDepartmentRiskControlForViewDto {
     departmentRiskControl: DepartmentRiskControlDto;
     departmentRiskCode: string | undefined;
     controlCode: string | undefined;
+    department: string | undefined;
 }
 
 export class PagedResultDtoOfGetDepartmentRiskControlForViewDto implements IPagedResultDtoOfGetDepartmentRiskControlForViewDto {
@@ -18784,9 +19060,11 @@ export interface IPagedResultDtoOfGetDepartmentRiskControlForViewDto {
 export class CreateOrEditDepartmentRiskControlDto implements ICreateOrEditDepartmentRiskControlDto {
     code!: string | undefined;
     notes!: string | undefined;
+    departmentId!: number | undefined;
     frequency!: Frequency;
     departmentRiskId!: number | undefined;
     controlId!: number | undefined;
+    cascade!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditDepartmentRiskControlDto) {
@@ -18802,9 +19080,11 @@ export class CreateOrEditDepartmentRiskControlDto implements ICreateOrEditDepart
         if (data) {
             this.code = data["code"];
             this.notes = data["notes"];
+            this.departmentId = data["departmentId"];
             this.frequency = data["frequency"];
             this.departmentRiskId = data["departmentRiskId"];
             this.controlId = data["controlId"];
+            this.cascade = data["cascade"];
             this.id = data["id"];
         }
     }
@@ -18820,9 +19100,11 @@ export class CreateOrEditDepartmentRiskControlDto implements ICreateOrEditDepart
         data = typeof data === 'object' ? data : {};
         data["code"] = this.code;
         data["notes"] = this.notes;
+        data["departmentId"] = this.departmentId;
         data["frequency"] = this.frequency;
         data["departmentRiskId"] = this.departmentRiskId;
         data["controlId"] = this.controlId;
+        data["cascade"] = this.cascade;
         data["id"] = this.id;
         return data; 
     }
@@ -18831,9 +19113,11 @@ export class CreateOrEditDepartmentRiskControlDto implements ICreateOrEditDepart
 export interface ICreateOrEditDepartmentRiskControlDto {
     code: string | undefined;
     notes: string | undefined;
+    departmentId: number | undefined;
     frequency: Frequency;
     departmentRiskId: number | undefined;
     controlId: number | undefined;
+    cascade: boolean;
     id: number | undefined;
 }
 
@@ -19062,6 +19346,9 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
     comments!: string | undefined;
     departmentId!: number | undefined;
     riskId!: number | undefined;
+    cascade!: boolean;
+    inherited!: boolean;
+    deptCode!: string | undefined;
     id!: number;
 
     constructor(data?: IDepartmentRiskDto) {
@@ -19079,6 +19366,9 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
             this.comments = data["comments"];
             this.departmentId = data["departmentId"];
             this.riskId = data["riskId"];
+            this.cascade = data["cascade"];
+            this.inherited = data["inherited"];
+            this.deptCode = data["deptCode"];
             this.id = data["id"];
         }
     }
@@ -19096,6 +19386,9 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
         data["comments"] = this.comments;
         data["departmentId"] = this.departmentId;
         data["riskId"] = this.riskId;
+        data["cascade"] = this.cascade;
+        data["inherited"] = this.inherited;
+        data["deptCode"] = this.deptCode;
         data["id"] = this.id;
         return data; 
     }
@@ -19106,6 +19399,9 @@ export interface IDepartmentRiskDto {
     comments: string | undefined;
     departmentId: number | undefined;
     riskId: number | undefined;
+    cascade: boolean;
+    inherited: boolean;
+    deptCode: string | undefined;
     id: number;
 }
 
@@ -19113,6 +19409,7 @@ export class GetDepartmentRiskForViewDto implements IGetDepartmentRiskForViewDto
     departmentRisk!: DepartmentRiskDto;
     departmentName!: string | undefined;
     riskName!: string | undefined;
+    severity!: string | undefined;
 
     constructor(data?: IGetDepartmentRiskForViewDto) {
         if (data) {
@@ -19128,6 +19425,7 @@ export class GetDepartmentRiskForViewDto implements IGetDepartmentRiskForViewDto
             this.departmentRisk = data["departmentRisk"] ? DepartmentRiskDto.fromJS(data["departmentRisk"]) : <any>undefined;
             this.departmentName = data["departmentName"];
             this.riskName = data["riskName"];
+            this.severity = data["severity"];
         }
     }
 
@@ -19143,6 +19441,7 @@ export class GetDepartmentRiskForViewDto implements IGetDepartmentRiskForViewDto
         data["departmentRisk"] = this.departmentRisk ? this.departmentRisk.toJSON() : <any>undefined;
         data["departmentName"] = this.departmentName;
         data["riskName"] = this.riskName;
+        data["severity"] = this.severity;
         return data; 
     }
 }
@@ -19151,6 +19450,7 @@ export interface IGetDepartmentRiskForViewDto {
     departmentRisk: DepartmentRiskDto;
     departmentName: string | undefined;
     riskName: string | undefined;
+    severity: string | undefined;
 }
 
 export class PagedResultDtoOfGetDepartmentRiskForViewDto implements IPagedResultDtoOfGetDepartmentRiskForViewDto {
@@ -19205,6 +19505,7 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
     comments!: string | undefined;
     departmentId!: number | undefined;
     riskId!: number | undefined;
+    cascade!: boolean;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditDepartmentRiskDto) {
@@ -19221,6 +19522,7 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
             this.comments = data["comments"];
             this.departmentId = data["departmentId"];
             this.riskId = data["riskId"];
+            this.cascade = data["cascade"];
             this.id = data["id"];
         }
     }
@@ -19237,6 +19539,7 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
         data["comments"] = this.comments;
         data["departmentId"] = this.departmentId;
         data["riskId"] = this.riskId;
+        data["cascade"] = this.cascade;
         data["id"] = this.id;
         return data; 
     }
@@ -19246,6 +19549,7 @@ export interface ICreateOrEditDepartmentRiskDto {
     comments: string | undefined;
     departmentId: number | undefined;
     riskId: number | undefined;
+    cascade: boolean;
     id: number | undefined;
 }
 
@@ -19676,7 +19980,6 @@ export class CreateOrEditDepartmentDto implements ICreateOrEditDepartmentDto {
     isAbstract!: boolean;
     isControlTeam!: boolean;
     supervisorUserId!: number | undefined;
-    controlOfficerUserId!: number | undefined;
     controlTeamId!: number | undefined;
     supervisingUnitId!: number | undefined;
     id!: number | undefined;
@@ -19698,7 +20001,6 @@ export class CreateOrEditDepartmentDto implements ICreateOrEditDepartmentDto {
             this.isAbstract = data["isAbstract"];
             this.isControlTeam = data["isControlTeam"];
             this.supervisorUserId = data["supervisorUserId"];
-            this.controlOfficerUserId = data["controlOfficerUserId"];
             this.controlTeamId = data["controlTeamId"];
             this.supervisingUnitId = data["supervisingUnitId"];
             this.id = data["id"];
@@ -19720,7 +20022,6 @@ export class CreateOrEditDepartmentDto implements ICreateOrEditDepartmentDto {
         data["isAbstract"] = this.isAbstract;
         data["isControlTeam"] = this.isControlTeam;
         data["supervisorUserId"] = this.supervisorUserId;
-        data["controlOfficerUserId"] = this.controlOfficerUserId;
         data["controlTeamId"] = this.controlTeamId;
         data["supervisingUnitId"] = this.supervisingUnitId;
         data["id"] = this.id;
@@ -19735,7 +20036,6 @@ export interface ICreateOrEditDepartmentDto {
     isAbstract: boolean;
     isControlTeam: boolean;
     supervisorUserId: number | undefined;
-    controlOfficerUserId: number | undefined;
     controlTeamId: number | undefined;
     supervisingUnitId: number | undefined;
     id: number | undefined;
@@ -21803,11 +22103,12 @@ export interface IPagedResultDtoOfGetExceptionTypeForViewDto {
 }
 
 export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeDto {
-    code!: string | undefined;
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
+    otherColumns!: CreateOrEditExceptionTypeColumnDto[] | undefined;
+    escalations!: number[] | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditExceptionTypeDto) {
@@ -21821,11 +22122,20 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
 
     init(data?: any) {
         if (data) {
-            this.code = data["code"];
             this.name = data["name"];
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
+            if (Array.isArray(data["otherColumns"])) {
+                this.otherColumns = [] as any;
+                for (let item of data["otherColumns"])
+                    this.otherColumns!.push(CreateOrEditExceptionTypeColumnDto.fromJS(item));
+            }
+            if (Array.isArray(data["escalations"])) {
+                this.escalations = [] as any;
+                for (let item of data["escalations"])
+                    this.escalations!.push(item);
+            }
             this.id = data["id"];
         }
     }
@@ -21839,22 +22149,32 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
         data["name"] = this.name;
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
+        if (Array.isArray(this.otherColumns)) {
+            data["otherColumns"] = [];
+            for (let item of this.otherColumns)
+                data["otherColumns"].push(item.toJSON());
+        }
+        if (Array.isArray(this.escalations)) {
+            data["escalations"] = [];
+            for (let item of this.escalations)
+                data["escalations"].push(item);
+        }
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditExceptionTypeDto {
-    code: string | undefined;
     name: string | undefined;
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
+    otherColumns: CreateOrEditExceptionTypeColumnDto[] | undefined;
+    escalations: number[] | undefined;
     id: number | undefined;
 }
 
@@ -24550,6 +24870,7 @@ export class OrganizationUnitUserListDto implements IOrganizationUnitUserListDto
     emailAddress!: string | undefined;
     profilePictureId!: string | undefined;
     addedTime!: moment.Moment;
+    departmentRole!: string | undefined;
     id!: number;
 
     constructor(data?: IOrganizationUnitUserListDto) {
@@ -24569,6 +24890,7 @@ export class OrganizationUnitUserListDto implements IOrganizationUnitUserListDto
             this.emailAddress = data["emailAddress"];
             this.profilePictureId = data["profilePictureId"];
             this.addedTime = data["addedTime"] ? moment(data["addedTime"].toString()) : <any>undefined;
+            this.departmentRole = data["departmentRole"];
             this.id = data["id"];
         }
     }
@@ -24588,6 +24910,7 @@ export class OrganizationUnitUserListDto implements IOrganizationUnitUserListDto
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
         data["addedTime"] = this.addedTime ? this.addedTime.toISOString() : <any>undefined;
+        data["departmentRole"] = this.departmentRole;
         data["id"] = this.id;
         return data; 
     }
@@ -24600,6 +24923,7 @@ export interface IOrganizationUnitUserListDto {
     emailAddress: string | undefined;
     profilePictureId: string | undefined;
     addedTime: moment.Moment;
+    departmentRole: string | undefined;
     id: number;
 }
 
@@ -29297,6 +29621,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
     title!: string | undefined;
     frequency!: Frequency;
     departmentRiskControlId!: number | undefined;
+    sampleSize!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingTemplateDto) {
@@ -29315,6 +29640,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
             this.title = data["title"];
             this.frequency = data["frequency"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
+            this.sampleSize = data["sampleSize"];
             this.id = data["id"];
         }
     }
@@ -29333,6 +29659,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
         data["title"] = this.title;
         data["frequency"] = this.frequency;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
+        data["sampleSize"] = this.sampleSize;
         data["id"] = this.id;
         return data; 
     }
@@ -29344,6 +29671,7 @@ export interface ICreateOrEditTestingTemplateDto {
     title: string | undefined;
     frequency: Frequency;
     departmentRiskControlId: number | undefined;
+    sampleSize: number | undefined;
     id: number | undefined;
 }
 

@@ -1,4 +1,4 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DepartmentRiskControlsServiceProxy, DepartmentRiskControlDto , Frequency } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
@@ -70,6 +70,7 @@ export class DepartmentRiskControlsComponent extends AppComponentBase {
         this._departmentRiskControlsServiceProxy.getAll(
             this.filterText,
             this.frequencyFilter,
+            -1,
             this.departmentRiskCodeFilter,
             this.controlCodeFilter,
             this.primengTableHelper.getSorting(this.dataTable),
