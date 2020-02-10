@@ -47,7 +47,7 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" *dropdownMenu>
-                                        <li>
+                                        <li *ngIf="_organizationUnit.id == item.risk.departmentRisk.departmentId">
                                             <a href="javascript:;" (click)="deleteRole(item.risk)">
                                                 {{l('Delete Risk')}}
                                             </a>
