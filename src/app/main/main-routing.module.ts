@@ -12,6 +12,7 @@ import { RisksComponent } from './risks/risks/risks.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
+import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { ViewOrganizationUnitComponent } from './departments/_subs/view-organiza
                     { path: 'controls/controls', component: ControlsComponent, data: { permission: 'Pages.Controls' }  },
                     { path: 'risks/risks', component: RisksComponent, data: { permission: 'Pages.Risks' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
