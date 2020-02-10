@@ -10,74 +10,129 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="kt-widget13">
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc col-md-4">
-                            Company Name
-                        </span>
-                        <span class="kt-widget13__text kt-widget13__text--bold">
-                            {{ item.department.name }}					 
-                        </span>
-                    </div>
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc kt-align-right col-md-4">
-                           Score:
-                        </span>
-                        <span class="kt-widget13__text kt-widget13__text--bold kt-font-success ">
-                            {{ item.department.code }}	 
-                        </span>
-                    </div>
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc col-md-4">
-                            Description:
-                        </span>
-                        <span class="kt-widget13__text">
-                            {{ item.department.description ? item.department.description : '-' }}					 
-                        </span>
-                    </div>
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc col-md-4">
-                            Unit Head:
-                        </span>
-                        <span class="kt-widget13__text kt-widget13__text--bold">
-                            {{item.userName ? item.userName : '-'}}						 
-                        </span>
-                    </div>
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc col-md-4">
-                            Control Officer:
-                        </span>
-                        <span class="kt-widget13__text kt-widget13__text--bold">
-                            {{item.userName2 ? item.userName2 : '-'}}						 
-                        </span>
-                    </div>
-                    <div class="kt-widget13__item row">
-                        <span class="kt-widget13__desc col-md-4">
-                            Supervising Unit:
-                        </span>
-                        <span class="kt-widget13__text kt-widget13__text--bold">
-                            {{item.supervsingUnitDisplaName ? item.supervsingUnitDisplaName : '-'}}					 
-                         </span>
-                     </div>
-                     <div class="kt-widget13__item row">
-                         <span class="kt-widget13__desc col-md-4">
-                            {{l("IsAbstract")}}:
-                         </span>
-                         <span class="kt-widget13__text kt-widget13__text--bold">
-                            <span *ngIf="item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
-                            <span *ngIf="!item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>					 
-                          </span>
-                      </div>
-                      <div class="kt-widget13__item row">
-                          <span class="kt-widget13__desc col-md-4">
-                            {{l("IsControlTeam")}}:
-                          </span>
-                          <span class="kt-widget13__text kt-widget13__text--bold">
-                            <span *ngIf="item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
-                            <span *ngIf="!item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>				 
-                           </span>
-                       </div>
-                 </div>
+                <tabset class="tab-container">
+                    <!-- <tab heading="General">
+                        <div class="kt-widget13">
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc col-md-4">
+                                    Company Name
+                                </span>
+                                <span class="kt-widget13__text kt-widget13__text--bold">
+                                    {{ item.department.name }}					 
+                                </span>
+                            </div>
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc kt-align-right col-md-4">
+                                   Score:
+                                </span>
+                                <span class="kt-widget13__text kt-widget13__text--bold kt-font-success ">
+                                    {{ score }}	 
+                                </span>
+                            </div>
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc col-md-4">
+                                    Description:
+                                </span>
+                                <span class="kt-widget13__text">
+                                    {{ item.department.description ? item.department.description : '-' }}					 
+                                </span>
+                            </div>
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc col-md-4">
+                                    Unit Head:
+                                </span>
+                                <span class="kt-widget13__text kt-widget13__text--bold">
+                                    {{item.userName ? item.userName : '-'}}						 
+                                </span>
+                            </div>
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc col-md-4">
+                                    Control Officer:
+                                </span>
+                                <span class="kt-widget13__text kt-widget13__text--bold">
+                                    {{item.userName2 ? item.userName2 : '-'}}						 
+                                </span>
+                            </div>
+                            <div class="kt-widget13__item row">
+                                <span class="kt-widget13__desc col-md-4">
+                                    Supervising Unit:
+                                </span>
+                                <span class="kt-widget13__text kt-widget13__text--bold">
+                                    {{item.supervsingUnitDisplaName ? item.supervsingUnitDisplaName : '-'}}					 
+                                 </span>
+                             </div>
+                             <div class="kt-widget13__item row">
+                                 <span class="kt-widget13__desc col-md-4">
+                                    {{l("IsAbstract")}}:
+                                 </span>
+                                 <span class="kt-widget13__text kt-widget13__text--bold">
+                                    <span *ngIf="item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                                    <span *ngIf="!item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>					 
+                                  </span>
+                              </div>
+                              <div class="kt-widget13__item row">
+                                  <span class="kt-widget13__desc col-md-4">
+                                    {{l("IsControlTeam")}}:
+                                  </span>
+                                  <span class="kt-widget13__text kt-widget13__text--bold">
+                                    <span *ngIf="item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                                    <span *ngIf="!item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>				 
+                                   </span>
+                               </div>
+                         </div>
+                    </tab> -->
+                    <tab heading="General">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <span>Company Name:</span><br>
+                                <h5>{{ item.department.name }}</h5>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <span>Score:</span><br>
+                                <h5 class="kt-font-success"> {{score}} </h5>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <span>Unit Head:</span><br>
+                                <h4 class=""> 
+                                    {{item.userName ? item.userName : '-'}}	    
+                                </h4>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <span>Control Officer:</span><br>
+                                <h4 class="kt-font-success"> 
+                                    {{item.userName2 ? item.userName2 : '-'}}	    
+                                </h4>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <span>Supervising Unit:</span><br>
+                                <h4> {{item.supervsingUnitDisplaName ? item.supervsingUnitDisplaName : '-'}} </h4>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <span>{{l("IsAbstract")}}:</span><br>
+                                <span *ngIf="item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                                    <span *ngIf="!item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <span>{{l("IsControlTeam")}}:</span><br>
+                                <span *ngIf="item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                                    <span *ngIf="!item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="m-widget11__chart" style="height:250px; width: 100%">
+                            <ngx-charts-area-chart [results]="casesTimelineData" [scheme]="blueRedScheme" [showXAxisLabel]="showAxis" [showYAxisLabel]="showAxis"
+                                        [xAxis]="showAxis" [yAxis]="showAxis" [showXAxisLabel]="showAxis" 
+                                        [autoScale]="showAxis" [showGridLines]="false" [timeline]="false">
+                            </ngx-charts-area-chart>
+                        </div>
+                    </tab>
+                    <tab heading="Risks">
+                        <organization-unit-risks #ouRisks></organization-unit-risks>
+                    </tab>
+                    <tab heading="Exceptions">
+                        <div class=""></div>
+                    </tab>
+                </tabset>
 
             </div>
             <div class="modal-footer">

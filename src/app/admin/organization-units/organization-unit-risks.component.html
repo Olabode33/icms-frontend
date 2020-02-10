@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <button *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit"
+        <button *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly"
             (click)="addRiskToUnit()" class="btn btn-primary float-right mb-3">
             <i class="fa fa-plus"></i> Add Risk
         </button>
@@ -14,26 +14,9 @@
                     <div class="card-header" id="heading{{i}}">
                         <div class="" [ngClass]="{collapsed: !item.isActive}">
                             <div class="row mb-2">
-                                <div class="col-md-3">
-                                    <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
-                                        <button type="button" class="btn btn-primary btn-sm"
-                                            (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">
-                                            <i class="fa fa-plus"></i> Add Control
-                                        </button>
-                                        <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" *dropdownMenu>
-                                            <li>
-                                                <a href="javascript:;" (click)="deleteRole(item.risk)">
-                                                    {{l('Delete')}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-7 pt-2" (click)="toggleAccordion(i)">
-                                    {{item.risk.riskName}}
+                                <div class="col-md-10 pt-2" (click)="toggleAccordion(i)">
+                                    <i class="flaticon-warning-sign pr-2"></i>
+                                    <b class="pr-2">{{item.risk.riskName}}</b>
                                     <span *ngIf="_organizationUnit.id != item.risk.departmentRisk.departmentId"
                                         class="kt-badge kt-badge--brand kt-badge--inline" data-toggle="tooltip"
                                         title="This risk was inherited from a parent department." data-placement="top">
@@ -53,27 +36,60 @@
                     </div>
                     <div id="collapse{{i}}" class="collapse" [ngClass]="{show: item.isActive}">
                         <div class="card-body">
+                            <hr>
+                            <div class="">
+                                <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">
+                                        <i class="fa fa-plus"></i> Add Control
+                                    </button>
+                                    <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" *dropdownMenu>
+                                        <li>
+                                            <a href="javascript:;" (click)="deleteRole(item.risk)">
+                                                {{l('Delete Risk')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="table-responsive mb-3">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Frequency</th>
-                                            <th></th>
+                                            <th style="width: 70%;">Control</th>
+                                            <th style="width: 30%;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of riskControls">
-                                            <td>
-                                                {{item.controlCode}}
-                                                <span *ngIf="_organizationUnit.id != item.departmentRiskControl.departmentId"
+                                        <tr *ngFor="let control of riskControls">
+                                            <td style="width: 70%;">
+                                                {{control.controlCode}}
+                                                <span *ngIf="_organizationUnit.id != control.departmentRiskControl.departmentId"
                                                     class="kt-badge kt-badge--brand kt-badge--inline"
                                                     data-toggle="tooltip" title="This control was inherited from a parent department."
                                                     data-placement="top">
                                                     Inherited
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td style="width: 30%;">
+                                                <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body" *ngIf="_organizationUnit.id == control.departmentRiskControl.departmentId && !isViewOnly">
+                                                    <button type="button" class="btn btn-primary btn-sm" *ngIf="_organizationUnit.id == control.departmentRiskControl.departmentId"
+                                                        (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">
+                                                        <i class="fa fa-plus"></i> Add Testing Template
+                                                    </button>
+                                                    <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" *dropdownMenu>
+                                                       
+                                                        <li>
+                                                            <a href="javascript:;" *ngIf="_organizationUnit.id == control.departmentRiskControl.departmentId" (click)="deleteRole(control)">{{'Delete' | localize}}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -82,6 +98,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="deptRisks.length <= 0" class="text-muted">
+                    No risk defined
                 </div>
             </div>
             <!--end::Accordion-->

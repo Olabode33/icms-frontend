@@ -51,6 +51,7 @@ import { DepartmentRiskControlDepartmentRiskLookupTableModalComponent } from '@a
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
+import { OrganizationUnitRisksComponent } from '@app/admin/organization-units/organization-unit-risks.component';
 
 
 @NgModule({
@@ -105,9 +106,11 @@ import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/ma
         CreateOrEditDepartmentRiskControlModalComponent,
         DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
         DepartmentRiskControlControlLookupTableModalComponent,
-        ViewDepartmentModalComponent
+        ViewDepartmentModalComponent,
+        OrganizationUnitRisksComponent,
     ],
     exports: [
+        OrganizationUnitRisksComponent,
         TimeZoneComboComponent,
         CommonLookupModalComponent,
         ExceptionIncidentExceptionTypeLookupTableModalComponent,
