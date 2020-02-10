@@ -56,6 +56,7 @@ import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLoca
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
+import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -106,7 +107,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ViewControlModalComponent, CreateOrEditControlModalComponent,
         RisksComponent,
         ViewRiskModalComponent, CreateOrEditRiskModalComponent,
-        DashboardComponent
+        DashboardComponent,
+        WorkingpaperComponent
     ],
     providers: [
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
