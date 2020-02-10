@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { DepartmentRiskControlsServiceProxy, CreateOrEditDepartmentRiskControlDto } from '@shared/service-proxies/service-proxies';
@@ -27,7 +27,7 @@ export class CreateOrEditDepartmentRiskControlModalComponent extends AppComponen
     departmentRiskCode = '';
     controlCode = '';
 
-
+    departmentRiskId: number;
     constructor(
         injector: Injector,
         private _departmentRiskControlsServiceProxy: DepartmentRiskControlsServiceProxy
@@ -35,14 +35,16 @@ export class CreateOrEditDepartmentRiskControlModalComponent extends AppComponen
         super(injector);
     }
 
-    show(departmentRiskControlId?: number): void {
+    show(departmentRiskControlId?: number, deparmentRiskId?: number, departmentId?: number): void {
 
         if (!departmentRiskControlId) {
             this.departmentRiskControl = new CreateOrEditDepartmentRiskControlDto();
             this.departmentRiskControl.id = departmentRiskControlId;
             this.departmentRiskCode = '';
+            this.departmentRiskControl.departmentRiskId = deparmentRiskId;
             this.controlCode = '';
-
+            this.departmentRiskControl.departmentId = departmentId;
+            console.log(this.departmentRiskControl);
             this.active = true;
             this.modal.show();
         } else {
@@ -65,7 +67,7 @@ export class CreateOrEditDepartmentRiskControlModalComponent extends AppComponen
             this._departmentRiskControlsServiceProxy.createOrEdit(this.departmentRiskControl)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notify.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

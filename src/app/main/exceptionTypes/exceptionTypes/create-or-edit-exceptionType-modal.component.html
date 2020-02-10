@@ -1,4 +1,4 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form *ngIf="active" #exceptionTypeForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
@@ -12,42 +12,126 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                 
 
 
-								<div class="form-group">
-									<label for="ExceptionType_Code">{{l("Code")}} *</label>
-									<input type="text" id="ExceptionType_Code" class="form-control" [(ngModel)]="exceptionType.code" name="Code"     required/>
-								</div>
-					
-								<div class="form-group">
-									<label for="ExceptionType_Name">{{l("Name")}} *</label>
-									<input type="text" id="ExceptionType_Name" class="form-control" [(ngModel)]="exceptionType.name" name="Name"     required/>
-								</div>
-					
-								<div class="form-group">
-									<label for="ExceptionType_Description">{{l("Description")}}</label>
-									<input type="text" id="ExceptionType_Description" class="form-control" [(ngModel)]="exceptionType.description" name="Description"    />
-								</div>
-					
-								<div class="form-group">
-									<label for="ExceptionType_Severity">{{l("Severity")}}</label>
-									<select class="form-control" name="Severity" id="ExceptionType_Severity" [(ngModel)]="exceptionType.severity">
-									<option value="0">{{l('Low')}}</option>
+                    <div class="form-group">
+                        <label for="ExceptionType_Name">{{l("Name")}} *</label>
+                        <input type="text" id="ExceptionType_Name" class="form-control" [(ngModel)]="exceptionType.name" name="Name" required />
+                    </div>
 
-									<option value="1">{{l('Medium')}}</option>
+                    <div class="form-group">
+                        <label for="ExceptionType_Description">{{l("Description")}}</label>
+                        <textarea id="ExceptionType_Description" rows="10" class="form-control" [(ngModel)]="exceptionType.description" name="Description"></textarea>
+                    </div>
 
-									<option value="2">{{l('High')}}</option>
+                    <div class="form-group">
+                        <label for="ExceptionType_Severity">{{l("Severity")}}</label>
+                        <select class="form-control" name="Severity" id="ExceptionType_Severity" [(ngModel)]="exceptionType.severity">
+                            <option value="0">{{l('Low')}}</option>
+
+                            <option value="1">{{l('Medium')}}</option>
+
+                            <option value="2">{{l('High')}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}}</label>
+                        <input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation" min="0" max="365" />
+                    </div>
+
+                    <br />
+                    <hr />
+                    <br />
+
+                    <tabset>
+                        <tab heading="Additional Data">
+                            <div class="form-group">
+                                <label for="name">{{l("Name")}}</label>
+                                <input type="text" id="name" class="form-control" [(ngModel)]="name" name="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ExceptionType_Severity">Data Type</label>
+                                <select class="form-control" name="DataType" id="DataType" [(ngModel)]="dataType">
+                                    <option value="0">String</option>
+                                    <option value="1">Number</option>
+                                    <option value="2">Date</option>
+                                    <option value="3">Boolean</option>
+                                    <option value="4">List</option>
+                                </select>
+                            </div>
 
 
-									</select>
-								</div>
-					
-								<div class="form-group">
-									<label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}}</label>
-									<input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation"  min="0"  max="365"/>
-								</div>
-					
+                            <button type="button" class="btn btn-success" (click)=" addColumn()">Add</button>
+
+
+                            <hr />
+                            <br />
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Data Name
+                                        </th>
+                                        <th>
+                                            Data Type
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of columns">
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.dataTypeName}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm btn-icon"
+                                                    (click)="removeColumn(item)">
+                                                <i class="fa fa-stop"
+                                                   [attr.aria-label]="l('Remove')"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </tab>
+                        <tab heading="Escalation">
+                            <div class="form-group m-form__group">
+                                <label for="UserName">Select Staff</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <table class="table">
+                                <tr>
+                                    <th>Staff</th>
+                                    <th></th>
+                                </tr>
+                                <tr *ngFor="let item of escalations">
+                                    <td>{{item.name}}</td>
+                                    <td>
+                                        <button class="btn btn-outline-danger btn-sm btn-icon"
+                                                (click)="removeName(item)">
+                                            <i class="fa fa-stop"
+                                               [attr.aria-label]="l('Remove')"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </tab>
+                    </tabset>
 
                 </div>
                 <div class="modal-footer">
@@ -59,3 +143,4 @@
     </div>
 
 </div>
+<departmentUserLookupTableModal #departmentUserLookupTableModal (modalSave)="addUserToEscalation()"></departmentUserLookupTableModal>

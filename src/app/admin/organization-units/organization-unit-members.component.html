@@ -20,12 +20,12 @@
                             <th style="width: 15%"
                                 [hidden]="!('Pages.Administration.OrganizationUnits.ManageMembers' | permission)">{{'Delete' | localize}}</th>
                             <th pSortableColumn="userName">
-                                {{'UserName' | localize}}
+                            Name
                                 <p-sortIcon field="userName"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="addedTime">
-                                {{'AddedTime' | localize}}
-                                <p-sortIcon field="addedTime"></p-sortIcon>
+                            <th >
+                                {{'Role'}}
+                           
                             </th>
                         </tr>
                     </ng-template>
@@ -33,18 +33,18 @@
                         <tr>
                             <td [hidden]="!('Pages.Administration.OrganizationUnits.ManageMembers' | permission)">
                                 <button class="btn btn-outline-danger btn-icon"
-                                        (click)="removeMember(record)"
+                                        (click)="removeMember(record)" *ngIf="record.departmentRole== 'UnitHead' ||record.departmentRole== 'UnitTeamMember' "
                                         title="{{'Delete' | localize}}">
                                     <i class="fa fa-times" [attr.aria-label]="l('Delete')"></i>
                                 </button>
                             </td>
                             <td>
                                 <span class="ui-column-title">{{'UserName' | localize}}</span>
-                                {{record.userName}}
+                                {{record.name + ' ' + record.surname}}  ({{record.emailAddress}})
                             </td>
                             <td>
-                                <span class="ui-column-title">{{'AddedTime' | localize}}</span>
-                                {{record.addedTime | momentFormat:'L'}}
+                                <span class="ui-column-title">Role</span>
+                                {{record.departmentRole}}
                             </td>
                         </tr>
                     </ng-template>

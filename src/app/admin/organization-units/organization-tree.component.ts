@@ -12,6 +12,8 @@ import { IUsersWithOrganizationUnit } from './users-with-organization-unit';
 import { IRoleWithOrganizationUnit } from './role-with-organization-unit';
 import { IRolesWithOrganizationUnit } from './roles-with-organization-unit';
 import { CreateOrEditDepartmentModalComponent } from '@app/main/departments/departments/create-or-edit-department-modal.component';
+import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
+
 import { TreeNode, MenuItem } from 'primeng/api';
 
 import { ArrayToTreeConverterService } from '@shared/utils/array-to-tree-converter.service';
@@ -24,7 +26,7 @@ export interface IOrganizationUnitOnTree extends IBasicOrganizationUnitInfo {
     code: string;
     displayName: string;
     memberCount: number;
-    roleCount: number;
+    riskCount: number;
     text: string;
     state: any;
 }
@@ -40,6 +42,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
     @ViewChild('createOrEditDepartmentModal', { static: true }) createOrEditDepartmentModal: CreateOrEditDepartmentModalComponent;
     @ViewChild('createOrEditOrganizationUnitModal', { static: true }) createOrEditOrganizationUnitModal: CreateOrEditUnitModalComponent;
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
+    @ViewChild('createOrEditDepartmentRiskModal', { static: true }) createOrEditDepartmentRiskModal: CreateOrEditDepartmentRiskModalComponent;
 
     treeData: any;
     selectedOu: TreeNode;
@@ -154,9 +157,9 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                         }
                     },
                     {
-                        target: 'roleCount',
+                        target: 'riskCount',
                         targetFunction(item) {
-                            return item.roleCount;
+                            return item.riskCount;
                         }
                     }
                 ]);
@@ -177,10 +180,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 label: this.l('Edit'),
                 disabled: !canManageOrganizationTree,
                 command: (event) => {
-                    this.createOrEditOrganizationUnitModal.show({
-                        id: this.selectedOu.data.id,
-                        displayName: this.selectedOu.data.displayName
-                    });
+                    this.createOrEditDepartmentModal.show(this.selectedOu.data.id, null, this.selectedOu.data.displayName);
                 }
             },
             {
@@ -188,6 +188,13 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 disabled: !canManageOrganizationTree,
                 command: () => {
                     this.addUnit(this.selectedOu.data.id);
+                }
+            },
+            {
+                label: 'Add Risk',
+                disabled: !canManageOrganizationTree,
+                command: () => {
+                    this.addRiskToUnit(this.selectedOu.data.id);
                 }
             },
             {
@@ -230,47 +237,16 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
     }
 
     addUnit(parentId?: number): void {
-        //this.createOrEditOrganizationUnitModal.show({
-        //    parentId: parentId
-        //});
+        this.createOrEditDepartmentModal.show(null, parentId,null);
+    }
 
 
-        this.createOrEditDepartmentModal.show(null, parentId);
-
+    addRiskToUnit(unitId?: number): void {
+        this.createOrEditDepartmentRiskModal.show(null,unitId);
     }
 
     unitCreated(): void {
         this.getTreeDataFromServer();
-        //if (ou.parentId) {
-        //    let unit = this._treeDataHelperService.findNode(this.treeData, { data: { id: ou.parentId } });
-        //    if (!unit) {
-        //        return;
-        //    }
-
-        //    unit.children.push({
-        //        label: ou.displayName,
-        //        expandedIcon: 'fa fa-folder-open m--font-warning',
-        //        collapsedIcon: 'fa fa-folder m--font-warning',
-        //        selected: true,
-        //        children: [],
-        //        data: ou,
-        //        memberCount: ou.memberCount,
-        //        roleCount: ou.roleCount
-        //    });
-        //} else {
-        //    this.treeData.push({
-        //        label: ou.displayName,
-        //        expandedIcon: 'fa fa-folder-open m--font-warning',
-        //        collapsedIcon: 'fa fa-folder m--font-warning',
-        //        selected: true,
-        //        children: [],
-        //        data: ou,
-        //        memberCount: ou.memberCount,
-        //        roleCount: ou.roleCount
-        //    });
-        //}
-
-        //this.totalUnitCount += 1;
     }
 
     deleteUnit(id) {
@@ -325,17 +301,17 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
         item.memberCount = item.data.memberCount;
     }
 
-    rolesAdded(data: IRolesWithOrganizationUnit): void {
-        this.incrementRoleCount(data.ouId, data.roleIds.length);
+    risksAdded(data: IRolesWithOrganizationUnit): void {
+        this.incrementRiskCount(data.ouId, data.roleIds.length);
     }
 
-    roleRemoved(data: IRoleWithOrganizationUnit): void {
-        this.incrementRoleCount(data.ouId, -1);
+    riskRemoved(data: IRoleWithOrganizationUnit): void {
+        this.incrementRiskCount(data.ouId, -1);
     }
 
-    incrementRoleCount(ouId: number, incrementAmount: number): void {
+    incrementRiskCount(ouId: number, incrementAmount: number): void {
         let item = this._treeDataHelperService.findNode(this.treeData, { data: { id: ouId } });
-        item.data.roleCount += incrementAmount;
-        item.roleCount = item.data.roleCount;
+        item.data.riskCount += incrementAmount;
+        item.riskCount = item.data.roleCount;
     }
 }

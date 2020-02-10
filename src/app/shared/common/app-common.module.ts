@@ -42,6 +42,12 @@ import { CountoModule } from 'angular2-counto';
 import { CreateOrEditDepartmentModalComponent } from '@app/main/departments/departments/create-or-edit-department-modal.component';
 import { DepartmentUserLookupTableModalComponent } from '@app/main/departments/departments/department-user-lookup-table-modal.component';
 import { DepartmentOrganizationUnitLookupTableModalComponent } from '@app/main/departments/departments/department-organizationUnit-lookup-table-modal.component';
+import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
+import { DepartmentRiskRiskLookupTableModalComponent } from '@app/main/departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
+import { ViewDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/view-departmentRiskControl-modal.component';
+import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
+import { DepartmentRiskControlDepartmentRiskLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-departmentRisk-lookup-table-modal.component';
+import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 
 
 @NgModule({
@@ -85,10 +91,15 @@ import { DepartmentOrganizationUnitLookupTableModalComponent } from '@app/main/d
         WidgetTopStatsComponent,
         FilterDateRangePickerComponent,
         AddWidgetModalComponent,
-
+        CreateOrEditDepartmentRiskModalComponent,
         CreateOrEditDepartmentModalComponent,
         DepartmentUserLookupTableModalComponent,
-        DepartmentOrganizationUnitLookupTableModalComponent
+        DepartmentOrganizationUnitLookupTableModalComponent,
+        DepartmentRiskRiskLookupTableModalComponent,
+        ViewDepartmentRiskControlModalComponent,
+        CreateOrEditDepartmentRiskControlModalComponent,
+        DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
+        DepartmentRiskControlControlLookupTableModalComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -99,10 +110,15 @@ import { DepartmentOrganizationUnitLookupTableModalComponent } from '@app/main/d
         DatePickerInitialValueSetterDirective,
         CustomizableDashboardComponent,
         NgxChartsModule,
-
+        CreateOrEditDepartmentRiskModalComponent,
         CreateOrEditDepartmentModalComponent,
         DepartmentUserLookupTableModalComponent,
-        DepartmentOrganizationUnitLookupTableModalComponent
+        DepartmentOrganizationUnitLookupTableModalComponent,
+        DepartmentRiskRiskLookupTableModalComponent,
+        ViewDepartmentRiskControlModalComponent,
+        CreateOrEditDepartmentRiskControlModalComponent,
+        DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
+        DepartmentRiskControlControlLookupTableModalComponent
     ],
     providers: [
         DateTimeService,

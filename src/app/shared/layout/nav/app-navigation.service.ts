@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -22,37 +22,39 @@ export class AppNavigationService {
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
+            new AppMenuItem('Risk Management', '', 'flaticon-interface-8', '', [
+                new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
+                new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
+            ]),
+            new AppMenuItem('Exception Management', '', 'flaticon-interface-8', '', [
+                new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
+                new AppMenuItem('ExceptionIncidents', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
+  ]),
 
-            new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
+            //  new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
 
-            new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
+            // new AppMenuItem('DepartmentRisks', 'Pages.DepartmentRisks', 'flaticon-more', '/app/main/departmentRisks/departmentRisks'),
 
-            new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
-
-            new AppMenuItem('DataLists', 'Pages.DataLists', 'flaticon-more', '/app/main/dataLists/dataLists'),
-
-            new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
-
-            new AppMenuItem('DepartmentRisks', 'Pages.DepartmentRisks', 'flaticon-more', '/app/main/departmentRisks/departmentRisks'),
-
-            new AppMenuItem('DepartmentRiskControls', 'Pages.DepartmentRiskControls', 'flaticon-more', '/app/main/departmentRiskControls/departmentRiskControls'),
+            // new AppMenuItem('DepartmentRiskControls', 'Pages.DepartmentRiskControls', 'flaticon-more', '/app/main/departmentRiskControls/departmentRiskControls'),
 
             new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon-more', '/app/main/testingTemplates/testingTemplates'),
 
-            new AppMenuItem('ExceptionIncidents', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
-                new AppMenuItem('OrganizationUnits', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                 new AppMenuItem('Languages', 'Pages.Administration.Languages', 'flaticon-tabs', '/app/admin/languages'),
+
+                new AppMenuItem('DataLists', 'Pages.DataLists', 'flaticon-more', '/app/main/dataLists/dataLists'),
+
                 new AppMenuItem('AuditLogs', 'Pages.Administration.AuditLogs', 'flaticon-folder-1', '/app/admin/auditLogs'),
                 new AppMenuItem('Maintenance', 'Pages.Administration.Host.Maintenance', 'flaticon-lock', '/app/admin/maintenance'),
-                new AppMenuItem('Subscription', 'Pages.Administration.Tenant.SubscriptionManagement', 'flaticon-refresh', '/app/admin/subscription-management'),
-                new AppMenuItem('VisualSettings', 'Pages.Administration.UiCustomization', 'flaticon-medical', '/app/admin/ui-customization'),
+                //       new AppMenuItem('Subscription', 'Pages.Administration.Tenant.SubscriptionManagement', 'flaticon-refresh', '/app/admin/subscription-management'),
+                //      new AppMenuItem('VisualSettings', 'Pages.Administration.UiCustomization', 'flaticon-medical', '/app/admin/ui-customization'),
                 new AppMenuItem('Settings', 'Pages.Administration.Host.Settings', 'flaticon-settings', '/app/admin/hostSettings'),
                 new AppMenuItem('Settings', 'Pages.Administration.Tenant.Settings', 'flaticon-settings', '/app/admin/tenantSettings')
-            ]),
-            new AppMenuItem('DemoUiComponents', 'Pages.DemoUiComponents', 'flaticon-shapes', '/app/admin/demo-ui-components')
+            ])
+            //  new AppMenuItem('DemoUiComponents', 'Pages.DemoUiComponents', 'flaticon-shapes', '/app/admin/demo-ui-components')
         ]);
     }
 

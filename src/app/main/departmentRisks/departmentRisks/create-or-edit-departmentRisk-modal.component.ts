@@ -1,10 +1,9 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { DepartmentRisksServiceProxy, CreateOrEditDepartmentRiskDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
-import { DepartmentRiskDepartmentLookupTableModalComponent } from './departmentRisk-department-lookup-table-modal.component';
 import { DepartmentRiskRiskLookupTableModalComponent } from './departmentRisk-risk-lookup-table-modal.component';
 
 @Component({
@@ -14,8 +13,7 @@ import { DepartmentRiskRiskLookupTableModalComponent } from './departmentRisk-ri
 export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    @ViewChild('departmentRiskDepartmentLookupTableModal', { static: true }) departmentRiskDepartmentLookupTableModal: DepartmentRiskDepartmentLookupTableModalComponent;
-    @ViewChild('departmentRiskRiskLookupTableModal', { static: true }) departmentRiskRiskLookupTableModal: DepartmentRiskRiskLookupTableModalComponent;
+ @ViewChild('departmentRiskRiskLookupTableModal', { static: true }) departmentRiskRiskLookupTableModal: DepartmentRiskRiskLookupTableModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -26,6 +24,7 @@ export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
 
     departmentName = '';
     riskName = '';
+    organizationUnitId: number;
 
 
     constructor(
@@ -35,20 +34,21 @@ export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
         super(injector);
     }
 
-    show(departmentRiskId?: number): void {
+    show(departmentRiskId?: number, departmentId?:  number): void {
 
         if (!departmentRiskId) {
             this.departmentRisk = new CreateOrEditDepartmentRiskDto();
             this.departmentRisk.id = departmentRiskId;
             this.departmentName = '';
             this.riskName = '';
+            this.departmentRisk.departmentId = departmentId;
 
             this.active = true;
             this.modal.show();
         } else {
             this._departmentRisksServiceProxy.getDepartmentRiskForEdit(departmentRiskId).subscribe(result => {
                 this.departmentRisk = result.departmentRisk;
-
+                this.departmentRisk.departmentId = departmentId;
                 this.departmentName = result.departmentName;
                 this.riskName = result.riskName;
 
@@ -71,11 +71,7 @@ export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
              });
     }
 
-    openSelectDepartmentModal() {
-        this.departmentRiskDepartmentLookupTableModal.id = this.departmentRisk.departmentId;
-        this.departmentRiskDepartmentLookupTableModal.displayName = this.departmentName;
-        this.departmentRiskDepartmentLookupTableModal.show();
-    }
+
     openSelectRiskModal() {
         this.departmentRiskRiskLookupTableModal.id = this.departmentRisk.riskId;
         this.departmentRiskRiskLookupTableModal.displayName = this.riskName;
@@ -83,20 +79,14 @@ export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
     }
 
 
-    setDepartmentIdNull() {
-        this.departmentRisk.departmentId = null;
-        this.departmentName = '';
-    }
+
     setRiskIdNull() {
         this.departmentRisk.riskId = null;
         this.riskName = '';
     }
 
 
-    getNewDepartmentId() {
-        this.departmentRisk.departmentId = this.departmentRiskDepartmentLookupTableModal.id;
-        this.departmentName = this.departmentRiskDepartmentLookupTableModal.displayName;
-    }
+
     getNewRiskId() {
         this.departmentRisk.riskId = this.departmentRiskRiskLookupTableModal.id;
         this.riskName = this.departmentRiskRiskLookupTableModal.displayName;

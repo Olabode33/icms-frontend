@@ -16,10 +16,10 @@
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <organization-tree #ouTree (ouSelected)="ouSelected($event)"></organization-tree>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="kt-portlet">
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
@@ -30,13 +30,18 @@
                         </div>
                         <div class="kt-portlet__body">
                             <tabset class="tab-container">
+
                                 <tab heading="{{'Members' | localize}}" [active]="true">
                                     <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)"
-                                        (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
+                                                               (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
                                 </tab>
-                                <tab heading="{{'Roles' | localize}}">
-                                    <organization-unit-roles #ouRoles (rolesAdded)="ouTree.rolesAdded($event)"
-                                        (roleRemoved)="ouTree.roleRemoved($event)"></organization-unit-roles>
+                                <tab heading="Risks">
+                                    <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)"
+                                                             (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks>
+                                </tab>
+                                <tab heading="Controls">
+                                    <organization-unit-controls #ouControls (controlsAdded)="ouTree.controlsAdded($event)"
+                                                             (controlsRemoved)="ouTree.controlsRemoved($event)"></organization-unit-controls>
                                 </tab>
                             </tabset>
                         </div>
