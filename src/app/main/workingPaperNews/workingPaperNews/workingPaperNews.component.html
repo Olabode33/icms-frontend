@@ -1,0 +1,309 @@
+﻿<div [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+    <div class="kt-subheader kt-grid__item">
+      <div [class]="containerClass">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("WorkingPaperNews")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("WorkingPaperNewsHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+				<button *ngIf="isGranted('Pages.WorkingPaperNews.Create')" (click)="createWorkingPaperNew()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWorkingPaperNew")}}</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getWorkingPaperNews()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CodeFilter">{{l("Code")}}</label>
+									<input type="text" class="form-control" id="CodeFilter" name="codeFilter" [(ngModel)]="codeFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinTaskDateFilter">{{l("TaskDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinTaskDateFilter" name="MinTaskDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minTaskDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxTaskDateFilter" name="MaxTaskDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxTaskDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinDueDateFilter">{{l("DueDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinDueDateFilter" name="MinDueDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minDueDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxDueDateFilter" name="MaxDueDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxDueDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<label for="TaskStatusFilterSelect">{{l("TaskStatus")}}</label>
+								<select class="form-control" name="TaskStatusFilter" id="TaskStatusFilterSelect" [(ngModel)]="taskStatusFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="0">{{l('Completed')}}</option>
+
+										<option value="1">{{l('PendingReview')}}</option>
+
+										<option value="2">{{l('Rejected')}}</option>
+
+										<option value="3">{{l('Approved')}}</option>
+
+
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinCompletionDateFilter">{{l("CompletionDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinCompletionDateFilter" name="MinCompletionDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minCompletionDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxCompletionDateFilter" name="MaxCompletionDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxCompletionDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="TestingTemplateCodeFilter">({{l("TestingTemplate")}}) {{l("Code")}}</label>
+									<input type="text" class="form-control" id="TestingTemplateCodeFilter" name="testingTemplateCodeFilter" [(ngModel)]="testingTemplateCodeFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="OrganizationUnitDisplayNameFilter">({{l("OrganizationUnit")}}) {{l("DisplayName")}}</label>
+									<input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter" name="organizationUnitDisplayNameFilter" [(ngModel)]="organizationUnitDisplayNameFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="UserNameFilter" name="userNameFilter" [(ngModel)]="userNameFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="UserName2Filter">({{l("User2")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="UserName2Filter" name="userName2Filter" [(ngModel)]="userName2Filter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getWorkingPaperNews($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Edit', 'Pages.WorkingPaperNews.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="testingTemplateFk.code">
+                                        {{l('Code')}}
+                                        <p-sortIcon field="testingTemplateCode"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="organizationUnitFk.displayName">
+                                        {{l('DisplayName')}}
+                                        <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="completedUserFk.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="userName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="reviewedUserFk.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="userName2"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="code">
+                                        {{l('Code')}}
+                                        <p-sortIcon field="workingPaperNew.code"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="comment">
+                                        {{l('Comment')}}
+                                        <p-sortIcon field="workingPaperNew.comment"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="taskDate">
+                                        {{l('TaskDate')}}
+                                        <p-sortIcon field="workingPaperNew.taskDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="dueDate">
+                                        {{l('DueDate')}}
+                                        <p-sortIcon field="workingPaperNew.dueDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="taskStatus">
+                                        {{l('TaskStatus')}}
+                                        <p-sortIcon field="workingPaperNew.taskStatus"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="score">
+                                        {{l('Score')}}
+                                        <p-sortIcon field="workingPaperNew.score"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="reviewDate">
+                                        {{l('ReviewDate')}}
+                                        <p-sortIcon field="workingPaperNew.reviewDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="completionDate">
+                                        {{l('CompletionDate')}}
+                                        <p-sortIcon field="workingPaperNew.completionDate"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Edit', 'Pages.WorkingPaperNews.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
+														(click)="createOrEditWorkingPaperNewModal.show(record.workingPaperNew.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete')"
+														(click)="deleteWorkingPaperNew(record.workingPaperNew)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('Code')}}</span>
+												{{record.testingTemplateCode}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('DisplayName')}}</span>
+												{{record.organizationUnitDisplayName}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('Name')}}</span>
+												{{record.userName}}
+											</td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('Name')}}</span>
+												{{record.userName2}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Code')}}</span>
+											{{record.workingPaperNew.code}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Comment')}}</span>
+											{{record.workingPaperNew.comment}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('TaskDate')}}</span>
+                                        <span *ngIf="record.workingPaperNew.taskDate">
+											{{record.workingPaperNew.taskDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.workingPaperNew.taskDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('DueDate')}}</span>
+                                        <span *ngIf="record.workingPaperNew.dueDate">
+											{{record.workingPaperNew.dueDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.workingPaperNew.dueDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('TaskStatus')}}</span>
+										{{l( taskStatus[record.workingPaperNew.taskStatus])}}
+                                    </td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Score')}}</span>
+											{{record.workingPaperNew.score}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('ReviewDate')}}</span>
+                                        <span *ngIf="record.workingPaperNew.reviewDate">
+											{{record.workingPaperNew.reviewDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.workingPaperNew.reviewDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('CompletionDate')}}</span>
+                                        <span *ngIf="record.workingPaperNew.completionDate">
+											{{record.workingPaperNew.completionDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.workingPaperNew.completionDate">-</span>
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getWorkingPaperNews($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditWorkingPaperNewModal #createOrEditWorkingPaperNewModal (modalSave)="getWorkingPaperNews()"></createOrEditWorkingPaperNewModal>
+    
+    
+  </div>
+</div>
