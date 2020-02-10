@@ -137,11 +137,11 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                         }
                     }, {
                         target: 'expandedIcon',
-                        value: 'fa fa-folder-open m--font-warning'
+                        value: 'fa fa-door-open m--font-warning'
                     },
                     {
                         target: 'collapsedIcon',
-                        value: 'fa fa-folder m--font-warning'
+                        value: 'fa fa-door-closed m--font-warning'
                     },
                     {
                         target: 'selectable',
