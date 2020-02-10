@@ -10,43 +10,74 @@
                 </button>
             </div>
             <div class="modal-body">
-
-                <div class="row">
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Code")}} :</h6>
-                        {{ item.department.code }}
+                <div class="kt-widget13">
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc col-md-4">
+                            Company Name
+                        </span>
+                        <span class="kt-widget13__text kt-widget13__text--bold">
+                            {{ item.department.name }}					 
+                        </span>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Name")}} :</h6>
-                        {{ item.department.name }}
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc kt-align-right col-md-4">
+                           Score:
+                        </span>
+                        <span class="kt-widget13__text kt-widget13__text--bold kt-font-success ">
+                            {{ item.department.code }}	 
+                        </span>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Description")}} :</h6>
-                        {{ item.department.description }}
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc col-md-4">
+                            Description:
+                        </span>
+                        <span class="kt-widget13__text">
+                            {{ item.department.description ? item.department.description : '-' }}					 
+                        </span>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("IsAbstract")}} :</h6>
-                        {{ item.department.isAbstract }}
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc col-md-4">
+                            Unit Head:
+                        </span>
+                        <span class="kt-widget13__text kt-widget13__text--bold">
+                            {{item.userName ? item.userName : '-'}}						 
+                        </span>
                     </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("IsControlTeam")}} :</h6>
-                        {{ item.department.isControlTeam }}
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc col-md-4">
+                            Control Officer:
+                        </span>
+                        <span class="kt-widget13__text kt-widget13__text--bold">
+                            {{item.userName2 ? item.userName2 : '-'}}						 
+                        </span>
                     </div>
-
-                    <div class="col-6 mb-3">
-                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
-                        {{item.userName}}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
-                        {{item.userName2}}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>({{l("OrganizationUnit")}}) {{l("DisplayName")}} :</h6>
-                        {{item.organizationUnitDisplayName}}
-                    </div>
-
-                </div>
+                    <div class="kt-widget13__item row">
+                        <span class="kt-widget13__desc col-md-4">
+                            Supervising Unit:
+                        </span>
+                        <span class="kt-widget13__text kt-widget13__text--bold">
+                            {{item.supervsingUnitDisplaName ? item.supervsingUnitDisplaName : '-'}}					 
+                         </span>
+                     </div>
+                     <div class="kt-widget13__item row">
+                         <span class="kt-widget13__desc col-md-4">
+                            {{l("IsAbstract")}}:
+                         </span>
+                         <span class="kt-widget13__text kt-widget13__text--bold">
+                            <span *ngIf="item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                            <span *ngIf="!item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>					 
+                          </span>
+                      </div>
+                      <div class="kt-widget13__item row">
+                          <span class="kt-widget13__desc col-md-4">
+                            {{l("IsControlTeam")}}:
+                          </span>
+                          <span class="kt-widget13__text kt-widget13__text--bold">
+                            <span *ngIf="item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                            <span *ngIf="!item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>				 
+                           </span>
+                       </div>
+                 </div>
 
             </div>
             <div class="modal-footer">

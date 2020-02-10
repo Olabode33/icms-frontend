@@ -1,3 +1,4 @@
+import { ViewDepartmentModalComponent } from '@app/main/departments/departments/view-department-modal.component';
 import { AbpModule } from '@abp/abp.module';
 import * as ngCommon from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
@@ -103,7 +104,8 @@ import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/ma
         ViewDepartmentRiskControlModalComponent,
         CreateOrEditDepartmentRiskControlModalComponent,
         DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
-        DepartmentRiskControlControlLookupTableModalComponent
+        DepartmentRiskControlControlLookupTableModalComponent,
+        ViewDepartmentModalComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -124,7 +126,8 @@ import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/ma
         ViewDepartmentRiskControlModalComponent,
         CreateOrEditDepartmentRiskControlModalComponent,
         DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
-        DepartmentRiskControlControlLookupTableModalComponent
+        DepartmentRiskControlControlLookupTableModalComponent,
+        ViewDepartmentModalComponent,
     ],
     providers: [
         DateTimeService,

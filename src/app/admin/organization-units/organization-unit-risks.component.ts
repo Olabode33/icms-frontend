@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
@@ -11,6 +11,8 @@ import { IUsersWithOrganizationUnit } from './users-with-organization-unit';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
 import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
+import { OrganizationUnitControlsComponent } from './organization-unit-controls.component';
+import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 
 @Component({
@@ -27,13 +29,21 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     @ViewChild('createOrEditDepartmentRiskModal', { static: true }) createOrEditDepartmentRiskModal: CreateOrEditDepartmentRiskModalComponent;
     @ViewChild('createOrEditDepartmentRiskControlModal', { static: true }) createOrEditDepartmentRiskControlModal: CreateOrEditDepartmentRiskControlModalComponent;
+    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
+    deptRisks: {risk: GetDepartmentRiskForViewDto, isActive: boolean}[] = new Array();
+
+    //Controls
+    loadingControls = false;
+    riskControls: GetDepartmentRiskControlForViewDto[] = new Array();
 
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
-        private  _departmentRiskService: DepartmentRisksServiceProxy
+        private  _departmentRiskService: DepartmentRisksServiceProxy,
+        private _departmentRiskControlService: DepartmentRiskControlsServiceProxy
     ) {
         super(injector);
     }
@@ -50,12 +60,24 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         this._organizationUnit = ou;
         this.createOrEditDepartmentRiskModal.organizationUnitId = ou.id;
         if (ou) {
-            this.refreshRisks();
+            //this.refreshRisks();
+            this.getOrganizationUnitRisksNew();
         }
     }
 
     ngOnInit(): void {
 
+    }
+
+    getOrganizationUnitRisksNew() {
+        this._departmentRiskService.getRiskForDepartment('', '', '',
+            this._organizationUnit.id, '', '', 0, 1000
+        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+            //this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.deptRisks = Array.from(new Set(result.items.map((i) => {
+                return {risk: i, isActive: false};
+            })));
+        });
     }
 
     getOrganizationUnitRisks(event?: LazyLoadEvent) {
@@ -73,11 +95,13 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         this._departmentRiskService.getRiskForDepartment('','','',
             this._organizationUnit.id,'',
             this.primengTableHelper.getSorting(this.dataTable),
-       
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.deptRisks = Array.from(new Set(result.items.map((i) => {
+                return {risk: i, isActive: false};
+            })));
             this.primengTableHelper.records = result.items;
             this.primengTableHelper.hideLoadingIndicator();
         });
@@ -132,4 +156,30 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
 
         this.refreshRisks();
     }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.deptRisks[index].isActive;
+        this.deptRisks = this.deptRisks.map(x => { x.isActive = false; return x; } );
+        this.deptRisks[index].isActive = !state;
+        //this.ouControls.departmentRiskCode(this.deptRisks[index].risk.departmentRisk.deptCode);
+    }
+
+    //Risk Control Codes ......
+    createTestingTemplate(id: number): void {
+        this.createOrEditTestingTemplateModal.show(id);
+    }
+
+    getOrganizationUnitRiskControl(riskCode) {
+        this.loadingControls = true;
+        this._departmentRiskControlService.getAllForDepartment('', -1,
+            this._organizationUnit.id, riskCode, '', '', 0, 1000
+        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+            this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.primengTableHelper.records = result.items;
+            this.loadingControls = false;
+        });
+    }
+
 }

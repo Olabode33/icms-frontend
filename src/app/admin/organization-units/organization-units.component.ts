@@ -15,8 +15,8 @@ export class OrganizationUnitsComponent extends AppComponentBase {
 
     @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
     @ViewChild('ouRisks', { static: true }) ouRisks: OrganizationUnitRisksComponent;
-    @ViewChild('ouControls', { static: true }) ouControls: OrganizationUnitControlsComponent;
     @ViewChild('ouTree', {static: true}) ouTree: OrganizationTreeComponent;
+    //@ViewChild('ouControls', { static: true }) ouControls: OrganizationUnitControlsComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
     constructor(
@@ -29,6 +29,6 @@ export class OrganizationUnitsComponent extends AppComponentBase {
         this.organizationUnit = event;
         this.ouMembers.organizationUnit = event;
         this.ouRisks.organizationUnit = event;
-        this.ouControls.organizationUnit = event;
+        //this.ouControls.organizationUnit = event;
     }
 }
