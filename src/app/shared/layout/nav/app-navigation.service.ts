@@ -1,4 +1,4 @@
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -17,20 +17,20 @@ export class AppNavigationService {
 
     getMenu(): AppMenu {
         return new AppMenu('MainMenu', 'MainMenu', [
-            new AppMenuItem('Home', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/home'),
+            new AppMenuItem('Home', 'Pages.Tenant.Dashboard', 'flaticon-home', '/app/main/home'),
             new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
-            new AppMenuItem('Risk Management', '', 'flaticon-interface-8', '', [
+            new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
                 new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
                 new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
             ]),
-            new AppMenuItem('Exception Management', '', 'flaticon-interface-8', '', [
+            new AppMenuItem('Exception Management', '', 'flaticon-warning', '', [
                 new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
                 new AppMenuItem('ExceptionIncidents', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
-  ]),
+            ]),
 
             //  new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
 
@@ -38,8 +38,7 @@ export class AppNavigationService {
 
             // new AppMenuItem('DepartmentRiskControls', 'Pages.DepartmentRiskControls', 'flaticon-more', '/app/main/departmentRiskControls/departmentRiskControls'),
 
-            new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon-more', '/app/main/testingTemplates/testingTemplates'),
-
+            new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
