@@ -56,6 +56,11 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="TestingTemplate_Title">Days to complete *</label>
+                                <input type="number" min="0" id="TestingTemplate_DaysToComplete" class="form-control" [(ngModel)]="testingTemplate.daysToComplete" name="daysToComplete" required />
+                            </div>
+
+                            <div class="form-group">
                                 <label for="TestingTemplate_Title">Sample Size *</label>
                                 <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [(ngModel)]="testingTemplate.sampleSize" name="SampleSize" required />
                             </div>

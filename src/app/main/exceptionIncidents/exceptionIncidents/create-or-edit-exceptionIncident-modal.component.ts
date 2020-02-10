@@ -1,7 +1,7 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto } from '@shared/service-proxies/service-proxies';
+import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto, CreateOrEditExceptionIncidentColumnDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from './exceptionIncident-exceptionType-lookup-table-modal.component';
@@ -33,7 +33,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     userName = '';
     testingTemplateCode = '';
     organizationUnitDisplayName = '';
-
+    additionalColumns = [];
 
     constructor(
         injector: Injector,
@@ -59,12 +59,9 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             this._exceptionIncidentsServiceProxy.getExceptionIncidentForEdit(exceptionIncidentId).subscribe(result => {
                 this.exceptionIncident = result.exceptionIncident;
 
-                if (this.exceptionIncident.closureDate) {
-					this.closureDate = this.exceptionIncident.closureDate.toDate();
-                }
                 this.exceptionTypeName = result.exceptionTypeName;
                 this.userName = result.userName;
-                this.testingTemplateCode = result.testingTemplateCode;
+              
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
 
                 this.active = true;
@@ -74,20 +71,19 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     }
 
     save(): void {
-            this.saving = true;
+        this.saving = true;
+        this.exceptionIncident.incidentColumns = [];
 
-			
-        if (this.closureDate) {
-            if (!this.exceptionIncident.closureDate) {
-                this.exceptionIncident.closureDate = moment(this.closureDate).startOf('day');
-            }
-            else {
-                this.exceptionIncident.closureDate = moment(this.closureDate);
-            }
-        }
-        else {
-            this.exceptionIncident.closureDate = null;
-        }
+        this.additionalColumns.forEach(x => {
+            var item = new CreateOrEditExceptionIncidentColumnDto();
+            item.exceptionIncidentId = null;
+            item.exceptionTypeColumnId = x.id;
+            item.value = x.value;
+
+            this.exceptionIncident.incidentColumns.push(item);
+        });
+
+
             this._exceptionIncidentsServiceProxy.createOrEdit(this.exceptionIncident)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
@@ -103,12 +99,12 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this.exceptionIncidentExceptionTypeLookupTableModal.show();
     }
     openSelectUserModal() {
-        this.exceptionIncidentUserLookupTableModal.id = this.exceptionIncident.raisedById;
+        this.exceptionIncidentUserLookupTableModal.id = this.exceptionIncident.causedById;
         this.exceptionIncidentUserLookupTableModal.displayName = this.userName;
         this.exceptionIncidentUserLookupTableModal.show();
     }
     openSelectTestingTemplateModal() {
-        this.exceptionIncidentTestingTemplateLookupTableModal.id = this.exceptionIncident.testingTemplateId;
+    //    this.exceptionIncidentTestingTemplateLookupTableModal.id = this.exceptionIncident.testingTemplateId;
         this.exceptionIncidentTestingTemplateLookupTableModal.displayName = this.testingTemplateCode;
         this.exceptionIncidentTestingTemplateLookupTableModal.show();
     }
@@ -124,11 +120,11 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this.exceptionTypeName = '';
     }
     setRaisedByIdNull() {
-        this.exceptionIncident.raisedById = null;
+        this.exceptionIncident.causedById = null;
         this.userName = '';
     }
     setTestingTemplateIdNull() {
-        this.exceptionIncident.testingTemplateId = null;
+     //   this.exceptionIncident.testingTemplateId = null;
         this.testingTemplateCode = '';
     }
     setOrganizationUnitIdNull() {
@@ -140,18 +136,23 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     getNewExceptionTypeId() {
         this.exceptionIncident.exceptionTypeId = this.exceptionIncidentExceptionTypeLookupTableModal.id;
         this.exceptionTypeName = this.exceptionIncidentExceptionTypeLookupTableModal.displayName;
+
+
+        this.getColumns(this.exceptionIncident.exceptionTypeId);
     }
     getNewRaisedById() {
-        this.exceptionIncident.raisedById = this.exceptionIncidentUserLookupTableModal.id;
+        this.exceptionIncident.causedById = this.exceptionIncidentUserLookupTableModal.id;
         this.userName = this.exceptionIncidentUserLookupTableModal.displayName;
     }
     getNewTestingTemplateId() {
-        this.exceptionIncident.testingTemplateId = this.exceptionIncidentTestingTemplateLookupTableModal.id;
+    //    this.exceptionIncident.testingTemplateId = this.exceptionIncidentTestingTemplateLookupTableModal.id;
         this.testingTemplateCode = this.exceptionIncidentTestingTemplateLookupTableModal.displayName;
     }
     getNewOrganizationUnitId() {
         this.exceptionIncident.organizationUnitId = this.exceptionIncidentOrganizationUnitLookupTableModal.id;
         this.organizationUnitDisplayName = this.exceptionIncidentOrganizationUnitLookupTableModal.displayName;
+
+
     }
 
 
@@ -159,4 +160,30 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this.active = false;
         this.modal.hide();
     }
+
+
+    getColumns(id: number): void {
+        this.notify.info("Fetching additional data points.");
+ 
+        this._exceptionIncidentsServiceProxy.getExceptionColumnsForIncident(id)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.additionalColumns = [];
+
+                result.forEach(x => {
+                    var item = {
+                        colId: x.id,
+                        value: null,
+                        dataFieldType: x.dataFieldType,
+                        name: x.name
+                    }
+
+                    this.additionalColumns.push(item);
+                });
+
+
+            });
+    }
+
+
 }
