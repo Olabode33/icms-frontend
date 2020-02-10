@@ -237,12 +237,12 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
     }
 
     addUnit(parentId?: number): void {
-        this.createOrEditDepartmentModal.show(null, parentId,null);
+        this.createOrEditDepartmentModal.show(null, parentId, null);
     }
 
 
     addRiskToUnit(unitId?: number): void {
-        this.createOrEditDepartmentRiskModal.show(null,unitId);
+        this.createOrEditDepartmentRiskModal.show(null, unitId);
     }
 
     unitCreated(): void {

@@ -2,11 +2,11 @@
     <div class="kt-portlet__head">
         <div class="kt-portlet__head-label">
             <h3 class="kt-portlet__head-title">
-                {{"OrganizationTree" | localize}}
+                {{"Organization Structure" | localize}}
             </h3>
         </div>
         <div class="kt-portlet__head-toolbar">
-            <button *ngIf="'Pages.Administration.OrganizationUnits.ManageOrganizationTree' | permission" (click)="addUnit(null)" class="btn btn-primary">
+            <button *ngIf="('Pages.Administration.OrganizationUnits.ManageOrganizationTree' | permission) && treeData <= 0" (click)="addUnit(null)" class="btn btn-primary">
                 <i class="fa fa-plus"></i> {{"AddRootUnit" | localize}}
             </button>
         </div>
@@ -24,7 +24,7 @@
                     <span>
                         {{node.label}}
                     </span>
-                    <small style="font-size: .82em; opacity: .5;">{{node.memberCount}} {{'Members' | localize}}, {{node.roleCount}} {{'Roles' | localize}}</small>
+                    <small style="font-size: .82em; opacity: .5;">{{node.memberCount}} {{'Members' | localize}}</small>
                 </div>
             </ng-template>
         </p-tree>
