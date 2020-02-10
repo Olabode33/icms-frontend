@@ -48,6 +48,8 @@ import { ViewDepartmentRiskControlModalComponent } from '@app/main/departmentRis
 import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
 import { DepartmentRiskControlDepartmentRiskLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-departmentRisk-lookup-table-modal.component';
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
+import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
 
 
 @NgModule({
@@ -75,6 +77,7 @@ import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main
         EntityTypeHistoryModalComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
+        ExceptionIncidentExceptionTypeLookupTableModalComponent,
         DatePickerInitialValueSetterDirective,
         CustomizableDashboardComponent,
         WidgetGeneralStatsComponent,
@@ -83,6 +86,7 @@ import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main
         WidgetHostTopStatsComponent,
         WidgetIncomeStatisticsComponent,
         WidgetMemberActivityComponent,
+        CreateOrEditTestingTemplateModalComponent,
         WidgetProfitShareComponent,
         WidgetRecentTenantsComponent,
         WidgetRegionalStatsComponent,
@@ -104,11 +108,13 @@ import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main
     exports: [
         TimeZoneComboComponent,
         CommonLookupModalComponent,
+        ExceptionIncidentExceptionTypeLookupTableModalComponent,
         EntityTypeHistoryModalComponent,
         EntityChangeDetailModalComponent,
         DateRangePickerInitialValueSetterDirective,
         DatePickerInitialValueSetterDirective,
         CustomizableDashboardComponent,
+        CreateOrEditTestingTemplateModalComponent,
         NgxChartsModule,
         CreateOrEditDepartmentRiskModalComponent,
         CreateOrEditDepartmentModalComponent,

@@ -9,6 +9,7 @@ import { IBasicOrganizationUnitInfo } from './basic-organization-unit-info';
 import { IUserWithOrganizationUnit } from './user-with-organization-unit';
 import { IUsersWithOrganizationUnit } from './users-with-organization-unit';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 
 @Component({
@@ -19,6 +20,9 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
 
     @Output() controlsRemoved = new EventEmitter<any>();
     @Output() controlsAdded = new EventEmitter<any>();
+
+
+    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
     //@ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
     @ViewChild('dataTable', {static: true}) dataTable: Table;
@@ -52,6 +56,10 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
 
     ngOnInit(): void {
 
+    }
+
+    createTestingTemplate(id: number): void {
+        this.createOrEditTestingTemplateModal.show(id);
     }
 
     getOrganizationUnitRisks(event?: LazyLoadEvent) {
