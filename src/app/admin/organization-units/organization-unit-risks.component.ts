@@ -33,6 +33,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
 
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
+    private _isViewOnly = false;
     deptRisks: {risk: GetDepartmentRiskForViewDto, isActive: boolean}[] = new Array();
 
     //Controls
@@ -63,6 +64,11 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
             //this.refreshRisks();
             this.getOrganizationUnitRisksNew();
         }
+        //this._isViewOnly = false;
+    }
+
+    set isViewOnly(viewOnly: boolean) {
+        this._isViewOnly = viewOnly;
     }
 
     ngOnInit(): void {
@@ -163,7 +169,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         let state = this.deptRisks[index].isActive;
         this.deptRisks = this.deptRisks.map(x => { x.isActive = false; return x; } );
         this.deptRisks[index].isActive = !state;
-        //this.ouControls.departmentRiskCode(this.deptRisks[index].risk.departmentRisk.deptCode);
+        this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.departmentRisk.deptCode);
     }
 
     //Risk Control Codes ......
@@ -177,7 +183,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
             this._organizationUnit.id, riskCode, '', '', 0, 1000
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
+            this.riskControls = result.items;
             this.loadingControls = false;
         });
     }

@@ -134,7 +134,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         FeatureTreeComponent,
         OrganizationUnitsTreeComponent,
         RolesComponent,
-        OrganizationUnitRisksComponent,
         CreateOrEditRoleModalComponent,
         AuditLogsComponent,
         AuditLogDetailModalComponent,
