@@ -12,31 +12,27 @@
                 <!-- General -->
                 <div class="card" *ngFor="let item of deptRisks; let i = index;" >
                     <div class="card-header" id="heading{{i}}">
-                        <div class="" (click)="toggleAccordion(i)"
-                            [ngClass]="{collapsed: !item.isActive}">
+                        <div class="" [ngClass]="{collapsed: !item.isActive}">
                             <div class="row mb-2">
-                                <div class="col-2">
-                                    <div class="btn-group dropdown" dropdown>
-                                        <button dropdownToggle
-                                            class="dropdown-toggle btn btn-primary btn-sm dropdown-toggle">
-                                            <i class="fa fa-cog"></i><span class="caret"></span>
-                                            {{"Actions" | localize}}
+                                <div class="col-md-3">
+                                    <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">
+                                            <i class="fa fa-plus"></i> Add Control
+                                        </button>
+                                        <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
+                                            <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" *dropdownMenu>
                                             <li>
-                                                <a href="javascript:;"
-                                                    (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">Add
-                                                    Control</a>
+                                                <a href="javascript:;" (click)="deleteRole(item.risk)">
+                                                    {{l('Delete')}}
+                                                </a>
                                             </li>
-                                            <li>
-                                                <a href="javascript:;" *ngIf="!item.risk.departmentRisk.cascade"
-                                                    (click)="deleteRole(item.risk)">{{'Delete' | localize}}</a>
-                                            </li>
-    
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-8 pt-2">
+                                <div class="col-md-7 pt-2" (click)="toggleAccordion(i)">
                                     {{item.risk.riskName}}
                                     <span *ngIf="_organizationUnit.id != item.risk.departmentRisk.departmentId"
                                         class="kt-badge kt-badge--brand kt-badge--inline" data-toggle="tooltip"
@@ -46,18 +42,44 @@
                                 </div>
                                 <div class="col-2 pt-2">
                                     <span *ngIf="item.risk.severity == 'High'"
-                                        class="kt-badge kt-badge--brand kt-badge--inline bg-danger">{{item.risk.severity}}</span>
+                                        class="kt-badge kt-badge--brand kt-badge--inline bg-danger pull-right">{{item.risk.severity}}</span>
                                     <span *ngIf="item.risk.severity == 'Medium'"
-                                        class="kt-badge kt-badge--brand kt-badge--inline bg-warning">{{item.risk.severity}}</span>
+                                        class="kt-badge kt-badge--brand kt-badge--inline bg-warning pull-right">{{item.risk.severity}}</span>
                                     <span *ngIf="item.risk.severity == 'Low'"
-                                        class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning">{{item.risk.severity}}</span>
+                                        class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning pull-right">{{item.risk.severity}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="collapse{{i}}" class="collapse" [ngClass]="{show: item.isActive}">
                         <div class="card-body">
-                            <organization-unit-controls #ouControl{{i}} ></organization-unit-controls>
+                            <div class="table-responsive mb-3">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Frequency</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of riskControls">
+                                            <td>
+                                                {{item.controlCode}}
+                                                <span *ngIf="_organizationUnit.id != item.departmentRiskControl.departmentId"
+                                                    class="kt-badge kt-badge--brand kt-badge--inline"
+                                                    data-toggle="tooltip" title="This control was inherited from a parent department."
+                                                    data-placement="top">
+                                                    Inherited
+                                                </span>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +87,7 @@
             <!--end::Accordion-->
 
             <!--<Primeng-TurboTable-Start>-->
-            <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading"
+            <!-- <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading"
                 [hidden]="!organizationUnit">
                 <p-table #dataTable (onLazyLoad)="getOrganizationUnitRisks($event)" [value]="primengTableHelper.records"
                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
@@ -141,7 +163,7 @@
                         {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
                     </span>
                 </div>
-            </div>
+            </div> -->
             <!--<Primeng-TurboTable-End>-->
         </div>
     </div>

@@ -25,15 +25,16 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
     @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
     //@ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
-    @ViewChild('dataTable', {static: true}) dataTable: Table;
-    @ViewChild('paginator', {static: true}) paginator: Paginator;
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
+    private _departmentRiskCode = '';
 
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
-        private  _departmentRiskControlService: DepartmentRiskControlsServiceProxy
+        private _departmentRiskControlService: DepartmentRiskControlsServiceProxy
     ) {
         super(injector);
     }
@@ -48,8 +49,24 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
         }
 
         this._organizationUnit = ou;
-       // this.createOrEditDepartmentRiskModal.organizationUnitId = ou.id;
+        // this.createOrEditDepartmentRiskModal.organizationUnitId = ou.id;
         if (ou) {
+            this.refreshRisks();
+        }
+    }
+
+    // get departmentControlCode(): string {
+    //     return this._departmentRiskCode;
+    // }
+
+    departmentRiskCode(code: string) {
+        if (this._departmentRiskCode === code ) {
+            return;
+        }
+
+        this._departmentRiskCode = code;
+
+        if (code) {
             this.refreshRisks();
         }
     }
@@ -74,10 +91,9 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
         }
 
         this.primengTableHelper.showLoadingIndicator();
-        this._departmentRiskControlService.getAllForDepartment('',-1,
-            this._organizationUnit.id,'','',
+        this._departmentRiskControlService.getAllForDepartment('', -1,
+            this._organizationUnit.id, this._departmentRiskCode, '',
             this.primengTableHelper.getSorting(this.dataTable),
-       
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {

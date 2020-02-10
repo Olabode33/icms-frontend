@@ -1,7 +1,7 @@
 import { OnInit, Component, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { HtmlHelper } from '@shared/helpers/HtmlHelper';
-import { ListResultDtoOfOrganizationUnitDto, MoveOrganizationUnitInput, OrganizationUnitDto, OrganizationUnitServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ListResultDtoOfOrganizationUnitDto, MoveOrganizationUnitInput, OrganizationUnitDto, OrganizationUnitServiceProxy, GetDepartmentForViewDto } from '@shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,6 +19,7 @@ import { TreeNode, MenuItem } from 'primeng/api';
 import { ArrayToTreeConverterService } from '@shared/utils/array-to-tree-converter.service';
 import { TreeDataHelperService } from '@shared/utils/tree-data-helper.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
+import { ViewDepartmentModalComponent } from '@app/main/departments/departments/view-department-modal.component';
 
 export interface IOrganizationUnitOnTree extends IBasicOrganizationUnitInfo {
     id: number;
@@ -43,6 +44,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
     @ViewChild('createOrEditOrganizationUnitModal', { static: true }) createOrEditOrganizationUnitModal: CreateOrEditUnitModalComponent;
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
     @ViewChild('createOrEditDepartmentRiskModal', { static: true }) createOrEditDepartmentRiskModal: CreateOrEditDepartmentRiskModalComponent;
+    @ViewChild('viewDepartmentModal', { static: true }) viewDepartmentModal: ViewDepartmentModalComponent;
 
     treeData: any;
     selectedOu: TreeNode;
@@ -176,6 +178,14 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
         const canManageOrganizationTree = this.isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree');
 
         let items = [
+            {
+                label: this.l('View'),
+                disabled: !canManageOrganizationTree,
+                command: (event) => {
+                    console.log(this.selectedOu);
+                    this.viewDepartmentModal.show(null, this.selectedOu.data.id);
+                }
+            },
             {
                 label: this.l('Edit'),
                 disabled: !canManageOrganizationTree,

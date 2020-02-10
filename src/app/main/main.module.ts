@@ -97,7 +97,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         DepartmentRisksComponent,
         ViewDepartmentRiskModalComponent,
         DepartmentsComponent,
-        ViewDepartmentModalComponent,
+        //ViewDepartmentModalComponent,
         DataListsComponent,
         ViewDataListModalComponent, CreateOrEditDataListModalComponent,
         ExceptionTypesComponent,

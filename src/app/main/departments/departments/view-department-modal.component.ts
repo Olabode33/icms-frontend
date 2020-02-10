@@ -1,6 +1,7 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
+﻿import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto } from './../../../../shared/service-proxies/service-proxies';
+import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { GetDepartmentForViewDto, DepartmentDto } from '@shared/service-proxies/service-proxies';
+import { GetDepartmentForViewDto, DepartmentDto, DepartmentsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
@@ -15,19 +16,28 @@ export class ViewDepartmentModalComponent extends AppComponentBase {
     active = false;
     saving = false;
 
-    item: GetDepartmentForViewDto;
+    item: GetDepartmentForEditOutput;
 
 
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _departmentsServiceProxy: DepartmentsServiceProxy,
     ) {
         super(injector);
-        this.item = new GetDepartmentForViewDto();
-        this.item.department = new DepartmentDto();
+        this.item = new GetDepartmentForEditOutput();
+        this.item.department = new CreateOrEditDepartmentDto();
     }
 
-    show(item: GetDepartmentForViewDto): void {
-        this.item = item;
+    show(item?: GetDepartmentForViewDto, itemId = -1): void {
+        if (item) {
+            this._departmentsServiceProxy.getDepartmentForEdit(item.department.id).subscribe(result => {
+                this.item = result;
+            });
+        } else {
+            this._departmentsServiceProxy.getDepartmentForEdit(itemId).subscribe(result => {
+                this.item = result;
+            });
+        }
 
         this.active = true;
         this.modal.show();
