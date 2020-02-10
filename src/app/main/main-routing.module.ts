@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
@@ -12,6 +13,7 @@ import { RisksComponent } from './risks/risks/risks.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
+import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 
 @NgModule({
     imports: [
@@ -19,6 +21,7 @@ import { ViewOrganizationUnitComponent } from './departments/_subs/view-organiza
             {
                 path: '',
                 children: [
+                    { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },
@@ -30,6 +33,7 @@ import { ViewOrganizationUnitComponent } from './departments/_subs/view-organiza
                     { path: 'controls/controls', component: ControlsComponent, data: { permission: 'Pages.Controls' }  },
                     { path: 'risks/risks', component: RisksComponent, data: { permission: 'Pages.Risks' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
