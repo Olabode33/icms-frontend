@@ -1,4 +1,4 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form *ngIf="active" #testingTemplateForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
@@ -12,12 +12,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                 
 
-					<div class="form-group m-form__group">
+
+                    <!--<div class="form-group m-form__group">
                         <label for="DepartmentRiskControlCode">{{l("DepartmentRiskControl")}}</label>
                         <div class="input-group">
-                            <input class="form-control" id="DepartmentRiskControlCode" name="departmentRiskControlCode" [(ngModel)]="departmentRiskControlCode" type="text" disabled>     
+                            <input class="form-control" id="DepartmentRiskControlCode" name="departmentRiskControlCode" [(ngModel)]="departmentRiskControlCode" type="text" disabled>
                             <div class="input-group-append">
                                 <button class="btn btn-primary blue" (click)="openSelectDepartmentRiskControlModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
                             </div> <div class="input-group-prepend">
@@ -25,42 +25,98 @@
                             </div>
                         </div>
                     </div>
-                    <input class="form-control" name="testingTemplate.departmentRiskControlId" [(ngModel)]="testingTemplate.departmentRiskControlId" type="text"  hidden>
-		 
+                    <input class="form-control" name="testingTemplate.departmentRiskControlId" [(ngModel)]="testingTemplate.departmentRiskControlId" type="text"  hidden>-->
+                    <tabset>
+                        <tab heading="General">
+                            <div class="form-group">
+                                <label for="TestingTemplate_Title">{{l("Title")}} *</label>
+                                <input type="text" id="TestingTemplate_Title" class="form-control" [(ngModel)]="testingTemplate.title" name="Title" required />
+                            </div>
 
-								<div class="form-group">
-									<label for="TestingTemplate_Code">{{l("Code")}} *</label>
-									<input type="text" id="TestingTemplate_Code" class="form-control" [(ngModel)]="testingTemplate.code" name="Code"     required/>
-								</div>
-					
-								<div class="form-group">
-									<label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
-									<input type="text" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="testingTemplate.detailedInstructions" name="DetailedInstructions"    />
-								</div>
-					
-								<div class="form-group">
-									<label for="TestingTemplate_Title">{{l("Title")}} *</label>
-									<input type="text" id="TestingTemplate_Title" class="form-control" [(ngModel)]="testingTemplate.title" name="Title"     required/>
-								</div>
-					
-								<div class="form-group">
-									<label for="TestingTemplate_Frequency">{{l("Frequency")}}</label>
-									<select class="form-control" name="Frequency" id="TestingTemplate_Frequency" [(ngModel)]="testingTemplate.frequency">
-									<option value="0">{{l('Daily')}}</option>
+                            <div class="form-group">
+                                <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
+                                <textarea type="text" rows="10" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="testingTemplate.detailedInstructions" name="DetailedInstructions"></textarea>
+                            </div>
 
-									<option value="1">{{l('Weekly')}}</option>
+                            <div class="form-group">
+                                <label for="TestingTemplate_Frequency">{{l("Frequency")}}</label>
+                                <select class="form-control" name="Frequency" id="TestingTemplate_Frequency" [(ngModel)]="testingTemplate.frequency">
+                                    <option value="0">{{l('Daily')}}</option>
 
-									<option value="2">{{l('Monthly')}}</option>
+                                    <option value="1">{{l('Weekly')}}</option>
 
-									<option value="3">{{l('Quarterly')}}</option>
+                                    <option value="2">{{l('Monthly')}}</option>
 
-									<option value="4">{{l('Yearly')}}</option>
+                                    <option value="3">{{l('Quarterly')}}</option>
+
+                                    <option value="4">{{l('Yearly')}}</option>
 
 
-									</select>
-								</div>
-					
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="TestingTemplate_Title">Sample Size *</label>
+                                <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [(ngModel)]="testingTemplate.sampleSize" name="SampleSize" required />
+                            </div>
+
+                            <div class="form-group m-form__group">
+                                <label for="ExceptionTypeName">Select Default Exception Type</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="ExceptionTypeName" name="exceptionTypeName" [(ngModel)]="exceptionTypeName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectExceptionTypeModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setExceptionTypeIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="exceptionIncident.exceptionTypeId" [(ngModel)]="exceptionTypeId" type="text" hidden>
+
+
+                        </tab>
+                        <tab heading="Test Attributes">
+                            <div class="form-group">
+                                <label for="AttributeQuestion">Add Attribute Question</label>
+                                <div class="input-group">
+                                    <input type="text" id="AttributeQuestion" class="form-control" [(ngModel)]="attributeQuestion" name="AttributeQuestion" />
+                                    <button class="btn btn-success green" (click)="addAttribute()" type="button"><i class="fa fa-plus"></i> Add</button>
+
+                                </div>
+                            </div>
+
+                            <br />
+                            <hr />
+
+
+                            <label>   Selected attributes for testing:</label>
+
+                            <div>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>
+                                            Attribute Question(s)
+                                        </th>
+                                        <th>
+                                            Exception Type
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    <tr *ngFor="let item of attributes">
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.exceptionTypeName}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm btn-icon"
+                                                    (click)="removeItem(item)">
+                                                <i class="fa fa-stop"
+                                                   [attr.aria-label]="l('Remove')"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </tab>
+                    </tabset>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
@@ -69,6 +125,7 @@
             </form>
         </div>
     </div>
-<testingTemplateDepartmentRiskControlLookupTableModal #testingTemplateDepartmentRiskControlLookupTableModal (modalSave)="getNewDepartmentRiskControlId()"></testingTemplateDepartmentRiskControlLookupTableModal>
-		 
+    <!--<testingTemplateDepartmentRiskControlLookupTableModal #testingTemplateDepartmentRiskControlLookupTableModal (modalSave)="getNewDepartmentRiskControlId()"></testingTemplateDepartmentRiskControlLookupTableModal>-->
+    <exceptionIncidentExceptionTypeLookupTableModal #exceptionIncidentExceptionTypeLookupTableModal (modalSave)="getNewExceptionTypeId()"></exceptionIncidentExceptionTypeLookupTableModal>
+
 </div>

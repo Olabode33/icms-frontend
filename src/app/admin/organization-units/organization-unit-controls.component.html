@@ -31,7 +31,7 @@
                     <ng-template pTemplate="body" let-record="$implicit">
                         <tr>
                             <td>
-                                <div class="btn-group dropdown" dropdown>
+                                <div class="btn-group dropdown" dropdown *ngIf="_organizationUnit.id == record.departmentRiskControl.departmentId">
                                     <button dropdownToggle
                                             class="dropdown-toggle btn btn-primary btn-sm dropdown-toggle">
                                         <i class="fa fa-cog"></i><span class="caret"></span>
@@ -39,10 +39,10 @@
                                     </button>
                                     <ul class="dropdown-menu" *dropdownMenu>
                                         <li>
-                                            <a href="javascript:;"  (click)="addControlToRisk(record.id)">Add Testing Template</a>
+                                            <a href="javascript:;" *ngIf="_organizationUnit.id == record.departmentRiskControl.departmentId" (click)="createTestingTemplate(record.departmentRiskControl.id)">Add Testing Template</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" *ngIf="!record.departmentRisk.cascade" (click)="deleteRole(record)">{{'Delete' | localize}}</a>
+                                            <a href="javascript:;" *ngIf="_organizationUnit.id == record.departmentRiskControl.departmentId" (click)="deleteRole(record)">{{'Delete' | localize}}</a>
                                         </li>
 
                                     </ul>
@@ -61,9 +61,9 @@
                             </td>
                             <td>
                                 <span class="ui-column-title">Severity</span>
-                                <span *ngIf="record.severity == 'High'" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">{{record.severity}}</span>  
-                                <span *ngIf="record.severity == 'Medium'" class="kt-badge kt-badge--brand kt-badge--inline bg-warning">{{record.severity}}</span>  
-                                <span *ngIf="record.severity == 'Low'" class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning">{{record.severity}}</span>  
+                                <span *ngIf="record.severity == 'High'" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">{{record.severity}}</span>
+                                <span *ngIf="record.severity == 'Medium'" class="kt-badge kt-badge--brand kt-badge--inline bg-warning">{{record.severity}}</span>
+                                <span *ngIf="record.severity == 'Low'" class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning">{{record.severity}}</span>
                             </td>
                         </tr>
                     </ng-template>
@@ -92,4 +92,5 @@
 </div>
 
 <createOrEditDepartmentRiskModal #createOrEditDepartmentRiskModal (risksAdded)="addRisks($event)"></createOrEditDepartmentRiskModal>
-<createOrEditDepartmentRiskControlModal #createOrEditDepartmentRiskControlModal ></createOrEditDepartmentRiskControlModal>
+<createOrEditDepartmentRiskControlModal #createOrEditDepartmentRiskControlModal></createOrEditDepartmentRiskControlModal>
+<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="getTestingTemplates()"></createOrEditTestingTemplateModal>

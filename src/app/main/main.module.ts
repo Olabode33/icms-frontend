@@ -5,14 +5,12 @@ import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
 import { ViewExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/view-exceptionIncident-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
-import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
 import { ExceptionIncidentUserLookupTableModalComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncident-user-lookup-table-modal.component';
 import { ExceptionIncidentTestingTemplateLookupTableModalComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncident-testingTemplate-lookup-table-modal.component';
 import { ExceptionIncidentOrganizationUnitLookupTableModalComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncident-organizationUnit-lookup-table-modal.component';
 
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
 import { ViewTestingTemplateModalComponent } from './testingTemplates/testingTemplates/view-testingTemplate-modal.component';
-import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplates/testingTemplates/testingTemplate-departmentRiskControl-lookup-table-modal.component';
 
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
@@ -86,12 +84,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         HomeComponent,
         ExceptionIncidentsComponent,
         ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
-        ExceptionIncidentExceptionTypeLookupTableModalComponent,
+        
         ExceptionIncidentUserLookupTableModalComponent,
         ExceptionIncidentTestingTemplateLookupTableModalComponent,
         ExceptionIncidentOrganizationUnitLookupTableModalComponent,
         TestingTemplatesComponent,
-        ViewTestingTemplateModalComponent, CreateOrEditTestingTemplateModalComponent,
+        ViewTestingTemplateModalComponent,
         TestingTemplateDepartmentRiskControlLookupTableModalComponent,
         DepartmentRiskControlsComponent,
         //ViewDepartmentRiskControlModalComponent,		CreateOrEditDepartmentRiskControlModalComponent,

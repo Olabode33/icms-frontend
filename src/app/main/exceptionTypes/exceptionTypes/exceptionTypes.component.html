@@ -1,4 +1,4 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
   <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
     <div class="kt-subheader kt-grid__item">
       <div [class]="containerClass">
@@ -100,20 +100,17 @@
                                         {{l('Code')}}
                                         <p-sortIcon field="exceptionType.code"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="name">
+                                    <th style="width: 250px" pSortableColumn="name">
                                         {{l('Name')}}
                                         <p-sortIcon field="exceptionType.name"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="description">
-                                        {{l('Description')}}
-                                        <p-sortIcon field="exceptionType.description"></p-sortIcon>
-                                    </th>
+                              
                                     <th style="width: 150px" pSortableColumn="severity">
                                         {{l('Severity')}}
                                         <p-sortIcon field="exceptionType.severity"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="targetRemediation">
-                                        {{l('TargetRemediation')}}
+                                        {{l('TargetRemediation')}} (Days)
                                         <p-sortIcon field="exceptionType.targetRemediation"></p-sortIcon>
                                     </th>
 
@@ -147,17 +144,20 @@
 											<span class="ui-column-title"> {{l('Code')}}</span>
 											{{record.exceptionType.code}}
 										</td>
-                                    <td style="width:150px">
+                                    <td style="width:250px">
 											<span class="ui-column-title"> {{l('Name')}}</span>
 											{{record.exceptionType.name}}
 										</td>
+                          
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('Description')}}</span>
-											{{record.exceptionType.description}}
-										</td>
-                                    <td style="width:150px">
-										<span class="ui-column-title"> {{l('Severity')}}</span>
-										{{l( severity[record.exceptionType.severity])}}
+                                        <span class="ui-column-title"> {{l('Severity')}}</span>
+                                        <!--{{l( severity[record.exceptionType.severity])}}-->
+
+                                        <span class="ui-column-title">Severity</span>
+                                        <span *ngIf="record.exceptionType.severity == 2" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">{{l( severity[record.exceptionType.severity])}}</span>
+                                        <span *ngIf="record.exceptionType.severity == 1" class="kt-badge kt-badge--brand kt-badge--inline bg-warning">{{l( severity[record.exceptionType.severity])}}</span>
+                                        <span *ngIf="record.exceptionType.severity == 0" class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning">{{l( severity[record.exceptionType.severity])}}</span>
+
                                     </td>
                                     <td style="width:150px">
 											<span class="ui-column-title"> {{l('TargetRemediation')}}</span>

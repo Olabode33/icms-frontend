@@ -29475,8 +29475,11 @@ export class TestingTemplateDto implements ITestingTemplateDto {
     code!: string | undefined;
     detailedInstructions!: string | undefined;
     title!: string | undefined;
-    frequency!: Frequency;
+    frequency!: string | undefined;
+    sampleSize!: number;
+    daysToComplete!: number;
     departmentRiskControlId!: number | undefined;
+    isActive!: boolean;
     id!: number;
 
     constructor(data?: ITestingTemplateDto) {
@@ -29494,7 +29497,10 @@ export class TestingTemplateDto implements ITestingTemplateDto {
             this.detailedInstructions = data["detailedInstructions"];
             this.title = data["title"];
             this.frequency = data["frequency"];
+            this.sampleSize = data["sampleSize"];
+            this.daysToComplete = data["daysToComplete"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
+            this.isActive = data["isActive"];
             this.id = data["id"];
         }
     }
@@ -29512,7 +29518,10 @@ export class TestingTemplateDto implements ITestingTemplateDto {
         data["detailedInstructions"] = this.detailedInstructions;
         data["title"] = this.title;
         data["frequency"] = this.frequency;
+        data["sampleSize"] = this.sampleSize;
+        data["daysToComplete"] = this.daysToComplete;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
+        data["isActive"] = this.isActive;
         data["id"] = this.id;
         return data; 
     }
@@ -29522,14 +29531,23 @@ export interface ITestingTemplateDto {
     code: string | undefined;
     detailedInstructions: string | undefined;
     title: string | undefined;
-    frequency: Frequency;
+    frequency: string | undefined;
+    sampleSize: number;
+    daysToComplete: number;
     departmentRiskControlId: number | undefined;
+    isActive: boolean;
     id: number;
 }
 
 export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
     testingTemplate!: TestingTemplateDto;
     departmentRiskControlCode!: string | undefined;
+    affectedDepartments!: string | undefined;
+    cascade!: string | undefined;
+    risk!: RiskDto;
+    control!: ControlDto;
+    attributes!: string[] | undefined;
+    exceptionTypeName!: string | undefined;
 
     constructor(data?: IGetTestingTemplateForViewDto) {
         if (data) {
@@ -29544,6 +29562,16 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
         if (data) {
             this.testingTemplate = data["testingTemplate"] ? TestingTemplateDto.fromJS(data["testingTemplate"]) : <any>undefined;
             this.departmentRiskControlCode = data["departmentRiskControlCode"];
+            this.affectedDepartments = data["affectedDepartments"];
+            this.cascade = data["cascade"];
+            this.risk = data["risk"] ? RiskDto.fromJS(data["risk"]) : <any>undefined;
+            this.control = data["control"] ? ControlDto.fromJS(data["control"]) : <any>undefined;
+            if (Array.isArray(data["attributes"])) {
+                this.attributes = [] as any;
+                for (let item of data["attributes"])
+                    this.attributes!.push(item);
+            }
+            this.exceptionTypeName = data["exceptionTypeName"];
         }
     }
 
@@ -29558,6 +29586,16 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
         data = typeof data === 'object' ? data : {};
         data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
         data["departmentRiskControlCode"] = this.departmentRiskControlCode;
+        data["affectedDepartments"] = this.affectedDepartments;
+        data["cascade"] = this.cascade;
+        data["risk"] = this.risk ? this.risk.toJSON() : <any>undefined;
+        data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        if (Array.isArray(this.attributes)) {
+            data["attributes"] = [];
+            for (let item of this.attributes)
+                data["attributes"].push(item);
+        }
+        data["exceptionTypeName"] = this.exceptionTypeName;
         return data; 
     }
 }
@@ -29565,6 +29603,12 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
 export interface IGetTestingTemplateForViewDto {
     testingTemplate: TestingTemplateDto;
     departmentRiskControlCode: string | undefined;
+    affectedDepartments: string | undefined;
+    cascade: string | undefined;
+    risk: RiskDto;
+    control: ControlDto;
+    attributes: string[] | undefined;
+    exceptionTypeName: string | undefined;
 }
 
 export class PagedResultDtoOfGetTestingTemplateForViewDto implements IPagedResultDtoOfGetTestingTemplateForViewDto {
@@ -29615,13 +29659,51 @@ export interface IPagedResultDtoOfGetTestingTemplateForViewDto {
     items: GetTestingTemplateForViewDto[] | undefined;
 }
 
+export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemplateDetailsDto {
+    testAttribute!: string | undefined;
+
+    constructor(data?: ICreateorEditTestTemplateDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.testAttribute = data["testAttribute"];
+        }
+    }
+
+    static fromJS(data: any): CreateorEditTestTemplateDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateorEditTestTemplateDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["testAttribute"] = this.testAttribute;
+        return data; 
+    }
+}
+
+export interface ICreateorEditTestTemplateDetailsDto {
+    testAttribute: string | undefined;
+}
+
 export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTemplateDto {
-    code!: string | undefined;
+    daysToComplete!: number;
     detailedInstructions!: string | undefined;
     title!: string | undefined;
     frequency!: Frequency;
+    exceptionTypeId!: number | undefined;
     departmentRiskControlId!: number | undefined;
     sampleSize!: number | undefined;
+    attributes!: CreateorEditTestTemplateDetailsDto[] | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingTemplateDto) {
@@ -29635,12 +29717,18 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
 
     init(data?: any) {
         if (data) {
-            this.code = data["code"];
+            this.daysToComplete = data["daysToComplete"];
             this.detailedInstructions = data["detailedInstructions"];
             this.title = data["title"];
             this.frequency = data["frequency"];
+            this.exceptionTypeId = data["exceptionTypeId"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
             this.sampleSize = data["sampleSize"];
+            if (Array.isArray(data["attributes"])) {
+                this.attributes = [] as any;
+                for (let item of data["attributes"])
+                    this.attributes!.push(CreateorEditTestTemplateDetailsDto.fromJS(item));
+            }
             this.id = data["id"];
         }
     }
@@ -29654,24 +29742,32 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
+        data["daysToComplete"] = this.daysToComplete;
         data["detailedInstructions"] = this.detailedInstructions;
         data["title"] = this.title;
         data["frequency"] = this.frequency;
+        data["exceptionTypeId"] = this.exceptionTypeId;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
         data["sampleSize"] = this.sampleSize;
+        if (Array.isArray(this.attributes)) {
+            data["attributes"] = [];
+            for (let item of this.attributes)
+                data["attributes"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditTestingTemplateDto {
-    code: string | undefined;
+    daysToComplete: number;
     detailedInstructions: string | undefined;
     title: string | undefined;
     frequency: Frequency;
+    exceptionTypeId: number | undefined;
     departmentRiskControlId: number | undefined;
     sampleSize: number | undefined;
+    attributes: CreateorEditTestTemplateDetailsDto[] | undefined;
     id: number | undefined;
 }
 

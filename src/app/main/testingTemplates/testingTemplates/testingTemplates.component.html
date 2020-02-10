@@ -1,4 +1,4 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
   <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
     <div class="kt-subheader kt-grid__item">
       <div [class]="containerClass">
@@ -100,18 +100,12 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TestingTemplates.Edit', 'Pages.TestingTemplates.Delete')">{{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="departmentRiskControlFk.code">
-                                        {{l('Code')}}
-                                        <p-sortIcon field="departmentRiskControlCode"></p-sortIcon>
-                                    </th>
+                           
                                     <th style="width: 150px" pSortableColumn="code">
                                         {{l('Code')}}
                                         <p-sortIcon field="testingTemplate.code"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="detailedInstructions">
-                                        {{l('DetailedInstructions')}}
-                                        <p-sortIcon field="testingTemplate.detailedInstructions"></p-sortIcon>
-                                    </th>
+                            
                                     <th style="width: 150px" pSortableColumn="title">
                                         {{l('Title')}}
                                         <p-sortIcon field="testingTemplate.title"></p-sortIcon>
@@ -136,10 +130,7 @@
 													<a href="javascript:;"
 														(click)="viewTestingTemplateModal.show(record)">{{l('View')}}</a>
 												</li>
-												<li>
-													<a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Edit')"
-														(click)="createOrEditTestingTemplateModal.show(record.testingTemplate.id)">{{l('Edit')}}</a>
-												</li>
+										
 												<li>
 											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
 														(click)="deleteTestingTemplate(record.testingTemplate)">{{l('Delete')}}</a>
@@ -151,17 +142,10 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td style="width:150px">
-												<span class="ui-column-title"> {{l('Code')}}</span>
-												{{record.departmentRiskControlCode}}
-											</td>
+                                    
                                     <td style="width:150px">
 											<span class="ui-column-title"> {{l('Code')}}</span>
 											{{record.testingTemplate.code}}
-										</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('DetailedInstructions')}}</span>
-											{{record.testingTemplate.detailedInstructions}}
 										</td>
                                     <td style="width:150px">
 											<span class="ui-column-title"> {{l('Title')}}</span>

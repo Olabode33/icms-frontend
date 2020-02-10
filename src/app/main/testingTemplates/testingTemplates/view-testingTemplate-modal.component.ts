@@ -1,7 +1,8 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { GetTestingTemplateForViewDto, TestingTemplateDto , Frequency} from '@shared/service-proxies/service-proxies';
+import { GetTestingTemplateForViewDto, TestingTemplateDto, Frequency, TestingTemplatesServiceProxy} from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'viewTestingTemplateModal',
@@ -20,7 +21,9 @@ export class ViewTestingTemplateModalComponent extends AppComponentBase {
 
 
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
+
     ) {
         super(injector);
         this.item = new GetTestingTemplateForViewDto();
@@ -28,7 +31,14 @@ export class ViewTestingTemplateModalComponent extends AppComponentBase {
     }
 
     show(item: GetTestingTemplateForViewDto): void {
-        this.item = item;
+
+        this._testingTemplatesServiceProxy.getTestingTemplateForView(item.testingTemplate.id)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.item = result;
+            });
+
+
         this.active = true;
         this.modal.show();
     }

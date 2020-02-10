@@ -1,4 +1,4 @@
-﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,31 +10,64 @@
                 </button>
             </div>
             <div class="modal-body">
+                <tabset>
+                    <tab heading="General">
+                        <div class="form-group">
+                            <label for="TestingTemplate_Title">{{l("Title")}} </label>
+                            <input type="text" readonly id="TestingTemplate_Title" class="form-control" [(ngModel)]="item.testingTemplate.title" name="Title" />
+                        </div>
 
-                <div class="row">
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Code")}} :</h6>
-                        {{ item.testingTemplate.code }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("DetailedInstructions")}} :</h6>
-                        {{ item.testingTemplate.detailedInstructions }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Title")}} :</h6>
-                        {{ item.testingTemplate.title }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("frequency")}} :</h6>
-                        {{l( frequency[item.testingTemplate.frequency])}}
-                    </div>
+                        <div class="form-group">
+                            <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
+                            <textarea type="text" readonly rows="10" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="item.testingTemplate.detailedInstructions" name="DetailedInstructions"></textarea>
+                        </div>
 
-                    <div class="col-6 mb-3">
-                        <h6>({{l("DepartmentRiskControl")}}) {{l("Code")}} :</h6>
-                        {{item.departmentRiskControlCode}}
-                    </div>
+                        <div class="form-group">
+                            <label for="TestingTemplate_Title">{{l("Frequency")}} </label>
+                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" [(ngModel)]="item.testingTemplate.frequency" name="frequency" />
+                        </div>
 
-                </div>
+                        <div class="form-group">
+                            <label for="TestingTemplate_Title">Time to complete (Days) </label>
+                            <input type="number" readonly id="TestingTemplate_Time_To_Complete" class="form-control" [(ngModel)]="item.testingTemplate.daysToComplete" name="DaysToComplete" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TestingTemplate_Title">Sample Size</label>
+                            <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [(ngModel)]="item.testingTemplate.sampleSize" name="SampleSize" readonly />
+                        </div>
+
+                        <div class="form-group m-form__group">
+                            <label for="ExceptionTypeName">Select Default Exception Type</label>
+                            <div class="input-group">
+                                <input class="form-control" id="ExceptionTypeName" name="exceptionTypeName" [(ngModel)]="exceptionTypeName" type="text" disabled>
+                            </div>
+                        </div>
+
+
+                    </tab>
+                    <tab heading="Test Attributes">
+                        <div class="form-group">
+     
+                            <div>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>
+                                            Attribute Question(s)
+                                        </th>
+                                 
+                                    </tr>
+                                    <tr *ngFor="let x of item.attributes">
+                                        <td>{{x}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+
+                   
+                    </tab>
+                </tabset>
 
             </div>
             <div class="modal-footer">
