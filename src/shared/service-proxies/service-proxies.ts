@@ -5881,6 +5881,66 @@ export class ExceptionIncidentsServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getExceptionColumnsForIncident(id: number | undefined): Observable<GetExceptionTypeColumnsForEdit[]> {
+        let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/GetExceptionColumnsForIncident?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetExceptionColumnsForIncident(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetExceptionColumnsForIncident(<any>response_);
+                } catch (e) {
+                    return <Observable<GetExceptionTypeColumnsForEdit[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetExceptionTypeColumnsForEdit[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetExceptionColumnsForIncident(response: HttpResponseBase): Observable<GetExceptionTypeColumnsForEdit[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetExceptionTypeColumnsForEdit.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetExceptionTypeColumnsForEdit[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     delete(id: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/Delete?";
         if (id === null)
@@ -20960,9 +21020,11 @@ export class ExceptionIncidentDto implements IExceptionIncidentDto {
     closureDate!: moment.Moment | undefined;
     closureComments!: string | undefined;
     raisedByClosureComments!: string | undefined;
+    closedById!: number | undefined;
     exceptionTypeId!: number | undefined;
     raisedById!: number | undefined;
-    testingTemplateId!: number | undefined;
+    causedById!: number | undefined;
+    workingPaperId!: string | undefined;
     organizationUnitId!: number | undefined;
     id!: number;
 
@@ -20984,9 +21046,11 @@ export class ExceptionIncidentDto implements IExceptionIncidentDto {
             this.closureDate = data["closureDate"] ? moment(data["closureDate"].toString()) : <any>undefined;
             this.closureComments = data["closureComments"];
             this.raisedByClosureComments = data["raisedByClosureComments"];
+            this.closedById = data["closedById"];
             this.exceptionTypeId = data["exceptionTypeId"];
             this.raisedById = data["raisedById"];
-            this.testingTemplateId = data["testingTemplateId"];
+            this.causedById = data["causedById"];
+            this.workingPaperId = data["workingPaperId"];
             this.organizationUnitId = data["organizationUnitId"];
             this.id = data["id"];
         }
@@ -21008,9 +21072,11 @@ export class ExceptionIncidentDto implements IExceptionIncidentDto {
         data["closureDate"] = this.closureDate ? this.closureDate.toISOString() : <any>undefined;
         data["closureComments"] = this.closureComments;
         data["raisedByClosureComments"] = this.raisedByClosureComments;
+        data["closedById"] = this.closedById;
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["raisedById"] = this.raisedById;
-        data["testingTemplateId"] = this.testingTemplateId;
+        data["causedById"] = this.causedById;
+        data["workingPaperId"] = this.workingPaperId;
         data["organizationUnitId"] = this.organizationUnitId;
         data["id"] = this.id;
         return data; 
@@ -21025,9 +21091,11 @@ export interface IExceptionIncidentDto {
     closureDate: moment.Moment | undefined;
     closureComments: string | undefined;
     raisedByClosureComments: string | undefined;
+    closedById: number | undefined;
     exceptionTypeId: number | undefined;
     raisedById: number | undefined;
-    testingTemplateId: number | undefined;
+    causedById: number | undefined;
+    workingPaperId: string | undefined;
     organizationUnitId: number | undefined;
     id: number;
 }
@@ -21036,7 +21104,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
     exceptionIncident!: ExceptionIncidentDto;
     exceptionTypeName!: string | undefined;
     userName!: string | undefined;
-    testingTemplateCode!: string | undefined;
+    workingPaperCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
 
     constructor(data?: IGetExceptionIncidentForViewDto) {
@@ -21053,7 +21121,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
             this.exceptionIncident = data["exceptionIncident"] ? ExceptionIncidentDto.fromJS(data["exceptionIncident"]) : <any>undefined;
             this.exceptionTypeName = data["exceptionTypeName"];
             this.userName = data["userName"];
-            this.testingTemplateCode = data["testingTemplateCode"];
+            this.workingPaperCode = data["workingPaperCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
         }
     }
@@ -21070,7 +21138,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
         data["exceptionIncident"] = this.exceptionIncident ? this.exceptionIncident.toJSON() : <any>undefined;
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["userName"] = this.userName;
-        data["testingTemplateCode"] = this.testingTemplateCode;
+        data["workingPaperCode"] = this.workingPaperCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         return data; 
     }
@@ -21080,7 +21148,7 @@ export interface IGetExceptionIncidentForViewDto {
     exceptionIncident: ExceptionIncidentDto;
     exceptionTypeName: string | undefined;
     userName: string | undefined;
-    testingTemplateCode: string | undefined;
+    workingPaperCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
 }
 
@@ -21132,17 +21200,61 @@ export interface IPagedResultDtoOfGetExceptionIncidentForViewDto {
     items: GetExceptionIncidentForViewDto[] | undefined;
 }
 
+export class CreateOrEditExceptionIncidentColumnDto implements ICreateOrEditExceptionIncidentColumnDto {
+    exceptionIncidentId!: number | undefined;
+    exceptionTypeColumnId!: number | undefined;
+    value!: string | undefined;
+    id!: number;
+
+    constructor(data?: ICreateOrEditExceptionIncidentColumnDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.exceptionIncidentId = data["exceptionIncidentId"];
+            this.exceptionTypeColumnId = data["exceptionTypeColumnId"];
+            this.value = data["value"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditExceptionIncidentColumnDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditExceptionIncidentColumnDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exceptionIncidentId"] = this.exceptionIncidentId;
+        data["exceptionTypeColumnId"] = this.exceptionTypeColumnId;
+        data["value"] = this.value;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditExceptionIncidentColumnDto {
+    exceptionIncidentId: number | undefined;
+    exceptionTypeColumnId: number | undefined;
+    value: string | undefined;
+    id: number;
+}
+
 export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionIncidentDto {
-    code!: string | undefined;
     description!: string | undefined;
-    status!: Status;
-    closureDate!: moment.Moment | undefined;
-    closureComments!: string | undefined;
-    raisedByClosureComments!: string | undefined;
     exceptionTypeId!: number | undefined;
-    raisedById!: number | undefined;
-    testingTemplateId!: number | undefined;
+    causedById!: number | undefined;
+    workingPaperId!: string | undefined;
     organizationUnitId!: number | undefined;
+    incidentColumns!: CreateOrEditExceptionIncidentColumnDto[] | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditExceptionIncidentDto) {
@@ -21156,16 +21268,16 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
 
     init(data?: any) {
         if (data) {
-            this.code = data["code"];
             this.description = data["description"];
-            this.status = data["status"];
-            this.closureDate = data["closureDate"] ? moment(data["closureDate"].toString()) : <any>undefined;
-            this.closureComments = data["closureComments"];
-            this.raisedByClosureComments = data["raisedByClosureComments"];
             this.exceptionTypeId = data["exceptionTypeId"];
-            this.raisedById = data["raisedById"];
-            this.testingTemplateId = data["testingTemplateId"];
+            this.causedById = data["causedById"];
+            this.workingPaperId = data["workingPaperId"];
             this.organizationUnitId = data["organizationUnitId"];
+            if (Array.isArray(data["incidentColumns"])) {
+                this.incidentColumns = [] as any;
+                for (let item of data["incidentColumns"])
+                    this.incidentColumns!.push(CreateOrEditExceptionIncidentColumnDto.fromJS(item));
+            }
             this.id = data["id"];
         }
     }
@@ -21179,32 +21291,28 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
         data["description"] = this.description;
-        data["status"] = this.status;
-        data["closureDate"] = this.closureDate ? this.closureDate.toISOString() : <any>undefined;
-        data["closureComments"] = this.closureComments;
-        data["raisedByClosureComments"] = this.raisedByClosureComments;
         data["exceptionTypeId"] = this.exceptionTypeId;
-        data["raisedById"] = this.raisedById;
-        data["testingTemplateId"] = this.testingTemplateId;
+        data["causedById"] = this.causedById;
+        data["workingPaperId"] = this.workingPaperId;
         data["organizationUnitId"] = this.organizationUnitId;
+        if (Array.isArray(this.incidentColumns)) {
+            data["incidentColumns"] = [];
+            for (let item of this.incidentColumns)
+                data["incidentColumns"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ICreateOrEditExceptionIncidentDto {
-    code: string | undefined;
     description: string | undefined;
-    status: Status;
-    closureDate: moment.Moment | undefined;
-    closureComments: string | undefined;
-    raisedByClosureComments: string | undefined;
     exceptionTypeId: number | undefined;
-    raisedById: number | undefined;
-    testingTemplateId: number | undefined;
+    causedById: number | undefined;
+    workingPaperId: string | undefined;
     organizationUnitId: number | undefined;
+    incidentColumns: CreateOrEditExceptionIncidentColumnDto[] | undefined;
     id: number | undefined;
 }
 
@@ -21212,7 +21320,7 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
     exceptionIncident!: CreateOrEditExceptionIncidentDto;
     exceptionTypeName!: string | undefined;
     userName!: string | undefined;
-    testingTemplateCode!: string | undefined;
+    workingPaperCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
 
     constructor(data?: IGetExceptionIncidentForEditOutput) {
@@ -21229,7 +21337,7 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
             this.exceptionIncident = data["exceptionIncident"] ? CreateOrEditExceptionIncidentDto.fromJS(data["exceptionIncident"]) : <any>undefined;
             this.exceptionTypeName = data["exceptionTypeName"];
             this.userName = data["userName"];
-            this.testingTemplateCode = data["testingTemplateCode"];
+            this.workingPaperCode = data["workingPaperCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
         }
     }
@@ -21246,7 +21354,7 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
         data["exceptionIncident"] = this.exceptionIncident ? this.exceptionIncident.toJSON() : <any>undefined;
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["userName"] = this.userName;
-        data["testingTemplateCode"] = this.testingTemplateCode;
+        data["workingPaperCode"] = this.workingPaperCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         return data; 
     }
@@ -21256,8 +21364,64 @@ export interface IGetExceptionIncidentForEditOutput {
     exceptionIncident: CreateOrEditExceptionIncidentDto;
     exceptionTypeName: string | undefined;
     userName: string | undefined;
-    testingTemplateCode: string | undefined;
+    workingPaperCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
+}
+
+export class GetExceptionTypeColumnsForEdit implements IGetExceptionTypeColumnsForEdit {
+    name!: string | undefined;
+    id!: number;
+    maximum!: number | undefined;
+    dataFieldType!: string | undefined;
+    minimum!: number | undefined;
+    required!: boolean;
+
+    constructor(data?: IGetExceptionTypeColumnsForEdit) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+            this.maximum = data["maximum"];
+            this.dataFieldType = data["dataFieldType"];
+            this.minimum = data["minimum"];
+            this.required = data["required"];
+        }
+    }
+
+    static fromJS(data: any): GetExceptionTypeColumnsForEdit {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetExceptionTypeColumnsForEdit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        data["maximum"] = this.maximum;
+        data["dataFieldType"] = this.dataFieldType;
+        data["minimum"] = this.minimum;
+        data["required"] = this.required;
+        return data; 
+    }
+}
+
+export interface IGetExceptionTypeColumnsForEdit {
+    name: string | undefined;
+    id: number;
+    maximum: number | undefined;
+    dataFieldType: string | undefined;
+    minimum: number | undefined;
+    required: boolean;
 }
 
 export class ExceptionIncidentExceptionTypeLookupTableDto implements IExceptionIncidentExceptionTypeLookupTableDto {
@@ -21437,7 +21601,7 @@ export interface IPagedResultDtoOfExceptionIncidentUserLookupTableDto {
 }
 
 export class ExceptionIncidentTestingTemplateLookupTableDto implements IExceptionIncidentTestingTemplateLookupTableDto {
-    id!: number;
+    id!: string | undefined;
     displayName!: string | undefined;
 
     constructor(data?: IExceptionIncidentTestingTemplateLookupTableDto) {
@@ -21472,7 +21636,7 @@ export class ExceptionIncidentTestingTemplateLookupTableDto implements IExceptio
 }
 
 export interface IExceptionIncidentTestingTemplateLookupTableDto {
-    id: number;
+    id: string | undefined;
     displayName: string | undefined;
 }
 

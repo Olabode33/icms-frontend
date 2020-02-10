@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import {ExceptionIncidentsServiceProxy, ExceptionIncidentTestingTemplateLookupTableDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -19,7 +19,7 @@ export class ExceptionIncidentTestingTemplateLookupTableModalComponent extends A
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
     filterText = '';
-    id: number;
+    id: string;
     displayName: string;
     
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();

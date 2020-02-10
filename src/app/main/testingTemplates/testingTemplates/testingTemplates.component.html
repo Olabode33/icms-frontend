@@ -12,11 +12,11 @@
             </span>
         </div>
         <div class="kt-subheader__toolbar">
-            <div class="kt-subheader__wrapper">
+            <!--<div class="kt-subheader__wrapper">
 				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
                 <button *ngIf="isGranted('Pages.TestingTemplates.Create')" (click)="createTestingTemplate()" 
 			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewTestingTemplate")}}</button>
-            </div>
+            </div>-->
         </div>
       </div>
     </div>
@@ -100,18 +100,22 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TestingTemplates.Edit', 'Pages.TestingTemplates.Delete')">{{l('Actions')}}</th>
-                           
-                                    <th style="width: 150px" pSortableColumn="code">
+
+                                    <th style="width: 100px" pSortableColumn="code">
                                         {{l('Code')}}
                                         <p-sortIcon field="testingTemplate.code"></p-sortIcon>
                                     </th>
-                            
-                                    <th style="width: 150px" pSortableColumn="title">
+
+                                    <th style="width: 250px" pSortableColumn="title">
                                         {{l('Title')}}
                                         <p-sortIcon field="testingTemplate.title"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="frequency">
                                         {{l('Frequency')}}
+                                        <p-sortIcon field="testingTemplate.frequency"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 250px" pSortableColumn="frequency">
+                                       Affected Business Units
                                         <p-sortIcon field="testingTemplate.frequency"></p-sortIcon>
                                     </th>
 
@@ -121,20 +125,20 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.TestingTemplates.Edit', 'Pages.TestingTemplates.Delete')">
-                                       <div class="btn-group dropdown" dropdown container="body">
+                                        <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
-												<ul class="dropdown-menu"  *dropdownMenu>
-												<li>
-													<a href="javascript:;"
-														(click)="viewTestingTemplateModal.show(record)">{{l('View')}}</a>
-												</li>
-										
-												<li>
-											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
-														(click)="deleteTestingTemplate(record.testingTemplate)">{{l('Delete')}}</a>
-												</li>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="viewTestingTemplateModal.show(record)">{{l('View')}}</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
+                                                       (click)="deleteTestingTemplate(record.testingTemplate)">De-Activate</a>
+                                                </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="entityHistoryEnabled"
                                                        (click)="showHistory(record.testingTemplate)">{{l('History')}}</a>
@@ -142,20 +146,24 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Code')}}</span>
-											{{record.testingTemplate.code}}
-										</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Title')}}</span>
-											{{record.testingTemplate.title}}
-										</td>
-                                    <td style="width:150px">
-										<span class="ui-column-title"> {{l('Frequency')}}</span>
-										{{l( frequency[record.testingTemplate.frequency])}}
-                                    </td>
 
+                                    <td style="width:100px">
+                                        <span class="ui-column-title"> {{l('Code')}}</span>
+                                        {{record.testingTemplate.code}}
+                                    </td>
+                                    <td style="width:250px">
+                                        <span class="ui-column-title"> {{l('Title')}}</span>
+                                        {{record.testingTemplate.title}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Frequency')}}</span>
+                                        <span >{{record.testingTemplate.frequency}}</span>
+                                
+                                    </td>
+                                    <td style="width:250px">
+                                        <span class="ui-column-title">Units Affected</span>
+                                        {{record.affectedDepartments}} <span *ngIf="record.cascade">and all sub-departments.</span>
+                                    </td>
                                 </tr>
                             </ng-template>
                         </p-table>

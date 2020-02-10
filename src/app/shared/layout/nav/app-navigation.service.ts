@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -29,7 +29,7 @@ export class AppNavigationService {
             ]),
             new AppMenuItem('Exception Management', '', 'flaticon-warning', '', [
                 new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
-                new AppMenuItem('ExceptionIncidents', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
+                new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
             ]),
 
             //  new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
