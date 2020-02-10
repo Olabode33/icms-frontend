@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
@@ -29,6 +29,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
     @ViewChild('createOrEditDepartmentRiskControlModal', { static: true }) createOrEditDepartmentRiskControlModal: CreateOrEditDepartmentRiskControlModalComponent;
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
+    deptRisks: {risk: GetDepartmentRiskForViewDto, isActive: boolean}[] = new Array();
 
     constructor(
         injector: Injector,
@@ -73,11 +74,13 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         this._departmentRiskService.getRiskForDepartment('','','',
             this._organizationUnit.id,'',
             this.primengTableHelper.getSorting(this.dataTable),
-       
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.deptRisks = Array.from(new Set(result.items.map((i) => {
+                return {risk: i, isActive: false};
+            })));
             this.primengTableHelper.records = result.items;
             this.primengTableHelper.hideLoadingIndicator();
         });
@@ -131,5 +134,13 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         });
 
         this.refreshRisks();
+    }
+
+    toggleAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.deptRisks[index].isActive;
+        this.deptRisks = this.deptRisks.map(x => { x.isActive = false; return x; } );
+        this.deptRisks[index].isActive = !state;
     }
 }

@@ -5,11 +5,11 @@
             <div [class]="containerClass">
                 <div class="kt-subheader__main">
                     <h3 class="kt-subheader__title">
-                        <span>{{"OrganizationUnits" | localize}}</span>
+                        <span>{{"Business Units" | localize}}</span>
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <span class="kt-subheader__desc">
-                        {{"OrganizationUnitsHeaderInfo" | localize}}
+                        Manage users and risks for the different business units
                     </span>
                 </div>
             </div>
@@ -39,10 +39,10 @@
                                     <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)"
                                                              (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks>
                                 </tab>
-                                <tab heading="Controls">
+                                <!-- <tab heading="Controls">
                                     <organization-unit-controls #ouControls (controlsAdded)="ouTree.controlsAdded($event)"
                                                              (controlsRemoved)="ouTree.controlsRemoved($event)"></organization-unit-controls>
-                                </tab>
+                                </tab> -->
                             </tabset>
                         </div>
                     </div>
