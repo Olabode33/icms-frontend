@@ -1,7 +1,13 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
+import { CreateOrEditWorkingPaperNewModalComponent } from './workingPaperNews/workingPaperNews/create-or-edit-workingPaperNew-modal.component';
+import { WorkingPaperNewTestingTemplateLookupTableModalComponent } from './workingPaperNews/workingPaperNews/workingPaperNew-testingTemplate-lookup-table-modal.component';
+import { WorkingPaperNewOrganizationUnitLookupTableModalComponent } from './workingPaperNews/workingPaperNews/workingPaperNew-organizationUnit-lookup-table-modal.component';
+import { WorkingPaperNewUserLookupTableModalComponent } from './workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
+
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
 import { ViewExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/view-exceptionIncident-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
@@ -83,6 +89,11 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		WorkingPaperNewsComponent,
+		CreateOrEditWorkingPaperNewModalComponent,
+    WorkingPaperNewTestingTemplateLookupTableModalComponent,
+    WorkingPaperNewOrganizationUnitLookupTableModalComponent,
+    WorkingPaperNewUserLookupTableModalComponent,
         ViewOrganizationUnitComponent,
         HomeComponent,
         ExceptionIncidentsComponent,

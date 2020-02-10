@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
@@ -20,6 +21,7 @@ import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
             {
                 path: '',
                 children: [
+                    { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },
