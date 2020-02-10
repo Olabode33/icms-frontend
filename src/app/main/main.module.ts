@@ -57,6 +57,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { HomeComponent } from './home/home.component';
+import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -83,6 +84,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewOrganizationUnitComponent,
         HomeComponent,
         ExceptionIncidentsComponent,
         ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
@@ -94,17 +96,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ViewTestingTemplateModalComponent, CreateOrEditTestingTemplateModalComponent,
         TestingTemplateDepartmentRiskControlLookupTableModalComponent,
         DepartmentRiskControlsComponent,
-        //ViewDepartmentRiskControlModalComponent,		CreateOrEditDepartmentRiskControlModalComponent,
-        //  DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
-        //  DepartmentRiskControlControlLookupTableModalComponent,
         DepartmentRisksComponent,
         ViewDepartmentRiskModalComponent,
-
         DepartmentsComponent,
         ViewDepartmentModalComponent,
-        //CreateOrEditDepartmentModalComponent,
-        //DepartmentUserLookupTableModalComponent,
-        // DepartmentOrganizationUnitLookupTableModalComponent,
         DataListsComponent,
         ViewDataListModalComponent, CreateOrEditDataListModalComponent,
         ExceptionTypesComponent,

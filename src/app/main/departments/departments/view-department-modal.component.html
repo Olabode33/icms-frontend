@@ -12,38 +12,40 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="col-6 mb-3">
+                    <!-- <div class="col-6 mb-3">
                         <h6>{{l("Code")}} :</h6>
                         {{ item.department.code }}
-                    </div>
+                    </div> -->
                     <div class="col-6 mb-3">
                         <h6>{{l("Name")}} :</h6>
                         {{ item.department.name }}
                     </div>
-                    <div class="col-6 mb-3">
+                    <div class="col-12 mb-3">
                         <h6>{{l("Description")}} :</h6>
                         {{ item.department.description }}
                     </div>
                     <div class="col-6 mb-3">
                         <h6>{{l("IsAbstract")}} :</h6>
-                        {{ item.department.isAbstract }}
+                        <span *ngIf="item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                        <span *ngIf="!item.department.isAbstract" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>
                     </div>
                     <div class="col-6 mb-3">
                         <h6>{{l("IsControlTeam")}} :</h6>
-                        {{ item.department.isControlTeam }}
+                        <span *ngIf="item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-success">Yes</span>
+                        <span *ngIf="!item.department.isControlTeam" class="kt-badge kt-badge--brand kt-badge--inline bg-danger">No</span>
                     </div>
 
                     <div class="col-6 mb-3">
-                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
+                        <h6>Unit Head :</h6>
                         {{item.userName}}
                     </div>
                     <div class="col-6 mb-3">
-                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
+                        <h6>Control Officer :</h6>
                         {{item.userName2}}
                     </div>
                     <div class="col-6 mb-3">
-                        <h6>({{l("OrganizationUnit")}}) {{l("DisplayName")}} :</h6>
-                        {{item.organizationUnitDisplayName}}
+                        <h6>Supervising Unit:</h6>
+                        {{item.supervsingUnitDisplaName}}
                     </div>
 
                 </div>

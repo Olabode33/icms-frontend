@@ -28,6 +28,7 @@ export class ViewDepartmentModalComponent extends AppComponentBase {
 
     show(item: GetDepartmentForViewDto): void {
         this.item = item;
+
         this.active = true;
         this.modal.show();
     }

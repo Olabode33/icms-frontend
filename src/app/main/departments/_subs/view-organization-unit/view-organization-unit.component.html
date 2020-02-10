@@ -1,0 +1,92 @@
+<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span>{{l("Department")}}</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <span class="kt-subheader__desc">
+                        View department details
+                    </span>
+                </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button (click)="goBack()" class="btn btn-outline-danger">
+                            <i class="fa fa-reply"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Business Unit
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <div class="kt-widget13">
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc">
+                                        Name
+                                    </span>
+                                    <span class="kt-widget13__text kt-widget13__text--bold">
+                                        {{department.name}}
+                                    </span>
+                                </div>
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc kt-align-right">
+                                        Parent:
+                                    </span>
+                                    <span class="kt-widget13__text kt-widget13__text--bold">
+                                        {{organizationUnitDisplayName}}
+                                    </span>
+                                </div>
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc">
+                                        Description:
+                                    </span>
+                                    <span class="kt-widget13__text">
+                                        {{department.description}}
+                                    </span>
+                                </div>
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc">
+                                        Employee Amount:
+                                    </span>
+                                    <span class="kt-widget13__text kt-widget13__text--bold">
+                                        1,300
+                                    </span>
+                                </div>
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc">
+                                        Emal:
+                                    </span>
+                                    <span class="kt-widget13__text">
+                                        supporet@keenthemes.com
+                                    </span>
+                                </div>
+                                <div class="kt-widget13__item">
+                                    <span class="kt-widget13__desc">
+                                        Phone:
+                                    </span>
+                                    <span class="kt-widget13__text  kt-font-brand kt-widget13__text--bold">
+                                        (0) 123 456 78 90
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
