@@ -40,7 +40,7 @@ export class AppNavigationService {
 
             new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
            
-            new AppMenuItem('WorkingPaperNews', 'Pages.WorkingPaperNews', 'flaticon-more', '/app/main/workingPaperNews/workingPaperNews'),
+            new AppMenuItem('WorkingPaperNews', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
