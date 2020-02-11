@@ -1,4 +1,4 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExceptionIncidentsServiceProxy, ExceptionIncidentDto , Status } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
@@ -76,8 +76,9 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
+        
             this.primengTableHelper.records = result.items;
+            this.primengTableHelper.totalRecordsCount = result.items.length;
             this.primengTableHelper.hideLoadingIndicator();
         });
     }

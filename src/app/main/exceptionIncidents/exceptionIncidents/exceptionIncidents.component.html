@@ -16,7 +16,7 @@
                         <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
                         <button *ngIf="isGranted('Pages.ExceptionIncidents.Create')" (click)="createExceptionIncident()"
                                 class="btn btn-primary blue">
-                            <i class="fa fa-plus"></i> {{l("CreateNewExceptionIncident")}}
+                            <i class="fa fa-plus"></i> Log Exception
                         </button>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="OrganizationUnitDisplayNameFilter">({{l("OrganizationUnit")}}) {{l("DisplayName")}}</label>
+                                        <label for="OrganizationUnitDisplayNameFilter">Department {{l("DisplayName")}}</label>
                                         <input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter" name="organizationUnitDisplayNameFilter" [(ngModel)]="organizationUnitDisplayNameFilter">
                                     </div>
                                 </div>
@@ -165,18 +165,22 @@
                                                     <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                                 </button>
                                                 <ul class="dropdown-menu" *dropdownMenu>
-                                                    <li>
+                                                    <!--<li>
                                                         <a href="javascript:;"
                                                            (click)="viewExceptionIncidentModal.show(record)">{{l('View')}}</a>
+                                                    </li>-->
+                                                    <li>
+                                                        <a href="javascript:;" *ngIf="record.exceptionIncident.status == '0'"
+                                                           (click)="createOrEditExceptionIncidentModal.show(record.exceptionIncident.id)">Resolve</a>
                                                     </li>
                                                     <li>
-                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ExceptionIncidents.Edit')"
-                                                           (click)="createOrEditExceptionIncidentModal.show(record.exceptionIncident.id)">{{l('Edit')}}</a>
+                                                        <a href="javascript:;" *ngIf="record.exceptionIncident.status == '1'"
+                                                           (click)="createOrEditExceptionIncidentModal.show(record.exceptionIncident.id)">Close</a>
                                                     </li>
-                                                    <li>
-                                                        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ExceptionIncidents.Delete')"
-                                                           (click)="deleteExceptionIncident(record.exceptionIncident)">{{l('Delete')}}</a>
-                                                    </li>
+                                                    <!--<li>
+        <a href="javascript:;" *ngIf="permission.isGranted('Pages.ExceptionIncidents.Delete')"
+           (click)="deleteExceptionIncident(record.exceptionIncident)">{{l('Delete')}}</a>
+    </li>-->
                                                 </ul>
                                             </div>
                                         </td>
@@ -206,14 +210,20 @@
 
                                         <td style="width:100px">
                                             <span class="ui-column-title"> {{l('Status')}}</span>
-                                            <span *ngIf="record.exceptionIncident.status != '0'"
+                                            <span *ngIf="record.exceptionIncident.status == '0'"
                                                   class="kt-badge kt-badge--brand kt-badge--inline badge-danger"
                                                   data-placement="top">
                                                 {{l( status[record.exceptionIncident.status])}}
                                             </span>
 
-                                            <span *ngIf="record.exceptionIncident.status != '1'"
-                                                  class="kt-badge kt-badge--brand kt-badge--inline badge-success"
+                                            <span *ngIf="record.exceptionIncident.status == '1'"
+                                                  class="kt-badge kt-badge--brand kt-badge--inline kt-badge--warning"
+                                                  data-placement="top">
+                                                {{l( status[record.exceptionIncident.status])}}
+                                            </span>
+
+                                            <span *ngIf="record.exceptionIncident.status == '2'"
+                                                  class="kt-badge kt-badge--brand kt-badge--inline kt-badge--success"
                                                   data-placement="top">
                                                 {{l( status[record.exceptionIncident.status])}}
                                             </span>

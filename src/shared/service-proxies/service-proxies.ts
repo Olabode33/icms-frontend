@@ -5878,6 +5878,162 @@ export class ExceptionIncidentsServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    resolve(body: CreateOrEditExceptionIncidentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/Resolve";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processResolve(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processResolve(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processResolve(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    close(body: CreateOrEditExceptionIncidentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/Close";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processClose(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processClose(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processClose(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    reject(body: CreateOrEditExceptionIncidentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/Reject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processReject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processReject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processReject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -21525,7 +21681,8 @@ export interface IMoveTenantsToAnotherEditionDto {
 
 export enum Status {
     Open = 0,
-    Closed = 1,
+    Resolved = 1,
+    Closed = 2,
 }
 
 export class ExceptionIncidentDto implements IExceptionIncidentDto {
@@ -21622,6 +21779,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
     userName!: string | undefined;
     workingPaperCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
+    deptCode!: string | undefined;
 
     constructor(data?: IGetExceptionIncidentForViewDto) {
         if (data) {
@@ -21639,6 +21797,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
             this.userName = data["userName"];
             this.workingPaperCode = data["workingPaperCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.deptCode = data["deptCode"];
         }
     }
 
@@ -21656,6 +21815,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
         data["userName"] = this.userName;
         data["workingPaperCode"] = this.workingPaperCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["deptCode"] = this.deptCode;
         return data; 
     }
 }
@@ -21666,6 +21826,7 @@ export interface IGetExceptionIncidentForViewDto {
     userName: string | undefined;
     workingPaperCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
+    deptCode: string | undefined;
 }
 
 export class PagedResultDtoOfGetExceptionIncidentForViewDto implements IPagedResultDtoOfGetExceptionIncidentForViewDto {
@@ -21720,6 +21881,7 @@ export class CreateOrEditExceptionIncidentColumnDto implements ICreateOrEditExce
     exceptionIncidentId!: number | undefined;
     exceptionTypeColumnId!: number | undefined;
     value!: string | undefined;
+    name!: string | undefined;
     id!: number;
 
     constructor(data?: ICreateOrEditExceptionIncidentColumnDto) {
@@ -21736,6 +21898,7 @@ export class CreateOrEditExceptionIncidentColumnDto implements ICreateOrEditExce
             this.exceptionIncidentId = data["exceptionIncidentId"];
             this.exceptionTypeColumnId = data["exceptionTypeColumnId"];
             this.value = data["value"];
+            this.name = data["name"];
             this.id = data["id"];
         }
     }
@@ -21752,6 +21915,7 @@ export class CreateOrEditExceptionIncidentColumnDto implements ICreateOrEditExce
         data["exceptionIncidentId"] = this.exceptionIncidentId;
         data["exceptionTypeColumnId"] = this.exceptionTypeColumnId;
         data["value"] = this.value;
+        data["name"] = this.name;
         data["id"] = this.id;
         return data; 
     }
@@ -21761,6 +21925,7 @@ export interface ICreateOrEditExceptionIncidentColumnDto {
     exceptionIncidentId: number | undefined;
     exceptionTypeColumnId: number | undefined;
     value: string | undefined;
+    name: string | undefined;
     id: number;
 }
 
@@ -21771,6 +21936,11 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
     workingPaperId!: string | undefined;
     organizationUnitId!: number | undefined;
     incidentColumns!: CreateOrEditExceptionIncidentColumnDto[] | undefined;
+    status!: Status;
+    closureDate!: moment.Moment | undefined;
+    closureComments!: string | undefined;
+    resolutionDate!: moment.Moment | undefined;
+    resolutionComments!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditExceptionIncidentDto) {
@@ -21794,6 +21964,11 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
                 for (let item of data["incidentColumns"])
                     this.incidentColumns!.push(CreateOrEditExceptionIncidentColumnDto.fromJS(item));
             }
+            this.status = data["status"];
+            this.closureDate = data["closureDate"] ? moment(data["closureDate"].toString()) : <any>undefined;
+            this.closureComments = data["closureComments"];
+            this.resolutionDate = data["resolutionDate"] ? moment(data["resolutionDate"].toString()) : <any>undefined;
+            this.resolutionComments = data["resolutionComments"];
             this.id = data["id"];
         }
     }
@@ -21817,6 +21992,11 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
             for (let item of this.incidentColumns)
                 data["incidentColumns"].push(item.toJSON());
         }
+        data["status"] = this.status;
+        data["closureDate"] = this.closureDate ? this.closureDate.toISOString() : <any>undefined;
+        data["closureComments"] = this.closureComments;
+        data["resolutionDate"] = this.resolutionDate ? this.resolutionDate.toISOString() : <any>undefined;
+        data["resolutionComments"] = this.resolutionComments;
         data["id"] = this.id;
         return data; 
     }
@@ -21829,6 +22009,11 @@ export interface ICreateOrEditExceptionIncidentDto {
     workingPaperId: string | undefined;
     organizationUnitId: number | undefined;
     incidentColumns: CreateOrEditExceptionIncidentColumnDto[] | undefined;
+    status: Status;
+    closureDate: moment.Moment | undefined;
+    closureComments: string | undefined;
+    resolutionDate: moment.Moment | undefined;
+    resolutionComments: string | undefined;
     id: number | undefined;
 }
 

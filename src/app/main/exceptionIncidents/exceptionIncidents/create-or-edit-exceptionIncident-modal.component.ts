@@ -63,7 +63,17 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
                 this.userName = result.userName;
               
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
+                this.additionalColumns = [];
 
+                result.exceptionIncident.incidentColumns.forEach(x => {
+                    var item = {
+                        colId: x.id,
+                        value: x.value,
+                        name: x.name
+                    }
+
+                    this.additionalColumns.push(item);
+                });
                 this.active = true;
                 this.modal.show();
             });
@@ -77,7 +87,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this.additionalColumns.forEach(x => {
             var item = new CreateOrEditExceptionIncidentColumnDto();
             item.exceptionIncidentId = null;
-            item.exceptionTypeColumnId = x.id;
+            item.exceptionTypeColumnId = x.colId;
             item.value = x.value;
 
             this.exceptionIncident.incidentColumns.push(item);
@@ -87,10 +97,43 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             this._exceptionIncidentsServiceProxy.createOrEdit(this.exceptionIncident)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notify.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
+    }
+
+
+    resolve(): void {
+        this._exceptionIncidentsServiceProxy.resolve(this.exceptionIncident)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.notify.success(this.l('SavedSuccessfully'));
+                this.close();
+                this.modalSave.emit(null);
+            });
+    }
+
+
+    closeApprove(): void {
+        this._exceptionIncidentsServiceProxy.close(this.exceptionIncident)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.notify.success(this.l('SavedSuccessfully'));
+                this.close();
+                this.modalSave.emit(null);
+            });
+    }
+
+
+    reject(): void {
+        this._exceptionIncidentsServiceProxy.reject(this.exceptionIncident)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.notify.success(this.l('SavedSuccessfully'));
+                this.close();
+                this.modalSave.emit(null);
+            });
     }
 
     openSelectExceptionTypeModal() {
