@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
+import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
   selector: 'app-workingpaper',
   templateUrl: './workingpaper.component.html',
   styleUrls: ['./workingpaper.component.css']
 })
-export class WorkingpaperComponent implements OnInit {
+export class WorkingpaperComponent extends AppComponentBase implements OnInit {
 
-  constructor() { }
+  constructor(
+    private injector: Injector
+  ) {
+    super(injector);
+   }
 
   ngOnInit() {
   }
