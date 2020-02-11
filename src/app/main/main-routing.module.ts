@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
@@ -34,7 +34,7 @@ import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
                     { path: 'risks/risks', component: RisksComponent, data: { permission: 'Pages.Risks' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'home', component: HomeComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'home', component: HomeComponent, data: { permission: 'Pages.HomePage'} },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
             }

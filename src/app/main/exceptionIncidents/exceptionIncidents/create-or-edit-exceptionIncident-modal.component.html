@@ -4,7 +4,7 @@
             <form *ngIf="active" #exceptionIncidentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="exceptionIncident.id">{{l("EditExceptionIncident")}}</span>
+                        <span *ngIf="exceptionIncident.id">Resolve Exception</span>
                         <span *ngIf="!exceptionIncident.id">New Exception</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -14,14 +14,14 @@
                 <div class="modal-body">
 
                     <tabset>
-                        <tab heading="Basic">
+                        <tab heading="General">
                             <div class="form-group m-form__group">
                                 <label for="OrganizationUnitDisplayName">Select the Business Unit under review</label>
                                 <div class="input-group">
                                     <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>
-                                    <div class="input-group-append">
+                                    <div class="input-group-append" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                                    </div> <div class="input-group-prepend">
+                                    </div> <div class="input-group-prepend" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-danger btn-icon" type="button" (click)="setOrganizationUnitIdNull()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
@@ -34,9 +34,9 @@
                                 <label for="ExceptionTypeName">Select the exception type</label>
                                 <div class="input-group">
                                     <input class="form-control" id="ExceptionTypeName" name="exceptionTypeName" [(ngModel)]="exceptionTypeName" type="text" disabled>
-                                    <div class="input-group-append">
+                                    <div class="input-group-append" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-primary blue" (click)="openSelectExceptionTypeModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                                    </div> <div class="input-group-prepend">
+                                    </div> <div class="input-group-prepend" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-danger btn-icon" type="button" (click)="setExceptionTypeIdNull()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
@@ -47,9 +47,9 @@
                                 <label for="UserName">Select the staff that caused this exception</label>
                                 <div class="input-group">
                                     <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>
-                                    <div class="input-group-append">
+                                    <div class="input-group-append" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                                    </div> <div class="input-group-prepend">
+                                    </div> <div class="input-group-prepend" *ngIf="!exceptionIncident.id">
                                         <button class="btn btn-danger btn-icon" type="button" (click)="setCausedByIdNull()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
@@ -57,51 +57,60 @@
                             <input class="form-control" name="exceptionIncident.causedById" [(ngModel)]="exceptionIncident.causedById" type="text" hidden>
 
                             <!--<div class="form-group m-form__group">
-        <label for="TestingTemplateCode">{{l("TestingTemplate")}}</label>
-        <div class="input-group">
-            <input class="form-control" id="TestingTemplateCode" name="testingTemplateCode" [(ngModel)]="testingTemplateCode" type="text" disabled>
-            <div class="input-group-append">
-                <button class="btn btn-primary blue" (click)="openSelectTestingTemplateModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-            </div> <div class="input-group-prepend">
-                <button class="btn btn-danger btn-icon" type="button" (click)="setTestingTemplateIdNull()"><i class="fa fa-times"></i></button>
+                <label for="TestingTemplateCode">{{l("TestingTemplate")}}</label>
+                <div class="input-group">
+                    <input class="form-control" id="TestingTemplateCode" name="testingTemplateCode" [(ngModel)]="testingTemplateCode" type="text" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary blue" (click)="openSelectTestingTemplateModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                    </div> <div class="input-group-prepend">
+                        <button class="btn btn-danger btn-icon" type="button" (click)="setTestingTemplateIdNull()"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <input class="form-control" name="exceptionIncident.testingTemplateId" [(ngModel)]="exceptionIncident.testingTemplateId" type="text" hidden>-->
+            <input class="form-control" name="exceptionIncident.testingTemplateId" [(ngModel)]="exceptionIncident.testingTemplateId" type="text" hidden>-->
 
 
 
                             <div class="form-group">
                                 <label for="ExceptionIncident_Description">{{l("Description")}}</label>
-                                <textarea type="text" rows="10" id="ExceptionIncident_Description" class="form-control" [(ngModel)]="exceptionIncident.description" name="Description"></textarea>
+                                <textarea type="text" *ngIf="!exceptionIncident.id" rows="10" id="ExceptionIncident_Description" class="form-control" [(ngModel)]="exceptionIncident.description" name="Description"></textarea>
+                                <textarea type="text" readonly *ngIf="exceptionIncident.id" rows="10" id="ExceptionIncident_Description" class="form-control" [(ngModel)]="exceptionIncident.description" name="Description"></textarea>
                             </div>
 
 
                             <div class="form-group" *ngFor="let x of additionalColumns">
                                 <label for="ExceptionIncident_Description">{{x.name}}</label>
-                                <input type="date" *ngIf="x.dataFieldType=='Date'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                <input type="text" *ngIf="x.dataFieldType=='String'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                <input type="number" *ngIf="x.dataFieldType=='Number'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                
+                                <input type="date" *ngIf="x.dataFieldType=='Date' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                <input type="text" *ngIf="x.dataFieldType=='String' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                <input type="number" *ngIf="x.dataFieldType=='Number' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+
                             </div>
+                        </tab>
 
-
-
+                        <tab heading="Resolution" [hidden]="!exceptionIncident.id">
                             <div *ngIf="exceptionIncident.id" class="form-group">
-                                <label for="ExceptionIncident_ClosureComments">{{l("ClosureComments")}}</label>
-                                <input type="text" id="ExceptionIncident_ClosureComments" class="form-control" [(ngModel)]="exceptionIncident.closureComments" name="ClosureComments" />
+                                <label for="ExceptionIncident_ClosureComments">Comments</label>
+                                <textarea *ngIf="exceptionIncident.status ==0" type="text" id="ExceptionIncident_ClosureComments" class="form-control" [(ngModel)]="exceptionIncident.resolutionComments" name="resolutionComments"></textarea>
+                                <textarea *ngIf="exceptionIncident.status ==1" readonly type="text" id="ExceptionIncident_ClosureComments" class="form-control" [(ngModel)]="exceptionIncident.resolutionComments" name="resolutionComments"></textarea>
                             </div>
 
-                            <div class="form-group" *ngIf="exceptionIncident.id">
+                            <div class="form-group" *ngIf="exceptionIncident.status ==1">
                                 <label for="ExceptionIncident_RaisedByClosureComments">{{l("RaisedByClosureComments")}}</label>
                                 <textarea type="text" id="ExceptionIncident_RaisedByClosureComments" class="form-control" [(ngModel)]="exceptionIncident.raisedByClosureComments" name="RaisedByClosureComments"></textarea>
                             </div>
                         </tab>
                     </tabset>
+
+                  
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary blue" [disabled]="!exceptionIncidentForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                    <button *ngIf="exceptionIncident.status ==0 && exceptionIncident.id" (click)="resolve()" type="button" class="btn btn-success" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>Mark as resolved</span></button>
+                    <button *ngIf="exceptionIncident.status ==1 && exceptionIncident.id" (click)="reject()" type="button" class="btn btn-danger" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>Mark as rejected</span></button>
+                    <button *ngIf="exceptionIncident.status ==1 && exceptionIncident.id" (click)="closeApprove()" type="button" class="btn btn-success" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>Mark as closed</span></button>
+
+                    <button type="submit" *ngIf="!exceptionIncident.id" class="btn btn-primary blue" [disabled]="!exceptionIncidentForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
                 </div>
             </form>
         </div>
