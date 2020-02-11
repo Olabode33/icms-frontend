@@ -14,7 +14,7 @@
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
 				<button *ngIf="isGranted('Pages.WorkingPaperNews.Create')" (click)="createWorkingPaperNew()" 
-			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewWorkingPaperNew")}}</button>
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> New Working Paper</button>
             </div>
         </div>
       </div>
@@ -145,6 +145,14 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Edit', 'Pages.WorkingPaperNews.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="code">
+                                        {{l('Code')}}
+                                        <p-sortIcon field="workingPaperNew.code"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="taskDate">
+                                        {{l('TaskDate')}}
+                                        <p-sortIcon field="workingPaperNew.taskDate"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="testingTemplateFk.code">
                                         {{l('Code')}}
                                         <p-sortIcon field="testingTemplateCode"></p-sortIcon>
@@ -157,42 +165,17 @@
                                         {{l('Name')}}
                                         <p-sortIcon field="userName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="reviewedUserFk.name">
-                                        {{l('Name')}}
-                                        <p-sortIcon field="userName2"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="code">
-                                        {{l('Code')}}
-                                        <p-sortIcon field="workingPaperNew.code"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="comment">
-                                        {{l('Comment')}}
-                                        <p-sortIcon field="workingPaperNew.comment"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="taskDate">
-                                        {{l('TaskDate')}}
-                                        <p-sortIcon field="workingPaperNew.taskDate"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="dueDate">
-                                        {{l('DueDate')}}
-                                        <p-sortIcon field="workingPaperNew.dueDate"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="taskStatus">
-                                        {{l('TaskStatus')}}
-                                        <p-sortIcon field="workingPaperNew.taskStatus"></p-sortIcon>
-                                    </th>
                                     <th style="width: 150px" pSortableColumn="score">
                                         {{l('Score')}}
                                         <p-sortIcon field="workingPaperNew.score"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="reviewDate">
-                                        {{l('ReviewDate')}}
-                                        <p-sortIcon field="workingPaperNew.reviewDate"></p-sortIcon>
+
+                                    <th style="width: 150px" pSortableColumn="taskStatus">
+                                        {{l('TaskStatus')}}
+                                        <p-sortIcon field="workingPaperNew.taskStatus"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="completionDate">
-                                        {{l('CompletionDate')}}
-                                        <p-sortIcon field="workingPaperNew.completionDate"></p-sortIcon>
-                                    </th>
+
+                         
 
                                 </tr>
                             </ng-template>                           
@@ -200,82 +183,58 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Edit', 'Pages.WorkingPaperNews.Delete')">
-                                       <div class="btn-group dropdown" dropdown container="body">
+                                        <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
-												<ul class="dropdown-menu"  *dropdownMenu>
+                                            <ul class="dropdown-menu" *dropdownMenu>
 
-												<li>
-													<a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
-														(click)="createOrEditWorkingPaperNewModal.show(record.workingPaperNew.id)">{{l('Edit')}}</a>
-												</li>
-												<li>
-											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete')"
-														(click)="deleteWorkingPaperNew(record.workingPaperNew)">{{l('Delete')}}</a>
-												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
+                                                       (click)="createOrEditWorkingPaperNewModal.show(record.workingPaperNew.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete')"
+                                                       (click)="deleteWorkingPaperNew(record.workingPaperNew)">{{l('Delete')}}</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td style="width:150px">
-												<span class="ui-column-title"> {{l('Code')}}</span>
-												{{record.testingTemplateCode}}
-											</td>
+                                        <span class="ui-column-title"> {{l('Code')}}</span>
+                                        {{record.workingPaperNew.code}}
+                                    </td>
                                     <td style="width:150px">
-												<span class="ui-column-title"> {{l('DisplayName')}}</span>
-												{{record.organizationUnitDisplayName}}
-											</td>
-                                    <td style="width:150px">
-												<span class="ui-column-title"> {{l('Name')}}</span>
-												{{record.userName}}
-											</td>
-                                    <td style="width:150px">
-												<span class="ui-column-title"> {{l('Name')}}</span>
-												{{record.userName2}}
-											</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Code')}}</span>
-											{{record.workingPaperNew.code}}
-										</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Comment')}}</span>
-											{{record.workingPaperNew.comment}}
-										</td>
-                                    <td style="width:150px">
-										<span class="ui-column-title"> {{l('TaskDate')}}</span>
+                                        <span class="ui-column-title"> {{l('TaskDate')}}</span>
                                         <span *ngIf="record.workingPaperNew.taskDate">
-											{{record.workingPaperNew.taskDate | momentFormat:'L'}}
+                                            {{record.workingPaperNew.taskDate | momentFormat:'L'}}
                                         </span>
                                         <span *ngIf="!record.workingPaperNew.taskDate">-</span>
                                     </td>
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('DueDate')}}</span>
-                                        <span *ngIf="record.workingPaperNew.dueDate">
-											{{record.workingPaperNew.dueDate | momentFormat:'L'}}
-                                        </span>
-                                        <span *ngIf="!record.workingPaperNew.dueDate">-</span>
+                                        <span class="ui-column-title"> {{l('Code')}}</span>
+                                        {{record.testingTemplateCode}}
                                     </td>
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('TaskStatus')}}</span>
-										{{l( taskStatus[record.workingPaperNew.taskStatus])}}
+                                        <span class="ui-column-title"> {{l('DisplayName')}}</span>
+                                        {{record.organizationUnitDisplayName}}
                                     </td>
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('Score')}}</span>
-											{{record.workingPaperNew.score}}
-										</td>
-                                    <td style="width:150px">
-										<span class="ui-column-title"> {{l('ReviewDate')}}</span>
-                                        <span *ngIf="record.workingPaperNew.reviewDate">
-											{{record.workingPaperNew.reviewDate | momentFormat:'L'}}
-                                        </span>
-                                        <span *ngIf="!record.workingPaperNew.reviewDate">-</span>
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.userName}}
                                     </td>
+                         
+                               
+                           
+                                    
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('CompletionDate')}}</span>
-                                        <span *ngIf="record.workingPaperNew.completionDate">
-											{{record.workingPaperNew.completionDate | momentFormat:'L'}}
-                                        </span>
-                                        <span *ngIf="!record.workingPaperNew.completionDate">-</span>
+                                        <span class="ui-column-title"> {{l('Score')}}</span>
+                                        {{record.workingPaperNew.score}}
+                                    </td>
+                       
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('TaskStatus')}}</span>
+                                        {{l( taskStatus[record.workingPaperNew.taskStatus])}}
                                     </td>
 
                                 </tr>
