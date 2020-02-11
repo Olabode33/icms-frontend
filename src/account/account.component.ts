@@ -61,6 +61,7 @@ export class AccountComponent extends AppComponentBase implements OnInit {
     }
 
     useFullWidthLayout(): boolean {
+        return true;
         return this._router.url.indexOf('/account/select-edition') >= 0;
     }
 

@@ -64,7 +64,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
             //this.refreshRisks();
             this.getOrganizationUnitRisksNew();
         }
-        //this._isViewOnly = false;
+        this._isViewOnly = false;
     }
 
     set isViewOnly(viewOnly: boolean) {

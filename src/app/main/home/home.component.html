@@ -48,7 +48,7 @@
                                                 <a class="kt-link" href="#">100</a>
                                             </h3>
                                             <div class="kt-iconbox__content">
-                                               <b>Approved</b> 
+                                                <b>Approved</b>
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                                 <a class="kt-link" href="javascript;">120,000</a>
                                             </h3>
                                             <div class="kt-iconbox__content">
-                                               <b>Open</b>
+                                                <b>Open</b>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                                 <div class="kt-portlet__body">
                                     <div class="kt-iconbox__body">
                                         <div class="kt-iconbox__icon">
-                                         <!--    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                            <!--    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <rect x="0" y="0" width="24" height="24"/>
                                                     <circle fill="#000000" opacity="0.3" cx="20.5" cy="12.5" r="1.5"/>
@@ -109,14 +109,14 @@
                                             </svg>-->
 
                                             <i style="font-size:3em; color:red;" class="fas fa-window-close"></i>
-                                        </div> 
+                                        </div>
                                         <i class="fa-check-circle"></i>
                                         <div class="kt-iconbox__desc">
                                             <h3 class="kt-iconbox__title">
                                                 <a class="kt-link" href="javascript;">80,000</a>
                                             </h3>
                                             <div class="kt-iconbox__content">
-                                               <b>Rejected</b>
+                                                <b>Rejected</b>
                                             </div>
                                         </div>
                                     </div>
@@ -124,235 +124,93 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
-                        <div class="col-xl-12">
-                            <!--begin:: Widgets/User Progress -->
+                        <div class="col-lg-3" *ngFor="let item of workingpapers">
                             <div class="kt-portlet kt-portlet--height-fluid">
-                                <!-- <div class="kt-portlet__head">
+                                <div class="kt-portlet__head kt-portlet__head--noborder">
                                     <div class="kt-portlet__head-label">
                                         <h3 class="kt-portlet__head-title">
-                                            User Progress
+
                                         </h3>
                                     </div>
-                                    <div class="kt-portlet__head-toolbar">
-                                        <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold"
-                                            role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab"
-                                                    href="#kt_widget31_tab1_content" role="tab">
-                                                    Today
+                                </div>
+                                <div class="kt-portlet__body">
+                                    <!--begin::Widget -->
+                                    <div class="kt-widget kt-widget--user-profile-2">
+                                        <div class="kt-widget__head">
+                                            <!-- <div class="kt-widget__media">
+                                                <div
+                                                    class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-hidden-">
+                                                    ChS
+                                                </div>
+                                            </div> -->
+
+                                            <div class="kt-widget__info" style="padding-left: 0">
+                                                <a href="javascript;"
+                                                    class="kt-widget__username kt-hidden-">
+                                                    {{item.businessUnit}}
                                                 </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#kt_widget31_tab2_content"
-                                                    role="tab">
-                                                    Week
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-                                <div class="kt-portlet__body" style="height: 50vh;">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="kt_widget31_tab1_content">
-                                            <div class="kt-widget31">
 
-
-<div class="row">
-    <!-- <div *ngFor="let wp of workingpapers" class="card mb-3" style="max-width: 18rem;">
-        <div class="card-header">wp.Code</div>
-        <div class="card-body">
-          <h5 class="card-title">wp.Score</h5>
-          <p class="card-text">wp.TestingTemplateData</p>
-        </div>
-      </div> -->
-
-
-      <div *ngFor="let wp of workingpapers" class="card mb-3" style="max-width: 18rem; margin:10px;">
-        <div class="card-header" style="color:#000">{{wp.Code}}</div>
-        <div class="card-body">
-          <h5 class="card-title">{{wp.Score}}</h5>
-          <p class="card-text">{{wp.TestingTemplateData}}</p>
-          <button class="btn btn-primary" style="width:100%;" (click)="OpenDetails(wp.Id)"><i class="fa fa-open"></i> Detail</button>
-        </div>
-      </div>
-
-      
-</div>
-
+                                                <span class="kt-widget__desc">
+                                                    <div class="kt-widget__button">
+                                                        <span class="btn btn-label-warning btn-sm">
+                                                            {{item.TaskStatus}}
+                                                        </span>                                    
+                                                    </div>
+                                                </span>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="kt_widget31_tab2_content">
-                                            <div class="kt-widget31">
-                                                <div class="kt-widget31__item">
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__pic kt-widget4__pic--pic">
-                                                            <img src="/metronic/themes/metronic/theme/default/demo1/dist/assets/media/users/100_11.jpg"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="kt-widget31__info">
-                                                            <a href="#" class="kt-widget31__username">
-                                                                Nick Bold
-                                                            </a>
-                                                            <p class="kt-widget31__text">
-                                                                Web Developer, Facebook Inc
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__progress">
-                                                            <a href="#" class="kt-widget31__stats">
-                                                                <span>13%</span>
-                                                                <span>London</span>
-                                                            </a>
-                                                            <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-info" role="progressbar"
-                                                                    style="width: 35%" aria-valuenow="35"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn-label-brand btn btn-sm btn-bold">Follow</a>
-                                                    </div>
+
+                                        <div class="kt-widget__body">
+                                            <div class="kt-widget__section">
+                                                {{item.TestingTemplateData}}
+                                            </div>
+
+                                            <div class="kt-widget__item">
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">Task Date:</span>
+                                                    <a href="javascript;"
+                                                        class="kt-widget__data">11 Feb 2020</a>
                                                 </div>
-
-                                                <div class="kt-widget31__item">
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__pic kt-widget4__pic--pic">
-                                                            <img src="/metronic/themes/metronic/theme/default/demo1/dist/assets/media/users/100_1.jpg"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="kt-widget31__info">
-                                                            <a href="#" class="kt-widget31__username">
-                                                                Wiltor Delton
-                                                            </a>
-                                                            <p class="kt-widget31__text">
-                                                                Project Manager, Amazon Inc
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__progress">
-                                                            <div class="kt-widget31__stats">
-                                                                <span>93%</span>
-                                                                <span>New York</span>
-                                                            </div>
-                                                            <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-danger" role="progressbar"
-                                                                    style="width: 45%" aria-valuenow="45"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn-label-brand btn btn-sm btn-bold">Follow</a>
-                                                    </div>
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">Due Date:</span>
+                                                    <span class="kt-widget__data">21 Feb 2020</span>
                                                 </div>
-
-                                                <div class="kt-widget31__item">
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__pic">
-                                                            <img src="/metronic/themes/metronic/theme/default/demo1/dist/assets/media/users/100_14.jpg"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="kt-widget31__info">
-                                                            <a href="#" class="kt-widget31__username">
-                                                                Milano Esco
-                                                            </a>
-                                                            <p class="kt-widget31__text">
-                                                                Product Designer, Apple Inc
-                                                            </p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__progress">
-                                                            <a href="#" class="kt-widget31__stats">
-                                                                <span>33%</span>
-                                                                <span>Paris</span>
-                                                            </a>
-                                                            <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-warning" role="progressbar"
-                                                                    style="width: 55%" aria-valuenow="55"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn-label-brand btn btn-sm btn-bold">Follow</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="kt-widget31__item">
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__pic">
-                                                            <img src="/metronic/themes/metronic/theme/default/demo1/dist/assets/media/users/100_6.jpg"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="kt-widget31__info">
-                                                            <a href="#" class="kt-widget31__username">
-                                                                Sam Stone
-                                                            </a>
-                                                            <p class="kt-widget31__text">
-                                                                Project Manager, Kilpo Inc
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__progress">
-                                                            <div class="kt-widget31__stats">
-                                                                <span>50%</span>
-                                                                <span>New York</span>
-                                                            </div>
-                                                            <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-success" role="progressbar"
-                                                                    style="width: 65%" aria-valuenow="65"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn-label-brand btn btn-sm btn-bold">Follow</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="kt-widget31__item">
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__pic">
-                                                            <img src="/metronic/themes/metronic/theme/default/demo1/dist/assets/media/users/100_4.jpg"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="kt-widget31__info">
-                                                            <a href="#" class="kt-widget31__username">
-                                                                Anna Strong
-                                                            </a>
-                                                            <p class="kt-widget31__text">
-                                                                Visual Designer,Google Inc
-                                                            </p>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="kt-widget31__content">
-                                                        <div class="kt-widget31__progress">
-                                                            <a href="#" class="kt-widget31__stats">
-                                                                <span>63%</span>
-                                                                <span>London</span>
-                                                            </a>
-                                                            <div class="progress progress-sm">
-                                                                <div class="progress-bar bg-brand" role="progressbar"
-                                                                    style="width: 75%" aria-valuenow="75"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <a href="#"
-                                                            class="btn-label-brand btn btn-sm btn-bold">Follow</a>
-                                                    </div>
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">Score:</span>
+                                                    <a href="javascript;" class="kt-widget__data">
+                                                        {{item.Score}}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="kt-widget__footer">
+                                            <button type="button" class="btn btn-label-primary btn-lg btn-upper" (click)="OpenDetails(item.Id)">
+                                                View
+                                            </button>
+                                        </div>
                                     </div>
+                                    <!--end::Widget -->
                                 </div>
                             </div>
-                            <!--end:: Widgets/User Progress -->
                         </div>
+
+
+                        <!-- <div *ngFor="let wp of workingpapers" class="card mb-3"
+                            style="max-width: 18rem; margin:10px;">
+                            <div class="card-header" style="color:#000">{{wp.Code}}</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{wp.Score}}</h5>
+                                <p class="card-text">{{wp.TestingTemplateData}}</p>
+                                <button class="btn btn-primary" style="width:100%;"
+                                    (click)="OpenDetails(wp.Id)"><i class="fa fa-open"></i>
+                                    Detail</button>
+                            </div>
+                        </div> -->
+
+
                     </div>
                 </div>
                 <!--End:: App Content-->
