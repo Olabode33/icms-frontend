@@ -1,7 +1,7 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { WorkingPaperNewsServiceProxy, CreateOrEditWorkingPaperNewDto } from '@shared/service-proxies/service-proxies';
+import { WorkingPaperNewsServiceProxy, CreateOrEditWorkingPaperNewDto, CreateOrEditTestingAttributeDto,TestingTemplateDto, TestingTemplatesServiceProxy, GetTestingTemplateForViewDto, RiskDto, ControlDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { WorkingPaperNewTestingTemplateLookupTableModalComponent } from './workingPaperNew-testingTemplate-lookup-table-modal.component';
@@ -24,9 +24,12 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
 
     active = false;
     saving = false;
+    samples = [];
 
     workingPaperNew: CreateOrEditWorkingPaperNewDto = new CreateOrEditWorkingPaperNewDto();
+    testingTemplate: GetTestingTemplateForViewDto = new GetTestingTemplateForViewDto();
 
+    sampleId = 1;
     completionDate: Date;
     testingTemplateCode = '';
     organizationUnitDisplayName = '';
@@ -36,7 +39,8 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
 
     constructor(
         injector: Injector,
-        private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy
+        private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
+        private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
     ) {
         super(injector);
     }
@@ -54,6 +58,11 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
             this.organizationUnitDisplayName = '';
             this.userName = '';
             this.userName2 = '';
+
+            this.testingTemplate.testingTemplate = new TestingTemplateDto();
+            this.testingTemplate.attributes = [];
+            this.testingTemplate.risk = new RiskDto();
+            this.testingTemplate.control = new ControlDto();
 
             this.active = true;
             this.modal.show();
@@ -90,6 +99,24 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
         else {
             this.workingPaperNew.completionDate = null;
         }
+
+
+        console.log(this.samples);
+        this.workingPaperNew.attributes = [];
+
+        this.samples.forEach(x => {
+            var item = new CreateOrEditTestingAttributeDto();
+
+            x.attributes.forEach(y => {
+                item.sequence = x.sampleId;
+                item.attributeText = y.name;
+                item.result = y.value == "false" ? false : true;
+                item.testingAttrributeId = y.id;
+                this.workingPaperNew.attributes.push(item);
+            });          
+        });
+
+
             this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
@@ -142,6 +169,8 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
     getNewTestingTemplateId() {
         this.workingPaperNew.testingTemplateId = this.workingPaperNewTestingTemplateLookupTableModal.id;
         this.testingTemplateCode = this.workingPaperNewTestingTemplateLookupTableModal.displayName;
+
+        this.getTemplateDetails();
     }
     getNewOrganizationUnitId() {
         this.workingPaperNew.organizationUnitId = this.workingPaperNewOrganizationUnitLookupTableModal.id;
@@ -161,4 +190,61 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
         this.active = false;
         this.modal.hide();
     }
+
+      attributes = [];
+
+    getTemplateDetails(): void {
+
+        this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.testingTemplate = result;
+                this.attributes = [];
+                this.samples = [];
+
+
+                this.testingTemplate.attributes.forEach(x => {
+                    var item = {
+                        id: x.testingAttrributeId,
+                        name: x.attributeText,
+                        value: "false"
+                    };
+                    this.attributes.push(item);
+                });
+
+            });
+
+       
+    }
+
+
+    addResult(): void {
+        var item = {
+            sampleId: this.sampleId,
+            attributes: this.attributes
+        };
+
+        this.samples.push(item);
+
+        this.attributes = [];
+        if (this.sampleId < this.testingTemplate.testingTemplate.sampleSize) {
+
+            this.testingTemplate.attributes.forEach(x => {
+                var item = {
+                    id: x.testingAttrributeId,
+                    name: x.attributeText,
+                    value: "false"
+                };
+                this.attributes.push(item);
+            });
+            this.sampleId++;
+        }
+        else {
+            this.save();
+        }
+
+    }
+
+
+
 }
