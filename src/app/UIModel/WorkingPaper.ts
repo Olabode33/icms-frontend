@@ -1,7 +1,8 @@
-export interface WorkingPaper{
-    Id:number,
-    Score:number,
-    TestingTemplateData:string,
-    Code:string,
-    TaskStatus:string
+export interface WorkingPaper {
+    Id: number;
+    Score: number;
+    businessUnit: string;
+    TestingTemplateData: string;
+    Code: string;
+    TaskStatus: string;
 }

@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class HomeComponent extends AppComponentBase implements OnInit {
 
 
-    workingpapers= [];
+    workingpapers: WorkingPaper[] = new Array();
 
     constructor(private r: Router,
         injector: Injector,
@@ -25,37 +25,74 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
     ngOnInit() {
 
-        
-        let itm1 :WorkingPaper={
-            Id:1,
-            Score:18,
-            TestingTemplateData:'Apply resolution to incidence',
-            Code:'8945869', TaskStatus:'Pending'
-                    };
-            
-                    let itm2 :WorkingPaper={
-                        Id:2,
-                        Score:9,
-                        TestingTemplateData:'Minify risk spreading',
-                        Code:'6986594', TaskStatus:'Pending'
-                                };
-                                let itm3 :WorkingPaper={
-                                    Id:3,
-                                    Score:6,
-                                    TestingTemplateData:'Quarantine affected machines',
-                                    Code:'657543', TaskStatus:'Pending'
-                                            };
-                    
-                    this.workingpapers.push(itm1);
-                    this.workingpapers.push(itm2);
-                    this.workingpapers.push(itm3);
 
+        let itm1: WorkingPaper = {
+            Id: 1,
+            Score: 18,
+            TestingTemplateData: 'Apply resolution to incidence',
+            businessUnit: 'Allen Avenue Branch',
+            Code: '8945869',
+            TaskStatus: 'Pending'
+        };
+
+        let itm2: WorkingPaper = {
+            Id: 2,
+            Score: 9,
+            TestingTemplateData: 'Minify risk spreading',
+            businessUnit: 'Allen Avenue Branch',
+            Code: '6986594',
+            TaskStatus: 'Pending'
+        };
+        let itm3: WorkingPaper = {
+            Id: 3,
+            Score: 6,
+            TestingTemplateData: 'Quarantine affected machines',
+            businessUnit: 'Maryland Branch',
+            Code: '657543',
+            TaskStatus: 'Pending'
+        };
+
+        this.workingpapers.push(itm1);
+        this.workingpapers.push(itm2);
+        this.workingpapers.push(itm3);
+        this.workingpapers.push({
+            Id: 2,
+            Score: 9,
+            TestingTemplateData: 'Minify risk spreading',
+            businessUnit: 'Maryland Branch',
+            Code: '6986594',
+            TaskStatus: 'Pending'
+        });
+        this.workingpapers.push({
+            Id: 1,
+            Score: 18,
+            TestingTemplateData: 'Apply resolution to incidence',
+            businessUnit: 'Maryland Branch',
+            Code: '8945869',
+            TaskStatus: 'Pending'
+        });
+        this.workingpapers.push({
+            Id: 2,
+            Score: 9,
+            TestingTemplateData: 'Minify risk spreading',
+            businessUnit: 'MM2 Branch',
+            Code: '6986594',
+            TaskStatus: 'Pending'
+        });
+        this.workingpapers.push({
+            Id: 1,
+            Score: 18,
+            TestingTemplateData: 'Apply resolution to incidence',
+            businessUnit: 'MM2 Branch',
+            Code: '8945869',
+            TaskStatus: 'Pending'
+        });
     }
 
 
 
-    OpenDetails(id:number) {
-        this.r.navigateByUrl('app/main/workpaperdetail')
-      }
+    OpenDetails(id: number) {
+        this.r.navigateByUrl('app/main/workpaperdetail');
+    }
 
 }
