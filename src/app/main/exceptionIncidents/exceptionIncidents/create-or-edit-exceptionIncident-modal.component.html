@@ -80,7 +80,7 @@
 
                             <div class="form-group" *ngFor="let x of additionalColumns">
                                 <label for="ExceptionIncident_Description">{{x.name}}</label>
-                                <input type="date" *ngIf="x.dataFieldType=='Date' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                <input type="date" *ngIf="x.dataFieldType=='Bool' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
                                 <input type="text" *ngIf="x.dataFieldType=='String' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
                                 <input type="number" *ngIf="x.dataFieldType=='Number' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
                                 <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />

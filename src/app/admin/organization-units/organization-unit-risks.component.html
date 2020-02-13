@@ -77,7 +77,7 @@
                                             <td style="width: 30%;">
                                                 <div class="btn-group m-btn-group m-btn-group--pill" dropdown container="body" *ngIf="_organizationUnit.id == control.departmentRiskControl.departmentId && !isViewOnly">
                                                     <button type="button" class="btn btn-primary btn-sm" *ngIf="_organizationUnit.id == control.departmentRiskControl.departmentId"
-                                                        (click)="addControlToRisk(item.risk.departmentRisk.id, item.risk.departmentRisk.departmentId)">
+                                                        (click)="createTestingTemplate(control.departmentRiskControl.id)">
                                                         <i class="fa fa-plus"></i> Add Testing Template
                                                     </button>
                                                     <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split" dropdownToggle>
@@ -195,3 +195,5 @@
 </createOrEditDepartmentRiskModal>
 <createOrEditDepartmentRiskControlModal #createOrEditDepartmentRiskControlModal>
 </createOrEditDepartmentRiskControlModal>
+
+<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal ></createOrEditTestingTemplateModal>
