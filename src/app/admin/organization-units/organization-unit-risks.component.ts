@@ -169,7 +169,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         let state = this.deptRisks[index].isActive;
         this.deptRisks = this.deptRisks.map(x => { x.isActive = false; return x; } );
         this.deptRisks[index].isActive = !state;
-        this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.departmentRisk.deptCode);
+        this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.departmentRisk.id);
     }
 
     //Risk Control Codes ......
@@ -177,13 +177,13 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         this.createOrEditTestingTemplateModal.show(id);
     }
 
-    getOrganizationUnitRiskControl(riskCode) {
+    getOrganizationUnitRiskControl(riskId) {
         this.loadingControls = true;
         this._departmentRiskControlService.getAllForDepartment('', -1,
-            this._organizationUnit.id, riskCode, '', '', 0, 1000
+            this._organizationUnit.id, '', '', '', 0, 1000
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.riskControls = result.items;
+            this.riskControls = result.items.filter(x => x.departmentRiskControl.departmentRiskId == riskId);
             this.loadingControls = false;
         });
     }

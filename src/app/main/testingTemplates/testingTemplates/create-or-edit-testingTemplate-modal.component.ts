@@ -24,7 +24,8 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     attributes = [];
     attributeQuestion = '';
     exceptionTypeId: number;
-
+    availableWeight = 100;
+    weight = 100;
 
     testingTemplate: CreateOrEditTestingTemplateDto = new CreateOrEditTestingTemplateDto();
 
@@ -64,13 +65,19 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             return;
         }
 
+
+        if (this.availableWeight != 0) {
+            this.notify.error("Please ensure the sum of the weight across all attributes is equal to 0.");
+            return;
+        }
+
         this.testingTemplate.attributes = [];
 
         this.attributes.forEach(x => {
             var item = new CreateorEditTestTemplateDetailsDto();
 
             item.testAttribute = x.name;
-
+            item.weight = x.weight;
             this.testingTemplate.attributes.push(item);
         })
 
@@ -84,12 +91,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
              });
     }
 
-    //openSelectDepartmentRiskControlModal() {
-    //    this.testingTemplateDepartmentRiskControlLookupTableModal.id = this.testingTemplate.departmentRiskControlId;
-    //    this.testingTemplateDepartmentRiskControlLookupTableModal.displayName = this.departmentRiskControlCode;
-    //    this.testingTemplateDepartmentRiskControlLookupTableModal.show();
-    //}
-
+ 
 
     setDepartmentRiskControlIdNull() {
         this.testingTemplate.departmentRiskControlId = null;
@@ -97,10 +99,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     }
 
 
-    //getNewDepartmentRiskControlId() {
-    //    this.testingTemplate.departmentRiskControlId = this.testingTemplateDepartmentRiskControlLookupTableModal.id;
-    //    this.departmentRiskControlCode = this.testingTemplateDepartmentRiskControlLookupTableModal.displayName;
-    //}
+
 
 
     close(): void {
@@ -110,28 +109,43 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
 
 
     addAttribute(): void {
+
+        if (this.availableWeight == 0) {
+            this.notify.warn("The sum of all weights is equal to 0, please remove or re-allocate the weights.");
+            return;
+        }
+
         if (this.attributes.find(x => x.name == this.attributeQuestion) != undefined) {
-            this.notify.info("This attribute has been added already.");
+            this.notify.warn("This attribute has been added already.");
             return;
         }
 
         if (this.attributeQuestion == '') {
-            this.notify.info("The attribute can not be blank.");
+            this.notify.warn("The attribute can not be blank.");
             return;
         }
 
         if (this.exceptionTypeId != null) {
-            this.notify.info("Select an exception type.");
+            this.notify.warn("Select an exception type.");
+            return;
+        }
+
+
+        if (this.weight > this.availableWeight) {
+            this.notify.warn("This weight can not be more than " + this.availableWeight.toString() + ".");
             return;
         }
 
 
         var item = {
-            name: this.attributeQuestion
+            name: this.attributeQuestion,
+            weight: this.weight
         };
 
         this.attributes.push(item);
         this.attributeQuestion = '';
+        this.availableWeight -= this.weight;
+        this.weight = this.availableWeight;
     }
 
 
@@ -148,8 +162,10 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
 
 
     removeColumn(item: any): void {
-        var index = this.attributes.findIndex(x => x == item);
+        var index = this.attributes.findIndex(x => x.name == item.name);
+        this.availableWeight += this.attributes[index].weight;
         this.attributes.splice(index, 1);
+        
     }
 
 }

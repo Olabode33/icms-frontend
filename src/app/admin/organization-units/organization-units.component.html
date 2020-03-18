@@ -29,20 +29,20 @@
                             </div>
                         </div>
                         <div class="kt-portlet__body">
-                            <tabset class="tab-container">
-
-                                <tab heading="{{'Members' | localize}}" [active]="true">
+                            <tabset class="tab-container" >
+                                <tab heading="Risks" [active]="true">
+                                    <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" 
+                                                             (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks>
+                                </tab>
+                                <tab heading="{{'Members' | localize}}" >
                                     <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)"
                                                                (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
                                 </tab>
-                                <tab heading="Risks">
-                                    <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)"
-                                                             (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks>
-                                </tab>
+
                                 <!-- <tab heading="Controls">
-                                    <organization-unit-controls #ouControls (controlsAdded)="ouTree.controlsAdded($event)"
-                                                             (controlsRemoved)="ouTree.controlsRemoved($event)"></organization-unit-controls>
-                                </tab> -->
+        <organization-unit-controls #ouControls (controlsAdded)="ouTree.controlsAdded($event)"
+                                 (controlsRemoved)="ouTree.controlsRemoved($event)"></organization-unit-controls>
+    </tab> -->
                             </tabset>
                         </div>
                     </div>

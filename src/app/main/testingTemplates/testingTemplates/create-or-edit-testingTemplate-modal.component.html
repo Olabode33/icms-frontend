@@ -83,11 +83,24 @@
                         <tab heading="Test Attributes">
                             <div class="form-group">
                                 <label for="AttributeQuestion">Add Attribute Question</label>
-                                <div class="input-group">
+                                <div>
                                     <input type="text" id="AttributeQuestion" class="form-control" [(ngModel)]="attributeQuestion" name="AttributeQuestion" />
-                                    <button class="btn btn-success green" (click)="addAttribute()" type="button"><i class="fa fa-plus"></i> Add</button>
-
+                                 
                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Weight">Weight</label>
+                                <div>
+                                    <input type="number" id="Weight" min="0" max="availableWeight" class="form-control" [(ngModel)]="weight" name="Weight" />
+                                  
+                                </div>
+                            </div>
+
+                            <hr />
+                            <div>
+                                <button class="btn btn-success green" (click)="addAttribute()" type="button"><i class="fa fa-plus"></i> Add</button>
+
                             </div>
 
                             <br />
@@ -103,12 +116,16 @@
                                             Attribute Question(s)
                                         </th>
                                         <th>
+                                            Weight
+                                        </th>
+                                        <th>
                                             Exception Type
                                         </th>
                                         <th></th>
                                     </tr>
                                     <tr *ngFor="let item of attributes">
                                         <td>{{item.name}}</td>
+                                        <td><input type="number" class="form-control" /></td>
                                         <td>{{item.exceptionTypeName}}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm btn-icon"

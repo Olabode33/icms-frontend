@@ -100,14 +100,13 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
             this.workingPaperNew.completionDate = null;
         }
 
-
-        console.log(this.samples);
         this.workingPaperNew.attributes = [];
 
         this.samples.forEach(x => {
-            var item = new CreateOrEditTestingAttributeDto();
-
+           
+            console.log(x.attributes);
             x.attributes.forEach(y => {
+                var item = new CreateOrEditTestingAttributeDto();
                 item.sequence = x.sampleId;
                 item.attributeText = y.name;
                 item.result = y.value == "false" ? false : true;
@@ -116,7 +115,7 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
             });          
         });
 
-
+ 
             this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
@@ -225,6 +224,7 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
         };
 
         this.samples.push(item);
+    
 
         this.attributes = [];
         if (this.sampleId < this.testingTemplate.testingTemplate.sampleSize) {
