@@ -188,7 +188,10 @@
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-
+                                                <li>
+                                                    <a href="javascript:;" 
+                                                       (click)="view(record.workingPaperNew.id)">{{l('View')}}</a>
+                                                </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
                                                        (click)="createOrEditWorkingPaperNewModal.show(record.workingPaperNew.id)">{{l('Edit')}}</a>

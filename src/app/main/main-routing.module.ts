@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
 import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTemplate/view-testingTemplate.component';
+import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/view-workingPaper.component';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTem
                 path: '',
                 children: [
                     { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
+                    { path: 'workingPaperNews/:workingPaperId', component: ViewWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'testingTemplates/:testingTemplateId', component: ViewTestingTemplateComponent, data: { permission: 'Pages.TestingTemplates' }  },

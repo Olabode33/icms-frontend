@@ -64,6 +64,7 @@ import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
 import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTemplate/view-testingTemplate.component';
+import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/view-workingPaper.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -90,6 +91,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        ViewWorkingPaperComponent,
         ViewTestingTemplateComponent,
 
         WorkingPaperNewsComponent,
