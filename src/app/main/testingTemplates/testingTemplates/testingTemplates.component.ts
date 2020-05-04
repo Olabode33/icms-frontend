@@ -1,5 +1,5 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TestingTemplatesServiceProxy, TestingTemplateDto , Frequency } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -45,7 +45,8 @@ export class TestingTemplatesComponent extends AppComponentBase {
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -124,5 +125,9 @@ export class TestingTemplatesComponent extends AppComponentBase {
         .subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
          });
+    }
+
+    view(id: number): void {
+        this._router.navigate(['app/main/testingTemplates', id ]);
     }
 }

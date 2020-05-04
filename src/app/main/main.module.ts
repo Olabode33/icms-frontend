@@ -63,6 +63,7 @@ import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bo
 import { HomeComponent } from './home/home.component';
 import { ViewOrganizationUnitComponent } from './departments/_subs/view-organization-unit/view-organization-unit.component';
 import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
+import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTemplate/view-testingTemplate.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -89,16 +90,18 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		WorkingPaperNewsComponent,
-		CreateOrEditWorkingPaperNewModalComponent,
-    WorkingPaperNewTestingTemplateLookupTableModalComponent,
-    WorkingPaperNewOrganizationUnitLookupTableModalComponent,
-    WorkingPaperNewUserLookupTableModalComponent,
+        ViewTestingTemplateComponent,
+
+        WorkingPaperNewsComponent,
+        CreateOrEditWorkingPaperNewModalComponent,
+        WorkingPaperNewTestingTemplateLookupTableModalComponent,
+        WorkingPaperNewOrganizationUnitLookupTableModalComponent,
+        WorkingPaperNewUserLookupTableModalComponent,
         ViewOrganizationUnitComponent,
         HomeComponent,
         ExceptionIncidentsComponent,
         ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
-        
+
         ExceptionIncidentUserLookupTableModalComponent,
         ExceptionIncidentTestingTemplateLookupTableModalComponent,
         ExceptionIncidentOrganizationUnitLookupTableModalComponent,
