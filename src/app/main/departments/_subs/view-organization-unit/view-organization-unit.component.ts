@@ -24,6 +24,9 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     organizationUnitDisplayName = '';
     supervisingTeamtDisplayName = '';
 
+    lastReview: {name: string, date: string, status: string, score: number}[] = new Array();
+    fakeExceptions: {type: string, by: string, date: string, severity: string, state: string, status: string}[] = new Array();
+
     constructor(
         injector: Injector,
         private _location: Location,
@@ -33,6 +36,102 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         private _activatedRoute: ActivatedRoute,
     ) {
         super(injector);
+        this.lastReview = [
+            {
+                name: 'Apply resolution to incidence',
+                date: 'May 5, 2020',
+                status: 'Pending Review',
+                score: 0.88
+            },
+            {
+                name: 'Minify risk spreading',
+                date: 'May 4, 2020',
+                status: 'Approved',
+                score: 0.91
+            },
+            {
+                name: 'Quarantine affected machines',
+                date: 'April 30, 2020',
+                status: 'Approved',
+                score: 0.78
+            },
+            {
+                name: 'Additional security arrangements exist ',
+                date: 'April 29, 2020',
+                status: 'Approved',
+                score: 0.62
+            },
+            {
+                name: 'Call over of transactions posted on Finacle',
+                date: 'April 27, 2020',
+                status: 'Approved',
+                score: 0.92
+            },
+            {
+                name: 'Biometric verification',
+                date: 'April 27, 2020',
+                status: 'Approved',
+                score: 0.8
+            },
+        ];
+        this.fakeExceptions = [
+            {
+                type: 'Amount on ticket does not match',
+                by: 'Adekunle Cranel',
+                date: 'May 5, 2020',
+                severity: 'High',
+                state: 'Pending Resolution',
+                status: 'Open'
+            },
+            {
+                type: 'Income leakage',
+                by: 'Fadugba Ogunusi',
+                date: 'May 3, 2020',
+                severity: 'High',
+                state: 'Escalated',
+                status: 'Open'
+            },
+            {
+                type: 'CCTV not working',
+                by: 'James Olukayode',
+                date: 'May 3, 2020',
+                severity: 'Low',
+                state: 'Pending Closure',
+                status: 'Open'
+            },
+            {
+                type: 'Transaction fees not collected',
+                by: 'Adekunle Cranel',
+                date: 'May 2, 2020',
+                severity: 'Medium',
+                state: 'Pending Closure',
+                status: 'Open'
+            },
+            {
+                type: 'Inappropriate Access to Assets',
+                by: 'Babalola Ayobami',
+                date: 'May 1, 2020',
+                severity: 'High',
+                state: 'Closed',
+                status: 'Closed'
+            },
+            {
+                type: 'Control Override',
+                by: 'Chukwuma Emeka',
+                date: 'May 1, 2020',
+                severity: 'Low',
+                state: 'Closed',
+                status: 'Closed'
+            },
+            {
+                type: 'Amount on ticket does not match',
+                by: 'Fatima Abdul',
+                date: 'May 1, 2020',
+                severity: 'Medium',
+                state: 'Closed',
+                status: 'Closed'
+            },
+        ];
     }
 
     ngOnInit() {

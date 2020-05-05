@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { OnInit, Component, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { HtmlHelper } from '@shared/helpers/HtmlHelper';
@@ -57,7 +58,8 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private _arrayToTreeConverterService: ArrayToTreeConverterService,
-        private _treeDataHelperService: TreeDataHelperService
+        private _treeDataHelperService: TreeDataHelperService,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -183,7 +185,8 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 disabled: !canManageOrganizationTree,
                 command: (event) => {
                     console.log(this.selectedOu);
-                    this.viewDepartmentModal.show(null, this.selectedOu.data.id);
+                    this.view(this.selectedOu.data.id);
+                    //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
                 }
             },
             {
@@ -257,6 +260,10 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
 
     unitCreated(): void {
         this.getTreeDataFromServer();
+    }
+
+    view(id: number): void {
+        this._router.navigate(['app/main/departments/view', id ]);
     }
 
     deleteUnit(id) {

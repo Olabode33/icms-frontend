@@ -22,68 +22,230 @@
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-9">
                     <div class="kt-portlet kt-portlet--height-fluid">
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    Business Unit
+                                    Basic Information
                                 </h3>
                             </div>
                         </div>
                         <div class="kt-portlet__body">
-                            <div class="kt-widget13">
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc">
-                                        Name
-                                    </span>
-                                    <span class="kt-widget13__text kt-widget13__text--bold">
-                                        {{department.name}}
-                                    </span>
+                            <div class="form-group">
+                                <label for="Department_Name">{{l("Name")}}</label>
+                                <input type="text" id="Department_Name" class="form-control" [(ngModel)]="department.name" name="Name" />
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="UserName">Unit Head</label>
+                                    <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" >
                                 </div>
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc kt-align-right">
-                                        Parent:
-                                    </span>
-                                    <span class="kt-widget13__text kt-widget13__text--bold">
-                                        {{organizationUnitDisplayName}}
-                                    </span>
+                                <div class="form-group col-md-6">
+                                    <label for="UserName">Control Officer</label>
+                                    <input class="form-control" id="cUserName" name="cuserName" value="Deb Madgwick" type="text" >
                                 </div>
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc">
-                                        Description:
-                                    </span>
-                                    <span class="kt-widget13__text">
-                                        {{department.description}}
-                                    </span>
+                            </div>
+
+                            <div class="form-group m-form__group" *ngIf="!department.isControlTeam">
+                                <label for="OrganizationUnitDisplayName">Control Team</label>
+                                <input class="form-control" id="cOrganizationUnitDisplayName" name="cOrganizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="kt-portlet kt-iconbox kt-iconbox--wave">
+                        <div class="kt-portlet__body">
+                            <div class="kt-iconbox__body">
+                                <div class="kt-iconbox__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+                                            <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                        </g>
+                                    </svg>					
                                 </div>
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc">
-                                        Employee Amount:
-                                    </span>
-                                    <span class="kt-widget13__text kt-widget13__text--bold">
-                                        1,300
-                                    </span>
-                                </div>
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc">
-                                        Emal:
-                                    </span>
-                                    <span class="kt-widget13__text">
-                                        supporet@keenthemes.com
-                                    </span>
-                                </div>
-                                <div class="kt-widget13__item">
-                                    <span class="kt-widget13__desc">
-                                        Phone:
-                                    </span>
-                                    <span class="kt-widget13__text  kt-font-brand kt-widget13__text--bold">
-                                        (0) 123 456 78 90
-                                    </span>
+                                <div class="kt-iconbox__desc">
+                                    <h3 class="kt-iconbox__title">
+                                        <a class="kt-link" href="javascript:void(0)">B+</a>
+                                    </h3>
+                                    <div class="kt-iconbox__content">
+                                        Rating
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__body">
+                    <tabset>
+                        <tab heading="Last Review">
+                            <div class="kt-widget11">
+                                <div class="table-responsive">					 
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td style="width:55%">Application</td>
+                                                <td style="width:15%;">Review Date</td>
+                                                <td style="width:15%">Status</td>
+                                                <td style="width:15%">Score</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of lastReview">
+                                                <td>{{item.name}}</td>
+                                                <td>{{item.date}}</td>
+                                                <td>
+                                                    <span class="kt-badge kt-badge--inline kt-badge--{{item.status == 'Pending Review' ? 'warning' : 'success'}}">
+                                                        {{item.status}}
+                                                    </span>
+                                                </td>
+                                                <td class="kt-font-brand kt-font-bold">
+                                                    {{item.score | percent: '1.0-0'}}
+                                                </td>
+                                            </tr>
+                                        </tbody>									     
+                                    </table>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Exceptions">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="kt-portlet kt-iconbox kt-iconbox--success kt-iconbox--wave">
+                                        <div class="kt-portlet__body">
+                                            <div class="kt-iconbox__body">
+                                                <div class="kt-iconbox__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
+                                                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
+                                                            <rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1"/>
+                                                        </g>
+                                                    </svg>				
+                                                </div>
+                                                <div class="kt-iconbox__desc">
+                                                    <h3 class="kt-iconbox__title">
+                                                        <a class="kt-link" href="javascript:void(0)">45</a>
+                                                    </h3>
+                                                    <div class="kt-iconbox__content">
+                                                        Open
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="kt-portlet kt-iconbox kt-iconbox--danger kt-iconbox--wave">
+                                        <div class="kt-portlet__body">
+                                            <div class="kt-iconbox__body">
+                                                <div class="kt-iconbox__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
+                                                            <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
+                                                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
+                                                        </g>
+                                                    </svg>			
+                                                </div>
+                                                <div class="kt-iconbox__desc">
+                                                    <h3 class="kt-iconbox__title">
+                                                        <a class="kt-link" href="javascript:void(0)">92</a>
+                                                    </h3>
+                                                    <div class="kt-iconbox__content">
+                                                        Closed
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="kt-portlet kt-iconbox kt-iconbox--warning kt-iconbox--wave">
+                                        <div class="kt-portlet__body">
+                                            <div class="kt-iconbox__body">
+                                                <div class="kt-iconbox__icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect x="0" y="0" width="24" height="24"/>
+                                                            <rect fill="#000000" opacity="0.3" x="4" y="4" width="8" height="16"/>
+                                                            <path d="M6,18 L9,18 C9.66666667,18.1143819 10,18.4477153 10,19 C10,19.5522847 9.66666667,19.8856181 9,20 L4,20 L4,15 C4,14.3333333 4.33333333,14 5,14 C5.66666667,14 6,14.3333333 6,15 L6,18 Z M18,18 L18,15 C18.1143819,14.3333333 18.4477153,14 19,14 C19.5522847,14 19.8856181,14.3333333 20,15 L20,20 L15,20 C14.3333333,20 14,19.6666667 14,19 C14,18.3333333 14.3333333,18 15,18 L18,18 Z M18,6 L15,6 C14.3333333,5.88561808 14,5.55228475 14,5 C14,4.44771525 14.3333333,4.11438192 15,4 L20,4 L20,9 C20,9.66666667 19.6666667,10 19,10 C18.3333333,10 18,9.66666667 18,9 L18,6 Z M6,6 L6,9 C5.88561808,9.66666667 5.55228475,10 5,10 C4.44771525,10 4.11438192,9.66666667 4,9 L4,4 L9,4 C9.66666667,4 10,4.33333333 10,5 C10,5.66666667 9.66666667,6 9,6 L6,6 Z" fill="#000000" fill-rule="nonzero"/>
+                                                        </g>
+                                                    </svg>				
+                                                </div>
+                                                <div class="kt-iconbox__desc">
+                                                    <h3 class="kt-iconbox__title">
+                                                        <a class="kt-link" href="javascript:void(0)">9</a>
+                                                    </h3>
+                                                    <div class="kt-iconbox__content">
+                                                        Pending
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-widget11">
+                                <div class="table-responsive">					 
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td style="width:40%">Type</td>
+                                                <td style="width:15%">Date</td>
+                                                <td style="width:15%">Severity</td>
+                                                <td style="width:15%">State</td>
+                                                <td style="width:15%">Status</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of fakeExceptions">
+                                                <td>
+                                                    <a href="javascript:void(0);" class="kt-widget11__title">
+                                                        {{item.type}}
+                                                    </a>
+                                                    <span class="kt-widget11__sub">Raised by: {{item.by}} </span>
+                                                </td>
+                                                <td>{{item.date}}</td>
+                                                <td>
+                                                    <span class="kt-badge kt-badge--inline kt-badge--{{item.severity == 'High' ? 'danger' : (item.severity == 'Low' ? 'success' : 'warning')}}">
+                                                        {{item.severity}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="kt-badge kt-badge--inline kt-badge--{{item.state == 'Closed' ? 'success' : (item.state == 'Escalated' ? 'danger' : 'warning')}}">
+                                                        {{item.state}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="kt-badge kt-badge--inline kt-badge--{{item.status == 'Open' ? 'warning' : 'success'}}">
+                                                        {{item.status}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>									     
+                                    </table>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Processes">
+        
+                        </tab>
+                    </tabset>
                 </div>
             </div>
         </div>
