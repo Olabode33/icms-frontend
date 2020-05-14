@@ -1,6 +1,6 @@
 {
-  "remoteServiceBaseUrl": "http://localhost:22742",
-  "appBaseUrl": "http://localhost:4200",
+  "remoteServiceBaseUrl": "https://icms-api.pwcng-rpa.com",
+  "appBaseUrl": "https://icms.pwcng-rpa.com",
   "localeMappings": {
     "angular": [
       {
