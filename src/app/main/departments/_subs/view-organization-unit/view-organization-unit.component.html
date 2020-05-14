@@ -91,7 +91,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <td style="width:55%">Application</td>
+                                                <td style="width:55%">Working Paper</td>
                                                 <td style="width:15%;">Review Date</td>
                                                 <td style="width:15%">Status</td>
                                                 <td style="width:15%">Score</td>
@@ -99,7 +99,12 @@
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let item of lastReview">
-                                                <td>{{item.name}}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" class="kt-widget11__title">
+                                                        {{item.name}}
+                                                    </a>
+                                                    <span class="kt-widget11__sub">Reviewed by: {{item.by}} </span>
+                                                </td>
                                                 <td>{{item.date}}</td>
                                                 <td>
                                                     <span class="kt-badge kt-badge--inline kt-badge--{{item.status == 'Pending Review' ? 'warning' : 'success'}}">

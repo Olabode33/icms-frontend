@@ -190,6 +190,15 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 }
             },
             {
+                label: this.l('Auditor'),
+                disabled: !canManageOrganizationTree,
+                command: (event) => {
+                    console.log(this.selectedOu);
+                    this.auditor(this.selectedOu.data.id);
+                    //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
+                }
+            },
+            {
                 label: this.l('Edit'),
                 disabled: !canManageOrganizationTree,
                 command: (event) => {
@@ -264,6 +273,10 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
 
     view(id: number): void {
         this._router.navigate(['app/main/departments/view', id ]);
+    }
+
+    auditor(id: number): void {
+        this._router.navigate(['app/main/auditor/view', id ]);
     }
 
     deleteUnit(id) {

@@ -16,6 +16,7 @@ import { ViewOrganizationUnitComponent } from './departments/_subs/view-organiza
 import { WorkingpaperComponent } from './workingpaper/workingpaper.component';
 import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTemplate/view-testingTemplate.component';
 import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/view-workingPaper.component';
+import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-auditor.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/
                     { path: 'departmentRisks/departmentRisks', component: DepartmentRisksComponent, data: { permission: 'Pages.DepartmentRisks' }  },
                     { path: 'departments/departments', component: DepartmentsComponent, data: { permission: 'Pages.Departments' }  },
                     { path: 'departments/view/:departmentId', component: ViewOrganizationUnitComponent, data: { permission: 'Pages.Departments' }  },
+                    { path: 'auditor/view/:departmentId', component: ViewAuditorComponent, data: { permission: 'Pages.Departments' }  },
                     { path: 'dataLists/dataLists', component: DataListsComponent, data: { permission: 'Pages.DataLists' }  },
                     { path: 'exceptionTypes/exceptionTypes', component: ExceptionTypesComponent, data: { permission: 'Pages.ExceptionTypes' }  },
                     { path: 'controls/controls', component: ControlsComponent, data: { permission: 'Pages.Controls' }  },

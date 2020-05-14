@@ -1,21 +1,20 @@
-import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto } from './../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { Location } from '@angular/common';
-import { DepartmentsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditDepartmentDto, DepartmentsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Location } from '@angular/common';
+import * as shape from 'd3-shape';
 
 @Component({
-    selector: 'app-view-organization-unit',
-    templateUrl: './view-organization-unit.component.html',
-    styleUrls: ['./view-organization-unit.component.css'],
+    selector: 'app-view-auditor',
+    templateUrl: './view-auditor.component.html',
+    styleUrls: ['./view-auditor.component.css'],
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class ViewOrganizationUnitComponent extends AppComponentBase implements OnInit {
+export class ViewAuditorComponent extends AppComponentBase implements OnInit {
 
     _organizationUnitId = -1;
     department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
@@ -24,8 +23,73 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     organizationUnitDisplayName = '';
     supervisingTeamtDisplayName = '';
 
-    lastReview: {name: string, by: string, date: string, status: string, score: number}[] = new Array();
-    fakeExceptions: {type: string, by: string, date: string, severity: string, state: string, status: string}[] = new Array();
+    lastReview: { name: string, by: string, date: string, status: string, score: number }[] = new Array();
+    fakeExceptions: { type: string, by: string, date: string, severity: string, state: string, status: string }[] = new Array();
+
+    colorScheme = {
+        domain: ['#f44336', '#4CAF50', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    };
+
+    // options
+    legend = true;
+    showLabels = true;
+    animations = true;
+    xAxis = true;
+    yAxis = false;
+    showYAxisLabel = false;
+    showXAxisLabel = true;
+    xAxisLabel = true;
+    yAxisLabel = true;
+    view: any[] = [700, 500];
+    closedCurve: any = shape.curveLinearClosed;
+    labelTrim = false;
+    showGridLines = true;
+    rangeFillOpacity = 0.7;
+
+    explodeSlices = true;
+    doughnut = true;
+    arcWidth = 0.25;
+
+    multi = [
+        {
+            'name': '',
+            'series': [
+                {
+                    'name': 'Quality',
+                    'value': '90'
+                },
+                {
+                    'name': 'Timeliness',
+                    'value': '75'
+                },
+                {
+                    'name': 'Accuracy',
+                    'value': '60'
+                },
+                {
+                    'name': 'Auditee feedback',
+                    'value': '83'
+                },
+                {
+                    'name': 'Reviewer feedback',
+                    'value': '79'
+                }
+            ]
+        }
+
+
+    ];
+
+    deliveryEffectiveness = [
+        {
+            'name': 'Not on-time',
+            'value': 99
+        },
+        {
+            'name': 'On-time',
+            'value': 200
+        }
+    ];
 
     constructor(
         injector: Injector,
@@ -38,21 +102,21 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         super(injector);
         this.lastReview = [
             {
-                name: 'Apply resolution to incidence',
+                name: 'Completed review - Apply resolution to incidence',
                 by: 'Adekunle Cranel',
                 date: 'May 5, 2020',
-                status: 'Pending Review',
+                status: 'N/A',
                 score: 0.88
             },
             {
-                name: 'Minify risk spreading',
+                name: 'Resolved exception - Amount on ticket does not match',
                 by: 'Fadugba Ogunusi',
                 date: 'May 4, 2020',
                 status: 'Approved',
                 score: 0.91
             },
             {
-                name: 'Quarantine affected machines',
+                name: 'Completed review - Quarantine affected machines',
                 by: 'James Olukayode',
                 date: 'April 30, 2020',
                 status: 'Approved',
@@ -141,10 +205,6 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     }
 
     ngOnInit() {
-        this._activatedRoute.paramMap.subscribe(params => {
-            this._organizationUnitId = +params.get('departmentId');
-            this.getDepartmentDetails();
-        });
     }
 
     getDepartmentDetails(): void {

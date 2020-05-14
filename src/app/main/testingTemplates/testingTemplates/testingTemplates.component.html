@@ -134,6 +134,10 @@
                                                     <a href="javascript:;"
                                                        (click)="view(record.testingTemplate.id)">{{l('View')}}</a>
                                                 </li>
+                                                <li>
+                                                    <a href="javascript:;"
+                                                       (click)="createOrEditTestingTemplateModal.show(record.testingTemplate.id)">{{l('Edit')}}</a>
+                                                </li>
 
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
