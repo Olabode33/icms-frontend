@@ -89,6 +89,14 @@ import { DropdownModule } from 'primeng/dropdown';
 // Metronic
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { PermissionTreeModalComponent } from './shared/permission-tree-modal.component';
+import { ProcessTreeComponent } from './processes/process-tree/process-tree.component';
+import { ProcessComponent } from './processes/process/process.component';
+import { ProcessUserLookupTableModalComponent } from './processes/lookups/process-user-lookup-table-modal.component';
+import { ProcessOrganizationUnitLookupTableModalComponent } from './processes/lookups/process-organizationUnit-lookup-table-modal.component';
+import { CreateEditProcessModalComponent } from './processes/create-edit-process-modal/create-edit-process-modal.component';
+import { ProcessRisksComponent } from './processes/process-risk/process-risks.component';
+import { CreateOrEditProcessRiskModalComponent } from './processes/process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
+import { CreateOrEditProcessRiskControlModalComponent } from './processes/process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // suppressScrollX: true
 };
@@ -125,6 +133,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         DropdownModule
     ],
     declarations: [
+        CreateOrEditProcessRiskControlModalComponent,
+        CreateOrEditProcessRiskModalComponent,
+        ProcessRisksComponent,
+        CreateEditProcessModalComponent,
+        ProcessUserLookupTableModalComponent,
+        ProcessOrganizationUnitLookupTableModalComponent,
+        ProcessComponent,
+        ProcessTreeComponent,
         UsersComponent,
         PermissionComboComponent,
         RoleComboComponent,

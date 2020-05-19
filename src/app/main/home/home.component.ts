@@ -16,7 +16,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
     workingpapers: WorkingPaper[] = new Array();
 
-    constructor(private r: Router,
+    constructor(private _router: Router,
         injector: Injector,
     ) {
         super(injector);
@@ -92,7 +92,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
 
     OpenDetails(id: number) {
-        this.r.navigateByUrl('app/main/workpaperdetail');
+        this._router.navigateByUrl('/app/main/workingPaperNews/6cf6aab5-7748-48d3-c8b1-08d7fc087593');
     }
 
 }

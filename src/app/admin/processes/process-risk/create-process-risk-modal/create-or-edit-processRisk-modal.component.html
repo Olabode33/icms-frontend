@@ -1,0 +1,53 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #departmentRiskForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="departmentRisk.id">{{l("EditDepartmentRisk")}}</span>
+                        <span *ngIf="!departmentRisk.id">Attach Risk</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group m-form__group">
+                        <label for="RiskName">{{l("Risk")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName" type="text" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectRiskModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setRiskIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" required name="departmentRisk.riskId" [(ngModel)]="departmentRisk.riskId" type="text" hidden>
+
+                    <div class="kt-checkbox-list">
+                        <label for="departmentRisk_cascade" class="kt-checkbox">
+                            <input id="departmentRisk_cascade" type="checkbox" name="departmentRisk.cascade" [(ngModel)]="departmentRisk.cascade">
+                        Cascade to sub-units
+                            <span></span>
+                        </label>
+                        </div>
+                    <br />
+
+                        <div class="form-group">
+                            <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
+                            <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments" ></textarea>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                        <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                    </div>
+</form>
+        </div>
+    </div>
+	 <departmentRiskRiskLookupTableModal #departmentRiskRiskLookupTableModal (modalSave)="getNewRiskId()"></departmentRiskRiskLookupTableModal>
+		 
+</div>

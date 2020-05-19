@@ -24,6 +24,7 @@ export class AppNavigationService {
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
             new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
+                new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-more', '/app/admin/processes'),
                 new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
                 new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
             ]),

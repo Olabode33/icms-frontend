@@ -31,7 +31,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     userName = '';
     userName2 = '';
 
-    fakeTestingTemplateId = 1;
+    fakeTestingTemplateId = 6;
     fakeTestingTemplateCode = 'TT-1';
 
     constructor(
@@ -50,7 +50,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
         this._activatedRoute.params.subscribe((params: Params) => {
             let workingPaperId: number;
 
-            if (params.testingTemplateId) {
+            if (params.workingPaperId) {
                 workingPaperId = +params['workingPaperId'];
             }
             this.show();

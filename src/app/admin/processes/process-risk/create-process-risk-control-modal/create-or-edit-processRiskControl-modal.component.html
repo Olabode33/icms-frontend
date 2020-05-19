@@ -1,0 +1,72 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #departmentRiskControlForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="departmentRiskControl.id">{{l("EditDepartmentRiskControl")}}</span>
+                        <span *ngIf="!departmentRiskControl.id">{{l("CreateNewDepartmentRiskControl")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group m-form__group">
+                        <label for="ControlCode">{{l("Control")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="ControlCode" name="controlCode" [(ngModel)]="controlCode" type="text" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectControlModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setControlIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" required name="departmentRiskControl.controlId" [(ngModel)]="departmentRiskControl.controlId" type="text" hidden>
+
+
+                    <div class="form-group">
+                        <label for="DepartmentRiskControl_Frequency">{{l("Frequency")}}</label>
+                        <select class="form-control" name="Frequency" id="DepartmentRiskControl_Frequency" [(ngModel)]="departmentRiskControl.frequency">
+                            <option value="0">{{l('Daily')}}</option>
+
+                            <option value="1">{{l('Weekly')}}</option>
+
+                            <option value="2">{{l('Monthly')}}</option>
+
+                            <option value="3">{{l('Quarterly')}}</option>
+
+                            <option value="4">{{l('Yearly')}}</option>
+
+
+                        </select>
+                    </div>
+
+                    <div class="kt-checkbox-list">
+                        <label for="departmentRisk_cascade" class="kt-checkbox">
+                            <input id="departmentRisk_cascade" type="checkbox" name="departmentRiskControl.cascade" [(ngModel)]="departmentRiskControl.cascade">
+                            Cascade to sub-units
+                            <span></span>
+                        </label>
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        <label for="DepartmentRiskControl_Notes">{{l("Notes")}}</label>
+                        <textarea type="text" rows="5" id="DepartmentRiskControl_Notes" class="form-control" [(ngModel)]="departmentRiskControl.notes" name="Notes"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskControlForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<!-- <departmentRiskControlDepartmentRiskLookupTableModal #departmentRiskControlDepartmentRiskLookupTableModal (modalSave)="getNewDepartmentRiskId()"></departmentRiskControlDepartmentRiskLookupTableModal> -->
+		 <departmentRiskControlControlLookupTableModal #departmentRiskControlControlLookupTableModal (modalSave)="getNewControlId()"></departmentRiskControlControlLookupTableModal>
+		 
+</div>

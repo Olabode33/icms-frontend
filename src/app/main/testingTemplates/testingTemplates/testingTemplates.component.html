@@ -166,7 +166,7 @@
                                     </td>
                                     <td style="width:250px">
                                         <span class="ui-column-title">Units Affected</span>
-                                        {{record.affectedDepartments}} <span *ngIf="record.cascade">and all sub-departments.</span>
+                                        {{record.affectedDepartments}} <span *ngIf="record.cascade && record.affectedDepartments">and all sub-departments.</span>
                                     </td>
                                 </tr>
                             </ng-template>

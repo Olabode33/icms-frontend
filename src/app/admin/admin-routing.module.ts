@@ -17,6 +17,7 @@ import { SubscriptionManagementComponent } from './subscription-management/subsc
 import { TenantsComponent } from './tenants/tenants.component';
 import { UiCustomizationComponent } from './ui-customization/ui-customization.component';
 import { UsersComponent } from './users/users.component';
+import { ProcessComponent } from './processes/process/process.component';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { UsersComponent } from './users/users.component';
                     { path: 'languages/:name/texts', component: LanguageTextsComponent, data: { permission: 'Pages.Administration.Languages.ChangeTexts' } },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' } },
                     { path: 'organization-units', component: OrganizationUnitsComponent, data: { permission: 'Pages.Administration.OrganizationUnits' } },
+                    { path: 'processes', component: ProcessComponent, data: { permission: 'Pages.Administration.OrganizationUnits' } },
                     { path: 'subscription-management', component: SubscriptionManagementComponent, data: { permission: 'Pages.Administration.Tenant.SubscriptionManagement' } },
                     { path: 'invoice/:paymentId', component: InvoiceComponent, data: { permission: 'Pages.Administration.Tenant.SubscriptionManagement' } },
                     { path: 'tenantSettings', component: TenantSettingsComponent, data: { permission: 'Pages.Administration.Tenant.Settings' } },

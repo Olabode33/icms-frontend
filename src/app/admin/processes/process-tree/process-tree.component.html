@@ -1,0 +1,43 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+                {{"Processes" | localize}}
+            </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <button *ngIf="('Pages.Processes.Create' | permission)" (click)="addUnit(null)" class="btn btn-primary">
+                <i class="fa fa-plus"></i> {{"Add Process" | localize}}
+            </button>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <p-tree [value]="treeData"
+                selectionMode="single"
+                [(selection)]="selectedOu"
+                (onNodeSelect)="nodeSelect($event)"
+                (onNodeDrop)="nodeDrop($event)"
+                [contextMenu]="ouContextMenu"
+                [draggableNodes]="canManageOrganizationUnits" [droppableNodes]="canManageOrganizationUnits">
+            <ng-template let-node pTemplate="default">
+                <div>
+                    <span>
+                        {{node.label}}
+                    </span>
+                    <!-- <br> -->
+                    <!-- <small style="font-size: .82em; opacity: .5;">{{node.riskCount}} {{'Risks' | localize}}</small> -->
+                </div>
+            </ng-template>
+        </p-tree>
+        <p-contextMenu #ouContextMenu [model]="ouContextMenuItems" appendTo="body" baseZIndex="99999"></p-contextMenu>
+        <div *ngIf="!totalUnitCount" class="text-muted">
+            {{"No process has been defined" | localize}}
+        </div>
+    </div>
+</div>
+<createOrEditOrganizationUnitModal #createOrEditOrganizationUnitModal (unitCreated)="unitCreated()" (unitUpdated)="unitUpdated($event)"></createOrEditOrganizationUnitModal>
+<entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+<createOrEditDepartmentModal #createOrEditDepartmentModal (unitCreated)="unitCreated()"></createOrEditDepartmentModal>
+<app-create-edit-process-modal #createOrEditProcessModal (unitCreated)="unitCreated()"></app-create-edit-process-modal>
+<viewDepartmentModal #viewDepartmentModal></viewDepartmentModal>
+

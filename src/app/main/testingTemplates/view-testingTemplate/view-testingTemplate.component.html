@@ -30,8 +30,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="TestingTemplate_Title">Business Unit</label>
-                        <input type="text" readonly id="TestingTemplate_BU" class="form-control" value="Allen Avenue Branch" name="BU" />
+                        <label for="TestingTemplate_Title">{{item.entityType}}</label>
+                        <input type="text" readonly id="TestingTemplate_BU" class="form-control" [(ngModel)]="item.ouDisplayName" name="BU" />
                     </div>                    
 
                     <div class="form-group">
@@ -47,26 +47,26 @@
                                         <i class="flaticon-warning"></i> Risk
                                     </div>
                                 </div>
-                                <div id="collapseOne4" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
+                                <div id="collapseOne4" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample4" >
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
                                                     <td style="width: 20%;">Code:</td>
-                                                    <td style="width: 80%;">R-2</td>
+                                                    <td style="width: 80%;">{{item.risk.code}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Name:</td>
-                                                    <td style="width: 80%;">Unauthorized transactions are posted into customer's account</td>
+                                                    <td style="width: 80%;">{{item.risk.name}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Description:</td>
-                                                    <td style="width: 80%;">Unauthorized transactions are posted into customer's account.</td>
+                                                    <td style="width: 80%;">{{item.risk.description}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Severity:</td>
                                                     <td style="width: 80%;">
-                                                        <span class="kt-badge kt-badge--inline kt-badge--danger">High</span>
+                                                        <span class="kt-badge kt-badge--inline kt-badge--danger">{{severityEnum[item.risk.severity]}}</span>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -111,7 +111,7 @@
                             <label>Sampling Method</label>
                             <div class="kt-radio-inline">
                                 <label class="kt-radio">
-                                    <input type="radio" name="radio2"> Auto
+                                    <input type="radio" name="radio2" checked> Auto
                                     <span></span>
                                 </label>
                                 <label class="kt-radio">

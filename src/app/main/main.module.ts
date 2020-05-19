@@ -92,6 +92,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+
         ViewAuditorComponent,
         ViewWorkingPaperComponent,
         ViewTestingTemplateComponent,

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { GetTestingTemplateForViewDto, Frequency, TestingTemplatesServiceProxy, TestingTemplateDto } from '@shared/service-proxies/service-proxies';
+import { GetTestingTemplateForViewDto, Frequency, TestingTemplatesServiceProxy, TestingTemplateDto, Severity, RiskDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Location } from '@angular/common';
@@ -20,6 +20,8 @@ export class ViewTestingTemplateComponent extends AppComponentBase implements On
     item: GetTestingTemplateForViewDto;
     frequency = Frequency;
 
+    severityEnum = Severity;
+
     constructor(
         injector: Injector,
         private _changeDetector: ChangeDetectorRef,
@@ -31,6 +33,8 @@ export class ViewTestingTemplateComponent extends AppComponentBase implements On
         super(injector);
         this.item = new GetTestingTemplateForViewDto();
         this.item.testingTemplate = new TestingTemplateDto();
+        this.item.risk = new RiskDto();
+        this.item.attributes = new Array();
     }
 
     ngOnInit(): void {

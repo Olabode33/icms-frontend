@@ -10955,6 +10955,1713 @@ export class PermissionServiceProxy {
 }
 
 @Injectable()
+export class ProcessesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getProcesses(): Observable<ListResultDtoOfOrganizationUnitDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetProcesses";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcesses(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcesses(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcesses(response: HttpResponseBase): Observable<ListResultDtoOfOrganizationUnitDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfOrganizationUnitDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfOrganizationUnitDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, userNameFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProcessForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetProcessForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetProcessForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetProcessForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetProcessForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetProcessForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProcessForEdit(id: number | undefined): Observable<GetProcessForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetProcessForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcessForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcessForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProcessForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProcessForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcessForEdit(response: HttpResponseBase): Observable<GetProcessForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProcessForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProcessForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditProcessDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetAllOrganizationUnitForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessOrganizationUnitLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    moveOrganizationUnit(body: MoveOrganizationUnitInput | undefined): Observable<OrganizationUnitDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/MoveOrganizationUnit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMoveOrganizationUnit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMoveOrganizationUnit(<any>response_);
+                } catch (e) {
+                    return <Observable<OrganizationUnitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OrganizationUnitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMoveOrganizationUnit(response: HttpResponseBase): Observable<OrganizationUnitDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = OrganizationUnitDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OrganizationUnitDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ProcessRiskControlsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param frequencyFilter (optional) 
+     * @param processRiskCodeFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param controlNameFilter (optional) 
+     * @param processId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, frequencyFilter: number | undefined, processRiskCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, controlNameFilter: string | undefined, processId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProcessRiskControlForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (frequencyFilter === null)
+            throw new Error("The parameter 'frequencyFilter' cannot be null.");
+        else if (frequencyFilter !== undefined)
+            url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
+        if (processRiskCodeFilter === null)
+            throw new Error("The parameter 'processRiskCodeFilter' cannot be null.");
+        else if (processRiskCodeFilter !== undefined)
+            url_ += "ProcessRiskCodeFilter=" + encodeURIComponent("" + processRiskCodeFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (controlNameFilter === null)
+            throw new Error("The parameter 'controlNameFilter' cannot be null.");
+        else if (controlNameFilter !== undefined)
+            url_ += "ControlNameFilter=" + encodeURIComponent("" + controlNameFilter) + "&"; 
+        if (processId === null)
+            throw new Error("The parameter 'processId' cannot be null.");
+        else if (processId !== undefined)
+            url_ += "ProcessId=" + encodeURIComponent("" + processId) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetProcessRiskControlForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetProcessRiskControlForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetProcessRiskControlForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetProcessRiskControlForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetProcessRiskControlForViewDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param frequencyFilter (optional) 
+     * @param processRiskCodeFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param controlNameFilter (optional) 
+     * @param processId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllForProcess(filter: string | undefined, frequencyFilter: number | undefined, processRiskCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, controlNameFilter: string | undefined, processId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ListResultDtoOfGetProcessRiskControlForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetAllForProcess?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (frequencyFilter === null)
+            throw new Error("The parameter 'frequencyFilter' cannot be null.");
+        else if (frequencyFilter !== undefined)
+            url_ += "FrequencyFilter=" + encodeURIComponent("" + frequencyFilter) + "&"; 
+        if (processRiskCodeFilter === null)
+            throw new Error("The parameter 'processRiskCodeFilter' cannot be null.");
+        else if (processRiskCodeFilter !== undefined)
+            url_ += "ProcessRiskCodeFilter=" + encodeURIComponent("" + processRiskCodeFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (controlNameFilter === null)
+            throw new Error("The parameter 'controlNameFilter' cannot be null.");
+        else if (controlNameFilter !== undefined)
+            url_ += "ControlNameFilter=" + encodeURIComponent("" + controlNameFilter) + "&"; 
+        if (processId === null)
+            throw new Error("The parameter 'processId' cannot be null.");
+        else if (processId !== undefined)
+            url_ += "ProcessId=" + encodeURIComponent("" + processId) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllForProcess(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllForProcess(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfGetProcessRiskControlForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfGetProcessRiskControlForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllForProcess(response: HttpResponseBase): Observable<ListResultDtoOfGetProcessRiskControlForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfGetProcessRiskControlForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfGetProcessRiskControlForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProcessRiskControlForEdit(id: number | undefined): Observable<GetProcessRiskControlForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetProcessRiskControlForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcessRiskControlForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcessRiskControlForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProcessRiskControlForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProcessRiskControlForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcessRiskControlForEdit(response: HttpResponseBase): Observable<GetProcessRiskControlForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProcessRiskControlForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProcessRiskControlForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditProcessRiskControlDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllProcessRiskForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetAllProcessRiskForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllProcessRiskForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllProcessRiskForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllProcessRiskForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetAllOrganizationUnitForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllControlForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessRiskControlControlLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRiskControls/GetAllControlForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllControlForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllControlForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessRiskControlControlLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessRiskControlControlLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllControlForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessRiskControlControlLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessRiskControlControlLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessRiskControlControlLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class ProcessRisksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param commentsFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param riskNameFilter (optional) 
+     * @param processId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, commentsFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, riskNameFilter: string | undefined, processId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProcessRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (commentsFilter === null)
+            throw new Error("The parameter 'commentsFilter' cannot be null.");
+        else if (commentsFilter !== undefined)
+            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (riskNameFilter === null)
+            throw new Error("The parameter 'riskNameFilter' cannot be null.");
+        else if (riskNameFilter !== undefined)
+            url_ += "RiskNameFilter=" + encodeURIComponent("" + riskNameFilter) + "&"; 
+        if (processId === null)
+            throw new Error("The parameter 'processId' cannot be null.");
+        else if (processId !== undefined)
+            url_ += "ProcessId=" + encodeURIComponent("" + processId) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetProcessRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetProcessRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetProcessRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetProcessRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetProcessRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param commentsFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param riskNameFilter (optional) 
+     * @param processId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getRiskForProcess(filter: string | undefined, commentsFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, riskNameFilter: string | undefined, processId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ListResultDtoOfGetProcessRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetRiskForProcess?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (commentsFilter === null)
+            throw new Error("The parameter 'commentsFilter' cannot be null.");
+        else if (commentsFilter !== undefined)
+            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (riskNameFilter === null)
+            throw new Error("The parameter 'riskNameFilter' cannot be null.");
+        else if (riskNameFilter !== undefined)
+            url_ += "RiskNameFilter=" + encodeURIComponent("" + riskNameFilter) + "&"; 
+        if (processId === null)
+            throw new Error("The parameter 'processId' cannot be null.");
+        else if (processId !== undefined)
+            url_ += "ProcessId=" + encodeURIComponent("" + processId) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRiskForProcess(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRiskForProcess(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfGetProcessRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfGetProcessRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRiskForProcess(response: HttpResponseBase): Observable<ListResultDtoOfGetProcessRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfGetProcessRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfGetProcessRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProcessRiskForView(id: number | undefined): Observable<GetProcessRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetProcessRiskForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcessRiskForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcessRiskForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProcessRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProcessRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcessRiskForView(response: HttpResponseBase): Observable<GetProcessRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProcessRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProcessRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProcessRiskForEdit(id: number | undefined): Observable<GetProcessRiskForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetProcessRiskForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcessRiskForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcessRiskForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProcessRiskForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProcessRiskForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcessRiskForEdit(response: HttpResponseBase): Observable<GetProcessRiskForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProcessRiskForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProcessRiskForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditProcessRiskDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param commentsFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param riskNameFilter (optional) 
+     * @return Success
+     */
+    getProcessRisksToExcel(filter: string | undefined, commentsFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, riskNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetProcessRisksToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (commentsFilter === null)
+            throw new Error("The parameter 'commentsFilter' cannot be null.");
+        else if (commentsFilter !== undefined)
+            url_ += "CommentsFilter=" + encodeURIComponent("" + commentsFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (riskNameFilter === null)
+            throw new Error("The parameter 'riskNameFilter' cannot be null.");
+        else if (riskNameFilter !== undefined)
+            url_ += "RiskNameFilter=" + encodeURIComponent("" + riskNameFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProcessRisksToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProcessRisksToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProcessRisksToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetAllOrganizationUnitForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllRiskForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProcessRiskRiskLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/GetAllRiskForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllRiskForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllRiskForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProcessRiskRiskLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProcessRiskRiskLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllRiskForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProcessRiskRiskLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProcessRiskRiskLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProcessRiskRiskLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class ProfileServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -26987,6 +28694,1510 @@ export interface IListResultDtoOfFlatPermissionWithLevelDto {
     items: FlatPermissionWithLevelDto[] | undefined;
 }
 
+export class ProcessDto implements IProcessDto {
+    parentId!: number | undefined;
+    name!: string | undefined;
+    description!: string | undefined;
+    casade!: boolean;
+    ownerId!: number | undefined;
+    departmentId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IProcessDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.parentId = data["parentId"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.casade = data["casade"];
+            this.ownerId = data["ownerId"];
+            this.departmentId = data["departmentId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ProcessDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["parentId"] = this.parentId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["casade"] = this.casade;
+        data["ownerId"] = this.ownerId;
+        data["departmentId"] = this.departmentId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IProcessDto {
+    parentId: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    casade: boolean;
+    ownerId: number | undefined;
+    departmentId: number | undefined;
+    id: number;
+}
+
+export class GetProcessForViewDto implements IGetProcessForViewDto {
+    process!: ProcessDto;
+    userName!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    riskCount!: number;
+    controlCount!: number;
+
+    constructor(data?: IGetProcessForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.process = data["process"] ? ProcessDto.fromJS(data["process"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.riskCount = data["riskCount"];
+            this.controlCount = data["controlCount"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["process"] = this.process ? this.process.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["riskCount"] = this.riskCount;
+        data["controlCount"] = this.controlCount;
+        return data; 
+    }
+}
+
+export interface IGetProcessForViewDto {
+    process: ProcessDto;
+    userName: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    riskCount: number;
+    controlCount: number;
+}
+
+export class PagedResultDtoOfGetProcessForViewDto implements IPagedResultDtoOfGetProcessForViewDto {
+    totalCount!: number;
+    items!: GetProcessForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetProcessForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProcessForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetProcessForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetProcessForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetProcessForViewDto {
+    totalCount: number;
+    items: GetProcessForViewDto[] | undefined;
+}
+
+export class CreateOrEditProcessDto implements ICreateOrEditProcessDto {
+    parentId!: number | undefined;
+    name!: string | undefined;
+    description!: string | undefined;
+    casade!: boolean;
+    ownerId!: number | undefined;
+    departmentId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditProcessDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.parentId = data["parentId"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.casade = data["casade"];
+            this.ownerId = data["ownerId"];
+            this.departmentId = data["departmentId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditProcessDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditProcessDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["parentId"] = this.parentId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["casade"] = this.casade;
+        data["ownerId"] = this.ownerId;
+        data["departmentId"] = this.departmentId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditProcessDto {
+    parentId: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    casade: boolean;
+    ownerId: number | undefined;
+    departmentId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetProcessForEditOutput implements IGetProcessForEditOutput {
+    process!: CreateOrEditProcessDto;
+    userName!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+
+    constructor(data?: IGetProcessForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.process = data["process"] ? CreateOrEditProcessDto.fromJS(data["process"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["process"] = this.process ? this.process.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        return data; 
+    }
+}
+
+export interface IGetProcessForEditOutput {
+    process: CreateOrEditProcessDto;
+    userName: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+}
+
+export class ProcessUserLookupTableDto implements IProcessUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessUserLookupTableDto implements IPagedResultDtoOfProcessUserLookupTableDto {
+    totalCount!: number;
+    items!: ProcessUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessUserLookupTableDto {
+    totalCount: number;
+    items: ProcessUserLookupTableDto[] | undefined;
+}
+
+export class ProcessOrganizationUnitLookupTableDto implements IProcessOrganizationUnitLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessOrganizationUnitLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessOrganizationUnitLookupTableDto implements IPagedResultDtoOfProcessOrganizationUnitLookupTableDto {
+    totalCount!: number;
+    items!: ProcessOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessOrganizationUnitLookupTableDto {
+    totalCount: number;
+    items: ProcessOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class ProcessRiskControlDto implements IProcessRiskControlDto {
+    code!: string | undefined;
+    notes!: string | undefined;
+    frequency!: Frequency;
+    cascade!: boolean;
+    processRiskId!: number | undefined;
+    processId!: number | undefined;
+    controlId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IProcessRiskControlDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.notes = data["notes"];
+            this.frequency = data["frequency"];
+            this.cascade = data["cascade"];
+            this.processRiskId = data["processRiskId"];
+            this.processId = data["processId"];
+            this.controlId = data["controlId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskControlDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskControlDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["notes"] = this.notes;
+        data["frequency"] = this.frequency;
+        data["cascade"] = this.cascade;
+        data["processRiskId"] = this.processRiskId;
+        data["processId"] = this.processId;
+        data["controlId"] = this.controlId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IProcessRiskControlDto {
+    code: string | undefined;
+    notes: string | undefined;
+    frequency: Frequency;
+    cascade: boolean;
+    processRiskId: number | undefined;
+    processId: number | undefined;
+    controlId: number | undefined;
+    id: number;
+}
+
+export class GetProcessRiskControlForViewDto implements IGetProcessRiskControlForViewDto {
+    processRiskControl!: ProcessRiskControlDto;
+    processRiskCode!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    controlName!: string | undefined;
+    inherited!: boolean;
+
+    constructor(data?: IGetProcessRiskControlForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.processRiskControl = data["processRiskControl"] ? ProcessRiskControlDto.fromJS(data["processRiskControl"]) : <any>undefined;
+            this.processRiskCode = data["processRiskCode"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.controlName = data["controlName"];
+            this.inherited = data["inherited"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessRiskControlForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessRiskControlForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["processRiskControl"] = this.processRiskControl ? this.processRiskControl.toJSON() : <any>undefined;
+        data["processRiskCode"] = this.processRiskCode;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["controlName"] = this.controlName;
+        data["inherited"] = this.inherited;
+        return data; 
+    }
+}
+
+export interface IGetProcessRiskControlForViewDto {
+    processRiskControl: ProcessRiskControlDto;
+    processRiskCode: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    controlName: string | undefined;
+    inherited: boolean;
+}
+
+export class PagedResultDtoOfGetProcessRiskControlForViewDto implements IPagedResultDtoOfGetProcessRiskControlForViewDto {
+    totalCount!: number;
+    items!: GetProcessRiskControlForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetProcessRiskControlForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProcessRiskControlForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetProcessRiskControlForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetProcessRiskControlForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetProcessRiskControlForViewDto {
+    totalCount: number;
+    items: GetProcessRiskControlForViewDto[] | undefined;
+}
+
+export class ListResultDtoOfGetProcessRiskControlForViewDto implements IListResultDtoOfGetProcessRiskControlForViewDto {
+    items!: GetProcessRiskControlForViewDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfGetProcessRiskControlForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProcessRiskControlForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfGetProcessRiskControlForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfGetProcessRiskControlForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfGetProcessRiskControlForViewDto {
+    items: GetProcessRiskControlForViewDto[] | undefined;
+}
+
+export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRiskControlDto {
+    code!: string | undefined;
+    notes!: string | undefined;
+    frequency!: Frequency;
+    cascade!: boolean;
+    processRiskId!: number | undefined;
+    processId!: number | undefined;
+    controlId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditProcessRiskControlDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.notes = data["notes"];
+            this.frequency = data["frequency"];
+            this.cascade = data["cascade"];
+            this.processRiskId = data["processRiskId"];
+            this.processId = data["processId"];
+            this.controlId = data["controlId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditProcessRiskControlDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditProcessRiskControlDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["notes"] = this.notes;
+        data["frequency"] = this.frequency;
+        data["cascade"] = this.cascade;
+        data["processRiskId"] = this.processRiskId;
+        data["processId"] = this.processId;
+        data["controlId"] = this.controlId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditProcessRiskControlDto {
+    code: string | undefined;
+    notes: string | undefined;
+    frequency: Frequency;
+    cascade: boolean;
+    processRiskId: number | undefined;
+    processId: number | undefined;
+    controlId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetProcessRiskControlForEditOutput implements IGetProcessRiskControlForEditOutput {
+    processRiskControl!: CreateOrEditProcessRiskControlDto;
+    processRiskCode!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    controlName!: string | undefined;
+
+    constructor(data?: IGetProcessRiskControlForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.processRiskControl = data["processRiskControl"] ? CreateOrEditProcessRiskControlDto.fromJS(data["processRiskControl"]) : <any>undefined;
+            this.processRiskCode = data["processRiskCode"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.controlName = data["controlName"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessRiskControlForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessRiskControlForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["processRiskControl"] = this.processRiskControl ? this.processRiskControl.toJSON() : <any>undefined;
+        data["processRiskCode"] = this.processRiskCode;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["controlName"] = this.controlName;
+        return data; 
+    }
+}
+
+export interface IGetProcessRiskControlForEditOutput {
+    processRiskControl: CreateOrEditProcessRiskControlDto;
+    processRiskCode: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    controlName: string | undefined;
+}
+
+export class ProcessRiskControlProcessRiskLookupTableDto implements IProcessRiskControlProcessRiskLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessRiskControlProcessRiskLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskControlProcessRiskLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskControlProcessRiskLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessRiskControlProcessRiskLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto implements IPagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto {
+    totalCount!: number;
+    items!: ProcessRiskControlProcessRiskLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessRiskControlProcessRiskLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessRiskControlProcessRiskLookupTableDto {
+    totalCount: number;
+    items: ProcessRiskControlProcessRiskLookupTableDto[] | undefined;
+}
+
+export class ProcessRiskControlOrganizationUnitLookupTableDto implements IProcessRiskControlOrganizationUnitLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessRiskControlOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskControlOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskControlOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessRiskControlOrganizationUnitLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto implements IPagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto {
+    totalCount!: number;
+    items!: ProcessRiskControlOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessRiskControlOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessRiskControlOrganizationUnitLookupTableDto {
+    totalCount: number;
+    items: ProcessRiskControlOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class ProcessRiskControlControlLookupTableDto implements IProcessRiskControlControlLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessRiskControlControlLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskControlControlLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskControlControlLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessRiskControlControlLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessRiskControlControlLookupTableDto implements IPagedResultDtoOfProcessRiskControlControlLookupTableDto {
+    totalCount!: number;
+    items!: ProcessRiskControlControlLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessRiskControlControlLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessRiskControlControlLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessRiskControlControlLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessRiskControlControlLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessRiskControlControlLookupTableDto {
+    totalCount: number;
+    items: ProcessRiskControlControlLookupTableDto[] | undefined;
+}
+
+export class ProcessRiskDto implements IProcessRiskDto {
+    code!: string | undefined;
+    comments!: string | undefined;
+    cascade!: boolean;
+    processId!: number;
+    riskId!: number;
+    id!: number;
+
+    constructor(data?: IProcessRiskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.comments = data["comments"];
+            this.cascade = data["cascade"];
+            this.processId = data["processId"];
+            this.riskId = data["riskId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["comments"] = this.comments;
+        data["cascade"] = this.cascade;
+        data["processId"] = this.processId;
+        data["riskId"] = this.riskId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IProcessRiskDto {
+    code: string | undefined;
+    comments: string | undefined;
+    cascade: boolean;
+    processId: number;
+    riskId: number;
+    id: number;
+}
+
+export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
+    processRisk!: ProcessRiskDto;
+    processName!: string | undefined;
+    riskName!: string | undefined;
+    inherited!: boolean;
+    severity!: string | undefined;
+    processCode!: string | undefined;
+
+    constructor(data?: IGetProcessRiskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.processRisk = data["processRisk"] ? ProcessRiskDto.fromJS(data["processRisk"]) : <any>undefined;
+            this.processName = data["processName"];
+            this.riskName = data["riskName"];
+            this.inherited = data["inherited"];
+            this.severity = data["severity"];
+            this.processCode = data["processCode"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessRiskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessRiskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["processRisk"] = this.processRisk ? this.processRisk.toJSON() : <any>undefined;
+        data["processName"] = this.processName;
+        data["riskName"] = this.riskName;
+        data["inherited"] = this.inherited;
+        data["severity"] = this.severity;
+        data["processCode"] = this.processCode;
+        return data; 
+    }
+}
+
+export interface IGetProcessRiskForViewDto {
+    processRisk: ProcessRiskDto;
+    processName: string | undefined;
+    riskName: string | undefined;
+    inherited: boolean;
+    severity: string | undefined;
+    processCode: string | undefined;
+}
+
+export class PagedResultDtoOfGetProcessRiskForViewDto implements IPagedResultDtoOfGetProcessRiskForViewDto {
+    totalCount!: number;
+    items!: GetProcessRiskForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetProcessRiskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProcessRiskForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetProcessRiskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetProcessRiskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetProcessRiskForViewDto {
+    totalCount: number;
+    items: GetProcessRiskForViewDto[] | undefined;
+}
+
+export class ListResultDtoOfGetProcessRiskForViewDto implements IListResultDtoOfGetProcessRiskForViewDto {
+    items!: GetProcessRiskForViewDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfGetProcessRiskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProcessRiskForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfGetProcessRiskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfGetProcessRiskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfGetProcessRiskForViewDto {
+    items: GetProcessRiskForViewDto[] | undefined;
+}
+
+export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
+    code!: string | undefined;
+    comments!: string | undefined;
+    cascade!: boolean;
+    processId!: number;
+    riskId!: number;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditProcessRiskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.comments = data["comments"];
+            this.cascade = data["cascade"];
+            this.processId = data["processId"];
+            this.riskId = data["riskId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditProcessRiskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditProcessRiskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["comments"] = this.comments;
+        data["cascade"] = this.cascade;
+        data["processId"] = this.processId;
+        data["riskId"] = this.riskId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditProcessRiskDto {
+    code: string | undefined;
+    comments: string | undefined;
+    cascade: boolean;
+    processId: number;
+    riskId: number;
+    id: number | undefined;
+}
+
+export class GetProcessRiskForEditOutput implements IGetProcessRiskForEditOutput {
+    processRisk!: CreateOrEditProcessRiskDto;
+    organizationUnitDisplayName!: string | undefined;
+    riskName!: string | undefined;
+
+    constructor(data?: IGetProcessRiskForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.processRisk = data["processRisk"] ? CreateOrEditProcessRiskDto.fromJS(data["processRisk"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.riskName = data["riskName"];
+        }
+    }
+
+    static fromJS(data: any): GetProcessRiskForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProcessRiskForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["processRisk"] = this.processRisk ? this.processRisk.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["riskName"] = this.riskName;
+        return data; 
+    }
+}
+
+export interface IGetProcessRiskForEditOutput {
+    processRisk: CreateOrEditProcessRiskDto;
+    organizationUnitDisplayName: string | undefined;
+    riskName: string | undefined;
+}
+
+export class ProcessRiskOrganizationUnitLookupTableDto implements IProcessRiskOrganizationUnitLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessRiskOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessRiskOrganizationUnitLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto implements IPagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto {
+    totalCount!: number;
+    items!: ProcessRiskOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessRiskOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessRiskOrganizationUnitLookupTableDto {
+    totalCount: number;
+    items: ProcessRiskOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class ProcessRiskRiskLookupTableDto implements IProcessRiskRiskLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProcessRiskRiskLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProcessRiskRiskLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProcessRiskRiskLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProcessRiskRiskLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProcessRiskRiskLookupTableDto implements IPagedResultDtoOfProcessRiskRiskLookupTableDto {
+    totalCount!: number;
+    items!: ProcessRiskRiskLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProcessRiskRiskLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProcessRiskRiskLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProcessRiskRiskLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProcessRiskRiskLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProcessRiskRiskLookupTableDto {
+    totalCount: number;
+    items: ProcessRiskRiskLookupTableDto[] | undefined;
+}
+
 export class CurrentUserProfileEditDto implements ICurrentUserProfileEditDto {
     name!: string | undefined;
     surname!: string | undefined;
@@ -30529,6 +33740,8 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
     control!: ControlDto;
     attributes!: CreateOrEditTestingAttributeDto[] | undefined;
     exceptionTypeName!: string | undefined;
+    entityType!: string | undefined;
+    ouDisplayName!: string | undefined;
 
     constructor(data?: IGetTestingTemplateForViewDto) {
         if (data) {
@@ -30553,6 +33766,8 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
                     this.attributes!.push(CreateOrEditTestingAttributeDto.fromJS(item));
             }
             this.exceptionTypeName = data["exceptionTypeName"];
+            this.entityType = data["entityType"];
+            this.ouDisplayName = data["ouDisplayName"];
         }
     }
 
@@ -30577,6 +33792,8 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
                 data["attributes"].push(item.toJSON());
         }
         data["exceptionTypeName"] = this.exceptionTypeName;
+        data["entityType"] = this.entityType;
+        data["ouDisplayName"] = this.ouDisplayName;
         return data; 
     }
 }
@@ -30590,6 +33807,8 @@ export interface IGetTestingTemplateForViewDto {
     control: ControlDto;
     attributes: CreateOrEditTestingAttributeDto[] | undefined;
     exceptionTypeName: string | undefined;
+    entityType: string | undefined;
+    ouDisplayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetTestingTemplateForViewDto implements IPagedResultDtoOfGetTestingTemplateForViewDto {
