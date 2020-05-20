@@ -49,7 +49,7 @@ export class CreateEditProcessModalComponent extends AppComponentBase  {
             this.process.id = processId;
             this.process.parentId = parentId;
             this.userName = '';
-            //this.organizationUnitDisplayName = displayName;
+            this.organizationUnitDisplayName = '';
 
             this.active = true;
             this.modal.show();

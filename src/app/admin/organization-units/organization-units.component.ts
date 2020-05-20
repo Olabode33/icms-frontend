@@ -6,6 +6,7 @@ import { OrganizationUnitMembersComponent } from './organization-unit-members.co
 import { OrganizationUnitRisksComponent } from './organization-unit-risks.component';
 import { OrganizationUnitControlsComponent } from './organization-unit-controls.component';
 import { IBasicOrganizationUnitInfo } from './basic-organization-unit-info';
+import { DeptProcessRiskControlComponent } from '../processes/dept-process-risk-control/dept-process-risk-control.component';
 
 @Component({
     templateUrl: './organization-units.component.html',
@@ -14,8 +15,9 @@ import { IBasicOrganizationUnitInfo } from './basic-organization-unit-info';
 export class OrganizationUnitsComponent extends AppComponentBase {
 
     @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
-    @ViewChild('ouRisks', { static: true }) ouRisks: OrganizationUnitRisksComponent;
+    //@ViewChild('ouRisks', { static: true }) ouRisks: OrganizationUnitRisksComponent;
     @ViewChild('ouTree', {static: true}) ouTree: OrganizationTreeComponent;
+    @ViewChild('ouProcess', {static: true}) ouProcess: DeptProcessRiskControlComponent;
     //@ViewChild('ouControls', { static: true }) ouControls: OrganizationUnitControlsComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
@@ -28,7 +30,8 @@ export class OrganizationUnitsComponent extends AppComponentBase {
     ouSelected(event: any): void {
         this.organizationUnit = event;
         this.ouMembers.organizationUnit = event;
-        this.ouRisks.organizationUnit = event;
+        //this.ouRisks.organizationUnit = event;
+        this.ouProcess.organizationUnit = event;
         //this.ouControls.organizationUnit = event;
     }
 }

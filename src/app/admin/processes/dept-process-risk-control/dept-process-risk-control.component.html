@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-12">
+
+    </div>
+    <div class="col-12">
+        <div>
+            <div *ngIf="loadingProcess" class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                    role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
+                <div class="card" *ngFor="let process of deptProcesses; let p = index;">
+                    <div class="card-header" id="headingOne{{process.process.id}}">
+                        <div class="card-title" [ngClass]="{collapsed: !process.isActive}"
+                            (click)="toggleProcessAccordion(p)" data-toggle="collapse" data-target="#collapseOne4"
+                            aria-expanded="false" aria-controls="collapseOne4">
+                            <i class="flaticon-tabs"></i> {{process.process.displayName}}
+                        </div>
+                    </div>
+                    <div id="collapseOne{{process.process.id}}" class="collapse" [ngClass]="{show: process.isActive}"
+                        aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
+                        <div class="card-body">
+                            <div *ngIf="loadingRisk" class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                                    role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span *ngIf="!loadingRisk && deptRisks.length > 0">Risks</span>
+                            <!--begin::Accordion-->
+                            <div class="accordion accordion-toggle-arrow" id="accordionExample5">
+                                <!-- General -->
+                                <div class="card" *ngFor="let item of deptRisks; let i = index;">
+                                    <div class="card-header" id="heading{{i}}">
+                                        <div class="card-title" [ngClass]="{collapsed: !item.isActive}" (click)="toggleRiskAccordion(i)">
+                                            <i class="flaticon-warning-sign pr-2"></i>
+                                            <span class="pr-2">{{item.risk.riskName}}</span>
+                                            <span *ngIf="item.risk.severity == 'High'"
+                                                class="kt-badge kt-badge--brand kt-badge--inline bg-danger pull-right">{{item.risk.severity}}</span>
+                                            <span *ngIf="item.risk.severity == 'Medium'"
+                                                class="kt-badge kt-badge--brand kt-badge--inline bg-warning pull-right">{{item.risk.severity}}</span>
+                                            <span *ngIf="item.risk.severity == 'Low'"
+                                                class="kt-badge kt-badge--brand kt-badge--inline kt-bg-light-warning pull-right">{{item.risk.severity}}</span>
+                                        </div>
+                                    </div>
+                                    <div id="collapse{{i}}" class="collapse" [ngClass]="{show: item.isActive}">
+                                        <div class="card-body">
+                                            Controls
+                                            <hr>
+                                            <div *ngIf="loadingControls" class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                                                    role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <!-- <div class="">
+                                                <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill"
+                                                    dropdown container="body">
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        (click)="addControlToRisk(item.risk.processRisk.id, item.risk.processRisk.processId)">
+                                                        <i class="fa fa-plus"></i> Add Control
+                                                    </button>
+                                                    <button
+                                                        class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split"
+                                                        dropdownToggle>
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" *dropdownMenu>
+                                                        <li
+                                                            *ngIf="_organizationUnit.id == item.risk.processRisk.processId">
+                                                            <a href="javascript:;" (click)="deleteRole(item.risk)">
+                                                                {{l('Delete Risk')}}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div> -->
+                                            <div class="table-responsive">
+                                                <div class="table table-hover">
+                                                    <div *ngFor="let control of riskControls">
+                                                        <div>
+                                                            <div class="row">
+                                                                <div class="col-lg-9">
+                                                                    {{ control.controlName }}
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <button type="button" class="btn btn-primary btn-sm pull-right" 
+                                                                        (click)="createTestingTemplate(control.processRiskControl.id)">
+                                                                        <i class="fa fa-plus"></i> Add Testing Template
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <div class="pl-5">
+                                                                <p class="form-text text-muted">Testing Templates</p>
+                                                                <hr>
+                                                                <p *ngIf="control.testingTemplates.items.length == 0">No template found</p>
+                                                                <div *ngFor="let template of control.testingTemplates.items" class="row">
+                                                                    <div class="col-md-10">
+                                                                        <p>
+                                                                            {{ template.testingTemplate.title }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <button type="button" class="btn btn-primary btn-outline btn-sm pull-right" 
+                                                                            (click)="createTestingTemplate(control.processRiskControl.id)">
+                                                                            Review
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="kt-separator kt-separator--border-solid"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="deptRisks.length <= 0" class="text-muted">
+                                    No risk defined
+                                </div>
+                            </div>
+                            <!--end::Accordion-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="deptProcesses.length == 0" class="text-muted">
+                No process found
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!organizationUnit" class="text-muted">
+    Select a department to see the processes.
+</div>
+
+<app-create-or-edit-process-risk #createOrEditProcessRiskModal (modalSave)="reload()"></app-create-or-edit-process-risk>
+<app-create-or-edit-process-risk-control #createOrEditProcessRiskControlModal (modalSave)="reload()"></app-create-or-edit-process-risk-control>
+<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="reload()" ></createOrEditTestingTemplateModal>

@@ -10966,10 +10966,15 @@ export class ProcessesServiceProxy {
     }
 
     /**
+     * @param id (optional) 
      * @return Success
      */
-    getProcesses(): Observable<ListResultDtoOfOrganizationUnitDto> {
-        let url_ = this.baseUrl + "/api/services/app/Processes/GetProcesses";
+    getProcesses(id: number | undefined): Observable<ListResultDtoOfOrganizationUnitDto> {
+        let url_ = this.baseUrl + "/api/services/app/Processes/GetProcesses?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15889,6 +15894,62 @@ export class TestingTemplatesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetTestingTemplateForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getForProcessControl(id: number | undefined): Observable<ListResultDtoOfGetTestingTemplateForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetForProcessControl?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetForProcessControl(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetForProcessControl(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfGetTestingTemplateForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfGetTestingTemplateForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetForProcessControl(response: HttpResponseBase): Observable<ListResultDtoOfGetTestingTemplateForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfGetTestingTemplateForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfGetTestingTemplateForViewDto>(<any>null);
     }
 
     /**
@@ -29198,12 +29259,313 @@ export interface IProcessRiskControlDto {
     id: number;
 }
 
+export class TestingTemplateDto implements ITestingTemplateDto {
+    code!: string | undefined;
+    detailedInstructions!: string | undefined;
+    title!: string | undefined;
+    frequency!: string | undefined;
+    sampleSize!: number;
+    daysToComplete!: number;
+    departmentRiskControlId!: number | undefined;
+    isActive!: boolean;
+    id!: number;
+
+    constructor(data?: ITestingTemplateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.detailedInstructions = data["detailedInstructions"];
+            this.title = data["title"];
+            this.frequency = data["frequency"];
+            this.sampleSize = data["sampleSize"];
+            this.daysToComplete = data["daysToComplete"];
+            this.departmentRiskControlId = data["departmentRiskControlId"];
+            this.isActive = data["isActive"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): TestingTemplateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestingTemplateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["detailedInstructions"] = this.detailedInstructions;
+        data["title"] = this.title;
+        data["frequency"] = this.frequency;
+        data["sampleSize"] = this.sampleSize;
+        data["daysToComplete"] = this.daysToComplete;
+        data["departmentRiskControlId"] = this.departmentRiskControlId;
+        data["isActive"] = this.isActive;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ITestingTemplateDto {
+    code: string | undefined;
+    detailedInstructions: string | undefined;
+    title: string | undefined;
+    frequency: string | undefined;
+    sampleSize: number;
+    daysToComplete: number;
+    departmentRiskControlId: number | undefined;
+    isActive: boolean;
+    id: number;
+}
+
+export class RiskDto implements IRiskDto {
+    code!: string | undefined;
+    name!: string | undefined;
+    description!: string | undefined;
+    severity!: Severity;
+    id!: number;
+
+    constructor(data?: IRiskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.severity = data["severity"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RiskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RiskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["severity"] = this.severity;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRiskDto {
+    code: string | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    severity: Severity;
+    id: number;
+}
+
+export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttributeDto {
+    attributeText!: string | undefined;
+    result!: boolean;
+    weight!: number;
+    comments!: string | undefined;
+    testingAttrributeId!: number | undefined;
+    sequence!: number;
+
+    constructor(data?: ICreateOrEditTestingAttributeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.attributeText = data["attributeText"];
+            this.result = data["result"];
+            this.weight = data["weight"];
+            this.comments = data["comments"];
+            this.testingAttrributeId = data["testingAttrributeId"];
+            this.sequence = data["sequence"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditTestingAttributeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditTestingAttributeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["attributeText"] = this.attributeText;
+        data["result"] = this.result;
+        data["weight"] = this.weight;
+        data["comments"] = this.comments;
+        data["testingAttrributeId"] = this.testingAttrributeId;
+        data["sequence"] = this.sequence;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditTestingAttributeDto {
+    attributeText: string | undefined;
+    result: boolean;
+    weight: number;
+    comments: string | undefined;
+    testingAttrributeId: number | undefined;
+    sequence: number;
+}
+
+export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
+    testingTemplate!: TestingTemplateDto;
+    departmentRiskControlCode!: string | undefined;
+    affectedDepartments!: string | undefined;
+    cascade!: string | undefined;
+    risk!: RiskDto;
+    control!: ControlDto;
+    attributes!: CreateOrEditTestingAttributeDto[] | undefined;
+    exceptionTypeName!: string | undefined;
+    entityType!: string | undefined;
+    ouDisplayName!: string | undefined;
+
+    constructor(data?: IGetTestingTemplateForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.testingTemplate = data["testingTemplate"] ? TestingTemplateDto.fromJS(data["testingTemplate"]) : <any>undefined;
+            this.departmentRiskControlCode = data["departmentRiskControlCode"];
+            this.affectedDepartments = data["affectedDepartments"];
+            this.cascade = data["cascade"];
+            this.risk = data["risk"] ? RiskDto.fromJS(data["risk"]) : <any>undefined;
+            this.control = data["control"] ? ControlDto.fromJS(data["control"]) : <any>undefined;
+            if (Array.isArray(data["attributes"])) {
+                this.attributes = [] as any;
+                for (let item of data["attributes"])
+                    this.attributes!.push(CreateOrEditTestingAttributeDto.fromJS(item));
+            }
+            this.exceptionTypeName = data["exceptionTypeName"];
+            this.entityType = data["entityType"];
+            this.ouDisplayName = data["ouDisplayName"];
+        }
+    }
+
+    static fromJS(data: any): GetTestingTemplateForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetTestingTemplateForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
+        data["departmentRiskControlCode"] = this.departmentRiskControlCode;
+        data["affectedDepartments"] = this.affectedDepartments;
+        data["cascade"] = this.cascade;
+        data["risk"] = this.risk ? this.risk.toJSON() : <any>undefined;
+        data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        if (Array.isArray(this.attributes)) {
+            data["attributes"] = [];
+            for (let item of this.attributes)
+                data["attributes"].push(item.toJSON());
+        }
+        data["exceptionTypeName"] = this.exceptionTypeName;
+        data["entityType"] = this.entityType;
+        data["ouDisplayName"] = this.ouDisplayName;
+        return data; 
+    }
+}
+
+export interface IGetTestingTemplateForViewDto {
+    testingTemplate: TestingTemplateDto;
+    departmentRiskControlCode: string | undefined;
+    affectedDepartments: string | undefined;
+    cascade: string | undefined;
+    risk: RiskDto;
+    control: ControlDto;
+    attributes: CreateOrEditTestingAttributeDto[] | undefined;
+    exceptionTypeName: string | undefined;
+    entityType: string | undefined;
+    ouDisplayName: string | undefined;
+}
+
+export class ListResultDtoOfGetTestingTemplateForViewDto implements IListResultDtoOfGetTestingTemplateForViewDto {
+    items!: GetTestingTemplateForViewDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfGetTestingTemplateForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetTestingTemplateForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfGetTestingTemplateForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfGetTestingTemplateForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfGetTestingTemplateForViewDto {
+    items: GetTestingTemplateForViewDto[] | undefined;
+}
+
 export class GetProcessRiskControlForViewDto implements IGetProcessRiskControlForViewDto {
     processRiskControl!: ProcessRiskControlDto;
     processRiskCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
     controlName!: string | undefined;
     inherited!: boolean;
+    testingTemplates!: ListResultDtoOfGetTestingTemplateForViewDto;
 
     constructor(data?: IGetProcessRiskControlForViewDto) {
         if (data) {
@@ -29221,6 +29583,7 @@ export class GetProcessRiskControlForViewDto implements IGetProcessRiskControlFo
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.controlName = data["controlName"];
             this.inherited = data["inherited"];
+            this.testingTemplates = data["testingTemplates"] ? ListResultDtoOfGetTestingTemplateForViewDto.fromJS(data["testingTemplates"]) : <any>undefined;
         }
     }
 
@@ -29238,6 +29601,7 @@ export class GetProcessRiskControlForViewDto implements IGetProcessRiskControlFo
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["controlName"] = this.controlName;
         data["inherited"] = this.inherited;
+        data["testingTemplates"] = this.testingTemplates ? this.testingTemplates.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -29248,6 +29612,7 @@ export interface IGetProcessRiskControlForViewDto {
     organizationUnitDisplayName: string | undefined;
     controlName: string | undefined;
     inherited: boolean;
+    testingTemplates: ListResultDtoOfGetTestingTemplateForViewDto;
 }
 
 export class PagedResultDtoOfGetProcessRiskControlForViewDto implements IPagedResultDtoOfGetProcessRiskControlForViewDto {
@@ -30576,58 +30941,6 @@ export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
 
 export interface IChangeUserLanguageDto {
     languageName: string | undefined;
-}
-
-export class RiskDto implements IRiskDto {
-    code!: string | undefined;
-    name!: string | undefined;
-    description!: string | undefined;
-    severity!: Severity;
-    id!: number;
-
-    constructor(data?: IRiskDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.code = data["code"];
-            this.name = data["name"];
-            this.description = data["description"];
-            this.severity = data["severity"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RiskDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RiskDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["severity"] = this.severity;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IRiskDto {
-    code: string | undefined;
-    name: string | undefined;
-    description: string | undefined;
-    severity: Severity;
-    id: number;
 }
 
 export class GetRiskForViewDto implements IGetRiskForViewDto {
@@ -33605,210 +33918,6 @@ export interface ITenantSettingsEditDto {
     security: SecuritySettingsEditDto;
     billing: TenantBillingSettingsEditDto;
     otherSettings: TenantOtherSettingsEditDto;
-}
-
-export class TestingTemplateDto implements ITestingTemplateDto {
-    code!: string | undefined;
-    detailedInstructions!: string | undefined;
-    title!: string | undefined;
-    frequency!: string | undefined;
-    sampleSize!: number;
-    daysToComplete!: number;
-    departmentRiskControlId!: number | undefined;
-    isActive!: boolean;
-    id!: number;
-
-    constructor(data?: ITestingTemplateDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.code = data["code"];
-            this.detailedInstructions = data["detailedInstructions"];
-            this.title = data["title"];
-            this.frequency = data["frequency"];
-            this.sampleSize = data["sampleSize"];
-            this.daysToComplete = data["daysToComplete"];
-            this.departmentRiskControlId = data["departmentRiskControlId"];
-            this.isActive = data["isActive"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): TestingTemplateDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new TestingTemplateDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["detailedInstructions"] = this.detailedInstructions;
-        data["title"] = this.title;
-        data["frequency"] = this.frequency;
-        data["sampleSize"] = this.sampleSize;
-        data["daysToComplete"] = this.daysToComplete;
-        data["departmentRiskControlId"] = this.departmentRiskControlId;
-        data["isActive"] = this.isActive;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface ITestingTemplateDto {
-    code: string | undefined;
-    detailedInstructions: string | undefined;
-    title: string | undefined;
-    frequency: string | undefined;
-    sampleSize: number;
-    daysToComplete: number;
-    departmentRiskControlId: number | undefined;
-    isActive: boolean;
-    id: number;
-}
-
-export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttributeDto {
-    attributeText!: string | undefined;
-    result!: boolean;
-    weight!: number;
-    comments!: string | undefined;
-    testingAttrributeId!: number | undefined;
-    sequence!: number;
-
-    constructor(data?: ICreateOrEditTestingAttributeDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.attributeText = data["attributeText"];
-            this.result = data["result"];
-            this.weight = data["weight"];
-            this.comments = data["comments"];
-            this.testingAttrributeId = data["testingAttrributeId"];
-            this.sequence = data["sequence"];
-        }
-    }
-
-    static fromJS(data: any): CreateOrEditTestingAttributeDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrEditTestingAttributeDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["attributeText"] = this.attributeText;
-        data["result"] = this.result;
-        data["weight"] = this.weight;
-        data["comments"] = this.comments;
-        data["testingAttrributeId"] = this.testingAttrributeId;
-        data["sequence"] = this.sequence;
-        return data; 
-    }
-}
-
-export interface ICreateOrEditTestingAttributeDto {
-    attributeText: string | undefined;
-    result: boolean;
-    weight: number;
-    comments: string | undefined;
-    testingAttrributeId: number | undefined;
-    sequence: number;
-}
-
-export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
-    testingTemplate!: TestingTemplateDto;
-    departmentRiskControlCode!: string | undefined;
-    affectedDepartments!: string | undefined;
-    cascade!: string | undefined;
-    risk!: RiskDto;
-    control!: ControlDto;
-    attributes!: CreateOrEditTestingAttributeDto[] | undefined;
-    exceptionTypeName!: string | undefined;
-    entityType!: string | undefined;
-    ouDisplayName!: string | undefined;
-
-    constructor(data?: IGetTestingTemplateForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.testingTemplate = data["testingTemplate"] ? TestingTemplateDto.fromJS(data["testingTemplate"]) : <any>undefined;
-            this.departmentRiskControlCode = data["departmentRiskControlCode"];
-            this.affectedDepartments = data["affectedDepartments"];
-            this.cascade = data["cascade"];
-            this.risk = data["risk"] ? RiskDto.fromJS(data["risk"]) : <any>undefined;
-            this.control = data["control"] ? ControlDto.fromJS(data["control"]) : <any>undefined;
-            if (Array.isArray(data["attributes"])) {
-                this.attributes = [] as any;
-                for (let item of data["attributes"])
-                    this.attributes!.push(CreateOrEditTestingAttributeDto.fromJS(item));
-            }
-            this.exceptionTypeName = data["exceptionTypeName"];
-            this.entityType = data["entityType"];
-            this.ouDisplayName = data["ouDisplayName"];
-        }
-    }
-
-    static fromJS(data: any): GetTestingTemplateForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetTestingTemplateForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
-        data["departmentRiskControlCode"] = this.departmentRiskControlCode;
-        data["affectedDepartments"] = this.affectedDepartments;
-        data["cascade"] = this.cascade;
-        data["risk"] = this.risk ? this.risk.toJSON() : <any>undefined;
-        data["control"] = this.control ? this.control.toJSON() : <any>undefined;
-        if (Array.isArray(this.attributes)) {
-            data["attributes"] = [];
-            for (let item of this.attributes)
-                data["attributes"].push(item.toJSON());
-        }
-        data["exceptionTypeName"] = this.exceptionTypeName;
-        data["entityType"] = this.entityType;
-        data["ouDisplayName"] = this.ouDisplayName;
-        return data; 
-    }
-}
-
-export interface IGetTestingTemplateForViewDto {
-    testingTemplate: TestingTemplateDto;
-    departmentRiskControlCode: string | undefined;
-    affectedDepartments: string | undefined;
-    cascade: string | undefined;
-    risk: RiskDto;
-    control: ControlDto;
-    attributes: CreateOrEditTestingAttributeDto[] | undefined;
-    exceptionTypeName: string | undefined;
-    entityType: string | undefined;
-    ouDisplayName: string | undefined;
 }
 
 export class PagedResultDtoOfGetTestingTemplateForViewDto implements IPagedResultDtoOfGetTestingTemplateForViewDto {

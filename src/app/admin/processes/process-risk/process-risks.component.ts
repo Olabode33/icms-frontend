@@ -117,7 +117,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     }
 
     refreshRisks(): void {
-        this.reloadPage();
+        this.getOrganizationUnitRisksNew();
     }
 
     addRiskToUnit(): void {

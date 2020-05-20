@@ -33,8 +33,8 @@
 
                     <div class="form-group">
                         <label for="Process_Description">{{l("Description")}}</label>
-                        <input type="text" id="Process_Description" class="form-control"
-                            [(ngModel)]="process.description" name="Description" />
+                        <textarea id="Process_Description" class="form-control"
+                            [(ngModel)]="process.description" name="Description" rows="5"></textarea>
                     </div>
 
                     <div class="form-group m-form__group">
@@ -97,4 +97,7 @@
 
         </div>
     </div>
+
+    <processUserLookupTableModal #processUserLookupTableModal (modalSave)="getNewOwnerId()"></processUserLookupTableModal>
+		 <processOrganizationUnitLookupTableModal #processOrganizationUnitLookupTableModal (modalSave)="getNewDepartmentId()"></processOrganizationUnitLookupTableModal>
 </div>

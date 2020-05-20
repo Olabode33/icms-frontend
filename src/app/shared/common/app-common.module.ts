@@ -52,6 +52,9 @@ import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main
 import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
 import { OrganizationUnitRisksComponent } from '@app/admin/organization-units/organization-unit-risks.component';
+import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
+import { CreateOrEditProcessRiskModalComponent } from '@app/admin/processes/process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
+import { CreateOrEditProcessRiskControlModalComponent } from '@app/admin/processes/process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 
 
 @NgModule({
@@ -108,8 +111,14 @@ import { OrganizationUnitRisksComponent } from '@app/admin/organization-units/or
         DepartmentRiskControlControlLookupTableModalComponent,
         ViewDepartmentModalComponent,
         OrganizationUnitRisksComponent,
+        DeptProcessRiskControlComponent,
+        CreateOrEditProcessRiskModalComponent,
+        CreateOrEditProcessRiskControlModalComponent
     ],
     exports: [
+        CreateOrEditProcessRiskModalComponent,
+        CreateOrEditProcessRiskControlModalComponent,
+        DeptProcessRiskControlComponent,
         OrganizationUnitRisksComponent,
         TimeZoneComboComponent,
         CommonLookupModalComponent,

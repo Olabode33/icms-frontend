@@ -30,9 +30,10 @@
                         </div>
                         <div class="kt-portlet__body">
                             <tabset class="tab-container" >
-                                <tab heading="Risks" [active]="true">
-                                    <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" 
-                                                             (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks>
+                                <tab heading="Processes" [active]="true">
+                                    <app-dept-process-risk-control #ouProcess ></app-dept-process-risk-control>
+                                    <!-- <organization-unit-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" 
+                                                             (riskRemoved)="ouTree.risksRemoved($event)"></organization-unit-risks> -->
                                 </tab>
                                 <tab heading="{{'Members' | localize}}" >
                                     <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)"

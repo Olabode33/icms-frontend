@@ -97,6 +97,7 @@ import { CreateEditProcessModalComponent } from './processes/create-edit-process
 import { ProcessRisksComponent } from './processes/process-risk/process-risks.component';
 import { CreateOrEditProcessRiskModalComponent } from './processes/process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './processes/process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
+import { DeptProcessRiskControlComponent } from './processes/dept-process-risk-control/dept-process-risk-control.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // suppressScrollX: true
 };
@@ -133,8 +134,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         DropdownModule
     ],
     declarations: [
-        CreateOrEditProcessRiskControlModalComponent,
-        CreateOrEditProcessRiskModalComponent,
+        // DeptProcessRiskControlComponent,
+        // CreateOrEditProcessRiskControlModalComponent,
+        // CreateOrEditProcessRiskModalComponent,
         ProcessRisksComponent,
         CreateEditProcessModalComponent,
         ProcessUserLookupTableModalComponent,

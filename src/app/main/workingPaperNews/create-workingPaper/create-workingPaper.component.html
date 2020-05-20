@@ -1,0 +1,160 @@
+<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span>Working Paper</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <span class="kt-subheader__desc">
+                    </span>
+                </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button (click)="goBack()" class="btn btn-outline-primary blue">
+                            <i class="fa fa-reply"></i>
+                            {{l("Back")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body  ">
+                    
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="TestingTemplate_Title">Review Date</label>
+                            <input type="text" readonly id="TestingTemplate_Time_To_Complete" class="form-control" [value]="workingPaperNew.reviewDate | momentFormat: 'LL'" name="DaysToComplete" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TestingTemplate_Title">{{l("Testing Template")}} </label>
+                        <input type="text" readonly id="TestingTemplate_Title" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.title" name="Title" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TestingTemplate_Title">Business Unit</label>
+                        <input type="text" readonly id="TestingTemplate_BU" class="form-control" value="Allen Avenue Branch" name="BU" />
+                    </div>                    
+
+                    <div class="form-group">
+                        <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
+                        <textarea type="text" readonly rows="5" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.detailedInstructions" name="DetailedInstructions"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="TestingTemplate_Title">Sample Size</label>
+                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.sampleSize" name="frequency" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
+                            <div class="card">
+                                <div class="card-header" id="headingOne4">
+                                    <div class="card-title" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
+                                        <i class="flaticon-warning"></i> Risk
+                                    </div>
+                                </div>
+                                <div id="collapseOne4" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td style="width: 20%;">Code:</td>
+                                                    <td style="width: 80%;">R-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Name:</td>
+                                                    <td style="width: 80%;">Physical assets are stolen</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Description:</td>
+                                                    <td style="width: 80%;">Physical assets  (e.g. Laptops, Printers, TVs, etc.) belonging to the bank are stolen.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Severity:</td>
+                                                    <td style="width: 80%;">
+                                                        <span class="kt-badge kt-badge--inline kt-badge--danger">High</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo4">
+                                    <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
+                                        <i class="flaticon2-dashboard"></i> Control
+                                    </div>
+                                </div>
+                                <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
+                                    <div class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <tabset>
+                        <tab heading="Test Attributes">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="TestingTemplate_Title">Sample id</label>
+                                    <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [value]="sampleId" name="SampleSize" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>
+                                                Attribute Question(s)
+                                            </th>
+                                            <th>Weight</th>
+                                            <th>Response</th>
+                                        </tr>
+                                        <tr *ngFor="let x of attributes">
+                                            <td>{{x.name}}</td>
+                                            <td>{{x.weight + 5}}</td>
+                                            <td>
+                                                <select class="form-control" name="result" [(ngModel)]="x.value">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                    <option value="Partial">Partial</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button *ngIf="x.value != 'Yes'" type="button" class="btn btn-outline-danger" (click)="addResult()">Create Exception</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="form-group">
+                                        <label for="WorkingPaperNew_Comment">{{l("Comment")}}</label>
+                                        <textarea type="text" id="WorkingPaperNew_Comment" class="form-control" rows="5" [(ngModel)]="workingPaperNew.comment" name="Comment"></textarea>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-primary" (click)="addResult()">Add Result</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Exceptions">
+                        </tab>
+                        <tab heading="Escalation">
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

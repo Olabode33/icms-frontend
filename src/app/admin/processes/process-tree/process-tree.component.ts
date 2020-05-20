@@ -119,7 +119,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
 
     private getTreeDataFromServer(): void {
         let self = this;
-        this._processService.getProcesses().subscribe((result: ListResultDtoOfOrganizationUnitDto) => {
+        this._processService.getProcesses(0).subscribe((result: ListResultDtoOfOrganizationUnitDto) => {
             this.totalUnitCount = result.items.length;
             this.treeData = this._arrayToTreeConverterService.createTree(result.items,
                 'parentId',

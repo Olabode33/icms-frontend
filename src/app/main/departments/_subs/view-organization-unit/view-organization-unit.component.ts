@@ -1,11 +1,13 @@
 import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto } from './../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Location } from '@angular/common';
 import { DepartmentsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
 import { ActivatedRoute } from '@angular/router';
+import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
+import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
 
 
 @Component({
@@ -16,6 +18,9 @@ import { ActivatedRoute } from '@angular/router';
     animations: [appModuleAnimation()]
 })
 export class ViewOrganizationUnitComponent extends AppComponentBase implements OnInit {
+
+    @ViewChild('ouProcess', {static: true}) ouProcess: DeptProcessRiskControlComponent;
+    organizationUnit: IBasicOrganizationUnitInfo = null;
 
     _organizationUnitId = -1;
     department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
@@ -155,6 +160,9 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
             this.userName2 = result.userName2;
             this.organizationUnitDisplayName = result.organizationUnitDisplayName;
 
+            this.organizationUnit = { id: this._organizationUnitId, displayName: result.organizationUnitDisplayName };
+
+            this.ouProcess.organizationUnit = this.organizationUnit;
         });
     }
 

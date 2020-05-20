@@ -191,7 +191,7 @@
     Select a process to see risks.
 </div>
 
-<app-create-or-edit-process-risk #createOrEditProcessRiskModal (risksAdded)="addRisks($event)"></app-create-or-edit-process-risk>
-<app-create-or-edit-process-risk-control #createOrEditProcessRiskControlModal></app-create-or-edit-process-risk-control>
+<app-create-or-edit-process-risk #createOrEditProcessRiskModal (modalSave)="reloadPage($event)"></app-create-or-edit-process-risk>
+<app-create-or-edit-process-risk-control #createOrEditProcessRiskControlModal (modalSave)="reloadPage()"></app-create-or-edit-process-risk-control>
 
-<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal ></createOrEditTestingTemplateModal>
+<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="reloadPage()" ></createOrEditTestingTemplateModal>
