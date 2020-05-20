@@ -22346,6 +22346,8 @@ export class DepartmentDto implements IDepartmentDto {
     displayName!: string | undefined;
     memberCount!: number;
     roleCount!: number;
+    departmentCode!: string | undefined;
+    departmentId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -22375,6 +22377,8 @@ export class DepartmentDto implements IDepartmentDto {
             this.displayName = data["displayName"];
             this.memberCount = data["memberCount"];
             this.roleCount = data["roleCount"];
+            this.departmentCode = data["departmentCode"];
+            this.departmentId = data["departmentId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -22404,6 +22408,8 @@ export class DepartmentDto implements IDepartmentDto {
         data["displayName"] = this.displayName;
         data["memberCount"] = this.memberCount;
         data["roleCount"] = this.roleCount;
+        data["departmentCode"] = this.departmentCode;
+        data["departmentId"] = this.departmentId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -22426,6 +22432,8 @@ export interface IDepartmentDto {
     displayName: string | undefined;
     memberCount: number;
     roleCount: number;
+    departmentCode: string | undefined;
+    departmentId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;
@@ -27446,6 +27454,8 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
     displayName!: string | undefined;
     memberCount!: number;
     roleCount!: number;
+    departmentCode!: string | undefined;
+    departmentId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -27468,6 +27478,8 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
             this.displayName = data["displayName"];
             this.memberCount = data["memberCount"];
             this.roleCount = data["roleCount"];
+            this.departmentCode = data["departmentCode"];
+            this.departmentId = data["departmentId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -27490,6 +27502,8 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
         data["displayName"] = this.displayName;
         data["memberCount"] = this.memberCount;
         data["roleCount"] = this.roleCount;
+        data["departmentCode"] = this.departmentCode;
+        data["departmentId"] = this.departmentId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -27505,6 +27519,8 @@ export interface IOrganizationUnitDto {
     displayName: string | undefined;
     memberCount: number;
     roleCount: number;
+    departmentCode: string | undefined;
+    departmentId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;

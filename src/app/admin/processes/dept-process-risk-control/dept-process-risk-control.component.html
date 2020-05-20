@@ -15,6 +15,12 @@
                             (click)="toggleProcessAccordion(p)" data-toggle="collapse" data-target="#collapseOne4"
                             aria-expanded="false" aria-controls="collapseOne4">
                             <i class="flaticon-tabs"></i> {{process.process.displayName}}
+                            <span *ngIf="_organizationUnit.id != process.process.departmentId"
+                                class="kt-badge kt-badge--brand kt-badge--inline ml-3"
+                                data-toggle="tooltip" title="This control was inherited from a parent department."
+                                data-placement="top">
+                                Inherited
+                            </span>
                         </div>
                     </div>
                     <div id="collapseOne{{process.process.id}}" class="collapse" [ngClass]="{show: process.isActive}"
