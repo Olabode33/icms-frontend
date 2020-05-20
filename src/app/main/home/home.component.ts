@@ -3,6 +3,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { WorkingPaper } from '@app/UIModel/WorkingPaper';
 import { Router } from '@angular/router';
+import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'app-home',
@@ -15,28 +16,34 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
 
     workingpapers: WorkingPaper[] = new Array();
+    ous: OrganizationUnitDto[] = new Array();
+
 
     constructor(private _router: Router,
         injector: Injector,
+        private _ouService: OrganizationUnitServiceProxy,
+        private _departmentService: DepartmentsServiceProxy
     ) {
         super(injector);
-
+        _ouService.getOrganizationUnits().subscribe(result => {
+            this.ous = result.items;
+        });
     }
 
     ngOnInit() {
 
 
         let itm1: WorkingPaper = {
-            Id: 1,
+            Id: 25,
             Score: 18,
             TestingTemplateData: 'Apply resolution to incidence',
-            businessUnit: 'Allen Avenue Branch',
+            businessUnit: 'Operations',
             Code: '8945869',
             TaskStatus: 'Pending'
         };
 
         let itm2: WorkingPaper = {
-            Id: 2,
+            Id: 30,
             Score: 9,
             TestingTemplateData: 'Minify risk spreading',
             businessUnit: 'Allen Avenue Branch',
@@ -44,7 +51,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
             TaskStatus: 'Pending'
         };
         let itm3: WorkingPaper = {
-            Id: 3,
+            Id: 31,
             Score: 6,
             TestingTemplateData: 'Quarantine affected machines',
             businessUnit: 'Maryland Branch',
@@ -56,23 +63,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
         this.workingpapers.push(itm2);
         this.workingpapers.push(itm3);
         this.workingpapers.push({
-            Id: 2,
-            Score: 9,
-            TestingTemplateData: 'Minify risk spreading',
-            businessUnit: 'Maryland Branch',
-            Code: '6986594',
-            TaskStatus: 'Pending'
-        });
-        this.workingpapers.push({
-            Id: 1,
-            Score: 18,
-            TestingTemplateData: 'Apply resolution to incidence',
-            businessUnit: 'Maryland Branch',
-            Code: '8945869',
-            TaskStatus: 'Pending'
-        });
-        this.workingpapers.push({
-            Id: 2,
+            Id: 32,
             Score: 9,
             TestingTemplateData: 'Minify risk spreading',
             businessUnit: 'MM2 Branch',
@@ -80,10 +71,10 @@ export class HomeComponent extends AppComponentBase implements OnInit {
             TaskStatus: 'Pending'
         });
         this.workingpapers.push({
-            Id: 1,
+            Id: 33,
             Score: 18,
             TestingTemplateData: 'Apply resolution to incidence',
-            businessUnit: 'MM2 Branch',
+            businessUnit: 'Bode Thomas Branch',
             Code: '8945869',
             TaskStatus: 'Pending'
         });
@@ -92,7 +83,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
 
     OpenDetails(id: number) {
-        this._router.navigateByUrl('/app/main/workingPaperNews/6cf6aab5-7748-48d3-c8b1-08d7fc087593');
+        this._router.navigate(['/app/main/departments/view', id]);
     }
 
 }
