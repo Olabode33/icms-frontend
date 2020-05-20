@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } fro
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -31,8 +31,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     userName = '';
     userName2 = '';
 
-    fakeTestingTemplateId = 6;
-    fakeTestingTemplateCode = 'TT-1';
+    depts: ListResultDtoOfOrganizationUnitDto = new ListResultDtoOfOrganizationUnitDto();
 
     constructor(
         injector: Injector,
@@ -41,31 +40,40 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         private _router: Router,
         private _location: Location,
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
-        private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
+        private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy,
+        private _ouService: OrganizationUnitServiceProxy
     ) {
         super(injector);
+        this.getAllDepartments();
+        this.depts.items = new Array();
     }
 
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params: Params) => {
-            let workingPaperId: number;
+            let workingPaperId: string;
             let testingTemplateId: number;
             let departmentId: number;
 
             if (params.testingTemplateId && params.departmentId ) {
-                workingPaperId = +params['workingPaperId'];
+                testingTemplateId = +params['testingTemplateId'];
                 departmentId = +params['departmentId'];
+                this.show(null, testingTemplateId, departmentId);
+            }
+
+            if (params.testingTemplateId && params.departmentId ) {
+                workingPaperId = params['workingPaperId'];
+                this.show(workingPaperId);
             }
             this.show();
         });
     }
 
-    show(workingPaperNewId?: string): void {
+    show(workingPaperNewId?: string, testingTemplateId?: number, departmentId?: number): void {
         this.completionDate = null;
 
             if (!workingPaperNewId) {
                 this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
-                this.workingPaperNew.id = workingPaperNewId;
+                this.workingPaperNew.id = null;
                 this.workingPaperNew.taskDate = moment().startOf('day');
                 this.workingPaperNew.dueDate = moment().startOf('day');
                 this.workingPaperNew.reviewDate = moment().startOf('day');
@@ -80,9 +88,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.testingTemplate.control = new ControlDto();
 
                 //Fake out
-                this.workingPaperNew.testingTemplateId = this.fakeTestingTemplateId;
-                this.testingTemplateCode = this.fakeTestingTemplateCode;
+                this.workingPaperNew.testingTemplateId = testingTemplateId;
+                this.workingPaperNew.organizationUnitId = departmentId;
                 this.getTemplateDetails();
+                this.getDeptDetails(departmentId);
 
                 this.active = true;
             } else {
@@ -112,6 +121,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
+                this.testingTemplateCode = result.testingTemplate.code;
                 this.attributes = [];
                 this.samples = [];
 
@@ -127,6 +137,16 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 });
 
             });
+    }
+
+    getAllDepartments(): void {
+        this._ouService.getOrganizationUnits().subscribe(result => {
+            this.depts = result;
+        });
+    }
+
+    getDeptDetails(departId): void {
+        this.organizationUnitDisplayName = this.depts.items.find(x => x.id === departId).displayName;
     }
 
 

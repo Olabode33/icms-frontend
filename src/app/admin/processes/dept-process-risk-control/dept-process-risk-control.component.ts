@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
@@ -34,7 +35,8 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private _processService: ProcessesServiceProxy,
         private _processRiskService: ProcessRisksServiceProxy,
-        private _processRiskControlService: ProcessRiskControlsServiceProxy
+        private _processRiskControlService: ProcessRiskControlsServiceProxy,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -144,6 +146,10 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     addControlToRisk(riskId: number, riskDepartmentId?: number): void {
 
         this.createOrEditProcessRiskControlModal.show(null, riskId, this._organizationUnit.id);
+    }
+
+    review(testingTemplateId: number): void {
+        this._router.navigate(['app/main/workingPaperNews', testingTemplateId, this._organizationUnit.id]);
     }
 
 }
