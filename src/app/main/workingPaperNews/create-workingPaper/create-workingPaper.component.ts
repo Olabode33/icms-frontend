@@ -2,17 +2,17 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } fro
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, CreateOrEditTestingAttributeDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-create-workingPaper',
-  templateUrl: './create-workingPaper.component.html',
-  styleUrls: ['./create-workingPaper.component.css'],
-  encapsulation: ViewEncapsulation.None,
-  animations: [appModuleAnimation()]
+    selector: 'app-create-workingPaper',
+    templateUrl: './create-workingPaper.component.html',
+    styleUrls: ['./create-workingPaper.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    animations: [appModuleAnimation()]
 })
 export class CreateWorkingPaperComponent extends AppComponentBase implements OnInit {
 
@@ -54,13 +54,13 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             let testingTemplateId: number;
             let departmentId: number;
 
-            if (params.testingTemplateId && params.departmentId ) {
+            if (params.testingTemplateId && params.departmentId) {
                 testingTemplateId = +params['testingTemplateId'];
                 departmentId = +params['departmentId'];
                 this.show(null, testingTemplateId, departmentId);
             }
 
-            if (params.testingTemplateId && params.departmentId ) {
+            if (params.testingTemplateId && params.departmentId) {
                 workingPaperId = params['workingPaperId'];
                 this.show(workingPaperId);
             }
@@ -71,45 +71,45 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     show(workingPaperNewId?: string, testingTemplateId?: number, departmentId?: number): void {
         this.completionDate = null;
 
-            if (!workingPaperNewId) {
-                this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
-                this.workingPaperNew.id = null;
-                this.workingPaperNew.taskDate = moment().startOf('day');
-                this.workingPaperNew.dueDate = moment().startOf('day');
-                this.workingPaperNew.reviewDate = moment().startOf('day');
-                this.testingTemplateCode = '';
-                this.organizationUnitDisplayName = '';
-                this.userName = '';
-                this.userName2 = '';
+        if (!workingPaperNewId) {
+            this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
+            this.workingPaperNew.id = null;
+            this.workingPaperNew.taskDate = moment().startOf('day');
+            this.workingPaperNew.dueDate = moment().startOf('day');
+            this.workingPaperNew.reviewDate = moment().startOf('day');
+            this.testingTemplateCode = '';
+            this.organizationUnitDisplayName = '';
+            this.userName = '';
+            this.userName2 = '';
 
-                this.testingTemplate.testingTemplate = new TestingTemplateDto();
-                this.testingTemplate.attributes = [];
-                this.testingTemplate.risk = new RiskDto();
-                this.testingTemplate.control = new ControlDto();
+            this.testingTemplate.testingTemplate = new TestingTemplateDto();
+            this.testingTemplate.attributes = [];
+            this.testingTemplate.risk = new RiskDto();
+            this.testingTemplate.control = new ControlDto();
 
-                //Fake out
-                this.workingPaperNew.testingTemplateId = testingTemplateId;
-                this.workingPaperNew.organizationUnitId = departmentId;
-                this.getTemplateDetails();
-                this.getDeptDetails(departmentId);
+            //Fake out
+            this.workingPaperNew.testingTemplateId = testingTemplateId;
+            this.workingPaperNew.organizationUnitId = departmentId;
+            this.getTemplateDetails();
+            this.getDeptDetails(departmentId);
+
+            this.active = true;
+        } else {
+            this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
+                this.workingPaperNew = result.workingPaperNew;
+
+                if (this.workingPaperNew.completionDate) {
+                    this.completionDate = this.workingPaperNew.completionDate.toDate();
+                }
+                this.testingTemplateCode = result.testingTemplateCode;
+                this.organizationUnitDisplayName = result.organizationUnitDisplayName;
+                this.userName = result.userName;
+                this.userName2 = result.userName2;
 
                 this.active = true;
-            } else {
-                this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
-                    this.workingPaperNew = result.workingPaperNew;
-
-                    if (this.workingPaperNew.completionDate) {
-                        this.completionDate = this.workingPaperNew.completionDate.toDate();
-                    }
-                    this.testingTemplateCode = result.testingTemplateCode;
-                    this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-                    this.userName = result.userName;
-                    this.userName2 = result.userName2;
-
-                    this.active = true;
-                });
-            }
+            });
         }
+    }
 
     goBack(): void {
         this._location.back();
@@ -171,9 +171,47 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             });
             this.sampleId++;
         } else {
-            //this.save();
+            this.save();
         }
 
+    }
+
+    save(): void {
+        this.saving = true;
+
+
+        if (this.completionDate) {
+            if (!this.workingPaperNew.completionDate) {
+                this.workingPaperNew.completionDate = moment(this.completionDate).startOf('day');
+            } else {
+                this.workingPaperNew.completionDate = moment(this.completionDate);
+            }
+        } else {
+            this.workingPaperNew.completionDate = null;
+        }
+
+        this.workingPaperNew.attributes = [];
+
+        this.samples.forEach(x => {
+
+            console.log(x.attributes);
+            x.attributes.forEach(y => {
+                var item = new CreateOrEditTestingAttributeDto();
+                item.sequence = x.sampleId;
+                item.attributeText = y.name;
+                item.result = y.value == "false" ? false : true;
+                item.testingAttrributeId = y.id;
+                this.workingPaperNew.attributes.push(item);
+            });
+        });
+
+
+        this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.notify.info(this.l('SavedSuccessfully'));
+                this.goBack();
+            });
     }
 
 }

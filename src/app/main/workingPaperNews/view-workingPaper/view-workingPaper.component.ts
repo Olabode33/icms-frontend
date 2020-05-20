@@ -44,16 +44,17 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
         private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
     ) {
         super(injector);
+        this.testingTemplate.testingTemplate = new TestingTemplateDto();
     }
 
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params: Params) => {
-            let workingPaperId: number;
+            let workingPaperId: string;
 
             if (params.workingPaperId) {
-                workingPaperId = +params['workingPaperId'];
+                workingPaperId = params['workingPaperId'];
+                this.show(workingPaperId);
             }
-            this.show();
         });
     }
 
@@ -84,6 +85,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                 this.active = true;
             } else {
                 this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
+                    console.log(result);
                     this.workingPaperNew = result.workingPaperNew;
 
                     if (this.workingPaperNew.completionDate) {
@@ -94,6 +96,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                     this.userName = result.userName;
                     this.userName2 = result.userName2;
 
+                    this.getTemplateDetails();
                     this.active = true;
                 });
             }

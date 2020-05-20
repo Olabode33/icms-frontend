@@ -35929,7 +35929,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
     dueDate!: moment.Moment;
     taskStatus!: TaskStatus;
     score!: number;
-    reviewDate!: moment.Moment;
+    reviewDate!: moment.Moment | undefined;
     completionDate!: moment.Moment | undefined;
     testingTemplateId!: number | undefined;
     organizationUnitId!: number | undefined;
@@ -36008,7 +36008,7 @@ export interface ICreateOrEditWorkingPaperNewDto {
     dueDate: moment.Moment;
     taskStatus: TaskStatus;
     score: number;
-    reviewDate: moment.Moment;
+    reviewDate: moment.Moment | undefined;
     completionDate: moment.Moment | undefined;
     testingTemplateId: number | undefined;
     organizationUnitId: number | undefined;
