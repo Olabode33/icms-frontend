@@ -114,4 +114,8 @@ export class WorkingPaperNewsComponent extends AppComponentBase {
     view(id: number): void {
         this._router.navigate(['app/main/workingPaperNews', id ]);
     }
+
+    edit(id: number): void {
+        this._router.navigate(['app/main/workingPaperNews/edit', id ]);
+    }
 }

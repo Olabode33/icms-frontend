@@ -29402,6 +29402,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
     comments!: string | undefined;
     testingAttrributeId!: number | undefined;
     sequence!: number;
+    workingPaperId!: string | undefined;
 
     constructor(data?: ICreateOrEditTestingAttributeDto) {
         if (data) {
@@ -29420,6 +29421,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
             this.comments = data["comments"];
             this.testingAttrributeId = data["testingAttrributeId"];
             this.sequence = data["sequence"];
+            this.workingPaperId = data["workingPaperId"];
         }
     }
 
@@ -29438,6 +29440,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
         data["comments"] = this.comments;
         data["testingAttrributeId"] = this.testingAttrributeId;
         data["sequence"] = this.sequence;
+        data["workingPaperId"] = this.workingPaperId;
         return data; 
     }
 }
@@ -29449,6 +29452,7 @@ export interface ICreateOrEditTestingAttributeDto {
     comments: string | undefined;
     testingAttrributeId: number | undefined;
     sequence: number;
+    workingPaperId: string | undefined;
 }
 
 export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
@@ -36019,6 +36023,9 @@ export interface ICreateOrEditWorkingPaperNewDto {
 
 export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEditOutput {
     workingPaperNew!: CreateOrEditWorkingPaperNewDto;
+    testingTemplate!: GetTestingTemplateForViewDto;
+    workingPaperDetails!: CreateOrEditTestingAttributeDto[] | undefined;
+    lastSequence!: number | undefined;
     testingTemplateCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
     userName!: string | undefined;
@@ -36036,6 +36043,13 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
     init(data?: any) {
         if (data) {
             this.workingPaperNew = data["workingPaperNew"] ? CreateOrEditWorkingPaperNewDto.fromJS(data["workingPaperNew"]) : <any>undefined;
+            this.testingTemplate = data["testingTemplate"] ? GetTestingTemplateForViewDto.fromJS(data["testingTemplate"]) : <any>undefined;
+            if (Array.isArray(data["workingPaperDetails"])) {
+                this.workingPaperDetails = [] as any;
+                for (let item of data["workingPaperDetails"])
+                    this.workingPaperDetails!.push(CreateOrEditTestingAttributeDto.fromJS(item));
+            }
+            this.lastSequence = data["lastSequence"];
             this.testingTemplateCode = data["testingTemplateCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.userName = data["userName"];
@@ -36053,6 +36067,13 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["workingPaperNew"] = this.workingPaperNew ? this.workingPaperNew.toJSON() : <any>undefined;
+        data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
+        if (Array.isArray(this.workingPaperDetails)) {
+            data["workingPaperDetails"] = [];
+            for (let item of this.workingPaperDetails)
+                data["workingPaperDetails"].push(item.toJSON());
+        }
+        data["lastSequence"] = this.lastSequence;
         data["testingTemplateCode"] = this.testingTemplateCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["userName"] = this.userName;
@@ -36063,6 +36084,9 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
 
 export interface IGetWorkingPaperNewForEditOutput {
     workingPaperNew: CreateOrEditWorkingPaperNewDto;
+    testingTemplate: GetTestingTemplateForViewDto;
+    workingPaperDetails: CreateOrEditTestingAttributeDto[] | undefined;
+    lastSequence: number | undefined;
     testingTemplateCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
     userName: string | undefined;

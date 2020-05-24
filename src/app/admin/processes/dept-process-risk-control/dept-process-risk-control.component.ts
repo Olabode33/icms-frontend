@@ -149,7 +149,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     }
 
     review(testingTemplateId: number): void {
-        this._router.navigate(['app/main/workingPaperNews', testingTemplateId, this._organizationUnit.id]);
+        this._router.navigate(['app/main/workingPaperNews/new', testingTemplateId, this._organizationUnit.id]);
     }
 
 }

@@ -18,6 +18,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     active = false;
     saving = false;
+    loading = false;
     samples = [];
     attributes = [];
 
@@ -44,12 +45,14 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         private _ouService: OrganizationUnitServiceProxy
     ) {
         super(injector);
-        this.getAllDepartments();
         this.depts.items = new Array();
+        this.getAllDepartments();
+        this.testingTemplate.testingTemplate = new TestingTemplateDto();
     }
 
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params: Params) => {
+            console.log(params);
             let workingPaperId: string;
             let testingTemplateId: number;
             let departmentId: number;
@@ -60,27 +63,30 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.show(null, testingTemplateId, departmentId);
             }
 
-            if (params.testingTemplateId && params.departmentId) {
+            if (params.workingPaperId) {
                 workingPaperId = params['workingPaperId'];
+                console.log(workingPaperId);
                 this.show(workingPaperId);
             }
-            this.show();
+            //this.show();
         });
     }
 
     show(workingPaperNewId?: string, testingTemplateId?: number, departmentId?: number): void {
         this.completionDate = null;
-
+        this.loading = true;
         if (!workingPaperNewId) {
             this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
             this.workingPaperNew.id = null;
             this.workingPaperNew.taskDate = moment().startOf('day');
             this.workingPaperNew.dueDate = moment().startOf('day');
             this.workingPaperNew.reviewDate = moment().startOf('day');
+            this.workingPaperNew.completionDate = moment().startOf('day');
             this.testingTemplateCode = '';
             this.organizationUnitDisplayName = '';
             this.userName = '';
             this.userName2 = '';
+            this.completionDate = moment().startOf('day').toDate();
 
             this.testingTemplate.testingTemplate = new TestingTemplateDto();
             this.testingTemplate.attributes = [];
@@ -94,19 +100,26 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.getDeptDetails(departmentId);
 
             this.active = true;
+            this.loading = false;
         } else {
             this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
+                console.log(result);
                 this.workingPaperNew = result.workingPaperNew;
 
                 if (this.workingPaperNew.completionDate) {
                     this.completionDate = this.workingPaperNew.completionDate.toDate();
                 }
+                this.testingTemplate = result.testingTemplate;
                 this.testingTemplateCode = result.testingTemplateCode;
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
                 this.userName = result.userName;
                 this.userName2 = result.userName2;
 
+                this.sampleId = result.lastSequence ? result.lastSequence + 1 : 1;
+
+                this.getTemplateDetails();
                 this.active = true;
+                this.loading = false;
             });
         }
     }
@@ -146,7 +159,11 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     }
 
     getDeptDetails(departId): void {
-        this.organizationUnitDisplayName = this.depts.items.find(x => x.id === departId).displayName;
+        this._ouService.getOrganizationUnits().subscribe(result => {
+            this.depts = result;
+            let ou = this.depts.items.find(x => x.id === departId);
+            this.organizationUnitDisplayName = ou ? ou.displayName : '';
+        });
     }
 
 
@@ -165,7 +182,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 let item = {
                     id: x.testingAttrributeId,
                     name: x.attributeText,
-                    value: 'false'
+                    value: 'false',
+                    weight: x.weight,
                 };
                 this.attributes.push(item);
             });
@@ -178,7 +196,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     save(): void {
         this.saving = true;
-
+        this.loading = true;
 
         if (this.completionDate) {
             if (!this.workingPaperNew.completionDate) {
@@ -201,13 +219,14 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 item.attributeText = y.name;
                 item.result = y.value == "false" ? false : true;
                 item.testingAttrributeId = y.id;
+                item.workingPaperId = this.workingPaperNew.id;
                 this.workingPaperNew.attributes.push(item);
             });
         });
 
 
         this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
-            .pipe(finalize(() => { this.saving = false; }))
+            .pipe(finalize(() => { this.saving = false; this.loading = false; }))
             .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.goBack();

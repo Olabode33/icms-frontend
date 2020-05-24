@@ -194,7 +194,7 @@
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
-                                                       (click)="createOrEditWorkingPaperNewModal.show(record.workingPaperNew.id)">{{l('Edit')}}</a>
+                                                       (click)="edit(record.workingPaperNew.id)">{{l('Edit')}}</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete')"
