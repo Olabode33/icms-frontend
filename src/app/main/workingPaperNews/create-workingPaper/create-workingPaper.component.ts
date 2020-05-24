@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -6,6 +6,7 @@ import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPa
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 
 @Component({
     selector: 'app-create-workingPaper',
@@ -15,6 +16,8 @@ import { finalize } from 'rxjs/operators';
     animations: [appModuleAnimation()]
 })
 export class CreateWorkingPaperComponent extends AppComponentBase implements OnInit {
+
+    @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
 
     active = false;
     saving = false;
@@ -231,6 +234,12 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.goBack();
             });
+    }
+
+    createExceptionIncident(): void {
+        if (this.workingPaperNew.organizationUnitId && this.organizationUnitDisplayName) {
+            this.createOrEditExceptionIncidentModal.logException(this.workingPaperNew.organizationUnitId, this.organizationUnitDisplayName);
+        }
     }
 
 }

@@ -35,6 +35,8 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     organizationUnitDisplayName = '';
     additionalColumns = [];
 
+    changeReviewDepartment = true;
+
     constructor(
         injector: Injector,
         private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy
@@ -43,7 +45,8 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     }
 
     show(exceptionIncidentId?: number): void {
-    this.closureDate = null;
+        this.closureDate = null;
+        this.changeReviewDepartment = true;
 
         if (!exceptionIncidentId) {
             this.exceptionIncident = new CreateOrEditExceptionIncidentDto();
@@ -78,6 +81,21 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
                 this.modal.show();
             });
         }
+    }
+
+    logException(departmentId: number, ouName: string): void {
+        this.exceptionIncident = new CreateOrEditExceptionIncidentDto();
+        this.exceptionIncident.id = null;
+        this.exceptionIncident.organizationUnitId = departmentId;
+        this.exceptionTypeName = '';
+        this.userName = '';
+        this.testingTemplateCode = '';
+        this.organizationUnitDisplayName = ouName;
+        this.closureDate = null;
+
+        this.changeReviewDepartment = false;
+        this.active = true;
+        this.modal.show();
     }
 
     save(): void {

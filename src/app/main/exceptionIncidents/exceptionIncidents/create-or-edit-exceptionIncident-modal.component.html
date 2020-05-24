@@ -19,9 +19,9 @@
                                 <label for="OrganizationUnitDisplayName">Select the Business Unit under review</label>
                                 <div class="input-group">
                                     <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>
-                                    <div class="input-group-append" *ngIf="!exceptionIncident.id">
+                                    <div class="input-group-append" *ngIf="!exceptionIncident.id && changeReviewDepartment ">
                                         <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                                    </div> <div class="input-group-prepend" *ngIf="!exceptionIncident.id">
+                                    </div> <div class="input-group-prepend" *ngIf="!exceptionIncident.id && changeReviewDepartment">
                                         <button class="btn btn-danger btn-icon" type="button" (click)="setOrganizationUnitIdNull()"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>

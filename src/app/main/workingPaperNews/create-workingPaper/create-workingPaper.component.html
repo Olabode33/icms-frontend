@@ -20,6 +20,10 @@
                             <i class="fa fa-save"></i>
                             {{l("Save")}}
                         </button>
+                        <button *ngIf="workingPaperNew.organizationUnitId && organizationUnitDisplayName" (click)="createExceptionIncident()" class="btn btn-primary blue">
+                            <i class="fa fa-plus"></i>
+                            Log Exception
+                        </button>
                     </div>
                 </div>
             </div>
@@ -165,4 +169,6 @@
         </div>
 
     </div>
+
+    <createOrEditExceptionIncidentModal #createOrEditExceptionIncidentModal></createOrEditExceptionIncidentModal>
 </div>
