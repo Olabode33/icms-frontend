@@ -437,3 +437,23 @@ body{margin-top:20px;
     .font-size-sm {
         font-size: .925rem;
     }
+
+    .bg-light-danger {
+        background-color: #ffe2e5!important;
+    }
+
+    .bg-light-success {
+        background-color: #c9f7f5!important;
+    }
+
+    .bg-light-warning {
+        background-color: #fff4de!important;
+    }
+
+    .bg-light-primary {
+        background-color: #e1f0ff!important;
+    }
+
+    .kt-svg-icon.kt-svg-icon--white g [fill] {
+        fill: #fff !important;
+    }
