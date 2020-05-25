@@ -410,3 +410,30 @@ body{margin-top:20px;
         border: 1px solid #ecf0f3;
         border-radius: .42rem;
     }
+
+    .font-size-h2 {
+        font-size: 1.75rem!important;
+    }
+    
+    .text-white {
+        color: #fff!important;
+    }
+    .text-white {
+        color: #fff!important;
+    }
+    .font-weight-bolder {
+        font-weight: 600!important;
+    }
+    .mt-6, .my-6 {
+        margin-top: 1.5rem!important;
+    }
+    .mb-0, .my-0 {
+        margin-bottom: 0!important;
+    }
+    .d-block {
+        display: block!important;
+    }
+
+    .font-size-sm {
+        font-size: .925rem;
+    }
