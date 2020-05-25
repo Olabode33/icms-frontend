@@ -2,6 +2,11 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { ProjectsComponent } from './projects/projects/projects.component';
+import { ViewProjectComponent } from './projects/projects/view-project.component';
+import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
+import { ProjectOrganizationUnitLookupTableModalComponent } from './projects/projects/project-organizationUnit-lookup-table-modal.component';
+
 import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { CreateOrEditWorkingPaperNewModalComponent } from './workingPaperNews/workingPaperNews/create-or-edit-workingPaperNew-modal.component';
 import { WorkingPaperNewTestingTemplateLookupTableModalComponent } from './workingPaperNews/workingPaperNews/workingPaperNew-testingTemplate-lookup-table-modal.component';
@@ -93,6 +98,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		ProjectsComponent,
+		ViewProjectComponent,		CreateOrEditProjectComponent,
+    ProjectOrganizationUnitLookupTableModalComponent,
         CreateWorkingPaperComponent,
 
         ViewAuditorComponent,

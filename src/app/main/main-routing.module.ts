@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ProjectsComponent } from './projects/projects/projects.component';
+import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
+import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
@@ -25,6 +28,9 @@ import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPa
             {
                 path: '',
                 children: [
+                    { path: 'projects/projects', component: ProjectsComponent, data: { permission: 'Pages.Projects' }  },
+                    { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
+                    { path: 'projects/projects/view', component: ViewProjectComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/:workingPaperId', component: ViewWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/new/:testingTemplateId/:departmentId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },

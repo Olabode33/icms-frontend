@@ -13411,6 +13411,613 @@ export class ProfileServiceProxy {
 }
 
 @Injectable()
+export class ProjectsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxStartDateFilter (optional) 
+     * @param minStartDateFilter (optional) 
+     * @param maxEndDateFilter (optional) 
+     * @param minEndDateFilter (optional) 
+     * @param maxBudgetedStartDateFilter (optional) 
+     * @param minBudgetedStartDateFilter (optional) 
+     * @param maxBudgetedEndDateFilter (optional) 
+     * @param minBudgetedEndDateFilter (optional) 
+     * @param titleFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param organizationUnitDisplayName2Filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxStartDateFilter === null)
+            throw new Error("The parameter 'maxStartDateFilter' cannot be null.");
+        else if (maxStartDateFilter !== undefined)
+            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
+        if (minStartDateFilter === null)
+            throw new Error("The parameter 'minStartDateFilter' cannot be null.");
+        else if (minStartDateFilter !== undefined)
+            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
+        if (maxEndDateFilter === null)
+            throw new Error("The parameter 'maxEndDateFilter' cannot be null.");
+        else if (maxEndDateFilter !== undefined)
+            url_ += "MaxEndDateFilter=" + encodeURIComponent(maxEndDateFilter ? "" + maxEndDateFilter.toJSON() : "") + "&"; 
+        if (minEndDateFilter === null)
+            throw new Error("The parameter 'minEndDateFilter' cannot be null.");
+        else if (minEndDateFilter !== undefined)
+            url_ += "MinEndDateFilter=" + encodeURIComponent(minEndDateFilter ? "" + minEndDateFilter.toJSON() : "") + "&"; 
+        if (maxBudgetedStartDateFilter === null)
+            throw new Error("The parameter 'maxBudgetedStartDateFilter' cannot be null.");
+        else if (maxBudgetedStartDateFilter !== undefined)
+            url_ += "MaxBudgetedStartDateFilter=" + encodeURIComponent(maxBudgetedStartDateFilter ? "" + maxBudgetedStartDateFilter.toJSON() : "") + "&"; 
+        if (minBudgetedStartDateFilter === null)
+            throw new Error("The parameter 'minBudgetedStartDateFilter' cannot be null.");
+        else if (minBudgetedStartDateFilter !== undefined)
+            url_ += "MinBudgetedStartDateFilter=" + encodeURIComponent(minBudgetedStartDateFilter ? "" + minBudgetedStartDateFilter.toJSON() : "") + "&"; 
+        if (maxBudgetedEndDateFilter === null)
+            throw new Error("The parameter 'maxBudgetedEndDateFilter' cannot be null.");
+        else if (maxBudgetedEndDateFilter !== undefined)
+            url_ += "MaxBudgetedEndDateFilter=" + encodeURIComponent(maxBudgetedEndDateFilter ? "" + maxBudgetedEndDateFilter.toJSON() : "") + "&"; 
+        if (minBudgetedEndDateFilter === null)
+            throw new Error("The parameter 'minBudgetedEndDateFilter' cannot be null.");
+        else if (minBudgetedEndDateFilter !== undefined)
+            url_ += "MinBudgetedEndDateFilter=" + encodeURIComponent(minBudgetedEndDateFilter ? "" + minBudgetedEndDateFilter.toJSON() : "") + "&"; 
+        if (titleFilter === null)
+            throw new Error("The parameter 'titleFilter' cannot be null.");
+        else if (titleFilter !== undefined)
+            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (organizationUnitDisplayName2Filter === null)
+            throw new Error("The parameter 'organizationUnitDisplayName2Filter' cannot be null.");
+        else if (organizationUnitDisplayName2Filter !== undefined)
+            url_ += "OrganizationUnitDisplayName2Filter=" + encodeURIComponent("" + organizationUnitDisplayName2Filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetProjectForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetProjectForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetProjectForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetProjectForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetProjectForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProjectForView(id: number | undefined): Observable<GetProjectForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetProjectForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProjectForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProjectForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProjectForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProjectForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProjectForView(response: HttpResponseBase): Observable<GetProjectForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProjectForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProjectForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getProjectForEdit(id: number | undefined): Observable<GetProjectForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetProjectForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProjectForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProjectForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetProjectForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetProjectForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProjectForEdit(response: HttpResponseBase): Observable<GetProjectForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetProjectForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetProjectForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditProjectDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxStartDateFilter (optional) 
+     * @param minStartDateFilter (optional) 
+     * @param maxEndDateFilter (optional) 
+     * @param minEndDateFilter (optional) 
+     * @param maxBudgetedStartDateFilter (optional) 
+     * @param minBudgetedStartDateFilter (optional) 
+     * @param maxBudgetedEndDateFilter (optional) 
+     * @param minBudgetedEndDateFilter (optional) 
+     * @param titleFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param organizationUnitDisplayName2Filter (optional) 
+     * @return Success
+     */
+    getProjectsToExcel(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetProjectsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxStartDateFilter === null)
+            throw new Error("The parameter 'maxStartDateFilter' cannot be null.");
+        else if (maxStartDateFilter !== undefined)
+            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
+        if (minStartDateFilter === null)
+            throw new Error("The parameter 'minStartDateFilter' cannot be null.");
+        else if (minStartDateFilter !== undefined)
+            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
+        if (maxEndDateFilter === null)
+            throw new Error("The parameter 'maxEndDateFilter' cannot be null.");
+        else if (maxEndDateFilter !== undefined)
+            url_ += "MaxEndDateFilter=" + encodeURIComponent(maxEndDateFilter ? "" + maxEndDateFilter.toJSON() : "") + "&"; 
+        if (minEndDateFilter === null)
+            throw new Error("The parameter 'minEndDateFilter' cannot be null.");
+        else if (minEndDateFilter !== undefined)
+            url_ += "MinEndDateFilter=" + encodeURIComponent(minEndDateFilter ? "" + minEndDateFilter.toJSON() : "") + "&"; 
+        if (maxBudgetedStartDateFilter === null)
+            throw new Error("The parameter 'maxBudgetedStartDateFilter' cannot be null.");
+        else if (maxBudgetedStartDateFilter !== undefined)
+            url_ += "MaxBudgetedStartDateFilter=" + encodeURIComponent(maxBudgetedStartDateFilter ? "" + maxBudgetedStartDateFilter.toJSON() : "") + "&"; 
+        if (minBudgetedStartDateFilter === null)
+            throw new Error("The parameter 'minBudgetedStartDateFilter' cannot be null.");
+        else if (minBudgetedStartDateFilter !== undefined)
+            url_ += "MinBudgetedStartDateFilter=" + encodeURIComponent(minBudgetedStartDateFilter ? "" + minBudgetedStartDateFilter.toJSON() : "") + "&"; 
+        if (maxBudgetedEndDateFilter === null)
+            throw new Error("The parameter 'maxBudgetedEndDateFilter' cannot be null.");
+        else if (maxBudgetedEndDateFilter !== undefined)
+            url_ += "MaxBudgetedEndDateFilter=" + encodeURIComponent(maxBudgetedEndDateFilter ? "" + maxBudgetedEndDateFilter.toJSON() : "") + "&"; 
+        if (minBudgetedEndDateFilter === null)
+            throw new Error("The parameter 'minBudgetedEndDateFilter' cannot be null.");
+        else if (minBudgetedEndDateFilter !== undefined)
+            url_ += "MinBudgetedEndDateFilter=" + encodeURIComponent(minBudgetedEndDateFilter ? "" + minBudgetedEndDateFilter.toJSON() : "") + "&"; 
+        if (titleFilter === null)
+            throw new Error("The parameter 'titleFilter' cannot be null.");
+        else if (titleFilter !== undefined)
+            url_ += "TitleFilter=" + encodeURIComponent("" + titleFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (organizationUnitDisplayName2Filter === null)
+            throw new Error("The parameter 'organizationUnitDisplayName2Filter' cannot be null.");
+        else if (organizationUnitDisplayName2Filter !== undefined)
+            url_ += "OrganizationUnitDisplayName2Filter=" + encodeURIComponent("" + organizationUnitDisplayName2Filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProjectsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProjectsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProjectsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetAllOrganizationUnitForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProjectOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllProcesses(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetAllProcesses?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllProcesses(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllProcesses(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllProcesses(response: HttpResponseBase): Observable<PagedResultDtoOfProjectOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfProjectOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class RisksServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -30961,6 +31568,419 @@ export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
 
 export interface IChangeUserLanguageDto {
     languageName: string | undefined;
+}
+
+export enum ReviewType {
+    Department = 0,
+    Process = 1,
+}
+
+export class ProjectDto implements IProjectDto {
+    code!: string | undefined;
+    description!: string | undefined;
+    startDate!: moment.Moment | undefined;
+    endDate!: moment.Moment | undefined;
+    scopeStartDate!: moment.Moment | undefined;
+    scopeEndDate!: moment.Moment | undefined;
+    progress!: number;
+    cascade!: boolean;
+    budgetedStartDate!: moment.Moment;
+    budgetedEndDate!: moment.Moment;
+    reviewType!: ReviewType;
+    title!: string | undefined;
+    controlUnitId!: number | undefined;
+    scopeId!: number | undefined;
+    commenced!: boolean;
+    id!: number;
+
+    constructor(data?: IProjectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.description = data["description"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.scopeStartDate = data["scopeStartDate"] ? moment(data["scopeStartDate"].toString()) : <any>undefined;
+            this.scopeEndDate = data["scopeEndDate"] ? moment(data["scopeEndDate"].toString()) : <any>undefined;
+            this.progress = data["progress"];
+            this.cascade = data["cascade"];
+            this.budgetedStartDate = data["budgetedStartDate"] ? moment(data["budgetedStartDate"].toString()) : <any>undefined;
+            this.budgetedEndDate = data["budgetedEndDate"] ? moment(data["budgetedEndDate"].toString()) : <any>undefined;
+            this.reviewType = data["reviewType"];
+            this.title = data["title"];
+            this.controlUnitId = data["controlUnitId"];
+            this.scopeId = data["scopeId"];
+            this.commenced = data["commenced"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ProjectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["description"] = this.description;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["scopeStartDate"] = this.scopeStartDate ? this.scopeStartDate.toISOString() : <any>undefined;
+        data["scopeEndDate"] = this.scopeEndDate ? this.scopeEndDate.toISOString() : <any>undefined;
+        data["progress"] = this.progress;
+        data["cascade"] = this.cascade;
+        data["budgetedStartDate"] = this.budgetedStartDate ? this.budgetedStartDate.toISOString() : <any>undefined;
+        data["budgetedEndDate"] = this.budgetedEndDate ? this.budgetedEndDate.toISOString() : <any>undefined;
+        data["reviewType"] = this.reviewType;
+        data["title"] = this.title;
+        data["controlUnitId"] = this.controlUnitId;
+        data["scopeId"] = this.scopeId;
+        data["commenced"] = this.commenced;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IProjectDto {
+    code: string | undefined;
+    description: string | undefined;
+    startDate: moment.Moment | undefined;
+    endDate: moment.Moment | undefined;
+    scopeStartDate: moment.Moment | undefined;
+    scopeEndDate: moment.Moment | undefined;
+    progress: number;
+    cascade: boolean;
+    budgetedStartDate: moment.Moment;
+    budgetedEndDate: moment.Moment;
+    reviewType: ReviewType;
+    title: string | undefined;
+    controlUnitId: number | undefined;
+    scopeId: number | undefined;
+    commenced: boolean;
+    id: number;
+}
+
+export class GetProjectForViewDto implements IGetProjectForViewDto {
+    project!: ProjectDto;
+    organizationUnitDisplayName!: string | undefined;
+    organizationUnitDisplayName2!: string | undefined;
+
+    constructor(data?: IGetProjectForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.project = data["project"] ? ProjectDto.fromJS(data["project"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.organizationUnitDisplayName2 = data["organizationUnitDisplayName2"];
+        }
+    }
+
+    static fromJS(data: any): GetProjectForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProjectForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["project"] = this.project ? this.project.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["organizationUnitDisplayName2"] = this.organizationUnitDisplayName2;
+        return data; 
+    }
+}
+
+export interface IGetProjectForViewDto {
+    project: ProjectDto;
+    organizationUnitDisplayName: string | undefined;
+    organizationUnitDisplayName2: string | undefined;
+}
+
+export class PagedResultDtoOfGetProjectForViewDto implements IPagedResultDtoOfGetProjectForViewDto {
+    totalCount!: number;
+    items!: GetProjectForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetProjectForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetProjectForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetProjectForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetProjectForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetProjectForViewDto {
+    totalCount: number;
+    items: GetProjectForViewDto[] | undefined;
+}
+
+export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
+    code!: string | undefined;
+    description!: string | undefined;
+    startDate!: moment.Moment | undefined;
+    reviewType!: ReviewType;
+    cascade!: boolean;
+    endDate!: moment.Moment | undefined;
+    scopeStartDate!: moment.Moment | undefined;
+    scopeEndDate!: moment.Moment | undefined;
+    budgetedStartDate!: moment.Moment;
+    budgetedEndDate!: moment.Moment;
+    title!: string | undefined;
+    controlUnitId!: number | undefined;
+    scopeId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditProjectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.description = data["description"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.reviewType = data["reviewType"];
+            this.cascade = data["cascade"];
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.scopeStartDate = data["scopeStartDate"] ? moment(data["scopeStartDate"].toString()) : <any>undefined;
+            this.scopeEndDate = data["scopeEndDate"] ? moment(data["scopeEndDate"].toString()) : <any>undefined;
+            this.budgetedStartDate = data["budgetedStartDate"] ? moment(data["budgetedStartDate"].toString()) : <any>undefined;
+            this.budgetedEndDate = data["budgetedEndDate"] ? moment(data["budgetedEndDate"].toString()) : <any>undefined;
+            this.title = data["title"];
+            this.controlUnitId = data["controlUnitId"];
+            this.scopeId = data["scopeId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditProjectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditProjectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["description"] = this.description;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["reviewType"] = this.reviewType;
+        data["cascade"] = this.cascade;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["scopeStartDate"] = this.scopeStartDate ? this.scopeStartDate.toISOString() : <any>undefined;
+        data["scopeEndDate"] = this.scopeEndDate ? this.scopeEndDate.toISOString() : <any>undefined;
+        data["budgetedStartDate"] = this.budgetedStartDate ? this.budgetedStartDate.toISOString() : <any>undefined;
+        data["budgetedEndDate"] = this.budgetedEndDate ? this.budgetedEndDate.toISOString() : <any>undefined;
+        data["title"] = this.title;
+        data["controlUnitId"] = this.controlUnitId;
+        data["scopeId"] = this.scopeId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditProjectDto {
+    code: string | undefined;
+    description: string | undefined;
+    startDate: moment.Moment | undefined;
+    reviewType: ReviewType;
+    cascade: boolean;
+    endDate: moment.Moment | undefined;
+    scopeStartDate: moment.Moment | undefined;
+    scopeEndDate: moment.Moment | undefined;
+    budgetedStartDate: moment.Moment;
+    budgetedEndDate: moment.Moment;
+    title: string | undefined;
+    controlUnitId: number | undefined;
+    scopeId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetProjectForEditOutput implements IGetProjectForEditOutput {
+    project!: CreateOrEditProjectDto;
+    organizationUnitDisplayName!: string | undefined;
+    organizationUnitDisplayName2!: string | undefined;
+
+    constructor(data?: IGetProjectForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.project = data["project"] ? CreateOrEditProjectDto.fromJS(data["project"]) : <any>undefined;
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.organizationUnitDisplayName2 = data["organizationUnitDisplayName2"];
+        }
+    }
+
+    static fromJS(data: any): GetProjectForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetProjectForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["project"] = this.project ? this.project.toJSON() : <any>undefined;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["organizationUnitDisplayName2"] = this.organizationUnitDisplayName2;
+        return data; 
+    }
+}
+
+export interface IGetProjectForEditOutput {
+    project: CreateOrEditProjectDto;
+    organizationUnitDisplayName: string | undefined;
+    organizationUnitDisplayName2: string | undefined;
+}
+
+export class ProjectOrganizationUnitLookupTableDto implements IProjectOrganizationUnitLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IProjectOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): ProjectOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IProjectOrganizationUnitLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfProjectOrganizationUnitLookupTableDto implements IPagedResultDtoOfProjectOrganizationUnitLookupTableDto {
+    totalCount!: number;
+    items!: ProjectOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfProjectOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(ProjectOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfProjectOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfProjectOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfProjectOrganizationUnitLookupTableDto {
+    totalCount: number;
+    items: ProjectOrganizationUnitLookupTableDto[] | undefined;
 }
 
 export class GetRiskForViewDto implements IGetRiskForViewDto {

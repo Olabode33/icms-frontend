@@ -1,4 +1,4 @@
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -41,6 +41,8 @@ export class AppNavigationService {
 
             new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Working Paper', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
+            
+            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-more', '/app/main/projects/projects'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
