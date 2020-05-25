@@ -4,6 +4,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { WorkingPaper } from '@app/UIModel/WorkingPaper';
 import { Router } from '@angular/router';
 import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
+import * as shape from 'd3-shape';
 
 @Component({
     selector: 'app-home',
@@ -17,6 +18,60 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
     workingpapers: WorkingPaper[] = new Array();
     ous: OrganizationUnitDto[] = new Array();
+
+    // options
+    legend = true;
+    showLabels = true;
+    animations = true;
+    xAxis = true;
+    yAxis = false;
+    showYAxisLabel = false;
+    showXAxisLabel = true;
+    xAxisLabel = true;
+    yAxisLabel = true;
+    view: any[] = [700, 500];
+    closedCurve: any = shape.curveLinearClosed;
+    labelTrim = false;
+    showGridLines = true;
+    rangeFillOpacity = 0.7;
+
+    explodeSlices = true;
+    doughnut = true;
+    arcWidth = 0.25;
+
+    colorScheme = {
+        domain: ['#f44336', '#4CAF50', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    };
+
+    multi = [
+        {
+            'name': '',
+            'series': [
+                {
+                    'name': 'Quality',
+                    'value': '90'
+                },
+                {
+                    'name': 'Timeliness',
+                    'value': '75'
+                },
+                {
+                    'name': 'Accuracy',
+                    'value': '60'
+                },
+                {
+                    'name': 'Auditee feedback',
+                    'value': '83'
+                },
+                {
+                    'name': 'Reviewer feedback',
+                    'value': '79'
+                }
+            ]
+        }
+
+
+    ];
 
 
     constructor(private _router: Router,

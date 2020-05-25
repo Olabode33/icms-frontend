@@ -8,7 +8,7 @@
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <span class="kt-subheader__desc">
-                 View activities to be performed at a glance.
+                        View activities to be performed at a glance.
                     </span>
                 </div>
                 <div class="kt-subheader__toolbar">
@@ -21,7 +21,6 @@
             </div>
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
-            <!--Begin::App-->
             <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
                 <!--Begin:: App Aside Mobile Toggle-->
                 <button class="kt-app__aside-close" id="kt_user_profile_aside_close">
@@ -30,192 +29,435 @@
                 <!--End:: App Aside Mobile Toggle-->
 
                 <!--Begin:: App Aside-->
+                <div class="kt-grid__item kt-app__toggle kt-app__aside" id="kt_user_profile_aside">
+                    <!--begin:: Widgets/Applications/User/Profile1-->
+                    <div class="kt-portlet kt-portlet--height-fluid-">
+                        <div class="kt-portlet__head  kt-portlet__head--noborder">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit-y">
+                            <!--begin::Widget -->
+                            <div class="kt-widget kt-widget--user-profile-1">
+                                <div class="kt-widget__head">
+                                    <div class="kt-widget__media">
+                                        <img src="/assets/common/images/default-profile-picture.png" alt="image"
+                                            width="50px">
+                                    </div>
+                                    <div class="kt-widget__content">
+                                        <div class="kt-widget__section">
+                                            <a href="javascript:void(0);" class="kt-widget__username">
+                                                Suleman Abdul
+                                                <i class="flaticon2-correct kt-font-success"></i>
+                                            </a>
+                                            <span class="kt-widget__subtitle">
+                                                Banking officer
+                                            </span>
+                                        </div>
 
+                                        <div class="kt-widget__action">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-widget__body">
+                                    <div class="kt-widget__content">
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Staff Code:</span>
+                                            <span class="kt-widget__data">NG001234</span>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Control Team:</span>
+                                            <span class="kt-widget__data">Ikeja Cluster Control</span>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Unit:</span>
+                                            <span class="kt-widget__data">Allen Avenue Branch</span>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Email:</span>
+                                            <span class="kt-widget__data">asuleman@test.com</span>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Phone:</span>
+                                            <span class="kt-widget__data">0809 123 4567</span>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <span class="kt-widget__label">Location:</span>
+                                            <span class="kt-widget__data">Nigeria</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Widget -->
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Applications/User/Profile1-->
+
+                    <!--begin:: Widgets/Order Statistics-->
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Rating
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="kt-widget12">
+                                <div class="kt-widget12__chart" style="height:200px; margin: 0; padding: 0;">
+                                    <ngx-charts-polar-chart [scheme]="colorScheme" [xAxis]="xAxis" [yAxis]="yAxis"
+                                        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                                        [showGridLines]="showGridLines" [curve]="closedCurve" [labelTrim]="labelTrim"
+                                        [rangeFillOpacity]="rangeFillOpacity" [results]="multi">
+                                    </ngx-charts-polar-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end:: Widgets/Order Statistics-->
+                </div>
                 <!--End:: App Aside-->
 
                 <!--Begin:: App Content-->
                 <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
                     <div class="row">
-                        <div class="col-lg-3">
-                            <div class="kt-portlet kt-iconbox kt-iconbox--success kt-iconbox--animate-slower">
-                                <div class="kt-portlet__body">
-                                    <div class="kt-iconbox__body">
-                                        <div class="kt-iconbox__icon">
-                                            <i style="font-size:3em; color:green;" class="fas fa-check-circle"></i>
-                                        </div>
-                                        <div class="kt-iconbox__desc">
-                                            <h3 class="kt-iconbox__title">
-                                                <a class="kt-link" href="#">100</a>
-                                            </h3>
-                                            <div class="kt-iconbox__content">
-                                                <b>Approved</b>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-4">
+                            <!--begin::Stats Widget 29-->
+                            <div class="card card-custom bg-warning card-stretch gutter-b">
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    <span class="svg-icon svg-icon-2x svg-icon-info">
+                                        <i class="fa fa-2x fa-exclamation-triangle text-white"></i>
+                                    </span>
+                                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">29</span>
+                                    <span class="font-weight-bold text-white  font-size-sm">Open exceptions</span>
                                 </div>
+                                <!--end::Body-->
                             </div>
+                            <!--end::Stats Widget 29-->
                         </div>
-                        <div class="col-lg-3">
-                            <div class="kt-portlet kt-iconbox kt-iconbox--primary kt-iconbox--animate-slow">
-                                <div class="kt-portlet__body">
-                                    <div class="kt-iconbox__body">
-                                        <div class="kt-iconbox__icon">
-                                            <i style="font-size:3em; color:goldenrod" class="fas fa-clock"></i>
-                                        </div>
-                                        <div class="kt-iconbox__desc">
-                                            <h3 class="kt-iconbox__title">
-                                                <a class="kt-link" href="#">12</a>
-                                            </h3>
-                                            <div class="kt-iconbox__content">
-                                                <b>Pending Review</b>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-4">
+                            <!--begin::Stats Widget 30-->
+                            <div class="card card-custom bg-info card-stretch gutter-b">
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    <span class="svg-icon svg-icon-2x svg-icon-white">
+                                        <i class="fa fa-2x fa-clock text-white"></i>
+                                    </span>
+                                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">44</span>
+                                    <span class="font-weight-bold text-white  font-size-sm">Pending tasks</span>
                                 </div>
+                                <!--end::Body-->
                             </div>
+                            <!--end::Stats Widget 30-->
                         </div>
-                        <div class="col-lg-3">
-                            <div class="kt-portlet kt-iconbox kt-iconbox--warning kt-iconbox--animate-fast">
-                                <div class="kt-portlet__body">
-                                    <div class="kt-iconbox__body">
-                                        <div class="kt-iconbox__icon">
-                                            <i style="font-size:3em; color:#ccc;" class="fas fa-file-alt"></i>
-                                        </div>
-                                        <div class="kt-iconbox__desc">
-                                            <h3 class="kt-iconbox__title">
-                                                <a class="kt-link" href="javascript;">120,000</a>
-                                            </h3>
-                                            <div class="kt-iconbox__content">
-                                                <b>Open</b>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-4">
+                            <!--begin::Stats Widget 31-->
+                            <div class="card card-custom bg-danger card-stretch gutter-b">
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    <span class="svg-icon svg-icon-2x svg-icon-white">
+                                        <i class="fa fa-2x fa-file text-white"></i>
+                                    </span>
+                                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">50</span>
+                                    <span class="font-weight-bold text-white  font-size-sm">Pending reviews</span>
                                 </div>
+                                <!--end::Body-->
                             </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="kt-portlet kt-iconbox kt-iconbox--danger kt-iconbox--animate-fast">
-                                <div class="kt-portlet__body">
-                                    <div class="kt-iconbox__body">
-                                        <div class="kt-iconbox__icon">
-                                            <!--    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24" height="24"/>
-                                                    <circle fill="#000000" opacity="0.3" cx="20.5" cy="12.5" r="1.5"/>
-                                                    <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 6.500000) rotate(-15.000000) translate(-12.000000, -6.500000) " x="3" y="3" width="18" height="7" rx="1"/>
-                                                    <path d="M22,9.33681558 C21.5453723,9.12084552 21.0367986,9 20.5,9 C18.5670034,9 17,10.5670034 17,12.5 C17,14.4329966 18.5670034,16 20.5,16 C21.0367986,16 21.5453723,15.8791545 22,15.6631844 L22,18 C22,19.1045695 21.1045695,20 20,20 L4,20 C2.8954305,20 2,19.1045695 2,18 L2,6 C2,4.8954305 2.8954305,4 4,4 L20,4 C21.1045695,4 22,4.8954305 22,6 L22,9.33681558 Z" fill="#000000"/>
-                                                </g>
-                                            </svg>-->
-
-                                            <i style="font-size:3em; color:red;" class="fas fa-window-close"></i>
-                                        </div>
-                                        <i class="fa-check-circle"></i>
-                                        <div class="kt-iconbox__desc">
-                                            <h3 class="kt-iconbox__title">
-                                                <a class="kt-link" href="javascript;">80,000</a>
-                                            </h3>
-                                            <div class="kt-iconbox__content">
-                                                <b>Rejected</b>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--end::Stats Widget 31-->
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-3" *ngFor="let item of workingpapers">
+                        <div class="col-xl-6">
                             <div class="kt-portlet kt-portlet--height-fluid">
-                                <div class="kt-portlet__head kt-portlet__head--noborder">
+                                <div class="kt-portlet__head  kt-portlet__head--noborder">
                                     <div class="kt-portlet__head-label">
                                         <h3 class="kt-portlet__head-title">
-
+                                            Exceptions
+                                            <small></small>
                                         </h3>
                                     </div>
-                                </div>
-                                <div class="kt-portlet__body">
-                                    <!--begin::Widget -->
-                                    <div class="kt-widget kt-widget--user-profile-2">
-                                        <div class="kt-widget__head">
-                                            <!-- <div class="kt-widget__media">
-                                                <div
-                                                    class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-hidden-">
-                                                    ChS
-                                                </div>
-                                            </div> -->
-
-                                            <div class="kt-widget__info" style="padding-left: 0">
-                                                <a href="javascript;"
-                                                    class="kt-widget__username kt-hidden-">
-                                                    {{item.businessUnit}}
+                                    <div class="kt-portlet__head-toolbar">
+                                        <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold"
+                                            role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="javascript:void(0);">
+                                                    Week
                                                 </a>
-
-                                                <span class="kt-widget__desc">
-                                                    <div class="kt-widget__button">
-                                                        <span class="btn btn-label-warning btn-sm">
-                                                            {{item.TaskStatus}}
-                                                        </span>                                    
-                                                    </div>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="kt-widget__body">
-                                            <div class="kt-widget__section">
-                                                {{item.TestingTemplateData}}
-                                            </div>
-
-                                            <div class="kt-widget__item">
-                                                <div class="kt-widget__contact">
-                                                    <span class="kt-widget__label">Task Date:</span>
-                                                    <a href="javascript;"
-                                                        class="kt-widget__data">11 Feb 2020</a>
-                                                </div>
-                                                <div class="kt-widget__contact">
-                                                    <span class="kt-widget__label">Due Date:</span>
-                                                    <span class="kt-widget__data">21 Feb 2020</span>
-                                                </div>
-                                                <div class="kt-widget__contact">
-                                                    <span class="kt-widget__label">Score:</span>
-                                                    <a href="javascript;" class="kt-widget__data">
-                                                        {{item.Score}}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="kt-widget__footer">
-                                            <button type="button" class="btn btn-label-info btn-lg btn-upper" (click)="OpenDetails(item.Id)">
-                                                View
-                                            </button>
-                                        </div>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="javascript:void(0);">
+                                                    Day
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <!--end::Widget -->
+                                </div>
+                                <div class="kt-portlet__body kt-portlet__body--fit-y">
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-vertical-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="p-0" style="width: 50px"></th>
+                                                    <th class="p-0" style="min-width: 150px"></th>
+                                                    <th class="p-0" style="min-width: 140px"></th>
+                                                    <th class="p-0" style="min-width: 110px"></th>
+                                                    <th class="p-0" style="min-width: 50px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="py-2 pl-0">
+                                                        <i class="fa fa-2x fa-exclamation-triangle kt-font-warning"></i>
+                                                    </td>
+                                                    <td class="pl-0">
+                                                        <a href="javascript:void(0);"
+                                                            class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Top
+                                                            Authors</a>
+                                                        <span class="text-muted d-block">Successful Fellas</span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span class="text-muted font-weight-500">
+                                                            ReactJs, HTML
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span
+                                                            class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-success">Approved</span>
+                                                    </td>
+                                                    <td class="text-right pr-0">
+                                                        <button
+                                                            class="btn btn-label-brand btn-sm btn-bold btn-upper btn-sm">
+                                                            <i class="fa fa-arrow-right"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- <div *ngFor="let wp of workingpapers" class="card mb-3"
-                            style="max-width: 18rem; margin:10px;">
-                            <div class="card-header" style="color:#000">{{wp.Code}}</div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{wp.Score}}</h5>
-                                <p class="card-text">{{wp.TestingTemplateData}}</p>
-                                <button class="btn btn-primary" style="width:100%;"
-                                    (click)="OpenDetails(wp.Id)"><i class="fa fa-open"></i>
-                                    Detail</button>
+                        <div class="col-xl-6">
+                            <div class="kt-portlet kt-portlet--height-fluid">
+                                <div class="kt-portlet__head  kt-portlet__head--noborder">
+                                    <div class="kt-portlet__head-label">
+                                        <h3 class="kt-portlet__head-title">
+                                            Open alerts
+                                            <small></small>
+                                        </h3>
+                                    </div>
+                                    <div class="kt-portlet__head-toolbar">
+                                        <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold"
+                                            role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="javascript:void(0);">
+                                                    Week
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="javascript:void(0);">
+                                                    Day
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="kt-portlet__body kt-portlet__body--fit-y">
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-vertical-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="p-0" style="width: 50px"></th>
+                                                    <th class="p-0" style="min-width: 250px"></th>
+                                                    <th class="p-0" style="min-width: 100px"></th>
+                                                    <th class="p-0" style="min-width: 40px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="py-2 pl-0">
+                                                        <i class="fa fa-2x fa-clock kt-font-primary"></i>
+                                                    </td>
+                                                    <td class="pl-0">
+                                                        <a href="javascript:void(0);"
+                                                            class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Top
+                                                            Authors</a>
+                                                        <span class="text-muted d-block">Successful Fellas</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column w-100 mr-2">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-between mb-2">
+                                                                <span
+                                                                    class="text-muted mr-2 font-size-sm font-weight-bold">
+                                                                    65%
+                                                                </span>
+                                                                <span class="text-muted font-size-sm font-weight-bold">
+                                                                    Progress
+                                                                </span>
+                                                            </div>
+                                                            <div class="progress progress-sm w-100">
+                                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                                    style="width: 65%;" aria-valuenow="50"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right pr-0">
+                                                        <button
+                                                            class="btn btn-label-brand btn-sm btn-bold btn-upper btn-sm">
+                                                            <i class="fa fa-arrow-right"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div> -->
+                        </div>
+                    </div>
 
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head  kt-portlet__head--noborder">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Assigned tasks
+                                </h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                <button class="btn btn-outline-primary">
+                                    <i class="fa fa-list" style="font-size: 1.2rem !important;"></i> View all
+                                </button>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit-y">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                    <thead>
+                                        <tr class="text-left">
+                                            <th style="min-width: 250px" class="pl-2">
+                                                <span class="text-dark-75">Alert</span></th>
+                                            <th style="min-width: 100px">Date</th>
+                                            <th style="min-width: 100px">Frequency</th>
+                                            <th style="min-width: 100px">Sample size</th>
+                                            <th style="min-width: 100px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="pl-0 py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="symbol symbol-50 symbol-light mr-4">
+                                                        <i class="fa fa-2x fa-layer-group kt-font-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <a href="javascript:void(0);"
+                                                            class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Top
+                                                            Authors</a>
+                                                        <span class="text-muted d-block">Successful Fellas</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                    $520
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                    Intertico
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                    Intertico
+                                                </span>
+                                            </td>
+                                            <td class="pr-0 text-right">
+                                                <button class="btn btn-label-brand btn-sm btn-bold btn-upper btn-sm">
+                                                    Review
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head  kt-portlet__head--noborder">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Submitted working papers
+                                </h3>
+                            </div>
+                            <div class="kt-portlet__head-toolbar">
+                                <button class="btn btn-outline-primary">
+                                    <i class="fa fa-list" style="font-size: 1.2rem !important;"></i> View all
+                                </button>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit-y">
+                            <table class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                <thead>
+                                    <tr class="text-left">
+                                        <th style="min-width: 250px" class="pl-2">
+                                            <span class="text-dark-75">Alert</span></th>
+                                        <th style="min-width: 100px">Date</th>
+                                        <th style="min-width: 100px">Frequency</th>
+                                        <th style="min-width: 100px">Sample size</th>
+                                        <th style="min-width: 100px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="pl-0 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-50 symbol-light mr-4">
+                                                    <i class="fa fa-2x fa-file kt-font-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <a href="javascript:void(0);"
+                                                        class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">Top
+                                                        Authors</a>
+                                                    <span class="text-muted d-block">Successful Fellas</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                $520
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                Intertico
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-warning">Submitted</span>
+                                        </td>
+                                        <td class="pr-0 text-right">
+                                            <button class="btn btn-label-brand btn-sm btn-bold btn-upper btn-sm">
+                                                Review
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <!--End:: App Content-->
             </div>
-            <!--End::App-->
         </div>
     </div>
 </div>
