@@ -1,71 +1,158 @@
 ﻿<div [@routerTransition]>
-  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
-    <div class="kt-subheader kt-grid__item">
-      <div [class]="containerClass">
-        <div class="kt-subheader__main">
-            <h3 class="kt-subheader__title">
-				<span>{{l("Projects")}} {{l("Details")}}</span>
-			</h3>
-			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
-			<div class="kt-subheader__breadcrumbs">
-				<a [routerLink]="['/app/main/projects/projects']"
-					class="kt-subheader__breadcrumbs-home"><i
-						class="flaticon2-shelter"></i>{{l("Project")}}</a>
-				<span class="kt-subheader__breadcrumbs-separator"></span>
-				<a 
-					class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
-					<span>{{l("Details")}}</span>
-				</a>
-			</div>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span *ngIf="active && project.id">View Project</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <div class="kt-subheader__breadcrumbs">
+                        <a [routerLink]="['/app/main/projects/projects']" class="kt-subheader__breadcrumbs-home">
+                            <i class="flaticon2-shelter"></i> {{l("Project")}}
+                        </a>
+                        <span class="kt-subheader__breadcrumbs-separator"></span>
+                        <a class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+                            <span *ngIf="active && project.id"> {{l("View")}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__body">
-                <div class="row align-items-center">
-                                     <div class="col-6 mb-3">
-                        <h6>{{l("Code")}} :</h6>
-                        {{ item.project.code }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Description")}} :</h6>
-                        {{ item.project.description }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("StartDate")}} :</h6>
-                        {{ item.project.startDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("EndDate")}} :</h6>
-                        {{ item.project.endDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("BudgetedStartDate")}} :</h6>
-                        {{ item.project.budgetedStartDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("BudgetedEndDate")}} :</h6>
-                        {{ item.project.budgetedEndDate | momentFormat:'YYYY-MM-DD HH:mm:ss' }}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>{{l("Title")}} :</h6>
-                        {{ item.project.title }}
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body">
+
+                    <!--<div class="form-row">
+                        <div class="form-group col-lg-4 col-md-4">
+                            <label for="Project_Code">{{l("Code")}}</label>
+                            <input type="text" readonly id="Project_Code" class="form-control" [(ngModel)]="project.code" name="Code" />
+                        </div>
+                    </div>-->
+
+                    <div class="form-row">
+                        <div class="form-group  col-6">
+                            <label for="Project_Title">{{l("Title")}}</label>
+                            <input type="text" id="Project_Title" class="form-control" [(ngModel)]="project.title" readonly disabled
+                                name="Title" />
+                        </div>
                     </div>
 
-                                     <div class="col-6 mb-3">
-                        <h6>({{l("OrganizationUnit")}}) {{l("DisplayName")}} :</h6>
-                        {{item.organizationUnitDisplayName}}
-                    </div>
-                    <div class="col-6 mb-3">
-                        <h6>({{l("OrganizationUnit")}}) {{l("DisplayName")}} :</h6>
-                        {{item.organizationUnitDisplayName2}}
+                    <div class="form-row">
+                        <div class="form-group col-8 ">
+                            <label for="Project_Description">{{l("Description")}}</label>
+                            <textarea type="text" id="Project_Description" class="form-control" readonly disabled rows="5"
+                                [(ngModel)]="project.description" name="Description"></textarea>
+                        </div>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="Project_reviewType">Review Type</label>
+                            <select type="text" id="Project_reviewType" class="form-control" readonly disabled
+                                [(ngModel)]="project.reviewType" name="reviewType">
+                                <option value=0>Business Unit</option>
+                                <option value=1>Process</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <br /><br />
+                            <label for="Project_cascade" class="kt-checkbox">
+                                <input id="Project_cascade" type="checkbox" name="Cascade" readonly disabled
+                                    [(ngModel)]="project.cascade">
+                                Cascade to sub-units?
+                                <span></span>
+                            </label>
 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-8">
+                            <label for="OrganizationUnitDisplayName2">Progress</label>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    75%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <tabset>
+                        <tab heading="Scope Definition">
+                            <div class="form-row">
+                                <div class="form-group m-form__group col-6">
+                                    <label for="OrganizationUnitDisplayName2">Scope of review</label>
+                                    <div class="input-group">
+                                        <input class="form-control" id="OrganizationUnitDisplayName2"
+                                            name="organizationUnitDisplayName2" readonly disabled
+                                            [(ngModel)]="organizationUnitDisplayName2" type="text" >
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_scopeStartDate">Start Date (Scope) </label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.scopeStartDate"
+                                        id="Project_scopeStartDate" name="Project_scopeStartDate">
+                                </div>
+
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_ScopeEndDate">End Date (Scope)</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.scopeEndDate"
+                                        id="Project_ScopeEndDate" name="Project_ScopeEndDate">
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Timelines">
+                            <div class="form-row">
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_BudgetedStartDate">{{l("BudgetedStartDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.budgetedStartDate"
+                                        id="Project_BudgetedStartDate" name="Project_BudgetedStartDate">
+                                </div>
+
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_BudgetedEndDate">{{l("BudgetedEndDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.budgetedEndDate"
+                                        id="Project_BudgetedEndDate" name="Project_BudgetedEndDate">
+                                </div>
+
+
+                                <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_StartDate">{{l("StartDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.startDate" id="Project_StartDate"
+                                        name="Project_StartDate">
+                                </div>
+
+                                <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_EndDate">{{l("EndDate")}}</label>
+                                    <input *ngIf="project.id" class="form-control m-input" type="datetime" bsDatepicker readonly disabled
+                                        datePickerMomentModifier [(date)]="project.endDate" id="Project_EndDate"
+                                        name="Project_EndDate">
+                                    <input *ngIf="!project.id" readonly class="form-control m-input" type="datetime"
+                                        bsDatepicker datePickerMomentModifier [(date)]="project.endDate" readonly disabled
+                                        id="Project_EndDate" name="Project_EndDate">
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Working Papers">
+
+                        </tab>
+                    </tabset>
                 </div>
             </div>
         </div>
     </div>
-  </div>
 </div>
+
+

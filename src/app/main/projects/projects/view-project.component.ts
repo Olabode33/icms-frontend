@@ -1,6 +1,6 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -16,7 +16,10 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     saving = false;
 
     item: GetProjectForViewDto;
+    project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
 
+    organizationUnitDisplayName = '';
+    organizationUnitDisplayName2 = '';
 
     constructor(
         injector: Injector,
@@ -25,7 +28,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     ) {
         super(injector);
         this.item = new GetProjectForViewDto();
-        this.item.project = new ProjectDto();        
+        this.item.project = new ProjectDto();
     }
 
     ngOnInit(): void {
@@ -33,9 +36,13 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     }
 
     show(projectId: number): void {
-      this._projectsServiceProxy.getProjectForView(projectId).subscribe(result => {      
-                 this.item = result;
-                this.active = true;
-            });       
+        this._projectsServiceProxy.getProjectForEdit(projectId).subscribe(result => {
+            this.project = result.project;
+
+            this.organizationUnitDisplayName = result.organizationUnitDisplayName;
+            this.organizationUnitDisplayName2 = result.organizationUnitDisplayName2;
+
+            this.active = true;
+        });
     }
 }
