@@ -154,7 +154,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     getDepartmentDetails(): void {
         this._departmentsServiceProxy.getDepartmentForEdit(this._organizationUnitId).subscribe(result => {
-            console.log(result);
+         
             this.department = result.department;
             this.userName = result.userName;
             this.userName2 = result.userName2;

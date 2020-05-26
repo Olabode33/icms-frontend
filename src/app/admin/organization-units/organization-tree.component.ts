@@ -184,7 +184,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 label: this.l('View'),
                 disabled: !canManageOrganizationTree,
                 command: (event) => {
-                    console.log(this.selectedOu);
+              
                     this.view(this.selectedOu.data.id);
                     //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
                 }
@@ -193,7 +193,7 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                 label: this.l('Auditor'),
                 disabled: !canManageOrganizationTree,
                 command: (event) => {
-                    console.log(this.selectedOu);
+               
                     this.auditor(this.selectedOu.data.id);
                     //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
                 }

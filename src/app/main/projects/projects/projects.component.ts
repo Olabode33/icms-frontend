@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute , Router} from '@angular/router';
-import { ProjectsServiceProxy, ProjectDto  } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, ProjectDto, EntityDto  } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -116,6 +116,26 @@ export class ProjectsComponent extends AppComponentBase {
                         .subscribe(() => {
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+
+    activateProject(project: ProjectDto): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    var item = new EntityDto();
+
+                    item.id = project.id;
+                    this._projectsServiceProxy.activate(item)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success("Successfully Activated");
                         });
                 }
             }

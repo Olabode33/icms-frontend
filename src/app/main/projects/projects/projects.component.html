@@ -197,6 +197,10 @@
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Delete')"
+                                                       (click)="activateProject(record.project)">Activate</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Delete')"
                                                        (click)="deleteProject(record.project)">{{l('Delete')}}</a>
                                                 </li>
 
