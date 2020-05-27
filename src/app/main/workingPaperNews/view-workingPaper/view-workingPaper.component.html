@@ -152,6 +152,47 @@
                     </tabset>
                 </div>
             </div>
+
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            <span>Audit Information</span>
+                        </h3>
+                    </div>
+                </div>
+                <!-- <div *ngIf="loading" class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                        role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                </div> -->
+                <div class="kt-portlet__body">
+                    
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="DateCreated">Date created</label>
+                            <input type="text" readonly disabled id="DateCreated" class="form-control" [value]="workingPaperNew.completionDate | momentFormat: 'LL'" name="DateCreated" />
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="DateCreated">Last updated</label>
+                            <input type="text" readonly disabled id="DateLastUpdated" class="form-control" [value]="workingPaperNew.completionDate | momentFormat: 'LL'" name="DateLastUpdated" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="CreatedBy">Created by</label>
+                            <input type="text" readonly disabled id="CreatedBy" class="form-control" [value]="userName" name="CreatedBy" />
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="UpdatedBy">Last updated by</label>
+                            <input type="text" readonly disabled id="UpdatedBy" class="form-control" [value]="userName2" name="UpdatedBy" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
     </div>

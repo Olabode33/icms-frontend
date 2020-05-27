@@ -20,21 +20,24 @@
                             <i class="fa fa-save"></i>
                             {{l("Save")}}
                         </button>
-                        <button *ngIf="workingPaperNew.organizationUnitId && organizationUnitDisplayName" (click)="createExceptionIncident()" class="btn btn-primary blue">
-                            <i class="fa fa-plus"></i>
-                            Log Exception
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
             <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label hoverable" (click)="showGeneralInfoCard = !showGeneralInfoCard;">
+                        <h3 class="kt-portlet__head-title">
+                            <span>General Information</span>
+                        </h3>
+                    </div>
+                </div>
                 <div *ngIf="loading" class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
                         role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <div class="kt-portlet__body  ">
+                <div [hidden]="!showGeneralInfoCard" class="kt-portlet__body">
                     
                     <div class="row">
                         <div class="form-group col-md-4">
@@ -114,13 +117,39 @@
                             </div>
                         </div>
                     </div> -->
-                    
+
+                </div>
+            </div>
+
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__head hoverable" (click)="showSamplingCard = !showSamplingCard">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            <span>Sampling</span>
+                        </h3>
+                    </div>
+                </div>
+                <div *ngIf="loading" class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                        role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div [hidden]="!showSamplingCard" class="kt-portlet__body">
                     <tabset>
                         <tab heading="Test Attributes">
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="TestingTemplate_Title">Sample id</label>
-                                    <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [value]="sampleId" name="SampleSize" readonly />
+                                    <input type="number" min="0" id="TestingTemplate_SampleId" class="form-control" [value]="sampleId" name="SampleId" readonly />
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <button *ngIf="workingPaperNew.organizationUnitId && organizationUnitDisplayName" (click)="createExceptionIncident()" class="btn btn-primary blue pull-right">
+                                        <i class="fa fa-plus"></i>
+                                        {{l("Log Exception")}}
+                                    </button>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="TestingTemplate_Title">Sample Description</label>
+                                    <textarea id="TestingTemplate_SampleDescription" class="form-control" name="SampleSize" rows="3" ></textarea>
                                 </div>
                             </div>
 
@@ -166,6 +195,8 @@
                     </tabset>
                 </div>
             </div>
+
+            
         </div>
 
     </div>

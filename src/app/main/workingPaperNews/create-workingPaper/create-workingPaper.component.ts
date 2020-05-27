@@ -37,6 +37,9 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     depts: ListResultDtoOfOrganizationUnitDto = new ListResultDtoOfOrganizationUnitDto();
 
+    showGeneralInfoCard = true;
+    showSamplingCard = true;
+
     constructor(
         injector: Injector,
         private _changeDetector: ChangeDetectorRef,
