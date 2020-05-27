@@ -461,3 +461,7 @@ body{margin-top:20px;
     .kt-svg-icon.kt-svg-icon--white g [fill] {
         fill: #fff !important;
     }
+
+    .hoverable {
+        cursor: pointer;
+    }

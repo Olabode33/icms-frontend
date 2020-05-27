@@ -15,6 +15,8 @@ import * as shape from 'd3-shape';
 })
 export class HomeComponent extends AppComponentBase implements OnInit {
 
+    loadingExceptions = false;
+    loadingTask = false;
 
     workingpapers: WorkingPaper[] = new Array();
     ous: OrganizationUnitDto[] = new Array();
@@ -99,17 +101,21 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     }
 
     getException(): void {
+        this.loadingExceptions = true;
         this._workspaceService.getExceptions().subscribe(result => {
             this.exceptions = result.items.filter(x => x.exceptionIncident.status !== Status.Closed);
+            this.loadingExceptions = false;
         });
     }
 
     getWorkingPaper(): void {
+        this.loadingTask = true;
         this._workspaceService.getWorkingPapers().subscribe(result => {
             console.log(result);
             this.savedWorkingPaper = result.items.filter(x => x.completionLevel > 0 && x.completionLevel < 1 );
             this.newWorkingPaper = result.items.filter(x => x.completionLevel === 0);
             this.submittedWorkingPaper = result.items.filter(x => x.completionLevel === 1);
+            this.loadingTask = false;
         });
     }
 

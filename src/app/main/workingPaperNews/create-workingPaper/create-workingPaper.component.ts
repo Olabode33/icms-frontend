@@ -194,6 +194,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.attributes.push(item);
             });
             this.sampleId++;
+            this.notify.success('Sample saved successfully!.');
         } else {
             this.save();
         }

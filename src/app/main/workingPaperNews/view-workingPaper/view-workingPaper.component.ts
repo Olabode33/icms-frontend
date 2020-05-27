@@ -2,17 +2,17 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } fro
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, TaskStatus, CreateOrEditTestingAttributeDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-view-workingPaper',
-  templateUrl: './view-workingPaper.component.html',
-  styleUrls: ['./view-workingPaper.component.css'],
-  encapsulation: ViewEncapsulation.None,
-  animations: [appModuleAnimation()]
+    selector: 'app-view-workingPaper',
+    templateUrl: './view-workingPaper.component.html',
+    styleUrls: ['./view-workingPaper.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    animations: [appModuleAnimation()]
 })
 export class ViewWorkingPaperComponent extends AppComponentBase implements OnInit {
 
@@ -33,6 +33,22 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
 
     fakeTestingTemplateId = 6;
     fakeTestingTemplateCode = 'TT-1';
+
+    loading = false;
+    showGeneralInfoCard = true;
+    showSamplingCard = true;
+    showAuditInfoCard = true;
+    showRiskCard = true;
+    showControlsCard = false;
+
+    taskStatusEnum = TaskStatus;
+
+    sampleResponses: { sampleId: number, response: CreateOrEditTestingAttributeDto[] }[] = new Array();
+    currentSample: { sampleId: number, response: CreateOrEditTestingAttributeDto[] } = { sampleId: null, response: new Array() };
+    currentSampleIndex = 0;
+    firstSample = true;
+    lastSample = false;
+    loadingSamples = false;
 
     constructor(
         injector: Injector,
@@ -59,48 +75,66 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     }
 
     show(workingPaperNewId?: string): void {
+        this.loading = true;
         this.completionDate = null;
 
-            if (!workingPaperNewId) {
-                this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
-                this.workingPaperNew.id = workingPaperNewId;
-                this.workingPaperNew.taskDate = moment().startOf('day');
-                this.workingPaperNew.dueDate = moment().startOf('day');
-                this.workingPaperNew.reviewDate = moment().startOf('day');
-                this.testingTemplateCode = '';
-                this.organizationUnitDisplayName = '';
-                this.userName = '';
-                this.userName2 = '';
+        if (!workingPaperNewId) {
+            this.workingPaperNew = new CreateOrEditWorkingPaperNewDto();
+            this.workingPaperNew.id = workingPaperNewId;
+            this.workingPaperNew.taskDate = moment().startOf('day');
+            this.workingPaperNew.dueDate = moment().startOf('day');
+            this.workingPaperNew.reviewDate = moment().startOf('day');
+            this.testingTemplateCode = '';
+            this.organizationUnitDisplayName = '';
+            this.userName = '';
+            this.userName2 = '';
 
-                this.testingTemplate.testingTemplate = new TestingTemplateDto();
-                this.testingTemplate.attributes = [];
-                this.testingTemplate.risk = new RiskDto();
-                this.testingTemplate.control = new ControlDto();
+            this.testingTemplate.testingTemplate = new TestingTemplateDto();
+            this.testingTemplate.attributes = [];
+            this.testingTemplate.risk = new RiskDto();
+            this.testingTemplate.control = new ControlDto();
 
-                //Fake out
-                this.workingPaperNew.testingTemplateId = this.fakeTestingTemplateId;
-                this.testingTemplateCode = this.fakeTestingTemplateCode;
+            //Fake out
+            this.workingPaperNew.testingTemplateId = this.fakeTestingTemplateId;
+            this.testingTemplateCode = this.fakeTestingTemplateCode;
+            this.getTemplateDetails();
+
+            this.active = true;
+            this.loading = false;
+        } else {
+            this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
+                console.log(result);
+                this.workingPaperNew = result.workingPaperNew;
+
+                if (this.workingPaperNew.completionDate) {
+                    this.completionDate = this.workingPaperNew.completionDate.toDate();
+                }
+                this.testingTemplate = result.testingTemplate;
+                this.testingTemplateCode = result.testingTemplateCode;
+                this.organizationUnitDisplayName = result.organizationUnitDisplayName;
+                this.userName = result.userName;
+                this.userName2 = result.userName2;
+
                 this.getTemplateDetails();
-
+                if (result.workingPaperDetails.length > 0) {
+                    result.workingPaperDetails.forEach(element => {
+                        let sample = this.sampleResponses.find(x => x.sampleId === element.sequence);
+                        if (sample) {
+                            sample.response.push(element);
+                        } else {
+                            let attributeResponses = new Array();
+                            attributeResponses.push(element);
+                            this.sampleResponses.push({ sampleId: element.sequence, response: attributeResponses });
+                        }
+                    });
+                    this.displaySample();
+                }
+                console.log(this.currentSample);
                 this.active = true;
-            } else {
-                this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
-                    console.log(result);
-                    this.workingPaperNew = result.workingPaperNew;
-
-                    if (this.workingPaperNew.completionDate) {
-                        this.completionDate = this.workingPaperNew.completionDate.toDate();
-                    }
-                    this.testingTemplateCode = result.testingTemplateCode;
-                    this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-                    this.userName = result.userName;
-                    this.userName2 = result.userName2;
-
-                    this.getTemplateDetails();
-                    this.active = true;
-                });
-            }
+                this.loading = false;
+            });
         }
+    }
 
     goBack(): void {
         this._location.back();
@@ -156,4 +190,81 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
 
     }
 
+    approve(): void {
+        //
+    }
+
+    reject(): void {
+        //
+    }
+
+    displaySample(): void {
+        this.currentSample = this.sampleResponses[this.currentSampleIndex];
+    }
+
+    goTo(number: number): void {
+        this.loadingSamples = true;
+        //Skip if sample is already displayed
+        if (number === this.currentSampleIndex) {
+            return;
+        }
+
+        //Validate
+        if (!this.isValid()) {
+            this.notify.error('Please select a response');
+            return;
+        }
+
+        //Set next sample
+        this.currentSampleIndex = number;
+
+        //Update UI
+        this.displaySample();
+        this.loadingSamples = false;
+    }
+
+    isValid(): boolean {
+        return true;
+    }
+
+    isFirstSample(): boolean {
+        return this.currentSampleIndex === 0;
+    }
+
+    isLastSample(): boolean {
+        return this.currentSampleIndex === this.sampleResponses.length - 1;
+    }
+
+    getNextStep(): number {
+        if (this.sampleResponses.length > (this.currentSampleIndex + 1)) {
+            return this.currentSampleIndex + 1;
+        } else {
+            return this.sampleResponses.length - 1;
+        }
+    }
+
+    getPrevStep(): number {
+        if ((this.currentSampleIndex - 1) >= 0) {
+            return this.currentSampleIndex - 1;
+        } else {
+            return 0;
+        }
+    }
+
+    gotoNext() {
+        return this.goTo(this.getNextStep());
+    }
+
+    gotoPrev() {
+        return this.goTo(this.getPrevStep());
+    }
+
+    getCurrentSampleResult(testingAttributeId: number): string {
+        let result = this.currentSample.response.find(x => x.testingAttrributeId === testingAttributeId);
+        if (result) {
+            return result.result ? 'Yes' : 'No';
+        } else {
+            return null;
+        }
+    }
 }
