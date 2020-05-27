@@ -3,7 +3,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { WorkingPaper } from '@app/UIModel/WorkingPaper';
 import { Router } from '@angular/router';
-import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto, WorkspaceServiceProxy, GetExceptionIncidentForViewDto, GetWorkingPaperNewForViewDto, Status, TaskStatus, Frequency } from '@shared/service-proxies/service-proxies';
 import * as shape from 'd3-shape';
 
 @Component({
@@ -18,6 +18,13 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
     workingpapers: WorkingPaper[] = new Array();
     ous: OrganizationUnitDto[] = new Array();
+    exceptions: GetExceptionIncidentForViewDto[] = new Array();
+    savedWorkingPaper: GetWorkingPaperNewForViewDto[] = new Array();
+    newWorkingPaper: GetWorkingPaperNewForViewDto[] = new Array();
+    submittedWorkingPaper: GetWorkingPaperNewForViewDto[] = new Array();
+
+    statusEnum = Status;
+    frequencyEnum = Frequency;
 
     // options
     legend = true;
@@ -77,7 +84,8 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     constructor(private _router: Router,
         injector: Injector,
         private _ouService: OrganizationUnitServiceProxy,
-        private _departmentService: DepartmentsServiceProxy
+        private _departmentService: DepartmentsServiceProxy,
+        private _workspaceService: WorkspaceServiceProxy
     ) {
         super(injector);
         _ouService.getOrganizationUnits().subscribe(result => {
@@ -86,55 +94,36 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
+        this.getException();
+        this.getWorkingPaper();
+    }
 
-
-        let itm1: WorkingPaper = {
-            Id: 25,
-            Score: 18,
-            TestingTemplateData: 'Apply resolution to incidence',
-            businessUnit: 'Operations',
-            Code: '8945869',
-            TaskStatus: 'Pending'
-        };
-
-        let itm2: WorkingPaper = {
-            Id: 30,
-            Score: 9,
-            TestingTemplateData: 'Minify risk spreading',
-            businessUnit: 'Allen Avenue Branch',
-            Code: '6986594',
-            TaskStatus: 'Pending'
-        };
-        let itm3: WorkingPaper = {
-            Id: 31,
-            Score: 6,
-            TestingTemplateData: 'Quarantine affected machines',
-            businessUnit: 'Maryland Branch',
-            Code: '657543',
-            TaskStatus: 'Pending'
-        };
-
-        this.workingpapers.push(itm1);
-        this.workingpapers.push(itm2);
-        this.workingpapers.push(itm3);
-        this.workingpapers.push({
-            Id: 32,
-            Score: 9,
-            TestingTemplateData: 'Minify risk spreading',
-            businessUnit: 'MM2 Branch',
-            Code: '6986594',
-            TaskStatus: 'Pending'
-        });
-        this.workingpapers.push({
-            Id: 33,
-            Score: 18,
-            TestingTemplateData: 'Apply resolution to incidence',
-            businessUnit: 'Bode Thomas Branch',
-            Code: '8945869',
-            TaskStatus: 'Pending'
+    getException(): void {
+        this._workspaceService.getExceptions().subscribe(result => {
+            this.exceptions = result.items.filter(x => x.exceptionIncident.status !== Status.Closed);
         });
     }
 
+    getWorkingPaper(): void {
+        this._workspaceService.getWorkingPapers().subscribe(result => {
+            console.log(result);
+            this.savedWorkingPaper = result.items.filter(x => x.completionLevel > 0 && x.completionLevel < 1 );
+            this.newWorkingPaper = result.items.filter(x => x.completionLevel === 0);
+            this.submittedWorkingPaper = result.items.filter(x => x.completionLevel === 1);
+        });
+    }
+
+    viewException(id: number): void {
+        //this._router.navigate(['/app/main/exceptions/view', id]);
+    }
+
+    editWorkingPaper(id: string): void {
+        this._router.navigate(['/app/main/workingPaperNews/edit', id]);
+    }
+
+    viewWorkingPaper(id: string): void {
+        this._router.navigate(['/app/main/workingPaperNews', id]);
+    }
 
 
     OpenDetails(id: number) {

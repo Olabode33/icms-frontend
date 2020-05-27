@@ -19402,6 +19402,120 @@ export class WorkingPaperNewsServiceProxy {
     }
 }
 
+@Injectable()
+export class WorkspaceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getExceptions(): Observable<ListResultDtoOfGetExceptionIncidentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Workspace/GetExceptions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetExceptions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetExceptions(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfGetExceptionIncidentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfGetExceptionIncidentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetExceptions(response: HttpResponseBase): Observable<ListResultDtoOfGetExceptionIncidentForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfGetExceptionIncidentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfGetExceptionIncidentForViewDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getWorkingPapers(): Observable<ListResultDtoOfGetWorkingPaperNewForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Workspace/GetWorkingPapers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkingPapers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkingPapers(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfGetWorkingPaperNewForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfGetWorkingPaperNewForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkingPapers(response: HttpResponseBase): Observable<ListResultDtoOfGetWorkingPaperNewForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfGetWorkingPaperNewForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfGetWorkingPaperNewForViewDto>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName!: string | undefined;
 
@@ -36903,6 +37017,10 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
     organizationUnitDisplayName!: string | undefined;
     userName!: string | undefined;
     userName2!: string | undefined;
+    completionLevel!: number;
+    ouCode!: string | undefined;
+    frequency!: Frequency;
+    sampleSize!: number | undefined;
 
     constructor(data?: IGetWorkingPaperNewForViewDto) {
         if (data) {
@@ -36920,6 +37038,10 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.userName = data["userName"];
             this.userName2 = data["userName2"];
+            this.completionLevel = data["completionLevel"];
+            this.ouCode = data["ouCode"];
+            this.frequency = data["frequency"];
+            this.sampleSize = data["sampleSize"];
         }
     }
 
@@ -36937,6 +37059,10 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["userName"] = this.userName;
         data["userName2"] = this.userName2;
+        data["completionLevel"] = this.completionLevel;
+        data["ouCode"] = this.ouCode;
+        data["frequency"] = this.frequency;
+        data["sampleSize"] = this.sampleSize;
         return data; 
     }
 }
@@ -36947,6 +37073,10 @@ export interface IGetWorkingPaperNewForViewDto {
     organizationUnitDisplayName: string | undefined;
     userName: string | undefined;
     userName2: string | undefined;
+    completionLevel: number;
+    ouCode: string | undefined;
+    frequency: Frequency;
+    sampleSize: number | undefined;
 }
 
 export class PagedResultDtoOfGetWorkingPaperNewForViewDto implements IPagedResultDtoOfGetWorkingPaperNewForViewDto {
@@ -37427,6 +37557,94 @@ export class PagedResultDtoOfWorkingPaperNewUserLookupTableDto implements IPaged
 export interface IPagedResultDtoOfWorkingPaperNewUserLookupTableDto {
     totalCount: number;
     items: WorkingPaperNewUserLookupTableDto[] | undefined;
+}
+
+export class ListResultDtoOfGetExceptionIncidentForViewDto implements IListResultDtoOfGetExceptionIncidentForViewDto {
+    items!: GetExceptionIncidentForViewDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfGetExceptionIncidentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetExceptionIncidentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfGetExceptionIncidentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfGetExceptionIncidentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfGetExceptionIncidentForViewDto {
+    items: GetExceptionIncidentForViewDto[] | undefined;
+}
+
+export class ListResultDtoOfGetWorkingPaperNewForViewDto implements IListResultDtoOfGetWorkingPaperNewForViewDto {
+    items!: GetWorkingPaperNewForViewDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfGetWorkingPaperNewForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWorkingPaperNewForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfGetWorkingPaperNewForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfGetWorkingPaperNewForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfGetWorkingPaperNewForViewDto {
+    items: GetWorkingPaperNewForViewDto[] | undefined;
 }
 
 export class AdditionalData implements IAdditionalData {

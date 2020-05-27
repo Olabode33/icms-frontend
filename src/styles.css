@@ -438,20 +438,24 @@ body{margin-top:20px;
         font-size: .925rem;
     }
 
-    .bg-light-danger {
-        background-color: #ffe2e5!important;
+    .bg-border-danger {
+        border: 1px solid #fd397a !important;
     }
 
-    .bg-light-success {
-        background-color: #c9f7f5!important;
+    .bg-border-success {
+        border: 1px solid #1bc5bd!important;
     }
 
-    .bg-light-warning {
-        background-color: #fff4de!important;
+    .bg-border-warning {
+        border: 1px solid #ffb822 !important;
     }
 
-    .bg-light-primary {
-        background-color: #e1f0ff!important;
+    .bg-border-primary {
+        border: 1px solid #5867dd !important;
+    }
+
+    .bg-border-dark {
+        border: 1px solid #000!important;
     }
 
     .kt-svg-icon.kt-svg-icon--white g [fill] {
