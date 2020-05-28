@@ -35,10 +35,10 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
     private _isViewOnly = false;
     deptRisks: {risk: GetProcessRiskForViewDto, isActive: boolean}[] = new Array();
-
-    //Controls
-    loadingControls = false;
     riskControls: GetProcessRiskControlForViewDto[] = new Array();
+
+    loadingRisk = false;
+    loadingControls = false;
 
     constructor(
         injector: Injector,
@@ -77,12 +77,14 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     }
 
     getOrganizationUnitRisksNew() {
+        this.loadingRisk = true;
         this._departmentRiskService.getRiskForProcess('', '', '', '', this._organizationUnit.id, '', 0, 1000
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             //console.log(result);
             this.deptRisks = Array.from(new Set(result.items.map((i) => {
                 return {risk: i, isActive: false};
             })));
+            this.loadingRisk = false;
         });
     }
 
@@ -113,7 +115,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     // }
 
     reloadPage(): void {
-        this.paginator.changePage(this.paginator.getPage());
+        this.getOrganizationUnitRisksNew();
     }
 
     refreshRisks(): void {
@@ -184,6 +186,38 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
             this.riskControls = result.items.filter(x => x.processRiskControl.processRiskId == riskId);
             this.loadingControls = false;
         });
+    }
+
+    deleteRisk(riskId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._departmentRiskService.delete(riskId)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+    deleteRiskControl(riskControlId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._departmentRiskControlService.delete(riskControlId)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
     }
 
 }

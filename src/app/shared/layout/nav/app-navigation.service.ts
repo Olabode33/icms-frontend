@@ -32,17 +32,9 @@ export class AppNavigationService {
                 new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
                 new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
             ]),
-
-            //  new AppMenuItem('Departments', 'Pages.Departments', 'flaticon-more', '/app/main/departments/departments'),
-
-            // new AppMenuItem('DepartmentRisks', 'Pages.DepartmentRisks', 'flaticon-more', '/app/main/departmentRisks/departmentRisks'),
-
-            // new AppMenuItem('DepartmentRiskControls', 'Pages.DepartmentRiskControls', 'flaticon-more', '/app/main/departmentRiskControls/departmentRiskControls'),
-
             new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Working Paper', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
-            
-            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-more', '/app/main/projects/projects'),
+            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-squares-4', '/app/main/projects/projects'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
