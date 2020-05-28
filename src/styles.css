@@ -424,6 +424,9 @@ body{margin-top:20px;
     .font-weight-bolder {
         font-weight: 600!important;
     }
+    .font-weight-bold-sm {
+        font-weight: 500!important;
+    }
     .mt-6, .my-6 {
         margin-top: 1.5rem!important;
     }
@@ -432,6 +435,10 @@ body{margin-top:20px;
     }
     .d-block {
         display: block!important;
+    }
+
+    .font-size-h6 {
+        font-size: 1.175rem!important;
     }
 
     .font-size-sm {

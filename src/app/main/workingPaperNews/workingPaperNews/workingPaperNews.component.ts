@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkingPaperNewsServiceProxy, WorkingPaperNewDto , TaskStatus } from '@shared/service-proxies/service-proxies';
+import { WorkingPaperNewsServiceProxy, WorkingPaperNewDto, TaskStatus } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -27,17 +27,18 @@ export class WorkingPaperNewsComponent extends AppComponentBase {
     advancedFiltersAreShown = false;
     filterText = '';
     codeFilter = '';
-    maxTaskDateFilter : moment.Moment;
-		minTaskDateFilter : moment.Moment;
-    maxDueDateFilter : moment.Moment;
-		minDueDateFilter : moment.Moment;
+    maxTaskDateFilter: moment.Moment;
+    minTaskDateFilter: moment.Moment;
+    maxDueDateFilter: moment.Moment;
+    minDueDateFilter: moment.Moment;
     taskStatusFilter = -1;
-    maxCompletionDateFilter : moment.Moment;
-		minCompletionDateFilter : moment.Moment;
-        testingTemplateCodeFilter = '';
-        organizationUnitDisplayNameFilter = '';
-        userNameFilter = '';
-        userName2Filter = '';
+    maxCompletionDateFilter: moment.Moment;
+    minCompletionDateFilter: moment.Moment;
+    testingTemplateCodeFilter = '';
+    organizationUnitDisplayNameFilter = '';
+    userNameFilter = '';
+    userName2Filter = '';
+    projectId: number;
 
     taskStatus = TaskStatus;
 
@@ -77,6 +78,7 @@ export class WorkingPaperNewsComponent extends AppComponentBase {
             this.organizationUnitDisplayNameFilter,
             this.userNameFilter,
             this.userName2Filter,
+            this.projectId,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -112,10 +114,10 @@ export class WorkingPaperNewsComponent extends AppComponentBase {
     }
 
     view(id: number): void {
-        this._router.navigate(['app/main/workingPaperNews', id ]);
+        this._router.navigate(['app/main/workingPaperNews', id]);
     }
 
     edit(id: number): void {
-        this._router.navigate(['app/main/workingPaperNews/edit', id ]);
+        this._router.navigate(['app/main/workingPaperNews/edit', id]);
     }
 }
