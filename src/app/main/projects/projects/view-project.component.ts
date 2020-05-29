@@ -1,6 +1,7 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
+﻿import { AssignWorkingPaperNewDto } from './../../../../shared/service-proxies/service-proxies';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -8,6 +9,7 @@ import * as moment from 'moment';
 import { LazyLoadEvent } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
+import { WorkingPaperNewUserLookupTableModalComponent } from '@app/main/workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
 
 @Component({
     selector: 'viewProject',
@@ -18,6 +20,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('workingPaperNewUserLookupTableModal', { static: true }) workingPaperNewUserLookupTableModal: WorkingPaperNewUserLookupTableModalComponent;
 
     active = false;
     saving = false;
@@ -26,8 +29,14 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     loading = false;
     loadingWorkingPapers = false;
 
+    openTaskCount = 0;
+    openTaskPercent = 0;
+    pendReviewCount = 0;
+    pendReviewPercent = 0;
+
     item: GetProjectForViewDto;
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
+    selectedWorkingPaper: GetWorkingPaperNewForViewDto = new GetWorkingPaperNewForViewDto();
 
     organizationUnitDisplayName = '';
     organizationUnitDisplayName2 = '';
@@ -53,16 +62,13 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     marginLeft = 40;
     single = [
         {
-          name: 'Completion Rate',
-          value: 75,
-          extra: {
-            code: 'de'
-          }
+            name: 'Completion Rate',
+            value: 100
         }];
 
     colorScheme = {
         domain: ['#FFC107']
-        };
+    };
 
 
     advancedFiltersAreShown = false;
@@ -87,7 +93,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
-         private _projectsServiceProxy: ProjectsServiceProxy,
+        private _projectsServiceProxy: ProjectsServiceProxy,
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
         private _router: Router
     ) {
@@ -110,10 +116,20 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             this.organizationUnitDisplayName = result.organizationUnitDisplayName;
             this.organizationUnitDisplayName2 = result.organizationUnitDisplayName2;
 
+            this.single = [
+                {
+                    name: 'Completion Rate',
+                    value: result.completionLevel * 100
+                }];
+            this.openTaskCount = result.openWorkingPapers;
+            this.openTaskPercent = result.openTaskPercent * 100;
+            this.pendReviewCount = result.pendingReviews;
+            this.pendReviewPercent = result.pendingReviewsPercent * 100;
+
             this.active = true;
             this.loading = false;
         });
-        this.getWorkingPaperNews({first: 0, sortField: undefined,  rows: 10});
+        this.getWorkingPaperNews({ first: 0, sortField: undefined, rows: 10 });
     }
 
     valueFormatting(value: number): string {
@@ -164,5 +180,24 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     edit(id: number): void {
         this._router.navigate(['app/main/workingPaperNews/edit', id]);
+    }
+
+    openAssignToUserModal(workingPaper: GetWorkingPaperNewForViewDto) {
+        this.selectedWorkingPaper = workingPaper;
+        this.workingPaperNewUserLookupTableModal.id = workingPaper.workingPaperNew.completedUserId;
+        this.workingPaperNewUserLookupTableModal.displayName = workingPaper.userName;
+        this.workingPaperNewUserLookupTableModal.show();
+    }
+
+    getNewCompletedUserId() {
+        this.selectedWorkingPaper.workingPaperNew.completedUserId = this.workingPaperNewUserLookupTableModal.id;
+        this.selectedWorkingPaper.userName = this.workingPaperNewUserLookupTableModal.displayName;
+
+        let assignToUserDto = new AssignWorkingPaperNewDto();
+        assignToUserDto.id = this.selectedWorkingPaper.workingPaperNew.id;
+        assignToUserDto.userId = this.workingPaperNewUserLookupTableModal.id;
+        this._workingPaperNewsServiceProxy.assignToUser(assignToUserDto).subscribe(() => {
+            this.reloadPage();
+        });
     }
 }

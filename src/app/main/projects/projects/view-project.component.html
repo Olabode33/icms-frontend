@@ -239,7 +239,7 @@
                                                             title="View working paper">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
-                                                        <button (click)="view(record.workingPaperNew.id)"
+                                                        <button (click)="openAssignToUserModal(record)"
                                                             class="btn btn-label-warning btn-sm btn-bold btn-upper btn-sm"
                                                             title="Assign task to user">
                                                             <i class="fa fa-user-plus"></i>
@@ -291,12 +291,12 @@
                                 tasks</a>
 
                             <div class="font-weight-bold-sm text-muted font-size-sm">
-                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">67</span>
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">{{openTaskCount}}</span>
                                 Working papers
                             </div>
 
                             <div class="progress progress-sm mt-7 bg-danger-o-60">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 67%;"
+                                <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="{'width': openTaskPercent + '%'}"
                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
@@ -313,12 +313,12 @@
                             </a>
 
                             <div class="font-weight-bold-sm text-muted font-size-sm">
-                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">67</span>
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">{{pendReviewCount}}</span>
                                 Working papers
                             </div>
 
                             <div class="progress progress-sm mt-7 bg-warning-o-60">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 67%;"
+                                <div class="progress-bar bg-warning" role="progressbar" [ngStyle]="{'width': pendReviewPercent + '%'}"
                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
@@ -330,4 +330,6 @@
 
 
     </div>
+
+    <workingPaperNewUserLookupTableModal #workingPaperNewUserLookupTableModal (modalSave)="getNewCompletedUserId()"></workingPaperNewUserLookupTableModal>
 </div>

@@ -19134,6 +19134,58 @@ export class WorkingPaperNewsServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    assignToUser(body: AssignWorkingPaperNewDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperNews/AssignToUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAssignToUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAssignToUser(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAssignToUser(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param filter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
@@ -32022,222 +32074,15 @@ export interface ICreateOrEditProjectDto {
     id: number | undefined;
 }
 
-export enum TaskStatus {
-    Open = 0,
-    PendingReview = 1,
-    Rejected = 2,
-    Approved = 3,
-}
-
-export class WorkingPaperNewDto implements IWorkingPaperNewDto {
-    code!: string | undefined;
-    comment!: string | undefined;
-    taskDate!: moment.Moment;
-    dueDate!: moment.Moment;
-    taskStatus!: TaskStatus;
-    score!: number;
-    reviewedDate!: moment.Moment | undefined;
-    completionDate!: moment.Moment | undefined;
-    testingTemplateId!: number | undefined;
-    organizationUnitId!: number | undefined;
-    completedUserId!: number | undefined;
-    reviewedUserId!: number | undefined;
-    id!: string;
-
-    constructor(data?: IWorkingPaperNewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.code = data["code"];
-            this.comment = data["comment"];
-            this.taskDate = data["taskDate"] ? moment(data["taskDate"].toString()) : <any>undefined;
-            this.dueDate = data["dueDate"] ? moment(data["dueDate"].toString()) : <any>undefined;
-            this.taskStatus = data["taskStatus"];
-            this.score = data["score"];
-            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
-            this.completionDate = data["completionDate"] ? moment(data["completionDate"].toString()) : <any>undefined;
-            this.testingTemplateId = data["testingTemplateId"];
-            this.organizationUnitId = data["organizationUnitId"];
-            this.completedUserId = data["completedUserId"];
-            this.reviewedUserId = data["reviewedUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): WorkingPaperNewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WorkingPaperNewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["code"] = this.code;
-        data["comment"] = this.comment;
-        data["taskDate"] = this.taskDate ? this.taskDate.toISOString() : <any>undefined;
-        data["dueDate"] = this.dueDate ? this.dueDate.toISOString() : <any>undefined;
-        data["taskStatus"] = this.taskStatus;
-        data["score"] = this.score;
-        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
-        data["completionDate"] = this.completionDate ? this.completionDate.toISOString() : <any>undefined;
-        data["testingTemplateId"] = this.testingTemplateId;
-        data["organizationUnitId"] = this.organizationUnitId;
-        data["completedUserId"] = this.completedUserId;
-        data["reviewedUserId"] = this.reviewedUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IWorkingPaperNewDto {
-    code: string | undefined;
-    comment: string | undefined;
-    taskDate: moment.Moment;
-    dueDate: moment.Moment;
-    taskStatus: TaskStatus;
-    score: number;
-    reviewedDate: moment.Moment | undefined;
-    completionDate: moment.Moment | undefined;
-    testingTemplateId: number | undefined;
-    organizationUnitId: number | undefined;
-    completedUserId: number | undefined;
-    reviewedUserId: number | undefined;
-    id: string;
-}
-
-export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewDto {
-    workingPaperNew!: WorkingPaperNewDto;
-    testingTemplateCode!: string | undefined;
-    organizationUnitDisplayName!: string | undefined;
-    userName!: string | undefined;
-    userName2!: string | undefined;
-    completionLevel!: number;
-    ouCode!: string | undefined;
-    frequency!: Frequency;
-    sampleSize!: number | undefined;
-    testingTemplateName!: string | undefined;
-
-    constructor(data?: IGetWorkingPaperNewForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.workingPaperNew = data["workingPaperNew"] ? WorkingPaperNewDto.fromJS(data["workingPaperNew"]) : <any>undefined;
-            this.testingTemplateCode = data["testingTemplateCode"];
-            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
-            this.userName = data["userName"];
-            this.userName2 = data["userName2"];
-            this.completionLevel = data["completionLevel"];
-            this.ouCode = data["ouCode"];
-            this.frequency = data["frequency"];
-            this.sampleSize = data["sampleSize"];
-            this.testingTemplateName = data["testingTemplateName"];
-        }
-    }
-
-    static fromJS(data: any): GetWorkingPaperNewForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetWorkingPaperNewForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["workingPaperNew"] = this.workingPaperNew ? this.workingPaperNew.toJSON() : <any>undefined;
-        data["testingTemplateCode"] = this.testingTemplateCode;
-        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
-        data["userName"] = this.userName;
-        data["userName2"] = this.userName2;
-        data["completionLevel"] = this.completionLevel;
-        data["ouCode"] = this.ouCode;
-        data["frequency"] = this.frequency;
-        data["sampleSize"] = this.sampleSize;
-        data["testingTemplateName"] = this.testingTemplateName;
-        return data; 
-    }
-}
-
-export interface IGetWorkingPaperNewForViewDto {
-    workingPaperNew: WorkingPaperNewDto;
-    testingTemplateCode: string | undefined;
-    organizationUnitDisplayName: string | undefined;
-    userName: string | undefined;
-    userName2: string | undefined;
-    completionLevel: number;
-    ouCode: string | undefined;
-    frequency: Frequency;
-    sampleSize: number | undefined;
-    testingTemplateName: string | undefined;
-}
-
-export class PagedResultDtoOfGetWorkingPaperNewForViewDto implements IPagedResultDtoOfGetWorkingPaperNewForViewDto {
-    totalCount!: number;
-    items!: GetWorkingPaperNewForViewDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfGetWorkingPaperNewForViewDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (Array.isArray(data["items"])) {
-                this.items = [] as any;
-                for (let item of data["items"])
-                    this.items!.push(GetWorkingPaperNewForViewDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfGetWorkingPaperNewForViewDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfGetWorkingPaperNewForViewDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IPagedResultDtoOfGetWorkingPaperNewForViewDto {
-    totalCount: number;
-    items: GetWorkingPaperNewForViewDto[] | undefined;
-}
-
 export class GetProjectForEditOutput implements IGetProjectForEditOutput {
     project!: CreateOrEditProjectDto;
     organizationUnitDisplayName!: string | undefined;
     organizationUnitDisplayName2!: string | undefined;
-    workingPapers!: PagedResultDtoOfGetWorkingPaperNewForViewDto;
+    completionLevel!: number;
+    openWorkingPapers!: number;
+    openTaskPercent!: number;
+    pendingReviews!: number;
+    pendingReviewsPercent!: number;
 
     constructor(data?: IGetProjectForEditOutput) {
         if (data) {
@@ -32253,7 +32098,11 @@ export class GetProjectForEditOutput implements IGetProjectForEditOutput {
             this.project = data["project"] ? CreateOrEditProjectDto.fromJS(data["project"]) : <any>undefined;
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.organizationUnitDisplayName2 = data["organizationUnitDisplayName2"];
-            this.workingPapers = data["workingPapers"] ? PagedResultDtoOfGetWorkingPaperNewForViewDto.fromJS(data["workingPapers"]) : <any>undefined;
+            this.completionLevel = data["completionLevel"];
+            this.openWorkingPapers = data["openWorkingPapers"];
+            this.openTaskPercent = data["openTaskPercent"];
+            this.pendingReviews = data["pendingReviews"];
+            this.pendingReviewsPercent = data["pendingReviewsPercent"];
         }
     }
 
@@ -32269,7 +32118,11 @@ export class GetProjectForEditOutput implements IGetProjectForEditOutput {
         data["project"] = this.project ? this.project.toJSON() : <any>undefined;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["organizationUnitDisplayName2"] = this.organizationUnitDisplayName2;
-        data["workingPapers"] = this.workingPapers ? this.workingPapers.toJSON() : <any>undefined;
+        data["completionLevel"] = this.completionLevel;
+        data["openWorkingPapers"] = this.openWorkingPapers;
+        data["openTaskPercent"] = this.openTaskPercent;
+        data["pendingReviews"] = this.pendingReviews;
+        data["pendingReviewsPercent"] = this.pendingReviewsPercent;
         return data; 
     }
 }
@@ -32278,7 +32131,11 @@ export interface IGetProjectForEditOutput {
     project: CreateOrEditProjectDto;
     organizationUnitDisplayName: string | undefined;
     organizationUnitDisplayName2: string | undefined;
-    workingPapers: PagedResultDtoOfGetWorkingPaperNewForViewDto;
+    completionLevel: number;
+    openWorkingPapers: number;
+    openTaskPercent: number;
+    pendingReviews: number;
+    pendingReviewsPercent: number;
 }
 
 export class EntityDto implements IEntityDto {
@@ -37140,6 +36997,217 @@ export interface IGetLatestWebLogsOutput {
     latestWebLogLines: string[] | undefined;
 }
 
+export enum TaskStatus {
+    Open = 0,
+    PendingReview = 1,
+    Rejected = 2,
+    Approved = 3,
+}
+
+export class WorkingPaperNewDto implements IWorkingPaperNewDto {
+    code!: string | undefined;
+    comment!: string | undefined;
+    taskDate!: moment.Moment;
+    dueDate!: moment.Moment;
+    taskStatus!: TaskStatus;
+    score!: number;
+    reviewedDate!: moment.Moment | undefined;
+    completionDate!: moment.Moment | undefined;
+    testingTemplateId!: number | undefined;
+    organizationUnitId!: number | undefined;
+    completedUserId!: number | undefined;
+    reviewedUserId!: number | undefined;
+    id!: string;
+
+    constructor(data?: IWorkingPaperNewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.comment = data["comment"];
+            this.taskDate = data["taskDate"] ? moment(data["taskDate"].toString()) : <any>undefined;
+            this.dueDate = data["dueDate"] ? moment(data["dueDate"].toString()) : <any>undefined;
+            this.taskStatus = data["taskStatus"];
+            this.score = data["score"];
+            this.reviewedDate = data["reviewedDate"] ? moment(data["reviewedDate"].toString()) : <any>undefined;
+            this.completionDate = data["completionDate"] ? moment(data["completionDate"].toString()) : <any>undefined;
+            this.testingTemplateId = data["testingTemplateId"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.completedUserId = data["completedUserId"];
+            this.reviewedUserId = data["reviewedUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperNewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperNewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["comment"] = this.comment;
+        data["taskDate"] = this.taskDate ? this.taskDate.toISOString() : <any>undefined;
+        data["dueDate"] = this.dueDate ? this.dueDate.toISOString() : <any>undefined;
+        data["taskStatus"] = this.taskStatus;
+        data["score"] = this.score;
+        data["reviewedDate"] = this.reviewedDate ? this.reviewedDate.toISOString() : <any>undefined;
+        data["completionDate"] = this.completionDate ? this.completionDate.toISOString() : <any>undefined;
+        data["testingTemplateId"] = this.testingTemplateId;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["completedUserId"] = this.completedUserId;
+        data["reviewedUserId"] = this.reviewedUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperNewDto {
+    code: string | undefined;
+    comment: string | undefined;
+    taskDate: moment.Moment;
+    dueDate: moment.Moment;
+    taskStatus: TaskStatus;
+    score: number;
+    reviewedDate: moment.Moment | undefined;
+    completionDate: moment.Moment | undefined;
+    testingTemplateId: number | undefined;
+    organizationUnitId: number | undefined;
+    completedUserId: number | undefined;
+    reviewedUserId: number | undefined;
+    id: string;
+}
+
+export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewDto {
+    workingPaperNew!: WorkingPaperNewDto;
+    testingTemplateCode!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    userName!: string | undefined;
+    userName2!: string | undefined;
+    completionLevel!: number;
+    ouCode!: string | undefined;
+    frequency!: Frequency;
+    sampleSize!: number | undefined;
+    testingTemplateName!: string | undefined;
+
+    constructor(data?: IGetWorkingPaperNewForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.workingPaperNew = data["workingPaperNew"] ? WorkingPaperNewDto.fromJS(data["workingPaperNew"]) : <any>undefined;
+            this.testingTemplateCode = data["testingTemplateCode"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.userName = data["userName"];
+            this.userName2 = data["userName2"];
+            this.completionLevel = data["completionLevel"];
+            this.ouCode = data["ouCode"];
+            this.frequency = data["frequency"];
+            this.sampleSize = data["sampleSize"];
+            this.testingTemplateName = data["testingTemplateName"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkingPaperNewForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkingPaperNewForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workingPaperNew"] = this.workingPaperNew ? this.workingPaperNew.toJSON() : <any>undefined;
+        data["testingTemplateCode"] = this.testingTemplateCode;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["userName"] = this.userName;
+        data["userName2"] = this.userName2;
+        data["completionLevel"] = this.completionLevel;
+        data["ouCode"] = this.ouCode;
+        data["frequency"] = this.frequency;
+        data["sampleSize"] = this.sampleSize;
+        data["testingTemplateName"] = this.testingTemplateName;
+        return data; 
+    }
+}
+
+export interface IGetWorkingPaperNewForViewDto {
+    workingPaperNew: WorkingPaperNewDto;
+    testingTemplateCode: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    userName: string | undefined;
+    userName2: string | undefined;
+    completionLevel: number;
+    ouCode: string | undefined;
+    frequency: Frequency;
+    sampleSize: number | undefined;
+    testingTemplateName: string | undefined;
+}
+
+export class PagedResultDtoOfGetWorkingPaperNewForViewDto implements IPagedResultDtoOfGetWorkingPaperNewForViewDto {
+    totalCount!: number;
+    items!: GetWorkingPaperNewForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWorkingPaperNewForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWorkingPaperNewForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWorkingPaperNewForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWorkingPaperNewForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWorkingPaperNewForViewDto {
+    totalCount: number;
+    items: GetWorkingPaperNewForViewDto[] | undefined;
+}
+
 export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaperNewDto {
     attributes!: CreateOrEditTestingAttributeDto[] | undefined;
     code!: string | undefined;
@@ -37306,6 +37374,46 @@ export interface IGetWorkingPaperNewForEditOutput {
     organizationUnitDisplayName: string | undefined;
     userName: string | undefined;
     userName2: string | undefined;
+}
+
+export class AssignWorkingPaperNewDto implements IAssignWorkingPaperNewDto {
+    userId!: number;
+    id!: string;
+
+    constructor(data?: IAssignWorkingPaperNewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userId = data["userId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssignWorkingPaperNewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssignWorkingPaperNewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAssignWorkingPaperNewDto {
+    userId: number;
+    id: string;
 }
 
 export class WorkingPaperNewTestingTemplateLookupTableDto implements IWorkingPaperNewTestingTemplateLookupTableDto {
