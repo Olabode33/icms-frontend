@@ -42,12 +42,13 @@
                     <div class="form-group">
                         <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
                             <div class="card">
-                                <div class="card-header" id="headingOne4">
-                                    <div class="card-title" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
+                                <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showControlsCard = false;">
+                                    <div class="card-title" [ngClass]="{'collapsed': !showRiskCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
                                         <i class="flaticon-warning"></i> Risk
                                     </div>
                                 </div>
-                                <div id="collapseOne4" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample4" >
+                                <div id="collapseOne4" class="collapse" [ngClass]="{'show': showRiskCard}"
+                                    aria-labelledby="headingOne" data-parent="#accordionExample4" >
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -75,14 +76,45 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header" id="headingTwo4">
-                                    <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
+                                <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showRiskCard = false;">
+                                    <div class="card-title" [ngClass]="{'collapsed': !showControlsCard}" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
                                         <i class="flaticon2-dashboard"></i> Control
                                     </div>
                                 </div>
-                                <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
+                                <div id="collapseTwo4" class="collapse" [ngClass]="{'show': showControlsCard}" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
                                     <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td style="width: 20%;">Code:</td>
+                                                    <td style="width: 80%;" >{{item.control.code}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Name:</td>
+                                                    <td style="width: 80%;">{{item.control.name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Description:</td>
+                                                    <td style="width: 80%;">{{item.control.description}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Control Type:</td>
+                                                    <td style="width: 80%;">
+                                                        <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-primary">
+                                                            {{controlTypeEnum[item.control.controlType]}}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Frequency:</td>
+                                                    <td style="width: 80%;">
+                                                        <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-success">
+                                                            {{frequency[item.control.frequency]}}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -137,10 +169,10 @@
                                             <td>{{x.attributeText}}</td>
                                             <td>{{x.weight + 5}}</td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th></th>
                                             <th>{{ item.attributes.length * 5 }}</th>
-                                        </tr>
+                                        </tr> -->
                                     </table>
                                 </div>
                             </div>

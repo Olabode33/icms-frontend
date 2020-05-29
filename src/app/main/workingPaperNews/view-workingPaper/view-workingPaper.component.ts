@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } fro
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, TaskStatus, CreateOrEditTestingAttributeDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, TaskStatus, CreateOrEditTestingAttributeDto, Frequency, Severity, ControlType } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -42,6 +42,9 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     showControlsCard = false;
 
     taskStatusEnum = TaskStatus;
+    frequency = Frequency;
+    severityEnum = Severity;
+    controlTypeEnum = ControlType;
 
     sampleResponses: { sampleId: number, response: CreateOrEditTestingAttributeDto[] }[] = new Array();
     currentSample: { sampleId: number, response: CreateOrEditTestingAttributeDto[] } = { sampleId: null, response: new Array() };
@@ -61,6 +64,9 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     ) {
         super(injector);
         this.testingTemplate.testingTemplate = new TestingTemplateDto();
+        this.testingTemplate.risk = new RiskDto();
+        this.testingTemplate.control = new ControlDto();
+        this.testingTemplate.attributes = new Array();
     }
 
     ngOnInit(): void {

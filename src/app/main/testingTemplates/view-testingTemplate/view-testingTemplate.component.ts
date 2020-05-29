@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { GetTestingTemplateForViewDto, Frequency, TestingTemplatesServiceProxy, TestingTemplateDto, Severity, RiskDto } from '@shared/service-proxies/service-proxies';
+import { GetTestingTemplateForViewDto, Frequency, TestingTemplatesServiceProxy, TestingTemplateDto, Severity, RiskDto, ControlDto, ControlType } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Location } from '@angular/common';
@@ -16,11 +16,13 @@ import { Location } from '@angular/common';
 export class ViewTestingTemplateComponent extends AppComponentBase implements OnInit {
 
     saving = false;
+    showRiskCard = true;
+    showControlsCard = false;
 
     item: GetTestingTemplateForViewDto;
     frequency = Frequency;
-
     severityEnum = Severity;
+    controlTypeEnum = ControlType;
 
     constructor(
         injector: Injector,
@@ -34,6 +36,7 @@ export class ViewTestingTemplateComponent extends AppComponentBase implements On
         this.item = new GetTestingTemplateForViewDto();
         this.item.testingTemplate = new TestingTemplateDto();
         this.item.risk = new RiskDto();
+        this.item.control = new ControlDto();
         this.item.attributes = new Array();
     }
 
