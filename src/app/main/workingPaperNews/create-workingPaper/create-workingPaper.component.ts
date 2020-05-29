@@ -39,6 +39,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     showGeneralInfoCard = true;
     showSamplingCard = true;
+    comments: string;
+    sampleDescription: string;
 
     constructor(
         injector: Injector,
@@ -150,7 +152,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                         id: x.testingAttrributeId,
                         name: x.attributeText,
                         weight: x.weight,
-                        value: 'Yes'
+                        value: null ,
+                        comment: ''
                     };
                     this.attributes.push(item);
                 });
@@ -172,8 +175,35 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         });
     }
 
+    maxCount = 0;
 
     addResult(): void {
+
+       
+        //check that all questions have been answered
+        var test = false;
+        this.attributes.forEach(x => {
+            if (x.value == null) {
+                test = true;
+            }
+        })
+
+
+        if (test) {
+            this.notify.warn("Please complete all questions before you move on to the next sample.");
+            return;
+        }
+
+        let sample = this.samples.find(x => x.sampleId == this.sampleId);
+      
+
+        if (sample != null) {
+
+            let sampleIndex = this.samples.findIndex(x => x.sampleId == this.sampleId);
+
+            this.samples.splice(sampleIndex);
+        }
+
         let item = {
             sampleId: this.sampleId,
             attributes: this.attributes
@@ -188,18 +218,43 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 let item = {
                     id: x.testingAttrributeId,
                     name: x.attributeText,
-                    value: 'false',
+                    value: null,
+                    
                     weight: x.weight,
                 };
+                this.comments = '';
+                this.sampleDescription = '';
                 this.attributes.push(item);
             });
             this.sampleId++;
-            this.notify.success('Sample saved successfully!.');
+            this.maxCount++;
+            this.notify.success('Result for sample saved successfully!.');
         } else {
             this.save();
         }
 
     }
+
+
+
+    getPrevious(): void {
+        let sample = this.samples.find(x => x.sampleId == (this.sampleId - 1));
+
+        this.sampleId--;
+
+        this.sampleId = sample.sampleId;
+        this.attributes = sample.attributes;        
+    }
+
+
+    getNext(): void {
+        let sample = this.samples.find(x => x.sampleId == (this.sampleId + 1));
+        this.sampleId++;
+        this.sampleId = sample.sampleId;
+        this.attributes = sample.attributes;
+
+    }
+
 
     save(): void {
         this.saving = true;
@@ -218,14 +273,13 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this.workingPaperNew.attributes = [];
 
         this.samples.forEach(x => {
-
-            console.log(x.attributes);
             x.attributes.forEach(y => {
                 var item = new CreateOrEditTestingAttributeDto();
                 item.sequence = x.sampleId;
                 item.attributeText = y.name;
                 item.result = y.value == "false" ? false : true;
                 item.testingAttrributeId = y.id;
+                item.comments = y.comments;
                 item.workingPaperId = this.workingPaperNew.id;
                 this.workingPaperNew.attributes.push(item);
             });
@@ -239,6 +293,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.goBack();
             });
     }
+
+
+
+
 
     createExceptionIncident(): void {
         if (this.workingPaperNew.organizationUnitId && this.organizationUnitDisplayName) {
