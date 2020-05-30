@@ -1,10 +1,11 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { DepartmentRisksServiceProxy, CreateOrEditDepartmentRiskDto, CreateOrEditProcessRiskDto, ProcessRisksServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditProcessRiskDto, ProcessRisksServiceProxy, ProcessesServiceProxy, CreateOrEditProcessDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentRiskRiskLookupTableModalComponent } from '@app/main/departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
+import { CreateOrEditRiskModalComponent } from '../../../../main/risks/risks/create-or-edit-risk-modal.component';
 
 @Component({
     selector: 'app-create-or-edit-process-risk',
@@ -14,6 +15,7 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @ViewChild('departmentRiskRiskLookupTableModal', { static: true }) departmentRiskRiskLookupTableModal: DepartmentRiskRiskLookupTableModalComponent;
+    @ViewChild('createOrEditRiskModal', { static: true }) createOrEditRiskModal: CreateOrEditRiskModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -25,16 +27,30 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
     departmentName = '';
     riskName = '';
     organizationUnitId: number;
-
+    process: CreateOrEditProcessDto = new CreateOrEditProcessDto;
+    userName: string;
+    organizationUnitDisplayName: string;
 
     constructor(
         injector: Injector,
-        private _departmentRisksServiceProxy: ProcessRisksServiceProxy
+        private _departmentRisksServiceProxy: ProcessRisksServiceProxy,
+        private _processesServiceProxy: ProcessesServiceProxy
     ) {
         super(injector);
     }
 
     show(processRiskId?: number, processId?:  number): void {
+
+        this._processesServiceProxy.getProcessForEdit(processId).subscribe(result => {
+            this.process = result.process;
+            this.userName = result.userName;
+            this.organizationUnitDisplayName = result.organizationUnitDisplayName;
+
+            if (this.process.casade) {
+                this.organizationUnitDisplayName = result.organizationUnitDisplayName + " and all its sub-departments."; 
+            }
+            
+        });
 
         if (!processRiskId) {
             this.departmentRisk = new CreateOrEditProcessRiskDto();
@@ -82,6 +98,10 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
     setRiskIdNull() {
         this.departmentRisk.riskId = null;
         this.riskName = '';
+    }
+
+    addNewRisk() {
+        this.createOrEditRiskModal.show();
     }
 
 

@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import {WorkingPaperNewsServiceProxy, WorkingPaperNewUserLookupTableDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -79,6 +79,5 @@ export class WorkingPaperNewUserLookupTableModalComponent extends AppComponentBa
     close(): void {
         this.active = false;
         this.modal.hide();
-        this.modalSave.emit(null);
     }
 }

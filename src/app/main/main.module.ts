@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
@@ -131,11 +131,14 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         DataListsComponent,
         ViewDataListModalComponent, CreateOrEditDataListModalComponent,
         ExceptionTypesComponent,
-        ViewExceptionTypeModalComponent, CreateOrEditExceptionTypeModalComponent,
+        ViewExceptionTypeModalComponent,
+        CreateOrEditExceptionTypeModalComponent,
         ControlsComponent,
-        ViewControlModalComponent, CreateOrEditControlModalComponent,
+        ViewControlModalComponent,
+        //CreateOrEditControlModalComponent,
         RisksComponent,
-        ViewRiskModalComponent, CreateOrEditRiskModalComponent,
+        ViewRiskModalComponent,
+        //CreateOrEditRiskModalComponent,
         DashboardComponent,
         WorkingpaperComponent
     ],

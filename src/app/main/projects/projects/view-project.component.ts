@@ -1,4 +1,4 @@
-﻿import { AssignWorkingPaperNewDto } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -33,6 +33,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     openTaskPercent = 0;
     pendReviewCount = 0;
     pendReviewPercent = 0;
+    taskStatusEnum = TaskStatus;
 
     item: GetProjectForViewDto;
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
@@ -163,7 +164,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
-            console.log(result);
+   
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
             this.loadingWorkingPapers = false;

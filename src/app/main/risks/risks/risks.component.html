@@ -41,13 +41,6 @@
 						         <div class="kt-separator kt-separator--border-dashed"></div>
 						     </div>
 
-
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="CodeFilter">{{l("Code")}}</label>
-									<input type="text" class="form-control" id="CodeFilter" name="codeFilter" [(ngModel)]="codeFilter">
-								</div>
-                            </div>
 							<div class="col-md-3">
 								<label for="SeverityFilterSelect">{{l("Severity")}}</label>
 								<select class="form-control" name="SeverityFilter" id="SeverityFilterSelect" [(ngModel)]="severityFilter">
@@ -89,11 +82,11 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Risks.Edit', 'Pages.Risks.Delete')">{{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="code">
+                                    <th style="width: 100px" pSortableColumn="code">
                                         {{l('Code')}}
                                         <p-sortIcon field="risk.code"></p-sortIcon>
                                     </th>
-                                    <th style="width: 350px" pSortableColumn="name">
+                                    <th style="width: 450px" pSortableColumn="name">
                                         {{l('Name')}}
                                         <p-sortIcon field="risk.name"></p-sortIcon>
                                     </th>
@@ -114,10 +107,10 @@
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
 												<ul class="dropdown-menu"  *dropdownMenu>
-												<li>
+												<!--<li>
 													<a href="javascript:;"
 														(click)="viewRiskModal.show(record)">{{l('View')}}</a>
-												</li>
+												</li>-->
 												<li>
 													<a href="javascript:;" *ngIf="permission.isGranted('Pages.Risks.Edit')"
 														(click)="createOrEditRiskModal.show(record.risk.id)">{{l('Edit')}}</a>
@@ -133,18 +126,32 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td style="width:150px">
+                                    <td style="width:100px">
 											<span class="ui-column-title"> {{l('Code')}}</span>
 											{{record.risk.code}}
 										</td>
-                                    <td style="width:350px">
+                                    <td style="width:450px">
 											<span class="ui-column-title"> {{l('Name')}}</span>
 											{{record.risk.name}}
 										</td>
                           
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('Severity')}}</span>
-										{{l( severity[record.risk.severity])}}
+                                        <span class="ui-column-title"> {{l('Severity')}}</span>
+                                        <span *ngIf="record.risk.severity == 2"
+                                              class="kt-badge kt-badge--danger kt-badge--inline"
+                                              data-placement="top">
+                                            {{l( severity[record.risk.severity])}}
+                                        </span>
+                                        <span *ngIf="record.risk.severity == 1"
+                                              class="kt-badge kt-badge--warning kt-badge--inline"
+                                              data-placement="top">
+                                            {{l( severity[record.risk.severity])}}
+                                        </span>
+                                        <span *ngIf="record.risk.severity == 0"
+                                              class="kt-badge kt-badge--info kt-badge--inline"
+                                              data-placement="top">
+                                            {{l( severity[record.risk.severity])}}
+                                        </span>
                                     </td>
 
                                 </tr>

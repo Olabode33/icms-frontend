@@ -419,10 +419,11 @@
                                     <thead>
                                         <tr class="text-left">
                                             <th style="min-width: 250px" class="pl-2">
-                                                <span class="text-dark-75">Alert</span></th>
-                                            <th style="min-width: 100px">Date</th>
-                                            <th style="min-width: 100px">Frequency</th>
-                                            <th style="min-width: 100px">Sample size</th>
+                                                <span class="text-dark-75">Reviews</span></th>
+                                            <th style="min-width: 200px">Project Name</th>
+                                            <th style="min-width: 100px">Status</th>
+                                            <th style="min-width: 100px">Due Date</th>
+                                            <th style="min-width: 100px">Current Assignee</th>
                                             <th style="min-width: 100px"></th>
                                         </tr>
                                     </thead>
@@ -435,7 +436,7 @@
                                                     </div>
                                                     <div>
                                                         <a href="javascript:void(0);"
-                                                            class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                           class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
                                                             {{task.testingTemplateCode}}
                                                         </a>
                                                         <span class="text-muted d-block">
@@ -451,7 +452,12 @@
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                    {{frequencyEnum[task.frequency]}}
+                                                    {{task.workingPaperNew.taskDate | momentFormat:'LL'}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                    {{taskStatusEnum[task.taskStatus]}}
                                                 </span>
                                             </td>
                                             <td>
@@ -461,7 +467,7 @@
                                             </td>
                                             <td class="pr-0 text-right">
                                                 <button (click)="editWorkingPaper(task.workingPaperNew.id)"
-                                                    class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
+                                                        class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
                                                     Review
                                                 </button>
                                             </td>
