@@ -42,12 +42,7 @@
 						     </div>
 
 
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="CodeFilter">{{l("Code")}}</label>
-									<input type="text" class="form-control" id="CodeFilter" name="codeFilter" [(ngModel)]="codeFilter">
-								</div>
-                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
 									<label  for="MinTaskDateFilter">{{l("TaskDateRange")}}</label>
@@ -72,7 +67,7 @@
 								<label for="TaskStatusFilterSelect">{{l("TaskStatus")}}</label>
 								<select class="form-control" name="TaskStatusFilter" id="TaskStatusFilterSelect" [(ngModel)]="taskStatusFilter">
 								<option value="-1">{{l("All")}}</option>
-																			<option value="0">{{l('Completed')}}</option>
+										<option value="0">{{l('Completed')}}</option>
 
 										<option value="1">{{l('PendingReview')}}</option>
 
@@ -105,7 +100,7 @@
 									<input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter" name="organizationUnitDisplayNameFilter" [(ngModel)]="organizationUnitDisplayNameFilter">
                                 </div>
                             </div>
-							<div class="col-md-3">
+							<!--<div class="col-md-3">
 								<div class="form-group">
 									<label for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
 									<input type="text" class="form-control" id="UserNameFilter" name="userNameFilter" [(ngModel)]="userNameFilter">
@@ -116,7 +111,7 @@
 									<label for="UserName2Filter">({{l("User2")}}) {{l("Name")}}</label>
 									<input type="text" class="form-control" id="UserName2Filter" name="userName2Filter" [(ngModel)]="userName2Filter">
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
                         <div class="row mb-2">
@@ -144,38 +139,43 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Edit', 'Pages.WorkingPaperNews.Delete')">{{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="code">
-                                        {{l('Code')}}
-                                        <p-sortIcon field="workingPaperNew.code"></p-sortIcon>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.WorkingPaperNews.Update', 'Pages.WorkingPaperNews.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 350px" pSortableColumn="code">
+                                        Project
+                                        <p-sortIcon field="projectName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="taskDate">
-                                        {{l('TaskDate')}}
-                                        <p-sortIcon field="workingPaperNew.taskDate"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="testingTemplateFk.code">
-                                        {{l('Code')}}
-                                        <p-sortIcon field="testingTemplateCode"></p-sortIcon>
+                                    <th style="width: 300px" pSortableColumn="code">
+                                        Review
+                                        <p-sortIcon field="projectName"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="organizationUnitFk.displayName">
-                                        {{l('DisplayName')}}
+                                        Department
                                         <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="completedUserFk.name">
-                                        {{l('Name')}}
+                                    <th style="width: 150px" pSortableColumn="taskDate">
+                                        Due Date
+                                        <p-sortIcon field="workingPaperNew.taskDate"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 200px" pSortableColumn="completedUserFk.name">
+                                        Completed By
                                         <p-sortIcon field="userName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="score">
+                                    <th style="width: 200px" pSortableColumn="completedUserFk.name">
+                                       Current Assignee
+                                        <p-sortIcon field="userName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 100px" pSortableColumn="score">
                                         {{l('Score')}}
                                         <p-sortIcon field="workingPaperNew.score"></p-sortIcon>
                                     </th>
 
-                                    <th style="width: 150px" pSortableColumn="taskStatus">
-                                        {{l('TaskStatus')}}
+                                    <th style="width: 100px" pSortableColumn="taskStatus">
+                                        {{l('Status')}}
                                         <p-sortIcon field="workingPaperNew.taskStatus"></p-sortIcon>
                                     </th>
 
-                         
+
 
                                 </tr>
                             </ng-template>                           
@@ -189,11 +189,11 @@
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;" 
+                                                    <a href="javascript:;"
                                                        (click)="view(record.workingPaperNew.id)">{{l('View')}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Edit')"
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Update')"
                                                        (click)="edit(record.workingPaperNew.id)">{{l('Edit')}}</a>
                                                 </li>
                                                 <li>
@@ -203,39 +203,43 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Code')}}</span>
-                                        {{record.workingPaperNew.code}}
+                                    <td style="width:350px">
+                                        <span class="ui-column-title"> Project Name</span>
+                                        {{record.projectName}}
+                                    </td>
+                                    <td style="width:300px">
+                                        <span class="ui-column-title">Review Title</span>
+                                        {{record.testingTemplateName}}
                                     </td>
                                     <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('TaskDate')}}</span>
-                                        <span *ngIf="record.workingPaperNew.taskDate">
-                                            {{record.workingPaperNew.taskDate | momentFormat:'L'}}
-                                        </span>
-                                        <span *ngIf="!record.workingPaperNew.taskDate">-</span>
-                                    </td>
-                                    <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Code')}}</span>
-                                        {{record.testingTemplateCode}}
-                                    </td>
-                                    <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('DisplayName')}}</span>
+                                        <span class="ui-column-title">Department</span>
                                         {{record.organizationUnitDisplayName}}
                                     </td>
                                     <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        <span class="ui-column-title">Due Date</span>
+                                        <span *ngIf="record.workingPaperNew.dueDate">
+                                            {{record.workingPaperNew.taskDate | momentFormat:'L'}}
+                                        </span>
+                                        <span *ngIf="!record.workingPaperNew.dueDate">-</span>
+                                    </td>
+
+                                    <td style="width:200px">
+                                        <span class="ui-column-title">Completed By</span>
                                         {{record.userName}}
                                     </td>
-                         
-                               
-                           
-                                    
-                                    <td style="width:150px">
+                                    <td style="width:200px">
+                                        <span class="ui-column-title">Assignee</span>
+                                        {{record.userName2}}
+                                    </td>
+
+
+
+                                    <td style="width:100px">
                                         <span class="ui-column-title"> {{l('Score')}}</span>
                                         {{record.workingPaperNew.score}}
                                     </td>
-                       
-                                    <td style="width:150px">
+
+                                    <td style="width:100px">
                                         <span class="ui-column-title"> {{l('TaskStatus')}}</span>
                                         {{l( taskStatus[record.workingPaperNew.taskStatus])}}
                                     </td>

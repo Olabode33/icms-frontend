@@ -30233,6 +30233,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
     testingAttrributeId!: number | undefined;
     sequence!: number;
     workingPaperId!: string | undefined;
+    sampleIdentifier!: string | undefined;
 
     constructor(data?: ICreateOrEditTestingAttributeDto) {
         if (data) {
@@ -30252,6 +30253,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
             this.testingAttrributeId = data["testingAttrributeId"];
             this.sequence = data["sequence"];
             this.workingPaperId = data["workingPaperId"];
+            this.sampleIdentifier = data["sampleIdentifier"];
         }
     }
 
@@ -30271,6 +30273,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
         data["testingAttrributeId"] = this.testingAttrributeId;
         data["sequence"] = this.sequence;
         data["workingPaperId"] = this.workingPaperId;
+        data["sampleIdentifier"] = this.sampleIdentifier;
         return data; 
     }
 }
@@ -30283,6 +30286,7 @@ export interface ICreateOrEditTestingAttributeDto {
     testingAttrributeId: number | undefined;
     sequence: number;
     workingPaperId: string | undefined;
+    sampleIdentifier: string | undefined;
 }
 
 export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
@@ -37017,6 +37021,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
     organizationUnitId!: number | undefined;
     completedUserId!: number | undefined;
     reviewedUserId!: number | undefined;
+    projectId!: number | undefined;
     id!: string;
 
     constructor(data?: IWorkingPaperNewDto) {
@@ -37042,6 +37047,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
             this.organizationUnitId = data["organizationUnitId"];
             this.completedUserId = data["completedUserId"];
             this.reviewedUserId = data["reviewedUserId"];
+            this.projectId = data["projectId"];
             this.id = data["id"];
         }
     }
@@ -37067,6 +37073,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
         data["organizationUnitId"] = this.organizationUnitId;
         data["completedUserId"] = this.completedUserId;
         data["reviewedUserId"] = this.reviewedUserId;
+        data["projectId"] = this.projectId;
         data["id"] = this.id;
         return data; 
     }
@@ -37085,6 +37092,7 @@ export interface IWorkingPaperNewDto {
     organizationUnitId: number | undefined;
     completedUserId: number | undefined;
     reviewedUserId: number | undefined;
+    projectId: number | undefined;
     id: string;
 }
 
@@ -37099,6 +37107,7 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
     frequency!: Frequency;
     sampleSize!: number | undefined;
     testingTemplateName!: string | undefined;
+    projectName!: string | undefined;
 
     constructor(data?: IGetWorkingPaperNewForViewDto) {
         if (data) {
@@ -37121,6 +37130,7 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
             this.frequency = data["frequency"];
             this.sampleSize = data["sampleSize"];
             this.testingTemplateName = data["testingTemplateName"];
+            this.projectName = data["projectName"];
         }
     }
 
@@ -37143,6 +37153,7 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
         data["frequency"] = this.frequency;
         data["sampleSize"] = this.sampleSize;
         data["testingTemplateName"] = this.testingTemplateName;
+        data["projectName"] = this.projectName;
         return data; 
     }
 }
@@ -37158,6 +37169,7 @@ export interface IGetWorkingPaperNewForViewDto {
     frequency: Frequency;
     sampleSize: number | undefined;
     testingTemplateName: string | undefined;
+    projectName: string | undefined;
 }
 
 export class PagedResultDtoOfGetWorkingPaperNewForViewDto implements IPagedResultDtoOfGetWorkingPaperNewForViewDto {

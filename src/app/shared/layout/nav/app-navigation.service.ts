@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -22,7 +22,12 @@ export class AppNavigationService {
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-squares-4', '/app/main/projects/projects'),
+            new AppMenuItem('Working Papers', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
+            new AppMenuItem('Testing Templates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
+
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
+
             new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
                 new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-more', '/app/admin/processes'),
                 new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
@@ -32,9 +37,10 @@ export class AppNavigationService {
                 new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
                 new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
             ]),
-            new AppMenuItem('TestingTemplates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
-            new AppMenuItem('Working Paper', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
-            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-squares-4', '/app/main/projects/projects'),
+          //  new AppMenuItem('Set Up', '', 'flaticon-warning', '', []),
+
+
+ 
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
