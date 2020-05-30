@@ -19,11 +19,11 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
-    templateUrl: './projects.component.html',
+    templateUrl: './planning.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class ProjectsComponent extends AppComponentBase implements OnInit {
+export class PlanningComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
@@ -47,7 +47,21 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     entityHistoryEnabled = false;
 
     //Calendar options
-    viewAllProjects = false;
+    calenderPlugins = [dayGridPlugin, bootstrapPlugin];
+    calendarWeekends = true;
+    calendarEvents = [];
+    calendarHeader = {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth'//,timeGridWeek,timeGridDay,listWeek'
+    };
+    calendarButtonText = {
+        today:    'Today',
+        month:    'Month',
+        week:     'Week',
+        day:      'Day',
+        list:     'List'
+    };
 
     constructor(
         injector: Injector,
@@ -96,7 +110,23 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records =  result.items; // this.viewAllProjects ? result.items : result.items.filter(x => x.project.commenced === true);
+            this.primengTableHelper.records = result.items;
+
+            this.calendarEvents = new Array();
+            result.items.forEach(element => {
+                let event = {
+                    id: element.project.id,
+                    title: element.project.title + ' - ' + element.organizationUnitDisplayName2,
+                    start: element.project.budgetedStartDate.format('YYYY-MM-DD'),
+                    end: element.project.budgetedEndDate.format('YYYY-MM-DD'),
+                    textColor: '#fff',
+                    borderColor: element.project.commenced ? '#4CAF50' : '#f64e60',
+                    backgroundColor: element.project.commenced ? '#4CAF50' : '#f64e60'
+                };
+
+                this.calendarEvents = this.calendarEvents.concat(event);
+            });
+
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -108,6 +138,8 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     createProject(): void {
         this._router.navigate(['/app/main/projects/projects/createOrEdit']);
     }
+
+
 
     deleteProject(project: ProjectDto): void {
         this.message.confirm(

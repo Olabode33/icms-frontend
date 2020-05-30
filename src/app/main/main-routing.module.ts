@@ -21,6 +21,7 @@ import { ViewTestingTemplateComponent } from './testingTemplates/view-testingTem
 import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/view-workingPaper.component';
 import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-auditor.component';
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
+import { PlanningComponent } from './projects/planning/planning.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPa
             {
                 path: '',
                 children: [
+                    { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'projects/projects', component: ProjectsComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
                     { path: 'projects/projects/view', component: ViewProjectComponent, data: { permission: 'Pages.Projects' }  },
