@@ -77,14 +77,51 @@
                                 <textarea type="text" readonly *ngIf="exceptionIncident.id" rows="10" id="ExceptionIncident_Description" class="form-control" [(ngModel)]="exceptionIncident.description" name="Description"></textarea>
                             </div>
 
+                            <div class="form-row">
+                                <div class="form-group col-6" *ngFor="let x of additionalColumns">
+                                    <label for="ExceptionIncident_Description">{{x.name}}</label>
+                                    <input type="date" *ngIf="!exceptionIncident.id && x.dataFieldType=='Date'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    <input type="text" *ngIf="!exceptionIncident.id && x.dataFieldType=='String'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    <input type="number" *ngIf=" !exceptionIncident.id && x.dataFieldType=='Number'" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    <select *ngIf="!exceptionIncident.id && x.dataFieldType=='Bool'" class="form-control" name="{{x.name}}" [(ngModel)]="x.value">
+                                        <option value=false>False</option>
+                                        <option value=true>True</option>
+                                    </select>
 
-                            <div class="form-group" *ngFor="let x of additionalColumns">
-                                <label for="ExceptionIncident_Description">{{x.name}}</label>
-                                <input type="date" *ngIf="x.dataFieldType=='Bool' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                <input type="text" *ngIf="x.dataFieldType=='String' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                <input type="number" *ngIf="x.dataFieldType=='Number' && !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
-                                <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
 
+
+
+                                    <!--<div class="form-group" *ngIf="x.dataFieldType=='date'">
+                                        <label for="ExceptionIncident_Description">{{x.name}}</label>
+                                        <input type="date" *ngIf="!exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                        <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    </div>
+
+
+                                    <div class="form-group" *ngIf="x.dataFieldType=='String'">
+                                        <label>{{x.name}}</label>
+                                        <input type="text" *ngIf="!exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                        <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    </div>
+
+                                    <div class="form-group" *ngIf="x.dataFieldType=='Number'">
+                                        <label for="ExceptionIncident_Description">{{x.name}}</label>
+                                        <input type="number" *ngIf=" !exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                        <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    </div>
+
+                                    <div class="form-group" *ngIf="x.dataFieldType=='boolean'">
+                                        <label for="ExceptionIncident_Description">{{x.name}}</label>
+                                        <select *ngIf="!exceptionIncident.id" class="form-control" name="{{x.name}}" [(ngModel)]="x.value">
+                                            <option value=false>False</option>
+                                            <option value=true>True</option>
+                                        </select>
+                                        <input type="text" readonly *ngIf="exceptionIncident.id" name="{{x.name}}" class="form-control" [(ngModel)]="x.value" />
+                                    </div>-->
+
+
+                                </div>
                             </div>
                         </tab>
 

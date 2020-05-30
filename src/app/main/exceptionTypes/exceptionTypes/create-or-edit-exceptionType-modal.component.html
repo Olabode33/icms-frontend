@@ -4,8 +4,8 @@
             <form *ngIf="active" #exceptionTypeForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="exceptionType.id">{{l("EditExceptionType")}}</span>
-                        <span *ngIf="!exceptionType.id">{{l("CreateNewExceptionType")}}</span>
+                        <span *ngIf="exceptionType.id">Edit Exception Type</span>
+                        <span *ngIf="!exceptionType.id">New Exception Type</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -24,47 +24,52 @@
                         <textarea id="ExceptionType_Description" rows="10" class="form-control" [(ngModel)]="exceptionType.description" name="Description"></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label for="ExceptionType_Severity">{{l("Severity")}}</label>
-                        <select class="form-control" name="Severity" id="ExceptionType_Severity" [(ngModel)]="exceptionType.severity">
-                            <option value="0">{{l('Low')}}</option>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="ExceptionType_Severity">{{l("Severity")}}</label>
+                            <select class="form-control" name="Severity" id="ExceptionType_Severity" [(ngModel)]="exceptionType.severity">
+                                <option value="0">{{l('Low')}}</option>
 
-                            <option value="1">{{l('Medium')}}</option>
+                                <option value="1">{{l('Medium')}}</option>
 
-                            <option value="2">{{l('High')}}</option>
-                        </select>
+                                <option value="2">{{l('High')}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}} (In days)</label>
+                            <input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation" min="1" max="365" />
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}} (In days)</label>
-                        <input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation" min="0" max="365" />
-                    </div>
-
                     <br />
                     <hr />
                     <br />
 
                     <tabset>
                         <tab heading="Additional Data">
-                            <div class="form-group">
-                                <label for="name">{{l("Name")}}</label>
-                                <input type="text" id="name" class="form-control" [(ngModel)]="name" name="Name" />
+                            <div class="form-row">
+                                <div class="form-group col-8">
+                                    <label for="name">{{l("Name")}}</label>
+                                    <input type="text" id="name" class="form-control" [(ngModel)]="name" name="DataTypeName" />
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label for="ExceptionType_Severity">Data Type</label>
+                                    <select class="form-control" name="DataType" id="DataType" [(ngModel)]="dataType">
+                                        <option value="0">String</option>
+                                        <option value="1">Number</option>
+                                        <option value="3">Yes or No</option>
+                                        <option value="2">Date</option>
+
+                                        <option value="4">List</option>
+                                    </select>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="ExceptionType_Severity">Data Type</label>
-                                <select class="form-control" name="DataType" id="DataType" [(ngModel)]="dataType">
-                                    <option value="0">String</option>
-                                    <option value="1">Number</option>
-                                    <option value="2">Date</option>
-                                    <option value="3">Boolean</option>
-                                    <option value="4">List</option>
-                                </select>
-                            </div>
-
-
-                            <button type="button" class="btn btn-success" (click)=" addColumn()">Add</button>
-
+                                <div >
+                                 
+                                    <button type="button" class="btn btn-outline-hover-success" (click)=" addColumn()">Add</button>
+                                </div>
+                           
 
                             <hr />
                             <br />

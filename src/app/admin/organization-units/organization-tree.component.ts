@@ -189,15 +189,15 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                     //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
                 }
             },
-            {
-                label: this.l('Auditor'),
-                disabled: !canManageOrganizationTree,
-                command: (event) => {
+            //{
+            //    label: this.l('Auditor'),
+            //    disabled: !canManageOrganizationTree,
+            //    command: (event) => {
                
-                    this.auditor(this.selectedOu.data.id);
-                    //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
-                }
-            },
+            //        this.auditor(this.selectedOu.data.id);
+            //        //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
+            //    }
+            //},
             {
                 label: this.l('Edit'),
                 disabled: !canManageOrganizationTree,
@@ -212,13 +212,13 @@ export class OrganizationTreeComponent extends AppComponentBase implements OnIni
                     this.addUnit(this.selectedOu.data.id);
                 }
             },
-            {
-                label: 'Add Risk',
-                disabled: !canManageOrganizationTree,
-                command: () => {
-                    this.addRiskToUnit(this.selectedOu.data.id);
-                }
-            },
+            //{
+            //    label: 'Add Risk',
+            //    disabled: !canManageOrganizationTree,
+            //    command: () => {
+            //        this.addRiskToUnit(this.selectedOu.data.id);
+            //    }
+            //},
             {
                 label: this.l('Delete'),
                 disabled: !canManageOrganizationTree,

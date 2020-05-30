@@ -5,49 +5,86 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="departmentRisk.id">{{l("EditDepartmentRisk")}}</span>
-                        <span *ngIf="!departmentRisk.id">Attach Risk</span>
+                        <span *ngIf="!departmentRisk.id">Attach Risk To Process</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group m-form__group">
-                        <label for="RiskName">{{l("Risk")}}</label>
-                        <div class="input-group">
-                            <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName" type="text" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary blue" (click)="openSelectRiskModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                            </div> <div class="input-group-prepend">
-                                <button class="btn btn-danger btn-icon" type="button" (click)="setRiskIdNull()"><i class="fa fa-times"></i></button>
+                    <div class="card">
+                        <div class="card-header">Process</div>
+                        <div class="card-body">
+                            <div>
+
+                                <div class="form-group">
+                                    <label for="Process_Name">Process {{l("Name")}}</label>
+                                    <input type="text" readonly id="Process_Name" class="form-control" value="{{process.name}}"
+                                           name="Name" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Process_Description">Process {{l("Description")}}</label>
+                                    <textarea id="Process_Description" class="form-control" readonly
+                                              [(ngModel)]="process.description" name="Description" rows="5"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Process_Name">Department (s)</label>
+                                    <input type="text" readonly id="Process_Name" class="form-control" value="{{organizationUnitDisplayName}}"
+                                           name="Name" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Process_Name">Process Owner</label>
+                                    <input type="text" readonly id="Process_Name" class="form-control" value="{{userName}}"
+                                           name="Name" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <input class="form-control" required name="departmentRisk.riskId" [(ngModel)]="departmentRisk.riskId" type="text" hidden>
+                    <hr />
 
-                    <div class="kt-checkbox-list">
-                        <label for="departmentRisk_cascade" class="kt-checkbox">
-                            <input id="departmentRisk_cascade" type="checkbox" name="departmentRisk.cascade" [(ngModel)]="departmentRisk.cascade">
-                        Cascade to sub-units
-                            <span></span>
-                        </label>
+                    <div class="card">
+                        <div class="card-header">Risk</div>
+                        <div class="card-body">
+                            <div class="form-group m-form__group">
+                                <label for="RiskName">Attach this risk to this process</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectRiskModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-outline-hover-success" type="button" (click)="addNewRisk()"><i class="fa fa-plus"></i>  Add  </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" required name="departmentRisk.riskId" [(ngModel)]="departmentRisk.riskId" type="text" hidden>
+
+                            <div class="kt-checkbox-list">
+                                <label for="departmentRisk_cascade" class="kt-checkbox">
+                                    <input id="departmentRisk_cascade" type="checkbox" name="departmentRisk.cascade" [(ngModel)]="departmentRisk.cascade">
+                                    Cascade risk to all sub-departments.
+                                    <span></span>
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="form-group">
+                                <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
+                                <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments"></textarea>
+                            </div>
+
                         </div>
-                    <br />
-
-                        <div class="form-group">
-                            <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
-                            <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments" ></textarea>
-                        </div>
-
-
                     </div>
-                    <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
-                    </div>
-</form>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
         </div>
     </div>
-	 <departmentRiskRiskLookupTableModal #departmentRiskRiskLookupTableModal (modalSave)="getNewRiskId()"></departmentRiskRiskLookupTableModal>
-		 
+    <departmentRiskRiskLookupTableModal #departmentRiskRiskLookupTableModal (modalSave)="getNewRiskId()"></departmentRiskRiskLookupTableModal>
+    <createOrEditRiskModal #createOrEditRiskModal (modalSave)="getRisks()"></createOrEditRiskModal>
 </div>

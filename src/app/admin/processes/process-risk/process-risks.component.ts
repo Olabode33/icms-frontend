@@ -127,9 +127,9 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     }
 
 
-    addControlToRisk(riskId: number, riskDepartmentId?: number): void {
+    addControlToRisk(processRiskControlId?: number,processRiskId? : number, processId? :  number, riskId?: number): void {
 
-        this.createOrEditProcessRiskControlModal.show(null, riskId, this._organizationUnit.id);
+        this.createOrEditProcessRiskControlModal.show(null, processRiskId, processId ,riskId);
     }
 
 

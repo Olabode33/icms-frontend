@@ -2,7 +2,7 @@
     <div class="col-12">
         <button
             *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly"
-            (click)="addRiskToUnit()" class="btn btn-primary float-right mb-3">
+            (click)="addRiskToUnit()" class="btn btn-danger float-right mb-3">
             <i class="fa fa-plus"></i> Add Risk
         </button>
     </div>
@@ -19,7 +19,7 @@
                         <div class="card-title" [ngClass]="{collapsed: !risk.isActive}" (click)="toggleAccordion(r)"
                             data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false"
                             aria-controls="collapseOne4">
-                            <i class="flaticon-warning-sign"></i> {{risk.risk.riskName}}
+                            <i class="flaticon-warning-sign kt-font-danger"></i>  <span class="kt-font-danger">{{risk.risk.riskName}}</span>
                             <span *ngIf="_organizationUnit.id != risk.risk.processRisk.processId"
                                 class="kt-badge kt-badge--brand kt-badge--inline ml-3" data-toggle="tooltip"
                                 title="This process was inherited from a parent department." data-placement="top">
@@ -41,12 +41,12 @@
                                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
                                     aria-valuemax="100"></div>
                             </div>
-                            Controls
+                            <span class="kt-font-success"> <i  class="fa fa-check-square"></i>   Controls</span>
                             <div class="pull-right">
                                 <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill" dropdown
                                     container="body">
                                     <button type="button" class="btn btn-primary btn-sm"
-                                        (click)="addControlToRisk(risk.risk.processRisk.id, risk.risk.processRisk.processId)">
+                                        (click)="addControlToRisk(null,risk.risk.processRisk.id, risk.risk.processRisk.processId, risk.risk.processRisk.riskId)">
                                         <i class="fa fa-plus"></i> Add Control
                                     </button>
                                     <button class="dropdown-toggle btn btn-sm btn-primary dropdown-toggle-split"
@@ -74,7 +74,7 @@
                                         <div>
                                             <div class="row">
                                                 <div class="col-lg-9">
-                                                    {{ control.controlName }}
+                                                    <span class="kt-font-success"> {{ control.controlName }}</span>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <button type="button" class="btn btn-primary btn-sm pull-right"
@@ -85,23 +85,17 @@
                                             </div>
                                             <br>
                                             <div class="pl-5">
-                                                <p class="form-text text-muted">Testing Templates</p>
+                                                <p class="form-text kt-font-brand text-muted"><i class="fa fa-cogs"></i>  Testing Templates</p>
                                                 <hr>
                                                 <p *ngIf="control.testingTemplates.items.length == 0">No template found
                                                 </p>
                                                 <div *ngFor="let template of control.testingTemplates.items"
                                                     class="row">
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-10 kt-font-brand">
                                                         <p>
                                                             {{ template.testingTemplate.title }}
                                                         </p>
                                                     </div>
-                                                    <!-- <div class="col-md-2">
-                                                                        <button type="button" class="btn btn-primary btn-outline btn-sm pull-right" 
-                                                                            (click)="review(template.testingTemplate.id)">
-                                                                            Review
-                                                                        </button>
-                                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>

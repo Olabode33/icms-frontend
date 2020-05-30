@@ -1,4 +1,4 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
         <div class="kt-subheader kt-grid__item">
             <div [class]="containerClass">
@@ -184,11 +184,13 @@
                                             <thead>
                                                 <tr class="text-left">
                                                     <th style="min-width: 200px" class="pl-2">
-                                                        <span class="text-dark-75">Task</span></th>
-                                                    <th style="min-width: 100px">Task Date</th>
-                                                    <th style="min-width: 150px">Assigned to</th>
-                                                    <th style="min-width: 100px">Frequency</th>
-                                                    <th style="min-width: 110px">Sample size</th>
+                                                        <span class="text-dark-75">Task</span>
+                                                    </th>
+                                                    <th style="min-width: 250px">Assigned to</th>
+                                                    <th style="min-width: 100px">Due Date</th>
+                                                    <th style="min-width: 250px">Completed By</th>                                           
+                                                    <th style="min-width: 100px">Score</th>                                           
+                                                    <th style="min-width: 100px">Status</th>                                           
                                                     <th style="min-width: 120px"></th>
                                                 </tr>
                                             </thead>
@@ -197,11 +199,11 @@
                                                     <td class="pl-0 py-3">
                                                         <div class="d-flex align-items-center">
                                                             <!-- <div class="symbol symbol-50 symbol-light mr-4">
-                                                                <i class="fa fa-2x fa-layer-group kt-font-success"></i>
-                                                            </div> -->
+                <i class="fa fa-2x fa-layer-group kt-font-success"></i>
+            </div> -->
                                                             <div>
                                                                 <a href="javascript:void(0);"
-                                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                   class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
                                                                     {{record.testingTemplateName}}
                                                                 </a>
                                                                 <span class="text-muted d-block">
@@ -212,10 +214,15 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{record.userName2}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
                                                             <span *ngIf="record.workingPaperNew.taskDate">
-                                                                {{record.workingPaperNew.taskDate | momentFormat:'LL'}}
+                                                                {{record.workingPaperNew.dueDate | momentFormat:'LL'}}
                                                             </span>
-                                                            <span *ngIf="!record.workingPaperNew.taskDate">-</span>
+                                                            <span *ngIf="!record.workingPaperNew.dueDate">-</span>
                                                         </span>
                                                     </td>
                                                     <td>
@@ -225,23 +232,23 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{frequencyEnum[record.frequency]}}
+                                                            {{record.workingPaperNew.score}}
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{record.sampleSize}}
+                                                            {{l(taskStatusEnum[record.workingPaperNew.taskStatus])}}
                                                         </span>
                                                     </td>
                                                     <td class="pr-0 text-right">
                                                         <button (click)="view(record.workingPaperNew.id)"
-                                                            class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
-                                                            title="View working paper">
+                                                                class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
+                                                                title="View working paper">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
                                                         <button (click)="openAssignToUserModal(record)"
-                                                            class="btn btn-label-warning btn-sm btn-bold btn-upper btn-sm"
-                                                            title="Assign task to user">
+                                                                class="btn btn-label-warning btn-sm btn-bold btn-upper btn-sm"
+                                                                title="Assign task to user">
                                                             <i class="fa fa-user-plus"></i>
                                                         </button>
                                                     </td>

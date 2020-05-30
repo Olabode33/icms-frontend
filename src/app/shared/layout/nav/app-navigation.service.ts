@@ -29,12 +29,12 @@ export class AppNavigationService {
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
 
             new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
-                new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-more', '/app/admin/processes'),
-                new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-more', '/app/main/risks/risks'),
-                new AppMenuItem('Controls', 'Pages.Controls', 'flaticon-more', '/app/main/controls/controls'),
+                new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
+                new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
+                new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
             ]),
             new AppMenuItem('Exception Management', '', 'flaticon-warning', '', [
-                new AppMenuItem('ExceptionTypes', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
+                new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
                 new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
             ]),
           //  new AppMenuItem('Set Up', '', 'flaticon-warning', '', []),

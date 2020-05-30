@@ -55,6 +55,8 @@ import { OrganizationUnitRisksComponent } from '@app/admin/organization-units/or
 import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
 import { CreateOrEditProcessRiskModalComponent } from '@app/admin/processes/process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from '@app/admin/processes/process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
+import { CreateOrEditRiskModalComponent } from '../../main/risks/risks/create-or-edit-risk-modal.component';
+import { CreateOrEditControlModalComponent } from '../../main/controls/controls/create-or-edit-control-modal.component';
 
 
 @NgModule({
@@ -113,7 +115,9 @@ import { CreateOrEditProcessRiskControlModalComponent } from '@app/admin/process
         OrganizationUnitRisksComponent,
         DeptProcessRiskControlComponent,
         CreateOrEditProcessRiskModalComponent,
-        CreateOrEditProcessRiskControlModalComponent
+        CreateOrEditRiskModalComponent,
+        CreateOrEditProcessRiskControlModalComponent,
+        CreateOrEditControlModalComponent
     ],
     exports: [
         CreateOrEditProcessRiskModalComponent,
@@ -130,6 +134,8 @@ import { CreateOrEditProcessRiskControlModalComponent } from '@app/admin/process
         CustomizableDashboardComponent,
         CreateOrEditTestingTemplateModalComponent,
         NgxChartsModule,
+        CreateOrEditRiskModalComponent,
+        CreateOrEditControlModalComponent,
         CreateOrEditDepartmentRiskModalComponent,
         CreateOrEditDepartmentModalComponent,
         DepartmentUserLookupTableModalComponent,

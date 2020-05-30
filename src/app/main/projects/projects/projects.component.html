@@ -128,7 +128,7 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 130px">{{l('Actions')}}</th>
                                     <!--<th style="width: 150px" pSortableColumn="controlUnitFk.displayName">
         {{l('DisplayName')}}
         <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
@@ -176,15 +176,14 @@
                             </ng-template>                           
 							<ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
-                                    <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">
+                                    <td style="width: 130px">
                                         <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a *ngIf="permission.isGranted('Pages.Projects.Edit')"
+                                                    <a
                                                        [routerLink]="['/app/main/projects/projects/view']" [queryParams]="{id: record.project.id}">
                                                         {{l('View')}}
                                                     </a>
@@ -196,7 +195,7 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Delete')"
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.Projects.Create') && !record.project.commenced"
                                                        (click)="activateProject(record.project)">Activate</a>
                                                 </li>
                                                 <li>

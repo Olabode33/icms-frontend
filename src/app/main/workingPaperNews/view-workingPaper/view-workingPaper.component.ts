@@ -135,7 +135,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                     });
                     this.displaySample();
                 }
-                console.log(this.currentSample);
+               // console.log(this.currentSample);
                 this.active = true;
                 this.loading = false;
             });

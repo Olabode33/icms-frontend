@@ -12,39 +12,51 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group m-form__group">
-                        <label for="RiskName">{{l("Risk")}}</label>
-                        <div class="input-group">
-                            <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName" type="text" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary blue" (click)="openSelectRiskModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                            </div> <div class="input-group-prepend">
-                                <button class="btn btn-danger btn-icon" type="button" (click)="setRiskIdNull()"><i class="fa fa-times"></i></button>
+                    <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <div class="card-title" [ngClass]="{collapsed: !process.isActive}"
+                                     data-toggle="collapse" data-target="#collapseOne4"
+                                     aria-expanded="false" aria-controls="collapseOne4">
+                                    <i class="flaticon-tabs"></i> Process
+                                </div>
+                            </div>
                             </div>
                         </div>
-                    </div>
-                    <input class="form-control" required name="departmentRisk.riskId" [(ngModel)]="departmentRisk.riskId" type="text" hidden>
 
-                    <div class="kt-checkbox-list">
-                        <label for="departmentRisk_cascade" class="kt-checkbox">
-                            <input id="departmentRisk_cascade" type="checkbox" name="departmentRisk.cascade" [(ngModel)]="departmentRisk.cascade">
-                        Cascade to sub-units
-                            <span></span>
-                        </label>
+                            <div class="form-group m-form__group">
+                                <label for="RiskName">{{l("Risk")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectRiskModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setRiskIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" required name="departmentRisk.riskId" [(ngModel)]="departmentRisk.riskId" type="text" hidden>
+
+                            <div class="kt-checkbox-list">
+                                <label for="departmentRisk_cascade" class="kt-checkbox">
+                                    <input id="departmentRisk_cascade" type="checkbox" name="departmentRisk.cascade" [(ngModel)]="departmentRisk.cascade">
+                                    Cascade to sub-units
+                                    <span></span>
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="form-group">
+                                <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
+                                <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments"></textarea>
+                            </div>
+
+
                         </div>
-                    <br />
-
-                        <div class="form-group">
-                            <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
-                            <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments" ></textarea>
+                        <div class="modal-footer">
+                            <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                            <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
                         </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
-                    </div>
 </form>
         </div>
     </div>

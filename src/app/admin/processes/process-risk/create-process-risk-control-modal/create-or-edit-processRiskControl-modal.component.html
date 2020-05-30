@@ -4,58 +4,111 @@
             <form *ngIf="active" #departmentRiskControlForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="departmentRiskControl.id">{{l("EditDepartmentRiskControl")}}</span>
-                        <span *ngIf="!departmentRiskControl.id">{{l("CreateNewDepartmentRiskControl")}}</span>
+                        Attach Controls to Process Risks
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">Process</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="Process_Name">Process {{l("Name")}}</label>
+                                <input type="text" readonly id="Process_Name" class="form-control" value="{{process.name}}"
+                                       name="Name" />
+                            </div>
 
-                    <div class="form-group m-form__group">
-                        <label for="ControlCode">{{l("Control")}}</label>
-                        <div class="input-group">
-                            <input class="form-control" id="ControlCode" name="controlCode" [(ngModel)]="controlCode" type="text" disabled>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary blue" (click)="openSelectControlModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                            </div> <div class="input-group-prepend">
-                                <button class="btn btn-danger btn-icon" type="button" (click)="setControlIdNull()"><i class="fa fa-times"></i></button>
+                            <div class="form-group">
+                                <label for="Process_Description">Process {{l("Description")}}</label>
+                                <textarea id="Process_Description" class="form-control" readonly
+                                          [(ngModel)]="process.description" name="Description" rows="5"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Process_Name">Department(s)</label>
+                                <input type="text" readonly id="ProcessDepartments" class="form-control" value="{{organizationUnitDisplayName}}"
+                                       name="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Process_Name">Process Owner</label>
+                                <input type="text" readonly id="Process_Owner" class="form-control" value="{{userName}}"
+                                       name="Name" />
                             </div>
                         </div>
                     </div>
-                    <input class="form-control" required name="departmentRiskControl.controlId" [(ngModel)]="departmentRiskControl.controlId" type="text" hidden>
+                    <hr />
+                    <div class="card">
+                        <div class="card-header">Risk</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="Risk_Name">{{l("Name")}}</label>
+                                <input type="text" readonly id="Risk_Name" class="form-control" value="{{risk.name}}" name="Name" required />
+                            </div>
 
+                            <div class="form-group">
+                                <label for="Risk_Description">{{l("Description")}}</label>
+                                <textarea id="Risk_Description" class="form-control" readonly rows="3" value="{{risk.description}}" name="Description"></textarea>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="DepartmentRiskControl_Frequency">{{l("Frequency")}}</label>
-                        <select class="form-control" name="Frequency" id="DepartmentRiskControl_Frequency" [(ngModel)]="departmentRiskControl.frequency">
-                            <option value="0">{{l('Daily')}}</option>
-
-                            <option value="1">{{l('Weekly')}}</option>
-
-                            <option value="2">{{l('Monthly')}}</option>
-
-                            <option value="3">{{l('Quarterly')}}</option>
-
-                            <option value="4">{{l('Yearly')}}</option>
-
-
-                        </select>
+                            <div class="form-group">
+                                <label for="Risk_Name">Severity</label>
+                                <input type="text" readonly id="Risk_Name" class="form-control" value="{{l(riskEnum[risk.severity])}}" name="Name" required />
+                            </div>
+                        </div>
                     </div>
+                    <hr />
 
-                    <div class="kt-checkbox-list">
-                        <label for="departmentRisk_cascade" class="kt-checkbox">
-                            <input id="departmentRisk_cascade" type="checkbox" name="departmentRiskControl.cascade" [(ngModel)]="departmentRiskControl.cascade">
-                            Cascade to sub-units
-                            <span></span>
-                        </label>
-                    </div>
-                    <br />
+                    <div class="card">
+                        <div class="card-header">Control</div>
+                        <div class="card-body">
+                            <div class="form-group m-form__group">
+                                <label for="ControlCode">Attach this control to the risk</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="ControlCode" name="controlCode" [(ngModel)]="controlCode" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectControlModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-outline-success btn-outline-hover-success" type="button" (click)="createControl()"><i class="fa fa-plus"></i> Add Control</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" required name="departmentRiskControl.controlId" [(ngModel)]="departmentRiskControl.controlId" type="text" hidden>
 
-                    <div class="form-group">
-                        <label for="DepartmentRiskControl_Notes">{{l("Notes")}}</label>
-                        <textarea type="text" rows="5" id="DepartmentRiskControl_Notes" class="form-control" [(ngModel)]="departmentRiskControl.notes" name="Notes"></textarea>
+
+                            <!--<div class="form-group">
+                                <label for="DepartmentRiskControl_Frequency">{{l("Frequency")}}</label>
+                                <select class="form-control" name="Frequency" id="DepartmentRiskControl_Frequency" [(ngModel)]="departmentRiskControl.frequency">
+                                    <option value="0">{{l('Daily')}}</option>
+
+                                    <option value="1">{{l('Weekly')}}</option>
+
+                                    <option value="2">{{l('Monthly')}}</option>
+
+                                    <option value="3">{{l('Quarterly')}}</option>
+
+                                    <option value="4">{{l('Yearly')}}</option>
+
+
+                                </select>
+                            </div>-->
+
+                            <div class="kt-checkbox-list">
+                                <label for="departmentRisk_cascade" class="kt-checkbox">
+                                    <input id="departmentRisk_cascade" type="checkbox" name="departmentRiskControl.cascade" [(ngModel)]="departmentRiskControl.cascade">
+                                    Cascade this control to all sub-departments.
+                                    <span></span>
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="form-group">
+                                <label for="DepartmentRiskControl_Notes">{{l("Notes")}}</label>
+                                <textarea type="text" rows="5" id="DepartmentRiskControl_Notes" class="form-control" [(ngModel)]="departmentRiskControl.notes" name="Notes"></textarea>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -66,7 +119,7 @@
             </form>
         </div>
     </div>
-<!-- <departmentRiskControlDepartmentRiskLookupTableModal #departmentRiskControlDepartmentRiskLookupTableModal (modalSave)="getNewDepartmentRiskId()"></departmentRiskControlDepartmentRiskLookupTableModal> -->
-		 <departmentRiskControlControlLookupTableModal #departmentRiskControlControlLookupTableModal (modalSave)="getNewControlId()"></departmentRiskControlControlLookupTableModal>
-		 
+    <!-- <departmentRiskControlDepartmentRiskLookupTableModal #departmentRiskControlDepartmentRiskLookupTableModal (modalSave)="getNewDepartmentRiskId()"></departmentRiskControlDepartmentRiskLookupTableModal> -->
+    <departmentRiskControlControlLookupTableModal #departmentRiskControlControlLookupTableModal (modalSave)="getNewControlId()"></departmentRiskControlControlLookupTableModal>
+    <createOrEditControlModal #createOrEditControlModal (modalSave)="getControls()"></createOrEditControlModal>
 </div>
