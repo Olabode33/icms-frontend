@@ -79,6 +79,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MenuSearchBarComponent } from './shared/layout/nav/menu-search-bar/menu-search-bar.component';
 import { NgxSpinnerModule, NgxSpinnerComponent } from 'ngx-spinner';
 import { ScrollTopComponent } from './shared/layout/scroll-top.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -159,8 +160,8 @@ import { ScrollTopComponent } from './shared/layout/scroll-top.component';
         TextMaskModule,
         ImageCropperModule,
         AutoCompleteModule,
-        NgxSpinnerModule
-
+        NgxSpinnerModule,
+        FullCalendarModule
     ],
     providers: [
         ImpersonationService,

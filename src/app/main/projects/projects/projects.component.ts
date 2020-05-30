@@ -1,6 +1,6 @@
-import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
-import { ProjectsServiceProxy, ProjectDto, EntityDto  } from '@shared/service-proxies/service-proxies';
+import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectsServiceProxy, ProjectDto, EntityDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -14,35 +14,54 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
     templateUrl: './projects.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class ProjectsComponent extends AppComponentBase {
-    
-        
+export class ProjectsComponent extends AppComponentBase implements OnInit {
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('calendar', {static: true}) calendarComponent: FullCalendarComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
     maxStartDateFilter: moment.Moment;
-		minStartDateFilter: moment.Moment;
+    minStartDateFilter: moment.Moment;
     maxEndDateFilter: moment.Moment;
-		minEndDateFilter : moment.Moment;
-    maxBudgetedStartDateFilter : moment.Moment;
-		minBudgetedStartDateFilter : moment.Moment;
-    maxBudgetedEndDateFilter : moment.Moment;
-		minBudgetedEndDateFilter : moment.Moment;
+    minEndDateFilter: moment.Moment;
+    maxBudgetedStartDateFilter: moment.Moment;
+    minBudgetedStartDateFilter: moment.Moment;
+    maxBudgetedEndDateFilter: moment.Moment;
+    minBudgetedEndDateFilter: moment.Moment;
     titleFilter = '';
-        organizationUnitDisplayNameFilter = '';
-        organizationUnitDisplayName2Filter = '';
-
+    organizationUnitDisplayNameFilter = '';
+    organizationUnitDisplayName2Filter = '';
 
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
+
+    //Calendar options
+    calenderPlugins = [dayGridPlugin, bootstrapPlugin];
+    calendarWeekends = true;
+    calendarEvents = [];
+    calendarHeader = {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth'//,timeGridWeek,timeGridDay,listWeek'
+    };
+    calendarButtonText = {
+        today:    'Today',
+        month:    'Month',
+        week:     'Week',
+        day:      'Day',
+        list:     'List'
+    };
 
     constructor(
         injector: Injector,
@@ -51,7 +70,7 @@ export class ProjectsComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-			private _router: Router
+        private _router: Router
     ) {
         super(injector);
     }
@@ -92,6 +111,18 @@ export class ProjectsComponent extends AppComponentBase {
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
+
+            this.calendarEvents = new Array();
+            result.items.forEach(element => {
+                let event = {
+                    title: element.project.title + ' - ' + element.organizationUnitDisplayName2,
+                    start: element.project.budgetedStartDate.format('YYYY-MM-DD'),
+                    end: element.project.budgetedEndDate.format('YYYY-MM-DD')};
+
+                this.calendarEvents = this.calendarEvents.concat(event);
+            });
+
+            console.log(this.calendarEvents);
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
@@ -101,7 +132,7 @@ export class ProjectsComponent extends AppComponentBase {
     }
 
     createProject(): void {
-        this._router.navigate(['/app/main/projects/projects/createOrEdit']);        
+        this._router.navigate(['/app/main/projects/projects/createOrEdit']);
     }
 
 
@@ -129,13 +160,13 @@ export class ProjectsComponent extends AppComponentBase {
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    var item = new EntityDto();
+                    let item = new EntityDto();
 
                     item.id = project.id;
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success("Successfully Activated");
+                            this.notify.success('Successfully Activated');
                         });
                 }
             }
@@ -144,7 +175,7 @@ export class ProjectsComponent extends AppComponentBase {
 
     exportToExcel(): void {
         this._projectsServiceProxy.getProjectsToExcel(
-        this.filterText,
+            this.filterText,
             this.maxStartDateFilter,
             this.minStartDateFilter,
             this.maxEndDateFilter,
@@ -157,8 +188,12 @@ export class ProjectsComponent extends AppComponentBase {
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
         )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
+    }
+
+    eventMouseOver(event): void {
+        console.log(event);
     }
 }

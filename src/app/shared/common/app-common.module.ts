@@ -1,3 +1,4 @@
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { ViewDepartmentModalComponent } from '@app/main/departments/departments/view-department-modal.component';
 import { AbpModule } from '@abp/abp.module';
 import * as ngCommon from '@angular/common';
@@ -76,7 +77,8 @@ import { CreateOrEditControlModalComponent } from '../../main/controls/controls/
         NgxChartsModule,
         BsDatepickerModule.forRoot(),
         PerfectScrollbarModule,
-        CountoModule
+        CountoModule,
+        FullCalendarModule,
     ],
     declarations: [
         TimeZoneComboComponent,
@@ -146,6 +148,7 @@ import { CreateOrEditControlModalComponent } from '../../main/controls/controls/
         DepartmentRiskControlDepartmentRiskLookupTableModalComponent,
         DepartmentRiskControlControlLookupTableModalComponent,
         ViewDepartmentModalComponent,
+        FullCalendarModule
     ],
     providers: [
         DateTimeService,

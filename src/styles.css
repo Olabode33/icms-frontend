@@ -472,3 +472,7 @@ body{margin-top:20px;
     .hoverable {
         cursor: pointer;
     }
+
+    .fc-unthemed .fc-event .fc-title, .fc-unthemed .fc-event-dot .fc-title {
+        color: #fff !important;
+    }
