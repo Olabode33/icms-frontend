@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { RatingsServiceProxy, CreateOrEditRatingDto } from '@shared/service-proxies/service-proxies';
@@ -50,7 +50,9 @@ export class CreateOrEditRatingModalComponent extends AppComponentBase {
     }
 
     save(): void {
-            this.saving = true;
+
+        this.saving = true;
+
 
 			
             this._ratingsServiceProxy.createOrEdit(this.rating)

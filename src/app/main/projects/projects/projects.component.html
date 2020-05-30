@@ -4,11 +4,11 @@
             <div [class]="containerClass">
                 <div class="kt-subheader__main">
                     <h3 class="kt-subheader__title">
-                        <span>{{l("Projects")}}</span>
+                        <span>Project Scheduling</span>
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <span class="kt-subheader__desc">
-                        {{l("ProjectsHeaderInfo")}}
+                      Plan audit/review projects here.
                     </span>
                 </div>
                 <div class="kt-subheader__toolbar">
@@ -26,7 +26,7 @@
             <div class="kt-portlet kt-portlet--mobile">
                 <div class="kt-portlet__body">
                     <div id="kt_calendar" class="fc fc-ltr fc-unthemed">
-                        <full-calendar #calendarComponent defaultView="dayGridMonth" 
+                        <full-calendar #calendarComponent defaultView="dayGridMonth"
                                    [header]="calendarHeader"
                                    [plugins]="calenderPlugins"
                                    [weekends]="calendarWeekends"

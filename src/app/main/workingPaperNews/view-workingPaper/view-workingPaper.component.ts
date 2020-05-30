@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } fro
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, TaskStatus, CreateOrEditTestingAttributeDto, Frequency, Severity, ControlType } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, TaskStatus, CreateOrEditTestingAttributeDto, Frequency, Severity, ControlType, EntityDtoOfGuid } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -109,7 +109,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
             this.loading = false;
         } else {
             this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
-                console.log(result);
+          
                 this.workingPaperNew = result.workingPaperNew;
 
                 if (this.workingPaperNew.completionDate) {
@@ -197,7 +197,24 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     }
 
     approve(): void {
-        //
+        this.message.confirm(
+            '',
+            "Are you sure you want to approve this working paper?",
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let input = new EntityDtoOfGuid();
+                    input.id = this.workingPaperNew.id;
+                    this._workingPaperNewsServiceProxy.approveWorkPaper(input)
+                        .subscribe(() => {
+                          
+                            this.notify.success("This page has been approved.");
+                            this._location.back();
+                        });
+                }
+            }
+        );
+
+
     }
 
     reject(): void {
