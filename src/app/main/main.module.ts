@@ -98,9 +98,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		ProjectsComponent,
-		ViewProjectComponent,		CreateOrEditProjectComponent,
-    ProjectOrganizationUnitLookupTableModalComponent,
+        ProjectsComponent,
+        ViewProjectComponent, CreateOrEditProjectComponent,
+        ProjectOrganizationUnitLookupTableModalComponent,
         CreateWorkingPaperComponent,
 
         ViewAuditorComponent,

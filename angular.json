@@ -38,6 +38,10 @@
               "node_modules/sweetalert2/dist/sweetalert2.css",
               "node_modules/cookieconsent/build/cookieconsent.min.css",
 
+              "node_modules/@fullcalendar/core/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/@fullcalendar/bootstrap/main.css",
+
               "src/assets/primeng/file-upload/css/primeng.file-upload.css",
               "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
               "src/assets/primeng/tree/css/primeng.tree.css",
@@ -139,6 +143,9 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/sweetalert2/dist/sweetalert2.css",
               "node_modules/cookieconsent/build/cookieconsent.min.css",
+              "node_modules/@fullcalendar/core/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/@fullcalendar/bootstrap/main.css",
 
               "src/assets/primeng/file-upload/css/primeng.file-upload.css",
               "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
