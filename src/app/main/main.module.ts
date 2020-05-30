@@ -1,7 +1,17 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
+import { ViewDepartmentRatingModalComponent } from './departmentRatingHistory/departmentRatingHistory/view-departmentRating-modal.component';
+import { CreateOrEditDepartmentRatingModalComponent } from './departmentRatingHistory/departmentRatingHistory/create-or-edit-departmentRating-modal.component';
+import { DepartmentRatingOrganizationUnitLookupTableModalComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRating-organizationUnit-lookup-table-modal.component';
+import { DepartmentRatingRatingLookupTableModalComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRating-rating-lookup-table-modal.component';
+
+import { RatingsComponent } from './ratings/ratings/ratings.component';
+import { ViewRatingModalComponent } from './ratings/ratings/view-rating-modal.component';
+import { CreateOrEditRatingModalComponent } from './ratings/ratings/create-or-edit-rating-modal.component';
+
 import { ProjectsComponent } from './projects/projects/projects.component';
 import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
@@ -100,6 +110,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
     ],
     declarations: [
         PlanningComponent,
+        DepartmentRatingHistoryComponent,
+        ViewDepartmentRatingModalComponent, CreateOrEditDepartmentRatingModalComponent,
+        DepartmentRatingOrganizationUnitLookupTableModalComponent,
+        DepartmentRatingRatingLookupTableModalComponent,
+        RatingsComponent,
+        ViewRatingModalComponent, CreateOrEditRatingModalComponent,
         ProjectsComponent,
         ViewProjectComponent, CreateOrEditProjectComponent,
         ProjectOrganizationUnitLookupTableModalComponent,
