@@ -136,7 +136,7 @@
                                         class="font-weight-bolder text-primary ml-2">72 Tasks</a>
                                 </div>
                             </div>
-                            <button type="button"
+                            <button type="button" [routerLink]="['/app/main/projects/projects/view']" [queryParams]="{id: project.project.id}"
                                 class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto pull-right">
                                 details
                             </button>
