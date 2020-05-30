@@ -1,0 +1,53 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #ratingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="rating.id">{{l("EditRating")}}</span>
+                        <span *ngIf="!rating.id">{{l("CreateNewRating")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="Rating_Name">{{l("Name")}} *</label>
+									<input type="text" id="Rating_Name" class="form-control" [(ngModel)]="rating.name" name="Name"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rating_Code">{{l("Code")}}</label>
+									<input type="text" id="Rating_Code" class="form-control" [(ngModel)]="rating.code" name="Code"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Rating_Description">{{l("Description")}}</label>
+									<input type="text" id="Rating_Description" class="form-control" [(ngModel)]="rating.description" name="Description"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Rating_LowerBoundary">{{l("LowerBoundary")}}</label>
+									<input type="number" id="Rating_LowerBoundary" class="form-control" [(ngModel)]="rating.lowerBoundary" name="LowerBoundary"  min="0"  max="100"/>
+								</div>
+					
+								<div class="form-group">
+									<label for="Rating_UpperBoundary">{{l("UpperBoundary")}}</label>
+									<input type="number" id="Rating_UpperBoundary" class="form-control" [(ngModel)]="rating.upperBoundary" name="UpperBoundary"  min="0"  max="100"/>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!ratingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

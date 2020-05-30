@@ -1,0 +1,66 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #departmentRatingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="departmentRating.id">{{l("EditDepartmentRating")}}</span>
+                        <span *ngIf="!departmentRating.id">{{l("CreateNewDepartmentRating")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="OrganizationUnitDisplayName">{{l("OrganizationUnit")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setOrganizationUnitIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="departmentRating.organizationUnitId" [(ngModel)]="departmentRating.organizationUnitId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="RatingName">{{l("Rating")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="RatingName" name="ratingName" [(ngModel)]="ratingName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectRatingModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setRatingIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="departmentRating.ratingId" [(ngModel)]="departmentRating.ratingId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="DepartmentRating_RatingDate">{{l("RatingDate")}}</label>
+									 <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="departmentRating.ratingDate" id="DepartmentRating_RatingDate" name="DepartmentRating_RatingDate">
+								</div>
+					
+								<div class="form-group">
+									<label for="DepartmentRating_ChangeType">{{l("ChangeType")}}</label>
+									<input type="text" id="DepartmentRating_ChangeType" class="form-control" [(ngModel)]="departmentRating.changeType" name="ChangeType"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!departmentRatingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<departmentRatingOrganizationUnitLookupTableModal #departmentRatingOrganizationUnitLookupTableModal (modalSave)="getNewOrganizationUnitId()"></departmentRatingOrganizationUnitLookupTableModal>
+		 <departmentRatingRatingLookupTableModal #departmentRatingRatingLookupTableModal (modalSave)="getNewRatingId()"></departmentRatingRatingLookupTableModal>
+		 
+</div>

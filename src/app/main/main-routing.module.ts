@@ -1,5 +1,7 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
+import { RatingsComponent } from './ratings/ratings/ratings.component';
 import { ProjectsComponent } from './projects/projects/projects.component';
 import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
 import { ViewProjectComponent } from './projects/projects/view-project.component';
@@ -28,6 +30,8 @@ import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPa
             {
                 path: '',
                 children: [
+                    { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
+                    { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },
                     { path: 'projects/projects', component: ProjectsComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
                     { path: 'projects/projects/view', component: ViewProjectComponent, data: { permission: 'Pages.Projects' }  },
