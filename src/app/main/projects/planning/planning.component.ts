@@ -124,8 +124,8 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
                     start: element.project.budgetedStartDate.format('YYYY-MM-DD'),
                     end: element.project.budgetedEndDate.format('YYYY-MM-DD'),
                     textColor: '#fff',
-                    borderColor: element.project.commenced ? '#4CAF50' : '#f64e60',
-                    backgroundColor: element.project.commenced ? '#4CAF50' : '#f64e60'
+                    borderColor: element.project.commenced ? '#1bc5bd' : '#f64e60',
+                    backgroundColor: element.project.commenced ? '#1bc5bd' : '#f64e60'
                 };
 
                 this.calendarEvents = this.calendarEvents.concat(event);
