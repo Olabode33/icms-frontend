@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
+import listPlugin from '@fullcalendar/list';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
@@ -48,13 +49,13 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     entityHistoryEnabled = false;
 
     //Calendar options
-    calenderPlugins = [dayGridPlugin, bootstrapPlugin];
+    calenderPlugins = [dayGridPlugin, bootstrapPlugin, listPlugin];
     calendarWeekends = true;
     calendarEvents = [];
     calendarHeader = {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth'//,timeGridWeek,timeGridDay,listWeek'
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     };
     calendarButtonText = {
         today:    'Today',
@@ -78,6 +79,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
+        this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 
     private setIsEntityHistoryEnabled(): boolean {
@@ -107,7 +109,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
             this.viewCommencedProjectFilter,
-            this.primengTableHelper.getSorting(this.dataTable),
+            '', //this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
@@ -200,6 +202,6 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     }
 
     eventClick(event): void {
-        this._router.navigate(['/app/main/projects/projects/createOrEdit'], { queryParams: { id: event.event.id } });
+        this._router.navigate(['/app/main/projects/projects/view'], { queryParams: { id: event.event.id } });
     }
 }

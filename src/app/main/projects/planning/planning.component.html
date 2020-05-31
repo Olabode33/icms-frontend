@@ -14,8 +14,8 @@
                 </div>
                 <div class="kt-subheader__toolbar">
                     <div class="kt-subheader__wrapper">
-                        <button (click)="exportToExcel()" class="btn btn-outline-success"><i
-                                class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                        <!-- <button (click)="exportToExcel()" class="btn btn-outline-success"><i
+                                class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button> -->
                         <button *ngIf="isGranted('Pages.Projects.Create')" (click)="createProject()"
                             class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewProject")}}</button>
                     </div>
@@ -24,313 +24,272 @@
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
 
-            <div class="kt-portlet kt-portlet--mobile">
-                <div class="kt-portlet__body">
-                    <div id="kt_calendar" class="fc fc-ltr fc-unthemed">
-                        <full-calendar #calendarComponent defaultView="dayGridMonth" 
-                                   [header]="calendarHeader"
-                                   [plugins]="calenderPlugins"
-                                   [weekends]="calendarWeekends"
-                                   [events]="calendarEvents"
-                                   (eventClick)="eventClick($event)"
-                                   [buttonText]="calendarButtonText"
-                                   [contentHeight]=500
-                        ></full-calendar>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="kt-portlet kt-portlet--mobile">
+                        <div class="kt-portlet__body">
+                            <div id="kt_calendar" class="fc fc-ltr fc-unthemed">
+                                <full-calendar #calendarComponent defaultView="dayGridMonth" 
+                                           [header]="calendarHeader"
+                                           [plugins]="calenderPlugins"
+                                           [weekends]="calendarWeekends"
+                                           [events]="calendarEvents"
+                                           (eventClick)="eventClick($event)"
+                                           [buttonText]="calendarButtonText"
+                                           themeSystem="bootstrap"
+                                ></full-calendar>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="kt-portlet kt-portlet--mobile">
-                <div class="kt-portlet__body">
-                    <form class="kt-form" autocomplete="off">
-                        <div>
-                            <div class="row align-items-center">
-                                <div class="col-xl-12">
-                                    <div class="form-group m-form__group align-items-center">
-                                        <div class="input-group">
-                                            <input [(ngModel)]="filterText" name="filterText" autoFocus
-                                                class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
-                                                type="text">
-                                            <span class="input-group-btn">
-                                                <button (click)="getProjects()" class="btn btn-primary" type="submit"><i
-                                                        class="flaticon-search-1"></i></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" [hidden]="!advancedFiltersAreShown">
-                                <div class="col-md-12">
-                                    <div class="kt-separator kt-separator--border-dashed"></div>
-                                </div>
-
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinStartDateFilter">{{l("StartDateRange")}}</label>
-                                        <div class="input-group">
-                                            <input class="form-control m-input" id="MinStartDateFilter"
-                                                name="MinStartDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MinValue')}}" [(ngModel)]="minStartDateFilter">
-                                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
-                                            <input class="form-control m-input" id="MaxStartDateFilter"
-                                                name="MaxStartDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MaxValue')}}" [(ngModel)]="maxStartDateFilter">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinEndDateFilter">{{l("EndDateRange")}}</label>
-                                        <div class="input-group">
-                                            <input class="form-control m-input" id="MinEndDateFilter"
-                                                name="MinEndDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MinValue')}}" [(ngModel)]="minEndDateFilter">
-                                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
-                                            <input class="form-control m-input" id="MaxEndDateFilter"
-                                                name="MaxEndDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MaxValue')}}" [(ngModel)]="maxEndDateFilter">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinBudgetedStartDateFilter">{{l("BudgetedStartDateRange")}}</label>
-                                        <div class="input-group">
-                                            <input class="form-control m-input" id="MinBudgetedStartDateFilter"
-                                                name="MinBudgetedStartDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MinValue')}}"
-                                                [(ngModel)]="minBudgetedStartDateFilter">
-                                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
-                                            <input class="form-control m-input" id="MaxBudgetedStartDateFilter"
-                                                name="MaxBudgetedStartDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MaxValue')}}"
-                                                [(ngModel)]="maxBudgetedStartDateFilter">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="MinBudgetedEndDateFilter">{{l("BudgetedEndDateRange")}}</label>
-                                        <div class="input-group">
-                                            <input class="form-control m-input" id="MinBudgetedEndDateFilter"
-                                                name="MinBudgetedEndDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MinValue')}}" [(ngModel)]="minBudgetedEndDateFilter">
-                                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
-                                            <input class="form-control m-input" id="MaxBudgetedEndDateFilter"
-                                                name="MaxBudgetedEndDateFilter" type="datetime" bsDatepicker
-                                                placeholder="{{l('MaxValue')}}" [(ngModel)]="maxBudgetedEndDateFilter">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="TitleFilter">{{l("Title")}}</label>
-                                        <input type="text" class="form-control" id="TitleFilter" name="titleFilter"
-                                            [(ngModel)]="titleFilter">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="OrganizationUnitDisplayNameFilter">({{l("OrganizationUnit")}})
-                                            {{l("DisplayName")}}</label>
-                                        <input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter"
-                                            name="organizationUnitDisplayNameFilter"
-                                            [(ngModel)]="organizationUnitDisplayNameFilter">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="OrganizationUnitDisplayName2Filter">({{l("OrganizationUnit2")}})
-                                            {{l("DisplayName")}}</label>
-                                        <input type="text" class="form-control" id="OrganizationUnitDisplayName2Filter"
-                                            name="organizationUnitDisplayName2Filter"
-                                            [(ngModel)]="organizationUnitDisplayName2Filter">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-12">
-                                    <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
-                                            class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
-                                    <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
-                                        (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
-                                            class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="row align-items-center">
-                        <!--<Primeng-Datatable-Start>-->
-                        <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
-                            <p-table #dataTable (onLazyLoad)="getProjects($event)" [value]="primengTableHelper.records"
-                                rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false"
-                                [lazy]="true" [scrollable]="true" ScrollWidth="100%"
-                                [responsive]="primengTableHelper.isResponsive"
-                                [resizableColumns]="primengTableHelper.resizableColumns">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">
-                                            {{l('Actions')}}</th>
-                                        <!--<th style="width: 150px" pSortableColumn="controlUnitFk.displayName">
-        {{l('DisplayName')}}
-        <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
-    </th>-->
-                                        <!--<th style="width: 150px" pSortableColumn="code">
-        {{l('Code')}}
-        <p-sortIcon field="project.code"></p-sortIcon>
-    </th>-->
-                                        <th style="width: 350px" pSortableColumn="title">
-                                            {{l('Title')}}
-                                            <p-sortIcon field="project.title"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 300px" pSortableColumn="scopeFk.displayName">
-                                            Scope
-                                            <p-sortIcon field="organizationUnitDisplayName2"></p-sortIcon>
-                                        </th>
-
-                                        <th style="width: 175px" pSortableColumn="budgetedStartDate">
-                                            {{l('BudgetedStartDate')}}
-                                            <p-sortIcon field="project.budgetedStartDate"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 175px" pSortableColumn="budgetedEndDate">
-                                            {{l('BudgetedEndDate')}}
-                                            <p-sortIcon field="project.budgetedEndDate"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="startDate">
-                                            {{l('StartDate')}}
-                                            <p-sortIcon field="project.startDate"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="endDate">
-                                            {{l('EndDate')}}
-                                            <p-sortIcon field="project.endDate"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="commenced">
-                                            Commenced
-                                            <p-sortIcon field="project.commenced"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="progress">
-                                            Status
-                                            <p-sortIcon field="project.progress"></p-sortIcon>
-                                        </th>
-
-
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-record="$implicit">
-                                    <tr>
-                                        <td style="width: 130px"
-                                            [hidden]="!isGrantedAny('Pages.Projects.Edit', 'Pages.Projects.Delete')">
-                                            <div class="btn-group dropdown" dropdown container="body">
-                                                <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                    <i class="fa fa-cog"></i><span class="caret"></span>
-                                                    {{l("Actions")}}
-                                                </button>
-                                                <ul class="dropdown-menu" *dropdownMenu>
-                                                    <li>
-                                                        <a *ngIf="permission.isGranted('Pages.Projects.Edit')"
-                                                            [routerLink]="['/app/main/projects/projects/view']"
-                                                            [queryParams]="{id: record.project.id}">
-                                                            {{l('View')}}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a *ngIf="permission.isGranted('Pages.Projects.Edit')"
-                                                            [routerLink]="['/app/main/projects/projects/createOrEdit']"
-                                                            [queryParams]="{id: record.project.id}">
-                                                            {{l('Edit')}}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Projects.Delete')"
-                                                            (click)="activateProject(record.project)">Activate</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;"
-                                                            *ngIf="permission.isGranted('Pages.Projects.Delete')"
-                                                            (click)="deleteProject(record.project)">{{l('Delete')}}</a>
-                                                    </li>
-
-                                                </ul>
+                <div class="col-lg-4">
+                    <div class="kt-portlet kt-portlet--mobile">
+                        <div class="kt-portlet__body">
+                            <!-- <form class="kt-form" autocomplete="off">
+                                <div>
+                                    <div class="row align-items-center">
+                                        <div class="col-xl-12">
+                                            <div class="form-group m-form__group align-items-center">
+                                                <div class="input-group">
+                                                    <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                                        class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                                        type="text">
+                                                    <span class="input-group-btn">
+                                                        <button (click)="getProjects()" class="btn btn-primary" type="submit"><i
+                                                                class="flaticon-search-1"></i></button>
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </td>
-                                        <!--<td style="width:150px">
-        <span class="ui-column-title"> {{l('DisplayName')}}</span>
-        {{record.organizationUnitDisplayName}}
-    </td>-->
-
-                                        <td style="width:350px">
-                                            <span class="ui-column-title"> {{l('Title')}}</span>
-                                            {{record.project.title}}
-                                        </td>
-
-                                        <td style="width:300px">
-                                            <span class="ui-column-title">Scope</span>
-                                            {{record.organizationUnitDisplayName2}}
-                                        </td>
-                                        <td style="width:175px">
-                                            <span class="ui-column-title"> {{l('BudgetedStartDate')}}</span>
-                                            <span *ngIf="record.project.budgetedStartDate">
-                                                {{record.project.budgetedStartDate | momentFormat:'L'}}
-                                            </span>
-                                            <span *ngIf="!record.project.budgetedStartDate">-</span>
-                                        </td>
-                                        <td style="width:175px">
-                                            <span class="ui-column-title"> {{l('BudgetedEndDate')}}</span>
-                                            <span *ngIf="record.project.budgetedEndDate">
-                                                {{record.project.budgetedEndDate | momentFormat:'L'}}
-                                            </span>
-                                            <span *ngIf="!record.project.budgetedEndDate">-</span>
-                                        </td>
-
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('StartDate')}}</span>
-                                            <span *ngIf="record.project.startDate">
-                                                {{record.project.startDate | momentFormat:'L'}}
-                                            </span>
-                                            <span *ngIf="!record.project.startDate">-</span>
-                                        </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('EndDate')}}</span>
-                                            <span *ngIf="record.project.endDate">
-                                                {{record.project.endDate | momentFormat:'L'}}
-                                            </span>
-                                            <span *ngIf="!record.project.endDate">-</span>
-                                        </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> Commenced</span>
-                                            {{record.project.commenced}}
-                                        </td>
-
-                                        <td style="width:150px">
-                                            <span class="ui-column-title">Progress</span>
-                                            {{record.project.progress}}
-                                        </td>
-
-
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
-                                {{l('NoData')}}
-                            </div>
-                            <div class="primeng-paging-container">
-                                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
-                                    (onPageChange)="getProjects($event)"
-                                    [totalRecords]="primengTableHelper.totalRecordsCount"
-                                    [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
-                                </p-paginator>
-                                <span class="total-records-count">
-                                    {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
-                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="row" [hidden]="!advancedFiltersAreShown">
+                                        <div class="col-md-12">
+                                            <div class="kt-separator kt-separator--border-dashed"></div>
+                                        </div>
+        
+        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="MinStartDateFilter">{{l("StartDateRange")}}</label>
+                                                <div class="input-group">
+                                                    <input class="form-control m-input" id="MinStartDateFilter"
+                                                        name="MinStartDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MinValue')}}" [(ngModel)]="minStartDateFilter">
+                                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                                    <input class="form-control m-input" id="MaxStartDateFilter"
+                                                        name="MaxStartDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MaxValue')}}" [(ngModel)]="maxStartDateFilter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="MinEndDateFilter">{{l("EndDateRange")}}</label>
+                                                <div class="input-group">
+                                                    <input class="form-control m-input" id="MinEndDateFilter"
+                                                        name="MinEndDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MinValue')}}" [(ngModel)]="minEndDateFilter">
+                                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                                    <input class="form-control m-input" id="MaxEndDateFilter"
+                                                        name="MaxEndDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MaxValue')}}" [(ngModel)]="maxEndDateFilter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="MinBudgetedStartDateFilter">{{l("BudgetedStartDateRange")}}</label>
+                                                <div class="input-group">
+                                                    <input class="form-control m-input" id="MinBudgetedStartDateFilter"
+                                                        name="MinBudgetedStartDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MinValue')}}"
+                                                        [(ngModel)]="minBudgetedStartDateFilter">
+                                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                                    <input class="form-control m-input" id="MaxBudgetedStartDateFilter"
+                                                        name="MaxBudgetedStartDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MaxValue')}}"
+                                                        [(ngModel)]="maxBudgetedStartDateFilter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="MinBudgetedEndDateFilter">{{l("BudgetedEndDateRange")}}</label>
+                                                <div class="input-group">
+                                                    <input class="form-control m-input" id="MinBudgetedEndDateFilter"
+                                                        name="MinBudgetedEndDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MinValue')}}" [(ngModel)]="minBudgetedEndDateFilter">
+                                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                                    <input class="form-control m-input" id="MaxBudgetedEndDateFilter"
+                                                        name="MaxBudgetedEndDateFilter" type="datetime" bsDatepicker
+                                                        placeholder="{{l('MaxValue')}}" [(ngModel)]="maxBudgetedEndDateFilter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="TitleFilter">{{l("Title")}}</label>
+                                                <input type="text" class="form-control" id="TitleFilter" name="titleFilter"
+                                                    [(ngModel)]="titleFilter">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="OrganizationUnitDisplayNameFilter">({{l("OrganizationUnit")}})
+                                                    {{l("DisplayName")}}</label>
+                                                <input type="text" class="form-control" id="OrganizationUnitDisplayNameFilter"
+                                                    name="organizationUnitDisplayNameFilter"
+                                                    [(ngModel)]="organizationUnitDisplayNameFilter">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="OrganizationUnitDisplayName2Filter">({{l("OrganizationUnit2")}})
+                                                    {{l("DisplayName")}}</label>
+                                                <input type="text" class="form-control" id="OrganizationUnitDisplayName2Filter"
+                                                    name="organizationUnitDisplayName2Filter"
+                                                    [(ngModel)]="organizationUnitDisplayName2Filter">
+                                            </div>
+                                        </div>
+        
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-sm-12">
+                                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                                    class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                                    class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form> -->
+        
+                            <div class="row align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                                    <div class="row">
+                                        <div class="col-xl-12" *ngFor="let project of primengTableHelper.records">
+                                            <div class="card card-custom bg-border-{{project.project.commenced ? 'success' : 'danger'}} gutter-b card-stretch">
+                                                <!--begin::Body-->
+                                                <div class="card-body">
+                                                    <!--begin::Info-->
+                                                    <div class="d-flex align-items-center">
+                                                        <!--begin::Info-->
+                                                        <div class="d-flex flex-column mr-auto">
+                                                            <!--begin: Title-->
+                                                            <div class="d-flex flex-column mr-auto">
+                                                                <a href="javascript:void(0);"
+                                                                    class="text-dark text-hover-primary font-size-h4 font-weight-bolder mb-1">
+                                                                    {{project.project.title}}
+                                                                    <span *ngIf="project.project.commenced" class="kt-badge kt-badge--success kt-badge--inline ml-3">Active</span>
+                                                                    <span *ngIf="!project.project.commenced" class="kt-badge kt-badge--danger kt-badge--inline ml-3">Not active</span>
+                                                                </a>
+                                                                <span class="">
+                                                                    {{project.organizationUnitDisplayName2}}
+                                                                </span>
+                                                            </div>
+                                                            <!--end::Title-->
+                                                        </div>
+                                                        <!--end::Info-->
+                                                    </div>
+                                                    <!--end::Info-->
+                                                    <!--begin::Data-->
+                                                    <div class="d-flex mb-4 mt-4">
+                                                        <div class="d-flex align-items-center mr-5">
+                                                            <span class="font-weight-bold-sm mr-4">
+                                                                Budgeted Start
+                                                            </span>
+                                                            <span *ngIf="project.project.budgetedStartDate">
+                                                                {{project.project.budgetedStartDate | momentFormat:'LL'}}
+                                                            </span>
+                                                            <span *ngIf="!project.project.budgetedStartDate">-</span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="font-weight-bold-sm mr-4">
+                                                                Budgeted End
+                                                            </span>
+                                                            <span *ngIf="project.project.budgetedEndDate">
+                                                                {{project.project.budgetedEndDate | momentFormat:'LL'}}
+                                                            </span>
+                                                            <span *ngIf="!project.project.budgetedEndDate">-</span>
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Data-->
+                                                </div>
+                                                <!--end::Body-->
+                        
+                                                <!--begin::Footer-->
+                                                <div class="card-footer d-flex align-items-center">
+                                                    <div *ngIf="project.project.commenced" class="d-flex">
+                                                        <div class="d-flex align-items-center mr-5">
+                                                            <span class="svg-icon svg-icon-gray-500 kt-svg-icon kt-svg-icon--grey">
+                                                                <!--begin::Svg Icon | path:/metronic/themes/metronic/theme/html/demo1/dist/assets/media/svg/icons/Text/Bullet-list.svg--><svg
+                                                                    xmlns="http://www.w3.org/2000/svg" class="kt-fon"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                    height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                                                        <path
+                                                                            d="M10.5,5 L19.5,5 C20.3284271,5 21,5.67157288 21,6.5 C21,7.32842712 20.3284271,8 19.5,8 L10.5,8 C9.67157288,8 9,7.32842712 9,6.5 C9,5.67157288 9.67157288,5 10.5,5 Z M10.5,10 L19.5,10 C20.3284271,10 21,10.6715729 21,11.5 C21,12.3284271 20.3284271,13 19.5,13 L10.5,13 C9.67157288,13 9,12.3284271 9,11.5 C9,10.6715729 9.67157288,10 10.5,10 Z M10.5,15 L19.5,15 C20.3284271,15 21,15.6715729 21,16.5 C21,17.3284271 20.3284271,18 19.5,18 L10.5,18 C9.67157288,18 9,17.3284271 9,16.5 C9,15.6715729 9.67157288,15 10.5,15 Z"
+                                                                            fill="#000000"></path>
+                                                                        <path
+                                                                            d="M5.5,8 C4.67157288,8 4,7.32842712 4,6.5 C4,5.67157288 4.67157288,5 5.5,5 C6.32842712,5 7,5.67157288 7,6.5 C7,7.32842712 6.32842712,8 5.5,8 Z M5.5,13 C4.67157288,13 4,12.3284271 4,11.5 C4,10.6715729 4.67157288,10 5.5,10 C6.32842712,10 7,10.6715729 7,11.5 C7,12.3284271 6.32842712,13 5.5,13 Z M5.5,18 C4.67157288,18 4,17.3284271 4,16.5 C4,15.6715729 4.67157288,15 5.5,15 C6.32842712,15 7,15.6715729 7,16.5 C7,17.3284271 6.32842712,18 5.5,18 Z"
+                                                                            fill="#000000" opacity="0.3"></path>
+                                                                    </g>
+                                                                </svg>
+                                                                <!--end::Svg Icon--></span> <a href="javascript:void(0);"
+                                                                class="font-weight-bolder text-primary ml-2">8 Tasks</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto font-weight-bolder pull-right">
+                                                        <button *ngIf="project.project.commenced"
+                                                            type="button" [routerLink]="['/app/main/projects/projects/view']" [queryParams]="{id: project.project.id}"
+                                                            class="btn btn-primary btn-sm text-uppercase"
+                                                            title="View project">
+                                                            <i class="fa fa-info-circle"></i> Details
+                                                        </button>
+                                                        <button *ngIf="!project.project.commenced"
+                                                            type="button" [routerLink]="['/app/main/projects/projects/createOrEdit']" [queryParams]="{id: project.project.id}"
+                                                            class="btn btn-warning btn-sm text-uppercase"
+                                                            title="Edit project">
+                                                            <i class="fa fa-edit"></i> Edit
+                                                        </button>
+                                                        <button *ngIf="!project.project.commenced"
+                                                            type="button" (click)="activateProject(project.project)" title="Activate project"
+                                                            class="btn btn-success btn-sm text-uppercase">
+                                                            <i class="fa fa-check"></i> Activate
+                                                        </button>
+                                                        <button *ngIf="!project.project.commenced"
+                                                            type="button" (click)="deleteProject(project.project)" title="Delete project"
+                                                            class="btn btn-danger btn-sm text-uppercase">
+                                                            <i class="fa fa-times"></i> Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!--end::Footer-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{l('NoData')}}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                            (onPageChange)="getProjects($event)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
                             </div>
                         </div>
-                        <!--<Primeng-Datatable-End>-->
                     </div>
                 </div>
             </div>

@@ -905,6 +905,11 @@
   resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-4.4.2.tgz#568bfb3c7cc97f83b57cf3aef0fa3ed1bf6eda16"
   integrity sha512-axjfMhxEXHShV3r2TZjf+2niJ1C6LdAxkHKmg7mVq4jXtUQHOldU5XsjV0v2lUAt1urJBFi2zajfK8798ukL3Q==
 
+"@fullcalendar/list@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-4.4.2.tgz#9f922c41f5e3f1522dcb16e0f76386361f3da8d0"
+  integrity sha512-buhfd0w0PavH3EVZ6DR6kvjb+wPDe16XEpNcPkTpvIxnAziwGBvcUeHUBd9KvtEhOcvs9sAKoYKbU4xwHFK0Wg==
+
 "@ngtools/webpack@8.3.3":
   version "8.3.3"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-8.3.3.tgz#6dba4ee99074474750fbdd59ef5afc9a2f0c9b9d"
