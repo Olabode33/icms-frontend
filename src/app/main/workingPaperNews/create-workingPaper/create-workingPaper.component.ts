@@ -239,7 +239,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.maxCount++;
             this.notify.success('Result for sample saved successfully!.');
         } else {
-            this.save();
+            this.save(TaskStatus.PendingReview);
         }
 
     }
@@ -265,7 +265,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     }
 
 
-    save(): void {
+    save(taskStatus: TaskStatus): void {
         this.saving = true;
         this.loading = true;
 
@@ -279,6 +279,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.workingPaperNew.completionDate = null;
         }
 
+        this.workingPaperNew.taskStatus = taskStatus;
         this.workingPaperNew.attributes = [];
 
         this.samples.forEach(x => {

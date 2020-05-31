@@ -17,9 +17,13 @@
                             <i class="fa fa-reply"></i>
                             {{l("Back")}}
                         </button>
-                        <button (click)="save()" class="btn btn-primary blue">
+                        <button [disabled]="samples.length == testingTemplate.testingTemplate.sampleSize" (click)="save(taskStatusEnum.Draft)" class="btn btn-primary blue">
                             <i class="fa fa-save"></i>
-                            {{l("Save")}}
+                            {{l("Save as draft")}}
+                        </button>
+                        <button [disabled]="samples.length < testingTemplate.testingTemplate.sampleSize" (click)="save(taskStatusEnum.PendingReview)" class="btn btn-success blue">
+                            <i class="fa fa-check"></i>
+                            {{l("Submit for review")}}
                         </button>
                     </div>
                 </div>
