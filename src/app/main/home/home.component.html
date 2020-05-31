@@ -123,11 +123,11 @@
                     <div class="row">
                         <div class="col-xl-3">
                             <!--begin::Stats Widget 29-->
-                            <div class="card card-custom bgi-no-repeat bg-border-warning card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
+                            <div class="card card-custom bgi-no-repeat bg-border-danger card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <span class="svg-icon svg-icon-2x svg-icon-info">
-                                        <span class="kt-svg-icon kt-svg-icon--warning">
+                                        <span class="kt-svg-icon kt-svg-icon--danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48px" height="48px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <rect x="0" y="0" width="24" height="24"/>
@@ -138,10 +138,10 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    <span class="card-title font-weight-bold kt-font-warning font-size-h2 mb-0 mt-6 d-block">
+                                    <span class="card-title font-weight-bold kt-font-danger font-size-h2 mb-0 mt-6 d-block">
                                         {{exceptions.length}}
                                     </span>
-                                    <span class="font-weight-bolder kt-font-warning  font-size-sm">Open exceptions</span>
+                                    <span class="font-weight-bolder kt-font-danger  font-size-sm">Open exceptions</span>
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -199,11 +199,11 @@
                         </div>
                         <div class="col-xl-3">
                             <!--begin::Stats Widget 31-->
-                            <div class="card card-custom bgi-no-repeat bg-border-danger card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
+                            <div class="card card-custom bgi-no-repeat bg-border-warning card-stretch gutter-b" style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                                 <!--begin::Body-->
                                 <div class="card-body">
                                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                                        <span class="kt-svg-icon kt-svg-icon--danger">
+                                        <span class="kt-svg-icon kt-svg-icon--warning">
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48px" height="48px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <polygon points="0 0 24 0 24 24 0 24"/>
@@ -214,10 +214,10 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    <span class="card-title font-weight-bold kt-font-danger font-size-h2 mb-0 mt-6 d-block">
+                                    <span class="card-title font-weight-bold kt-font-warning font-size-h2 mb-0 mt-6 d-block">
                                         {{submittedWorkingPaper.length}}
                                     </span>
-                                    <span class="font-weight-bolder kt-font-danger  font-size-sm">Pending reviews</span>
+                                    <span class="font-weight-bolder kt-font-warning  font-size-sm">Pending reviews</span>
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -552,7 +552,7 @@
                                     </tr>
                                     <tr *ngIf="submittedWorkingPaper.length === 0">
                                         <td class="pl-0" colspan="5">
-                                            <span class="text-muted d-block">No alerts submitted for review</span>
+                                            <span class="text-muted d-block">No exceptions found</span>
                                         </td>
                                     </tr>
                                 </tbody>
