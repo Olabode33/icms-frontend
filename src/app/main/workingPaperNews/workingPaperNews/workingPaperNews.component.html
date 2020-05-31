@@ -189,15 +189,15 @@
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;"
+                                                    <a href="javascript:;" *ngIf="record.workingPaperNew.taskStatus == taskStatus.PendingReview"
                                                        (click)="view(record.workingPaperNew.id)">{{l('View')}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Update')"
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Update') && record.workingPaperNew.taskStatus != taskStatus.PendingReview"
                                                        (click)="edit(record.workingPaperNew.id)">{{l('Edit')}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete')"
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.WorkingPaperNews.Delete') && record.workingPaperNew.taskStatus != taskStatus.PendingReview"
                                                        (click)="deleteWorkingPaperNew(record.workingPaperNew)">{{l('Delete')}}</a>
                                                 </li>
                                             </ul>
