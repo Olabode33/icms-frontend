@@ -42,6 +42,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     titleFilter = '';
     organizationUnitDisplayNameFilter = '';
     organizationUnitDisplayName2Filter = '';
+    viewCommencedProjectFilter: boolean;
 
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
@@ -105,6 +106,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
             this.titleFilter,
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
+            this.viewCommencedProjectFilter,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)

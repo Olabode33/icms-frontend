@@ -46,8 +46,8 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
 
-    //Calendar options
-    viewAllProjects = false;
+    viewAllProjectFilter = false;
+    commencedFilter: boolean;
 
     constructor(
         injector: Injector,
@@ -91,7 +91,8 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.titleFilter,
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
-            this.primengTableHelper.getSorting(this.dataTable),
+            !this.viewAllProjectFilter,
+            '',
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef, View
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, CreateOrEditTestingAttributeDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPaperNewsServiceProxy, TestingTemplatesServiceProxy, TestingTemplateDto, RiskDto, ControlDto, OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, CreateOrEditTestingAttributeDto, TaskStatus, Frequency, Severity, ControlType } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -41,6 +41,15 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     showSamplingCard = true;
     comments: string;
     sampleDescription: string;
+
+    showProcessCard = true;
+    showRiskCard = false;
+    showControlsCard = false;
+
+    taskStatusEnum = TaskStatus;
+    frequency = Frequency;
+    severityEnum = Severity;
+    controlTypeEnum = ControlType;
 
     constructor(
         injector: Injector,

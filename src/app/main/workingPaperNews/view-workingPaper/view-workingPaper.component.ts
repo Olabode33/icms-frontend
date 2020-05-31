@@ -38,7 +38,8 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     showGeneralInfoCard = true;
     showSamplingCard = true;
     showAuditInfoCard = true;
-    showRiskCard = true;
+    showProcessCard = true;
+    showRiskCard = false;
     showControlsCard = false;
 
     taskStatusEnum = TaskStatus;
@@ -109,13 +110,13 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
             this.loading = false;
         } else {
             this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
-          
+                console.log(result);
                 this.workingPaperNew = result.workingPaperNew;
 
                 if (this.workingPaperNew.completionDate) {
                     this.completionDate = this.workingPaperNew.completionDate.toDate();
                 }
-                this.testingTemplate = result.testingTemplate;
+                //this.testingTemplate = result.testingTemplate;
                 this.testingTemplateCode = result.testingTemplateCode;
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
                 this.userName = result.userName;
@@ -199,15 +200,14 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     approve(): void {
         this.message.confirm(
             '',
-            "Are you sure you want to approve this working paper?",
+            'Are you sure you want to approve this working paper?',
             (isConfirmed) => {
                 if (isConfirmed) {
                     let input = new EntityDtoOfGuid();
                     input.id = this.workingPaperNew.id;
                     this._workingPaperNewsServiceProxy.approveWorkPaper(input)
                         .subscribe(() => {
-                          
-                            this.notify.success("This page has been approved.");
+                            this.notify.success('This page has been approved.');
                             this._location.back();
                         });
                 }

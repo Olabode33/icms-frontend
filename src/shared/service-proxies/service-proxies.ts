@@ -13951,12 +13951,13 @@ export class ProjectsServiceProxy {
      * @param titleFilter (optional) 
      * @param organizationUnitDisplayNameFilter (optional) 
      * @param organizationUnitDisplayName2Filter (optional) 
+     * @param commencedFilter (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
+    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, commencedFilter: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Projects/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14006,6 +14007,10 @@ export class ProjectsServiceProxy {
             throw new Error("The parameter 'organizationUnitDisplayName2Filter' cannot be null.");
         else if (organizationUnitDisplayName2Filter !== undefined)
             url_ += "OrganizationUnitDisplayName2Filter=" + encodeURIComponent("" + organizationUnitDisplayName2Filter) + "&"; 
+        if (commencedFilter === null)
+            throw new Error("The parameter 'commencedFilter' cannot be null.");
+        else if (commencedFilter !== undefined)
+            url_ += "CommencedFilter=" + encodeURIComponent("" + commencedFilter) + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -31640,6 +31645,9 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
     exceptionTypeName!: string | undefined;
     entityType!: string | undefined;
     ouDisplayName!: string | undefined;
+    processDescription!: string | undefined;
+    processOwner!: string | undefined;
+    processDepartment!: string | undefined;
 
     constructor(data?: IGetTestingTemplateForViewDto) {
         if (data) {
@@ -31666,6 +31674,9 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
             this.exceptionTypeName = data["exceptionTypeName"];
             this.entityType = data["entityType"];
             this.ouDisplayName = data["ouDisplayName"];
+            this.processDescription = data["processDescription"];
+            this.processOwner = data["processOwner"];
+            this.processDepartment = data["processDepartment"];
         }
     }
 
@@ -31692,6 +31703,9 @@ export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewD
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["entityType"] = this.entityType;
         data["ouDisplayName"] = this.ouDisplayName;
+        data["processDescription"] = this.processDescription;
+        data["processOwner"] = this.processOwner;
+        data["processDepartment"] = this.processDepartment;
         return data; 
     }
 }
@@ -31707,6 +31721,9 @@ export interface IGetTestingTemplateForViewDto {
     exceptionTypeName: string | undefined;
     entityType: string | undefined;
     ouDisplayName: string | undefined;
+    processDescription: string | undefined;
+    processOwner: string | undefined;
+    processDepartment: string | undefined;
 }
 
 export class ListResultDtoOfGetTestingTemplateForViewDto implements IListResultDtoOfGetTestingTemplateForViewDto {

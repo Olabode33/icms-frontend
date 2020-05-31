@@ -73,7 +73,38 @@
                     <div class="form-group">
                         <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
                             <div class="card">
-                                <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showControlsCard = false;">
+                                <div class="card-header" id="headingOne4" (click)="showProcessCard = !showProcessCard; showRiskCard = false; showControlsCard = false;">
+                                    <div class="card-title" [ngClass]="{'collapsed': !showProcessCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
+                                        <i class="flaticon-tabs"></i> Process
+                                    </div>
+                                </div>
+                                <div id="collapseOne4" class="collapse" [ngClass]="{'show': showProcessCard}" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td style="width: 20%;">Name:</td>
+                                                    <td style="width: 80%;">{{testingTemplate.ouDisplayName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Description:</td>
+                                                    <td style="width: 80%;">{{testingTemplate.processDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Owner:</td>
+                                                    <td style="width: 80%;">{{testingTemplate.processOwner}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Department:</td>
+                                                    <td style="width: 80%;">{{testingTemplate.processDepartment}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showProcessCard = false; showControlsCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showRiskCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
                                         <i class="flaticon-warning"></i> Risk
                                     </div>
@@ -108,7 +139,7 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showRiskCard = false;">
+                                <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showProcessCard = false; showRiskCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showControlsCard}" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
                                         <i class="flaticon2-dashboard"></i> Control
                                     </div>
