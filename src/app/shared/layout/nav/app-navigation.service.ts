@@ -57,9 +57,9 @@ export class AppNavigationService {
                     new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
                 ]),
 
-                 new AppMenuItem('Library', '', 'fa fa-briefcase', '', [
-                     new AppMenuItem('LibraryRisks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
-                     new AppMenuItem('LibraryControls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),
+                 new AppMenuItem('Library', '', 'fa fa-book', '', [
+                     new AppMenuItem('Risks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
+                     new AppMenuItem('Controls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),
                  ]),
 
 
