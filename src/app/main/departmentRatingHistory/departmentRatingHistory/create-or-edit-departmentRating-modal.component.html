@@ -4,8 +4,9 @@
             <form *ngIf="active" #departmentRatingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="departmentRating.id">{{l("EditDepartmentRating")}}</span>
-                        <span *ngIf="!departmentRating.id">{{l("CreateNewDepartmentRating")}}</span>
+                        <span *ngIf="departmentRating.id && !overrideRating">{{l("EditDepartmentRating")}}</span>
+                        <span *ngIf="!departmentRating.id && !overrideRating">{{l("CreateNewDepartmentRating")}}</span>
+                        <span *ngIf="overrideRating">{{l("Override Rating")}}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -42,12 +43,12 @@
                     <input class="form-control" name="departmentRating.ratingId" [(ngModel)]="departmentRating.ratingId" type="text"  hidden>
 		 
 
-								<div class="form-group">
+								<div [hidden]="overrideRating" class="form-group">
 									<label for="DepartmentRating_RatingDate">{{l("RatingDate")}}</label>
 									 <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="departmentRating.ratingDate" id="DepartmentRating_RatingDate" name="DepartmentRating_RatingDate">
 								</div>
 					
-								<div class="form-group">
+								<div [hidden]="overrideRating" class="form-group">
 									<label for="DepartmentRating_ChangeType">{{l("ChangeType")}}</label>
 									<input type="text" id="DepartmentRating_ChangeType" class="form-control" [(ngModel)]="departmentRating.changeType" name="ChangeType" [disabled]="overrideRating" [readOnly]="overrideRating"   />
 								</div>

@@ -79,6 +79,7 @@ export class WorkingPaperNewsComponent extends AppComponentBase {
             this.userNameFilter,
             this.userName2Filter,
             this.projectId,
+            -1,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)

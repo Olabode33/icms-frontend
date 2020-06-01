@@ -6125,12 +6125,14 @@ export class ExceptionIncidentsServiceProxy {
      * @param userNameFilter (optional) 
      * @param testingTemplateCodeFilter (optional) 
      * @param organizationUnitDisplayNameFilter (optional) 
+     * @param projectId (optional) 
+     * @param organizationUnitId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, maxDateFilter: moment.Moment | undefined, minDateFilter: moment.Moment | undefined, statusFilter: number | undefined, maxClosureDateFilter: moment.Moment | undefined, minClosureDateFilter: moment.Moment | undefined, exceptionTypeNameFilter: string | undefined, userNameFilter: string | undefined, testingTemplateCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetExceptionIncidentForViewDto> {
+    getAll(filter: string | undefined, maxDateFilter: moment.Moment | undefined, minDateFilter: moment.Moment | undefined, statusFilter: number | undefined, maxClosureDateFilter: moment.Moment | undefined, minClosureDateFilter: moment.Moment | undefined, exceptionTypeNameFilter: string | undefined, userNameFilter: string | undefined, testingTemplateCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, projectId: number | undefined, organizationUnitId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetExceptionIncidentForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/ExceptionIncidents/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -6172,6 +6174,14 @@ export class ExceptionIncidentsServiceProxy {
             throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
         else if (organizationUnitDisplayNameFilter !== undefined)
             url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "ProjectId=" + encodeURIComponent("" + projectId) + "&"; 
+        if (organizationUnitId === null)
+            throw new Error("The parameter 'organizationUnitId' cannot be null.");
+        else if (organizationUnitId !== undefined)
+            url_ += "OrganizationUnitId=" + encodeURIComponent("" + organizationUnitId) + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -19781,12 +19791,13 @@ export class WorkingPaperNewsServiceProxy {
      * @param userNameFilter (optional) 
      * @param userName2Filter (optional) 
      * @param projectId (optional) 
+     * @param organizationUnitId (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, codeFilter: string | undefined, maxTaskDateFilter: moment.Moment | undefined, minTaskDateFilter: moment.Moment | undefined, maxDueDateFilter: moment.Moment | undefined, minDueDateFilter: moment.Moment | undefined, taskStatusFilter: number | undefined, maxCompletionDateFilter: moment.Moment | undefined, minCompletionDateFilter: moment.Moment | undefined, testingTemplateCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, userNameFilter: string | undefined, userName2Filter: string | undefined, projectId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetWorkingPaperNewForViewDto> {
+    getAll(filter: string | undefined, codeFilter: string | undefined, maxTaskDateFilter: moment.Moment | undefined, minTaskDateFilter: moment.Moment | undefined, maxDueDateFilter: moment.Moment | undefined, minDueDateFilter: moment.Moment | undefined, taskStatusFilter: number | undefined, maxCompletionDateFilter: moment.Moment | undefined, minCompletionDateFilter: moment.Moment | undefined, testingTemplateCodeFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, userNameFilter: string | undefined, userName2Filter: string | undefined, projectId: number | undefined, organizationUnitId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetWorkingPaperNewForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkingPaperNews/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -19844,6 +19855,10 @@ export class WorkingPaperNewsServiceProxy {
             throw new Error("The parameter 'projectId' cannot be null.");
         else if (projectId !== undefined)
             url_ += "ProjectId=" + encodeURIComponent("" + projectId) + "&"; 
+        if (organizationUnitId === null)
+            throw new Error("The parameter 'organizationUnitId' cannot be null.");
+        else if (organizationUnitId !== undefined)
+            url_ += "OrganizationUnitId=" + encodeURIComponent("" + organizationUnitId) + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)

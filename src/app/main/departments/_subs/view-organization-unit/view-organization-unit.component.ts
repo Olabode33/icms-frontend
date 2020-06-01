@@ -1,13 +1,17 @@
-import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto } from './../../../../../shared/service-proxies/service-proxies';
+import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto, GetWorkingPaperNewForViewDto, GetExceptionIncidentForViewDto, TaskStatus, Status, WorkingPaperNewsServiceProxy, ExceptionIncidentsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Location } from '@angular/common';
 import { DepartmentsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
+import { Paginator } from 'primeng/paginator';
+import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
+import { CreateOrEditDepartmentRatingModalComponent } from '@app/main/departmentRatingHistory/departmentRatingHistory/create-or-edit-departmentRating-modal.component';
+import * as moment from 'moment';
 
 
 @Component({
@@ -19,7 +23,11 @@ import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-
 })
 export class ViewOrganizationUnitComponent extends AppComponentBase implements OnInit {
 
+    @ViewChild('workingPaperPaginator', { static: true }) workingPaperPaginator: Paginator;
+    @ViewChild('exceptionsPaginator', { static: true }) exceptionsPaginator: Paginator;
     @ViewChild('ouProcess', {static: true}) ouProcess: DeptProcessRiskControlComponent;
+    @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
+    @ViewChild('createOrEditDepartmentRatingModal', { static: true }) createOrEditDepartmentRatingModal: CreateOrEditDepartmentRatingModalComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
     _organizationUnitId = -1;
@@ -29,130 +37,74 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     organizationUnitDisplayName = '';
     supervisingTeamtDisplayName = '';
 
-    lastReview: {name: string, by: string, date: string, status: string, score: number}[] = new Array();
-    fakeExceptions: {type: string, by: string, date: string, severity: string, state: string, status: string}[] = new Array();
+    exceptionsCount = 0;
+    totalWorkingPapers = 0;
+    workingPapers: GetWorkingPaperNewForViewDto[] = new Array();
+    totalExceptions = 0;
+    exceptions: GetExceptionIncidentForViewDto[] = new Array();
+
     rating = '' ;
     ratingCode = '' ;
     ratingHistory = [];
+
+    taskStatusEnum = TaskStatus;
+    statusEnum = Status;
+
+    colorScheme = {
+        domain: ['#1bc5bd']
+    };
+    lineChartData = [
+        {
+          name: 'Rating history',
+          series: [
+            {
+                value: 28,
+                name: '2020-Jan-14'
+            },
+            {
+                value: 61,
+              name: '2020-Feb-18'
+            }
+        ]
+        }
+    ];
+
+
+    filterText = '';
+    codeFilter = '';
+    maxTaskDateFilter: moment.Moment;
+    minTaskDateFilter: moment.Moment;
+    maxDueDateFilter: moment.Moment;
+    minDueDateFilter: moment.Moment;
+    taskStatusFilter = -1;
+    maxCompletionDateFilter: moment.Moment;
+    minCompletionDateFilter: moment.Moment;
+    testingTemplateCodeFilter = '';
+    organizationUnitDisplayNameFilter = '';
+    userNameFilter = '';
+    userName2Filter = '';
+    projectId: number;
 
     constructor(
         injector: Injector,
         private _location: Location,
         private _departmentsServiceProxy: DepartmentsServiceProxy,
+        private _workingPaperServiceProxy: WorkingPaperNewsServiceProxy,
+        private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
+        private _router: Router
     ) {
         super(injector);
-        this.lastReview = [
-            {
-                name: 'Apply resolution to incidence',
-                by: 'Adekunle Cranel',
-                date: 'May 5, 2020',
-                status: 'Pending Review',
-                score: 0.88
-            },
-            {
-                name: 'Minify risk spreading',
-                by: 'Fadugba Ogunusi',
-                date: 'May 4, 2020',
-                status: 'Approved',
-                score: 0.91
-            },
-            {
-                name: 'Quarantine affected machines',
-                by: 'James Olukayode',
-                date: 'April 30, 2020',
-                status: 'Approved',
-                score: 0.78
-            },
-            {
-                name: 'Additional security arrangements exist ',
-                by: 'Babalola Ayobami',
-                date: 'April 29, 2020',
-                status: 'Approved',
-                score: 0.62
-            },
-            {
-                name: 'Call over of transactions posted on Finacle',
-                by: 'Babalola Ayobami',
-                date: 'April 27, 2020',
-                status: 'Approved',
-                score: 0.92
-            },
-            {
-                name: 'Biometric verification',
-                by: 'Chukwuma Emeka',
-                date: 'April 27, 2020',
-                status: 'Approved',
-                score: 0.8
-            },
-        ];
-        this.fakeExceptions = [
-            {
-                type: 'Amount on ticket does not match',
-                by: 'Adekunle Cranel',
-                date: 'May 5, 2020',
-                severity: 'High',
-                state: 'Pending Resolution',
-                status: 'Open'
-            },
-            {
-                type: 'Income leakage',
-                by: 'Fadugba Ogunusi',
-                date: 'May 3, 2020',
-                severity: 'High',
-                state: 'Escalated',
-                status: 'Open'
-            },
-            {
-                type: 'CCTV not working',
-                by: 'James Olukayode',
-                date: 'May 3, 2020',
-                severity: 'Low',
-                state: 'Pending Closure',
-                status: 'Open'
-            },
-            {
-                type: 'Transaction fees not collected',
-                by: 'Adekunle Cranel',
-                date: 'May 2, 2020',
-                severity: 'Medium',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Inappropriate Access to Assets',
-                by: 'Babalola Ayobami',
-                date: 'May 1, 2020',
-                severity: 'High',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Control Override',
-                by: 'Chukwuma Emeka',
-                date: 'May 1, 2020',
-                severity: 'Low',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Amount on ticket does not match',
-                by: 'Fatima Abdul',
-                date: 'May 1, 2020',
-                severity: 'Medium',
-                state: 'Closed',
-                status: 'Closed'
-            },
-        ];
     }
 
     ngOnInit() {
         this._activatedRoute.paramMap.subscribe(params => {
             this._organizationUnitId = +params.get('departmentId');
             this.getDepartmentDetails();
-            this.getRatingHistory();
+            this.getWorkingPapers({ first: 0, sortField: undefined, rows: 10 });
+            this.getExceptions({ first: 0, sortField: undefined, rows: 10 });
         });
     }
 
@@ -170,40 +122,87 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
             this.organizationUnit = { id: this._organizationUnitId, displayName: result.organizationUnitDisplayName };
 
             this.ouProcess.organizationUnit = this.organizationUnit;
+            let series =  Array.from(new Set(result.ratingHistory.map((i) => {
+                        return { value: Math.floor(Math.random() * 100) + 1, name: i.ratingDate.format() };
+                    })));
+
+            this.lineChartData = [
+                        {
+                            name: 'Rating history',
+                            series: series
+                        }
+                    ];
         });
     }
 
     overrideDepartmentRating(): void {
-        //this.createOrEditDepartmentRatingModal.overrideDepartmentRating(this._organizationUnitId, this.department.name);
-    }
-
-    getRatingHistory(event?): void {
-        // this._departmentRatingHistory.getAll('', '', '', '', 0, 100).subscribe(result => {
-        //     console.log(result);
-        //     let series =  Array.from(new Set(result.items.filter(x => x.departmentRating.organizationUnitId === this._organizationUnitId).map((i) => {
-        //         return { value: 26, name: i.departmentRating.ratingDate.format('YYYY-MMM-dd') };
-        //     })));
-        //     console.log(series);
-
-        //     this.lineChartData = [
-        //         {
-        //           name: 'Rating history',
-        //           series: series
-        //         }
-        //     ];
-        // });
+        this.createOrEditDepartmentRatingModal.overrideDepartmentRating(this._organizationUnitId, this.department.name);
     }
 
     getWorkingPapers(event?): void {
-        //
+        this._workingPaperServiceProxy.getAll(
+            this.filterText,
+            this.codeFilter,
+            this.maxTaskDateFilter,
+            this.minTaskDateFilter,
+            this.maxDueDateFilter,
+            this.minDueDateFilter,
+            this.taskStatusFilter,
+            this.maxCompletionDateFilter,
+            this.minCompletionDateFilter,
+            this.testingTemplateCodeFilter,
+            this.organizationUnitDisplayNameFilter,
+            this.userNameFilter,
+            this.userName2Filter,
+            this.projectId,
+            this._organizationUnitId,
+            '',
+            this.primengTableHelper.getSkipCount(this.workingPaperPaginator, event),
+            this.primengTableHelper.getMaxResultCount(this.workingPaperPaginator, event)
+        ).subscribe(result => {
+            this.totalWorkingPapers = result.totalCount;
+            this.workingPapers = result.items;
+        });
     }
 
     getExceptions(event?): void {
-        //
+        this._exceptionIncidentsServiceProxy.getAll(
+            this.filterText,
+            this.maxTaskDateFilter,
+            this.maxTaskDateFilter,
+            this.taskStatusFilter,
+            this.maxTaskDateFilter,
+            this.maxTaskDateFilter,
+            this.filterText,
+            this.userNameFilter,
+            this.testingTemplateCodeFilter,
+            this.organizationUnitDisplayNameFilter,
+            this.projectId,
+            this._organizationUnitId,
+            '',
+            this.primengTableHelper.getSkipCount(this.exceptionsPaginator, event),
+            this.primengTableHelper.getMaxResultCount(this.exceptionsPaginator, event)
+        ).subscribe(result => {
+            this.exceptions = result.items;
+            this.exceptionsCount = result.totalCount;
+            this.totalExceptions = result.totalCount;
+        });
     }
 
     goBack(): void {
         this._location.back();
+    }
+
+    view(id: number): void {
+        this._router.navigate(['app/main/workingPaperNews', id]);
+    }
+
+    edit(id: number): void {
+        this._router.navigate(['app/main/workingPaperNews/edit', id]);
+    }
+
+    viewException(id: number): void {
+        this.createOrEditExceptionIncidentModal.show(id);
     }
 
 }

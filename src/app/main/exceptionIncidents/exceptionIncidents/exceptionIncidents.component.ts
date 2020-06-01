@@ -73,11 +73,11 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
             this.userNameFilter,
             this.testingTemplateCodeFilter,
             this.organizationUnitDisplayNameFilter,
+            -1, -1,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
-        
             this.primengTableHelper.records = result.items;
             this.primengTableHelper.totalRecordsCount = result.items.length;
             this.primengTableHelper.hideLoadingIndicator();

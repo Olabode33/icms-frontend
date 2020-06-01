@@ -173,6 +173,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             this.userNameFilter,
             this.userName2Filter,
             this.projectId,
+            -1,
             '',
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
