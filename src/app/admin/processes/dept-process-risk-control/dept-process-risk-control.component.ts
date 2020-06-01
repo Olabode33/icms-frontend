@@ -112,7 +112,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         this._processRiskControlService.getAllForProcess('', -1, '', '', '', processId, '', 0, 1000)
             .pipe(finalize(() => this.loadingControls = false ))
             .subscribe(result => {
-                console.log(result);
+                //console.log(result);
                 this.riskControls = Array.from(new Set(result.items.filter(x => x.processRiskControl.processRiskId == riskId).map((i) => {
                     return {control: i, isActive: false};
                 })));

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, GetProcessRiskForViewDto, GetProcessRiskControlForViewDto } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
@@ -13,6 +13,7 @@ import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemp
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
 import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,16 +36,19 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
     private _isViewOnly = false;
     deptRisks: {risk: GetProcessRiskForViewDto, isActive: boolean}[] = new Array();
-    riskControls: GetProcessRiskControlForViewDto[] = new Array();
+    riskControls: {control: GetProcessRiskControlForViewDto, isActive: boolean}[] = new Array();
 
     loadingRisk = false;
     loadingControls = false;
+    frequencyEnum = Frequency;
+    controlTypeEnum = ControlType;
 
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private  _departmentRiskService: ProcessRisksServiceProxy,
-        private _departmentRiskControlService: ProcessRiskControlsServiceProxy
+        private _departmentRiskControlService: ProcessRiskControlsServiceProxy,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -127,9 +131,9 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     }
 
 
-    addControlToRisk(processRiskControlId?: number,processRiskId? : number, processId? :  number, riskId?: number): void {
+    addControlToRisk(processRiskControlId?: number, processRiskId?: number, processId?:  number, riskId?: number): void {
 
-        this.createOrEditProcessRiskControlModal.show(null, processRiskId, processId ,riskId);
+        this.createOrEditProcessRiskControlModal.show(null, processRiskId, processId, riskId);
     }
 
 
@@ -173,6 +177,15 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
         this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.processRisk.id);
     }
 
+    toggleControlAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.riskControls[index].isActive;
+        this.riskControls = this.riskControls.map(x => { x.isActive = false; return x; } );
+        this.riskControls[index].isActive = !state;
+        //this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.processRisk.id, this.deptRisks[index].risk.processRisk.processId);
+    }
+
     //Risk Control Codes ......
     createTestingTemplate(id: number): void {
         this.createOrEditTestingTemplateModal.show(id);
@@ -183,7 +196,10 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
         this._departmentRiskControlService.getAllForProcess('', -1, '', '', '', this._organizationUnit.id, '', 0, 1000
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             //this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.riskControls = result.items.filter(x => x.processRiskControl.processRiskId == riskId);
+            //this.riskControls = result.items.filter(x => x.processRiskControl.processRiskId == riskId);
+            this.riskControls = Array.from(new Set(result.items.filter(x => x.processRiskControl.processRiskId == riskId).map((i) => {
+                return {control: i, isActive: false};
+            })));
             this.loadingControls = false;
         });
     }
@@ -218,6 +234,10 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                 }
             }
         );
+    }
+
+    review(testingTemplateId: number): void {
+        this._router.navigate(['app/main/workingPaperNews/new', testingTemplateId, this._organizationUnit.id]);
     }
 
 }
