@@ -33439,11 +33439,13 @@ export class GetProjectForEditOutput implements IGetProjectForEditOutput {
     project!: CreateOrEditProjectDto;
     organizationUnitDisplayName!: string | undefined;
     organizationUnitDisplayName2!: string | undefined;
+    completedTaskCount!: number;
     completionLevel!: number;
     openWorkingPapers!: number;
     openTaskPercent!: number;
     pendingReviews!: number;
     pendingReviewsPercent!: number;
+    exceptionsCount!: number;
 
     constructor(data?: IGetProjectForEditOutput) {
         if (data) {
@@ -33459,11 +33461,13 @@ export class GetProjectForEditOutput implements IGetProjectForEditOutput {
             this.project = data["project"] ? CreateOrEditProjectDto.fromJS(data["project"]) : <any>undefined;
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.organizationUnitDisplayName2 = data["organizationUnitDisplayName2"];
+            this.completedTaskCount = data["completedTaskCount"];
             this.completionLevel = data["completionLevel"];
             this.openWorkingPapers = data["openWorkingPapers"];
             this.openTaskPercent = data["openTaskPercent"];
             this.pendingReviews = data["pendingReviews"];
             this.pendingReviewsPercent = data["pendingReviewsPercent"];
+            this.exceptionsCount = data["exceptionsCount"];
         }
     }
 
@@ -33479,11 +33483,13 @@ export class GetProjectForEditOutput implements IGetProjectForEditOutput {
         data["project"] = this.project ? this.project.toJSON() : <any>undefined;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["organizationUnitDisplayName2"] = this.organizationUnitDisplayName2;
+        data["completedTaskCount"] = this.completedTaskCount;
         data["completionLevel"] = this.completionLevel;
         data["openWorkingPapers"] = this.openWorkingPapers;
         data["openTaskPercent"] = this.openTaskPercent;
         data["pendingReviews"] = this.pendingReviews;
         data["pendingReviewsPercent"] = this.pendingReviewsPercent;
+        data["exceptionsCount"] = this.exceptionsCount;
         return data; 
     }
 }
@@ -33492,11 +33498,13 @@ export interface IGetProjectForEditOutput {
     project: CreateOrEditProjectDto;
     organizationUnitDisplayName: string | undefined;
     organizationUnitDisplayName2: string | undefined;
+    completedTaskCount: number;
     completionLevel: number;
     openWorkingPapers: number;
     openTaskPercent: number;
     pendingReviews: number;
     pendingReviewsPercent: number;
+    exceptionsCount: number;
 }
 
 export class EntityDto implements IEntityDto {
