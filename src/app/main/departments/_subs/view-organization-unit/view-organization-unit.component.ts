@@ -31,6 +31,9 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     lastReview: {name: string, by: string, date: string, status: string, score: number}[] = new Array();
     fakeExceptions: {type: string, by: string, date: string, severity: string, state: string, status: string}[] = new Array();
+    rating = '' ;
+    ratingCode = '' ;
+    ratingHistory = [];
 
     constructor(
         injector: Injector,
@@ -154,7 +157,10 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     getDepartmentDetails(): void {
         this._departmentsServiceProxy.getDepartmentForEdit(this._organizationUnitId).subscribe(result => {
-         
+
+            this.rating = result.ratingName;
+            this.ratingCode = result.ratingCode;
+            this.ratingHistory = result.ratingHistory;
             this.department = result.department;
             this.userName = result.userName;
             this.userName2 = result.userName2;

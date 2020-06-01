@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -229,5 +229,25 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     goBack(): void {
         this._router.navigate(['/app/main/projects/projects']);    
+    }
+
+
+    closeProject(): void {
+        this.message.confirm(
+            '',
+            "Are you sure you want to close this project now?",
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    var item = new EntityDto();
+                    item.id = this.project.id;
+
+                    this._projectsServiceProxy.closeProject(item)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success("This project has been successfully closed.");
+                        });
+                }
+            }
+        );
     }
 }
