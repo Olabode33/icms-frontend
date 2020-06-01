@@ -7,6 +7,7 @@ import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit
 import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
+import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
 import { DepartmentRisksComponent } from './departmentRisks/departmentRisks/departmentRisks.component';
@@ -42,6 +43,7 @@ import { PlanningComponent } from './projects/planning/planning.component';
                     { path: 'workingPaperNews/new/:testingTemplateId/:departmentId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/edit/:workingPaperId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
+                    { path: 'exceptionIncidents/exceptionIncidents/createOrEdit', component: CreateOrEditExceptionIncidentComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'testingTemplates/:testingTemplateId', component: ViewTestingTemplateComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },

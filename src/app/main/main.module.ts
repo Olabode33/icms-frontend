@@ -24,6 +24,8 @@ import { WorkingPaperNewOrganizationUnitLookupTableModalComponent } from './work
 import { WorkingPaperNewUserLookupTableModalComponent } from './workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
 
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
+
+
 import { ViewExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/view-exceptionIncident-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 import { ExceptionIncidentUserLookupTableModalComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncident-user-lookup-table-modal.component';
@@ -83,6 +85,7 @@ import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/
 import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-auditor.component';
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
+import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -133,6 +136,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ViewOrganizationUnitComponent,
         HomeComponent,
         ExceptionIncidentsComponent,
+        CreateOrEditExceptionIncidentComponent,
         ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
 
         ExceptionIncidentUserLookupTableModalComponent,
