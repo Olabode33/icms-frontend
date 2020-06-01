@@ -29,10 +29,10 @@
                         <input type="text" readonly id="TestingTemplate_Title" class="form-control" [(ngModel)]="item.testingTemplate.title" name="Title" />
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="TestingTemplate_Title">{{item.entityType}}</label>
                         <input type="text" readonly id="TestingTemplate_BU" class="form-control" [(ngModel)]="item.ouDisplayName" name="BU" />
-                    </div>                    
+                    </div>                     -->
 
                     <div class="form-group">
                         <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
@@ -42,7 +42,38 @@
                     <div class="form-group">
                         <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
                             <div class="card">
-                                <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showControlsCard = false;">
+                                <div class="card-header" id="headingOne4" (click)="showProcessCard = !showProcessCard; showRiskCard = false; showControlsCard = false;">
+                                    <div class="card-title" [ngClass]="{'collapsed': !showProcessCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
+                                        <i class="flaticon-tabs"></i> Process
+                                    </div>
+                                </div>
+                                <div id="collapseOne4" class="collapse" [ngClass]="{'show': showProcessCard}" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td style="width: 20%;">Name:</td>
+                                                    <td style="width: 80%;">{{item.ouDisplayName}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Description:</td>
+                                                    <td style="width: 80%;">{{item.processDescription}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Owner:</td>
+                                                    <td style="width: 80%;">{{item.processOwner}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 20%;">Department:</td>
+                                                    <td style="width: 80%;">{{item.processDepartment}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showProcessCard = false; showControlsCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showRiskCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
                                         <i class="flaticon-warning"></i> Risk
                                     </div>
@@ -76,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showRiskCard = false;">
+                                <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showProcessCard = false; showRiskCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showControlsCard}" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
                                         <i class="flaticon2-dashboard"></i> Control
                                     </div>
@@ -138,9 +169,32 @@
                             <label for="TestingTemplate_Title">Sample Size</label>
                             <input type="number" min="0" id="TestingTemplate_SampleSize" class="form-control" [(ngModel)]="item.testingTemplate.sampleSize" name="SampleSize" readonly />
                         </div>
+
+                        
+                        <div class="form-group col-lg-4">
+                            <label>Selection Methodology</label>
+                            <div class="kt-radio-inline">
+                                <label class="kt-radio">
+                                    <input type="radio" name="radio3" checked> Random
+                                    <span></span>
+                                </label>
+                                <label class="kt-radio">
+                                    <input type="radio" name="radio3"> Haphazard
+                                    <span></span>
+                                </label>
+                                <label class="kt-radio">
+                                    <input type="radio" name="radio3"> Materiality
+                                    <span></span>
+                                </label>
+                                <label class="kt-radio">
+                                    <input type="radio" name="radio3"> Lowest
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
     
-                        <div class="form-group col-md-4">
-                            <label>Sampling Method</label>
+                        <div class="form-group col-lg-4">
+                            <label>Selection Type</label>
                             <div class="kt-radio-inline">
                                 <label class="kt-radio">
                                     <input type="radio" name="radio2" checked> Auto
@@ -152,6 +206,7 @@
                                 </label>
                             </div>
                         </div>
+                        
                     </div>
                     <tabset>
                         <tab heading="Test Attributes">
@@ -167,7 +222,7 @@
                                         </tr>
                                         <tr *ngFor="let x of item.attributes">
                                             <td>{{x.attributeText}}</td>
-                                            <td>{{x.weight + 5}}</td>
+                                            <td>{{x.weight}}</td>
                                         </tr>
                                         <!-- <tr>
                                             <th></th>
