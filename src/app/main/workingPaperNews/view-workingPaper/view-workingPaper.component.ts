@@ -142,6 +142,8 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                             this.sampleResponses.push({ sampleId: element.sequence, response: attributeResponses });
                         }
                     });
+                    this.sortSampleResponses();
+                    console.log(this.sampleResponses);
                     this.displaySample();
                 }
                // console.log(this.currentSample);
@@ -149,6 +151,18 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                 this.loading = false;
             });
         }
+    }
+
+    sortSampleResponses(): void {
+        this.sampleResponses = this.sampleResponses.sort((a, b) => {
+            if (a.sampleId < b.sampleId) {
+                return -1;
+            }
+            if (a.sampleId > b.sampleId) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     goBack(): void {

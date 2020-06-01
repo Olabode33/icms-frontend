@@ -21,9 +21,9 @@ import * as moment from 'moment';
     animations: [appModuleAnimation()]
 })
 export class LibraryControlsComponent extends AppComponentBase {
-    
+
     @ViewChild('createOrEditLibraryControlModal', { static: true }) createOrEditLibraryControlModal: CreateOrEditLibraryControlModalComponent;
-    @ViewChild('viewLibraryControlModalComponent', { static: true }) viewLibraryControlModal: ViewLibraryControlModalComponent;    
+    @ViewChild('viewLibraryControlModalComponent', { static: true }) viewLibraryControlModal: ViewLibraryControlModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -69,7 +69,7 @@ export class LibraryControlsComponent extends AppComponentBase {
     }
 
     createLibraryControl(): void {
-        this.createOrEditLibraryControlModal.show();        
+        this.createOrEditLibraryControlModal.show();
     }
 
 

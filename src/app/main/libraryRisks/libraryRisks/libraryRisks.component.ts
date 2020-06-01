@@ -21,9 +21,9 @@ import * as moment from 'moment';
     animations: [appModuleAnimation()]
 })
 export class LibraryRisksComponent extends AppComponentBase {
-    
+
     @ViewChild('createOrEditLibraryRiskModal', { static: true }) createOrEditLibraryRiskModal: CreateOrEditLibraryRiskModalComponent;
-    @ViewChild('viewLibraryRiskModalComponent', { static: true }) viewLibraryRiskModal: ViewLibraryRiskModalComponent;    
+    @ViewChild('viewLibraryRiskModalComponent', { static: true }) viewLibraryRiskModal: ViewLibraryRiskModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -73,7 +73,7 @@ export class LibraryRisksComponent extends AppComponentBase {
     }
 
     createLibraryRisk(): void {
-        this.createOrEditLibraryRiskModal.show();        
+        this.createOrEditLibraryRiskModal.show();
     }
 
 

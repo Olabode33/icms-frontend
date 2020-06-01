@@ -20,8 +20,6 @@ export class CreateOrEditLibraryControlModalComponent extends AppComponentBase {
 
     libraryControl: CreateOrEditLibraryControlDto = new CreateOrEditLibraryControlDto();
 
-
-
     constructor(
         injector: Injector,
         private _libraryControlsServiceProxy: LibraryControlsServiceProxy

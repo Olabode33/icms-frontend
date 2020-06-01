@@ -9476,6 +9476,736 @@ export class LanguageServiceProxy {
 }
 
 @Injectable()
+export class LibraryControlsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLibraryControlForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLibraryControlForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLibraryControlForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLibraryControlForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLibraryControlForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLibraryControlForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLibraryControlForView(id: number | undefined): Observable<GetLibraryControlForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/GetLibraryControlForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryControlForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryControlForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLibraryControlForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLibraryControlForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryControlForView(response: HttpResponseBase): Observable<GetLibraryControlForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLibraryControlForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLibraryControlForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLibraryControlForEdit(id: number | undefined): Observable<GetLibraryControlForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/GetLibraryControlForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryControlForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryControlForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLibraryControlForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLibraryControlForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryControlForEdit(response: HttpResponseBase): Observable<GetLibraryControlForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLibraryControlForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLibraryControlForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLibraryControlDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @return Success
+     */
+    getLibraryControlsToExcel(filter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryControls/GetLibraryControlsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryControlsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryControlsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryControlsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class LibraryRisksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param processFilter (optional) 
+     * @param subProcessFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, processFilter: string | undefined, subProcessFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLibraryRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (processFilter === null)
+            throw new Error("The parameter 'processFilter' cannot be null.");
+        else if (processFilter !== undefined)
+            url_ += "ProcessFilter=" + encodeURIComponent("" + processFilter) + "&"; 
+        if (subProcessFilter === null)
+            throw new Error("The parameter 'subProcessFilter' cannot be null.");
+        else if (subProcessFilter !== undefined)
+            url_ += "SubProcessFilter=" + encodeURIComponent("" + subProcessFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLibraryRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLibraryRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLibraryRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLibraryRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLibraryRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLibraryRiskForView(id: number | undefined): Observable<GetLibraryRiskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/GetLibraryRiskForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryRiskForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryRiskForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLibraryRiskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLibraryRiskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryRiskForView(response: HttpResponseBase): Observable<GetLibraryRiskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLibraryRiskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLibraryRiskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLibraryRiskForEdit(id: number | undefined): Observable<GetLibraryRiskForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/GetLibraryRiskForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryRiskForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryRiskForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLibraryRiskForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLibraryRiskForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryRiskForEdit(response: HttpResponseBase): Observable<GetLibraryRiskForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLibraryRiskForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLibraryRiskForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLibraryRiskDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param processFilter (optional) 
+     * @param subProcessFilter (optional) 
+     * @return Success
+     */
+    getLibraryRisksToExcel(filter: string | undefined, processFilter: string | undefined, subProcessFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/LibraryRisks/GetLibraryRisksToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (processFilter === null)
+            throw new Error("The parameter 'processFilter' cannot be null.");
+        else if (processFilter !== undefined)
+            url_ += "ProcessFilter=" + encodeURIComponent("" + processFilter) + "&"; 
+        if (subProcessFilter === null)
+            throw new Error("The parameter 'subProcessFilter' cannot be null.");
+        else if (subProcessFilter !== undefined)
+            url_ += "SubProcessFilter=" + encodeURIComponent("" + subProcessFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLibraryRisksToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLibraryRisksToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLibraryRisksToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class NotificationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -29419,6 +30149,494 @@ export interface IUpdateLanguageTextInput {
     sourceName: string | undefined;
     key: string | undefined;
     value: string | undefined;
+}
+
+export class LibraryControlDto implements ILibraryControlDto {
+    name!: string | undefined;
+    description!: string | undefined;
+    process!: string | undefined;
+    subProcess!: string | undefined;
+    risk!: string | undefined;
+    controlType!: string | undefined;
+    controlPoint!: string | undefined;
+    frequency!: string | undefined;
+    informationProcessingObjectives!: string | undefined;
+    id!: number;
+
+    constructor(data?: ILibraryControlDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.description = data["description"];
+            this.process = data["process"];
+            this.subProcess = data["subProcess"];
+            this.risk = data["risk"];
+            this.controlType = data["controlType"];
+            this.controlPoint = data["controlPoint"];
+            this.frequency = data["frequency"];
+            this.informationProcessingObjectives = data["informationProcessingObjectives"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LibraryControlDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LibraryControlDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["process"] = this.process;
+        data["subProcess"] = this.subProcess;
+        data["risk"] = this.risk;
+        data["controlType"] = this.controlType;
+        data["controlPoint"] = this.controlPoint;
+        data["frequency"] = this.frequency;
+        data["informationProcessingObjectives"] = this.informationProcessingObjectives;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILibraryControlDto {
+    name: string | undefined;
+    description: string | undefined;
+    process: string | undefined;
+    subProcess: string | undefined;
+    risk: string | undefined;
+    controlType: string | undefined;
+    controlPoint: string | undefined;
+    frequency: string | undefined;
+    informationProcessingObjectives: string | undefined;
+    id: number;
+}
+
+export class GetLibraryControlForViewDto implements IGetLibraryControlForViewDto {
+    libraryControl!: LibraryControlDto;
+
+    constructor(data?: IGetLibraryControlForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.libraryControl = data["libraryControl"] ? LibraryControlDto.fromJS(data["libraryControl"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLibraryControlForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLibraryControlForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["libraryControl"] = this.libraryControl ? this.libraryControl.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLibraryControlForViewDto {
+    libraryControl: LibraryControlDto;
+}
+
+export class PagedResultDtoOfGetLibraryControlForViewDto implements IPagedResultDtoOfGetLibraryControlForViewDto {
+    totalCount!: number;
+    items!: GetLibraryControlForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLibraryControlForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLibraryControlForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLibraryControlForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLibraryControlForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLibraryControlForViewDto {
+    totalCount: number;
+    items: GetLibraryControlForViewDto[] | undefined;
+}
+
+export class CreateOrEditLibraryControlDto implements ICreateOrEditLibraryControlDto {
+    name!: string | undefined;
+    description!: string | undefined;
+    process!: string | undefined;
+    subProcess!: string | undefined;
+    risk!: string | undefined;
+    controlType!: string | undefined;
+    controlPoint!: string | undefined;
+    frequency!: string | undefined;
+    informationProcessingObjectives!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLibraryControlDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.description = data["description"];
+            this.process = data["process"];
+            this.subProcess = data["subProcess"];
+            this.risk = data["risk"];
+            this.controlType = data["controlType"];
+            this.controlPoint = data["controlPoint"];
+            this.frequency = data["frequency"];
+            this.informationProcessingObjectives = data["informationProcessingObjectives"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLibraryControlDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLibraryControlDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["process"] = this.process;
+        data["subProcess"] = this.subProcess;
+        data["risk"] = this.risk;
+        data["controlType"] = this.controlType;
+        data["controlPoint"] = this.controlPoint;
+        data["frequency"] = this.frequency;
+        data["informationProcessingObjectives"] = this.informationProcessingObjectives;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLibraryControlDto {
+    name: string | undefined;
+    description: string | undefined;
+    process: string | undefined;
+    subProcess: string | undefined;
+    risk: string | undefined;
+    controlType: string | undefined;
+    controlPoint: string | undefined;
+    frequency: string | undefined;
+    informationProcessingObjectives: string | undefined;
+    id: number | undefined;
+}
+
+export class GetLibraryControlForEditOutput implements IGetLibraryControlForEditOutput {
+    libraryControl!: CreateOrEditLibraryControlDto;
+
+    constructor(data?: IGetLibraryControlForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.libraryControl = data["libraryControl"] ? CreateOrEditLibraryControlDto.fromJS(data["libraryControl"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLibraryControlForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLibraryControlForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["libraryControl"] = this.libraryControl ? this.libraryControl.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLibraryControlForEditOutput {
+    libraryControl: CreateOrEditLibraryControlDto;
+}
+
+export class LibraryRiskDto implements ILibraryRiskDto {
+    name!: string | undefined;
+    process!: string | undefined;
+    description!: string | undefined;
+    subProcess!: string | undefined;
+    id!: number;
+
+    constructor(data?: ILibraryRiskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.process = data["process"];
+            this.description = data["description"];
+            this.subProcess = data["subProcess"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LibraryRiskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LibraryRiskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["process"] = this.process;
+        data["description"] = this.description;
+        data["subProcess"] = this.subProcess;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILibraryRiskDto {
+    name: string | undefined;
+    process: string | undefined;
+    description: string | undefined;
+    subProcess: string | undefined;
+    id: number;
+}
+
+export class GetLibraryRiskForViewDto implements IGetLibraryRiskForViewDto {
+    libraryRisk!: LibraryRiskDto;
+
+    constructor(data?: IGetLibraryRiskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.libraryRisk = data["libraryRisk"] ? LibraryRiskDto.fromJS(data["libraryRisk"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLibraryRiskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLibraryRiskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["libraryRisk"] = this.libraryRisk ? this.libraryRisk.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLibraryRiskForViewDto {
+    libraryRisk: LibraryRiskDto;
+}
+
+export class PagedResultDtoOfGetLibraryRiskForViewDto implements IPagedResultDtoOfGetLibraryRiskForViewDto {
+    totalCount!: number;
+    items!: GetLibraryRiskForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLibraryRiskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLibraryRiskForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLibraryRiskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLibraryRiskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLibraryRiskForViewDto {
+    totalCount: number;
+    items: GetLibraryRiskForViewDto[] | undefined;
+}
+
+export class CreateOrEditLibraryRiskDto implements ICreateOrEditLibraryRiskDto {
+    name!: string | undefined;
+    process!: string | undefined;
+    description!: string | undefined;
+    subProcess!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLibraryRiskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.process = data["process"];
+            this.description = data["description"];
+            this.subProcess = data["subProcess"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLibraryRiskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLibraryRiskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["process"] = this.process;
+        data["description"] = this.description;
+        data["subProcess"] = this.subProcess;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLibraryRiskDto {
+    name: string | undefined;
+    process: string | undefined;
+    description: string | undefined;
+    subProcess: string | undefined;
+    id: number | undefined;
+}
+
+export class GetLibraryRiskForEditOutput implements IGetLibraryRiskForEditOutput {
+    libraryRisk!: CreateOrEditLibraryRiskDto;
+
+    constructor(data?: IGetLibraryRiskForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.libraryRisk = data["libraryRisk"] ? CreateOrEditLibraryRiskDto.fromJS(data["libraryRisk"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLibraryRiskForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLibraryRiskForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["libraryRisk"] = this.libraryRisk ? this.libraryRisk.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLibraryRiskForEditOutput {
+    libraryRisk: CreateOrEditLibraryRiskDto;
 }
 
 export enum UserNotificationState {

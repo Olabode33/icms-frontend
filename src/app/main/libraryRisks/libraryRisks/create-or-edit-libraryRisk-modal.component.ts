@@ -21,7 +21,6 @@ export class CreateOrEditLibraryRiskModalComponent extends AppComponentBase {
     libraryRisk: CreateOrEditLibraryRiskDto = new CreateOrEditLibraryRiskDto();
 
 
-
     constructor(
         injector: Injector,
         private _libraryRisksServiceProxy: LibraryRisksServiceProxy
@@ -46,13 +45,12 @@ export class CreateOrEditLibraryRiskModalComponent extends AppComponentBase {
                 this.modal.show();
             });
         }
-        
+
     }
 
     save(): void {
             this.saving = true;
 
-			
             this._libraryRisksServiceProxy.createOrEdit(this.libraryRisk)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
