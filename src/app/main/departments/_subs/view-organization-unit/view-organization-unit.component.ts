@@ -1,13 +1,16 @@
-import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto } from './../../../../../shared/service-proxies/service-proxies';
+import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto, GetWorkingPaperNewForViewDto, GetExceptionIncidentForViewDto, TaskStatus, Status, DepartmentRatingHistoryServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Location } from '@angular/common';
 import { DepartmentsServiceProxy, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
+import { Paginator } from 'primeng/paginator';
+import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
+import { CreateOrEditDepartmentRatingModalComponent } from '@app/main/departmentRatingHistory/departmentRatingHistory/create-or-edit-departmentRating-modal.component';
 
 
 @Component({
@@ -19,7 +22,11 @@ import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-
 })
 export class ViewOrganizationUnitComponent extends AppComponentBase implements OnInit {
 
+    @ViewChild('workingPaperPaginator', { static: true }) workingPaperPaginator: Paginator;
+    @ViewChild('exceptionsPaginator', { static: true }) exceptionsPaginator: Paginator;
     @ViewChild('ouProcess', {static: true}) ouProcess: DeptProcessRiskControlComponent;
+    @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
+    @ViewChild('createOrEditDepartmentRatingModal', { static: true }) createOrEditDepartmentRatingModal: CreateOrEditDepartmentRatingModalComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
     _organizationUnitId = -1;
@@ -28,9 +35,46 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     userName2 = '';
     organizationUnitDisplayName = '';
     supervisingTeamtDisplayName = '';
+    exceptionsCount = 0;
 
-    lastReview: {name: string, by: string, date: string, status: string, score: number}[] = new Array();
-    fakeExceptions: {type: string, by: string, date: string, severity: string, state: string, status: string}[] = new Array();
+    totalWorkingPapers = 0;
+    workingPapers: GetWorkingPaperNewForViewDto[] = new Array();
+    totalExceptions = 0;
+    exceptions: GetExceptionIncidentForViewDto[] = new Array();
+
+    taskStatusEnum = TaskStatus;
+    statusEnum = Status;
+
+    colorScheme = {
+        domain: ['#1bc5bd']
+    };
+    lineChartData = [
+        {
+          name: 'Rating history',
+          series: [
+            {
+              value: 28,
+              name: '2020-Jan-14'
+            },
+            {
+              value: 61,
+              name: '2020-Feb-18'
+            },
+            {
+              value: 26,
+              name: '2020-Mar-21'
+            },
+            {
+              value: 66,
+              name: '2020-Apr-17'
+            },
+            {
+              value: 48,
+              name: '2020-May-14'
+            },
+          ]
+        }
+    ];
 
     constructor(
         injector: Injector,
@@ -39,110 +83,11 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
+        private _router: Router,
+        private _departmentRatingHistory: DepartmentRatingHistoryServiceProxy
     ) {
         super(injector);
-        this.lastReview = [
-            {
-                name: 'Apply resolution to incidence',
-                by: 'Adekunle Cranel',
-                date: 'May 5, 2020',
-                status: 'Pending Review',
-                score: 0.88
-            },
-            {
-                name: 'Minify risk spreading',
-                by: 'Fadugba Ogunusi',
-                date: 'May 4, 2020',
-                status: 'Approved',
-                score: 0.91
-            },
-            {
-                name: 'Quarantine affected machines',
-                by: 'James Olukayode',
-                date: 'April 30, 2020',
-                status: 'Approved',
-                score: 0.78
-            },
-            {
-                name: 'Additional security arrangements exist ',
-                by: 'Babalola Ayobami',
-                date: 'April 29, 2020',
-                status: 'Approved',
-                score: 0.62
-            },
-            {
-                name: 'Call over of transactions posted on Finacle',
-                by: 'Babalola Ayobami',
-                date: 'April 27, 2020',
-                status: 'Approved',
-                score: 0.92
-            },
-            {
-                name: 'Biometric verification',
-                by: 'Chukwuma Emeka',
-                date: 'April 27, 2020',
-                status: 'Approved',
-                score: 0.8
-            },
-        ];
-        this.fakeExceptions = [
-            {
-                type: 'Amount on ticket does not match',
-                by: 'Adekunle Cranel',
-                date: 'May 5, 2020',
-                severity: 'High',
-                state: 'Pending Resolution',
-                status: 'Open'
-            },
-            {
-                type: 'Income leakage',
-                by: 'Fadugba Ogunusi',
-                date: 'May 3, 2020',
-                severity: 'High',
-                state: 'Escalated',
-                status: 'Open'
-            },
-            {
-                type: 'CCTV not working',
-                by: 'James Olukayode',
-                date: 'May 3, 2020',
-                severity: 'Low',
-                state: 'Pending Closure',
-                status: 'Open'
-            },
-            {
-                type: 'Transaction fees not collected',
-                by: 'Adekunle Cranel',
-                date: 'May 2, 2020',
-                severity: 'Medium',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Inappropriate Access to Assets',
-                by: 'Babalola Ayobami',
-                date: 'May 1, 2020',
-                severity: 'High',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Control Override',
-                by: 'Chukwuma Emeka',
-                date: 'May 1, 2020',
-                severity: 'Low',
-                state: 'Closed',
-                status: 'Closed'
-            },
-            {
-                type: 'Amount on ticket does not match',
-                by: 'Fatima Abdul',
-                date: 'May 1, 2020',
-                severity: 'Medium',
-                state: 'Closed',
-                status: 'Closed'
-            },
-        ];
+
     }
 
     ngOnInit() {
@@ -154,7 +99,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     getDepartmentDetails(): void {
         this._departmentsServiceProxy.getDepartmentForEdit(this._organizationUnitId).subscribe(result => {
-         
+
             this.department = result.department;
             this.userName = result.userName;
             this.userName2 = result.userName2;
@@ -166,8 +111,43 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         });
     }
 
+    overrideDepartmentRating(): void {
+        this.createOrEditDepartmentRatingModal.overrideDepartmentRating(this._organizationUnitId, this.department.name);
+    }
+
+    getRatingHistory(): void {
+        this._departmentRatingHistory.getAll('', '', '', '', 0, 100).subscribe(result => {
+            let series =  Array.from(new Set(result.items.filter(x => x.departmentRating.organizationUnitId === this._organizationUnitId).map((i) => {
+                return { value: 26, name: i.departmentRating.ratingDate.toLocaleString() };
+            })));
+
+            // this.lineChartData = [
+            //     {
+            //       name: 'Rating history',
+            //       series: series
+            //     }
+            // ];
+        });
+    }
+
+    getWorkingPapers(): void {
+        //
+    }
+
+    getExceptions(): void {
+        //
+    }
+
     goBack(): void {
         this._location.back();
+    }
+
+    view(id: number): void {
+        this._router.navigate(['app/main/workingPaperNews', id]);
+    }
+
+    viewException(id: number): void {
+        this.createOrEditExceptionIncidentModal.show(id);
     }
 
 }
