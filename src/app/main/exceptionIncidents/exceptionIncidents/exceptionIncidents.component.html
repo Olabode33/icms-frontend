@@ -171,15 +171,15 @@
                                                     </li>-->
                                                     <li>
                                                         <a href="javascript:;" *ngIf="record.exceptionIncident.status == '0'"
-                                                           (click)="createOrEditExceptionIncidentModal.show(record.exceptionIncident.id)">Resolve</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;" *ngIf="record.exceptionIncident.status == '0'"
-                                                           (click)="view(record.exceptionIncident.id)">Close</a>
+                                                           (click)="view(record.exceptionIncident.id)">Resolve</a>
                                                     </li>
                                                     <li>
                                                         <a href="javascript:;" *ngIf="record.exceptionIncident.status == '1'"
                                                            (click)="view(record.exceptionIncident.id)">Close</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:;"
+                                                           (click)="view(record.exceptionIncident.id)">View</a>
                                                     </li>
                                                     <!--<li>
         <a href="javascript:;" *ngIf="permission.isGranted('Pages.ExceptionIncidents.Delete')"
