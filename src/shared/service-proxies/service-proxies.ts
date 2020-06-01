@@ -14286,6 +14286,58 @@ export class ProjectsServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    closeProject(body: EntityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/CloseProject";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCloseProject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCloseProject(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCloseProject(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -24517,6 +24569,7 @@ export class DepartmentDto implements IDepartmentDto {
     supervisorUserId!: number | undefined;
     controlOfficerUserId!: number | undefined;
     controlTeamId!: number | undefined;
+    ratingId!: number | undefined;
     parentId!: number | undefined;
     displayName!: string | undefined;
     memberCount!: number;
@@ -24548,6 +24601,7 @@ export class DepartmentDto implements IDepartmentDto {
             this.supervisorUserId = data["supervisorUserId"];
             this.controlOfficerUserId = data["controlOfficerUserId"];
             this.controlTeamId = data["controlTeamId"];
+            this.ratingId = data["ratingId"];
             this.parentId = data["parentId"];
             this.displayName = data["displayName"];
             this.memberCount = data["memberCount"];
@@ -24579,6 +24633,7 @@ export class DepartmentDto implements IDepartmentDto {
         data["supervisorUserId"] = this.supervisorUserId;
         data["controlOfficerUserId"] = this.controlOfficerUserId;
         data["controlTeamId"] = this.controlTeamId;
+        data["ratingId"] = this.ratingId;
         data["parentId"] = this.parentId;
         data["displayName"] = this.displayName;
         data["memberCount"] = this.memberCount;
@@ -24603,6 +24658,7 @@ export interface IDepartmentDto {
     supervisorUserId: number | undefined;
     controlOfficerUserId: number | undefined;
     controlTeamId: number | undefined;
+    ratingId: number | undefined;
     parentId: number | undefined;
     displayName: string | undefined;
     memberCount: number;
@@ -24622,6 +24678,9 @@ export class GetDepartmentForViewDto implements IGetDepartmentForViewDto {
     userName2!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
     supervsingUnitDisplaName!: string | undefined;
+    ratingName!: string | undefined;
+    ratingCode!: string | undefined;
+    ratingHistory!: DepartmentRatingDto[] | undefined;
 
     constructor(data?: IGetDepartmentForViewDto) {
         if (data) {
@@ -24639,6 +24698,13 @@ export class GetDepartmentForViewDto implements IGetDepartmentForViewDto {
             this.userName2 = data["userName2"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
             this.supervsingUnitDisplaName = data["supervsingUnitDisplaName"];
+            this.ratingName = data["ratingName"];
+            this.ratingCode = data["ratingCode"];
+            if (Array.isArray(data["ratingHistory"])) {
+                this.ratingHistory = [] as any;
+                for (let item of data["ratingHistory"])
+                    this.ratingHistory!.push(DepartmentRatingDto.fromJS(item));
+            }
         }
     }
 
@@ -24656,6 +24722,13 @@ export class GetDepartmentForViewDto implements IGetDepartmentForViewDto {
         data["userName2"] = this.userName2;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         data["supervsingUnitDisplaName"] = this.supervsingUnitDisplaName;
+        data["ratingName"] = this.ratingName;
+        data["ratingCode"] = this.ratingCode;
+        if (Array.isArray(this.ratingHistory)) {
+            data["ratingHistory"] = [];
+            for (let item of this.ratingHistory)
+                data["ratingHistory"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -24666,6 +24739,9 @@ export interface IGetDepartmentForViewDto {
     userName2: string | undefined;
     organizationUnitDisplayName: string | undefined;
     supervsingUnitDisplaName: string | undefined;
+    ratingName: string | undefined;
+    ratingCode: string | undefined;
+    ratingHistory: DepartmentRatingDto[] | undefined;
 }
 
 export class PagedResultDtoOfGetDepartmentForViewDto implements IPagedResultDtoOfGetDepartmentForViewDto {
@@ -24789,6 +24865,9 @@ export class GetDepartmentForEditOutput implements IGetDepartmentForEditOutput {
     userName!: string | undefined;
     userName2!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
+    ratingName!: string | undefined;
+    ratingCode!: string | undefined;
+    ratingHistory!: DepartmentRatingDto[] | undefined;
 
     constructor(data?: IGetDepartmentForEditOutput) {
         if (data) {
@@ -24805,6 +24884,13 @@ export class GetDepartmentForEditOutput implements IGetDepartmentForEditOutput {
             this.userName = data["userName"];
             this.userName2 = data["userName2"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.ratingName = data["ratingName"];
+            this.ratingCode = data["ratingCode"];
+            if (Array.isArray(data["ratingHistory"])) {
+                this.ratingHistory = [] as any;
+                for (let item of data["ratingHistory"])
+                    this.ratingHistory!.push(DepartmentRatingDto.fromJS(item));
+            }
         }
     }
 
@@ -24821,6 +24907,13 @@ export class GetDepartmentForEditOutput implements IGetDepartmentForEditOutput {
         data["userName"] = this.userName;
         data["userName2"] = this.userName2;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["ratingName"] = this.ratingName;
+        data["ratingCode"] = this.ratingCode;
+        if (Array.isArray(this.ratingHistory)) {
+            data["ratingHistory"] = [];
+            for (let item of this.ratingHistory)
+                data["ratingHistory"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -24830,6 +24923,9 @@ export interface IGetDepartmentForEditOutput {
     userName: string | undefined;
     userName2: string | undefined;
     organizationUnitDisplayName: string | undefined;
+    ratingName: string | undefined;
+    ratingCode: string | undefined;
+    ratingHistory: DepartmentRatingDto[] | undefined;
 }
 
 export class DepartmentUserLookupTableDto implements IDepartmentUserLookupTableDto {
