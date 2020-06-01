@@ -97,8 +97,9 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records =  result.items; // this.viewAllProjects ? result.items : result.items.filter(x => x.project.commenced === true);
+     
+            this.primengTableHelper.records = result.items.filter(x => x.project.commenced === true); // this.viewAllProjects ? result.items : result.items.filter(x => x.project.commenced === true);
+            this.primengTableHelper.totalRecordsCount = this.primengTableHelper.records.length;
             this.primengTableHelper.hideLoadingIndicator();
         });
     }

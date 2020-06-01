@@ -403,7 +403,7 @@
                         <div class="kt-portlet__head  kt-portlet__head--noborder">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    Assigned tasks
+                                    Assigned Tasks
                                 </h3>
                             </div>
                             <div class="kt-portlet__head-toolbar">
@@ -419,11 +419,12 @@
                                     <thead>
                                         <tr class="text-left">
                                             <th style="min-width: 250px" class="pl-2">
-                                                <span class="text-dark-75">Reviews</span></th>
+                                                <span class="text-dark-75">Task(s)</span></th>
                                             <th style="min-width: 200px">Project Name</th>
                                             <th style="min-width: 100px">Status</th>
                                             <th style="min-width: 100px">Due Date</th>
-                                            <th style="min-width: 100px">Current Assignee</th>
+                                            <th style="min-width: 100px">Completed By</th>
+                                            <th style="min-width: 100px">Completion Date</th>
                                             <th style="min-width: 100px"></th>
                                         </tr>
                                     </thead>
@@ -447,26 +448,41 @@
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                    {{task.workingPaperNew.taskDate | momentFormat:'LL'}}
+                                                    {{task.projectName}}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                    {{task.workingPaperNew.taskDate | momentFormat:'LL'}}
+                                                    <span *ngIf="task.workingPaperNew.taskStatus == 0"><i class="fa fa-2x fa-edit"></i></span>
+                                                    <span *ngIf="task.workingPaperNew.taskStatus == 1"><i class="fa fa-2x fa-circle kt-font-info"></i></span>
+                                                    <span *ngIf="task.workingPaperNew.taskStatus == 2"><i class="fa fa-2x exclamation-triangle kt-font-danger"></i></span>
+                                                    <span *ngIf="task.workingPaperNew.taskStatus == 3"><i class="fa fa-2x fa-check kt-font-success"></i></span>
+                                                    
+                                                    <!--{{l(taskStatusEnum[task.workingPaperNew.taskStatus])}}-->
+
                                                 </span>
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                    {{taskStatusEnum[task.taskStatus]}}
+                                                    {{task.workingPaperNew.dueDate | momentFormat:'LL'}}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                    {{task.sampleSize}}
+                                                    {{task.completedBy}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                    {{task.workingPaperNew.completionDate | momentFormat:'LL'}}
                                                 </span>
                                             </td>
                                             <td class="pr-0 text-right">
-                                                <button (click)="editWorkingPaper(task.workingPaperNew.id)"
+                                                <button *ngIf="task.workingPaperNew.taskStatus == 0 || task.workingPaperNew.taskStatus == 2" (click)="editWorkingPaper(task.workingPaperNew.id)"
+                                                        class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
+                                                    Test
+                                                </button>
+                                                <button *ngIf="task.workingPaperNew.taskStatus == 1" (click)="viewWorkingPaper(task.workingPaperNew.id)"
                                                         class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
                                                     Review
                                                 </button>

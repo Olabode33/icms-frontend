@@ -17,6 +17,22 @@
                         </a>
                     </div>
                 </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button (click)="goBack()" class="btn btn-outline-primary blue">
+                            <i class="fa fa-reply"></i>
+                            {{l("Back")}}
+                        </button>
+                        <button *ngIf="project.commenced == false" (click)="activate()" class="btn btn-success blue">
+                            <i class="fa fa-check"></i>
+                            {{l("Activate")}}
+                        </button>
+                        <button *ngIf="completedTaskPercent === 100" (click)="close()" class="btn btn-success blue">
+                            <i class="fa fa-times"></i>
+                           Close Project
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
@@ -214,7 +230,7 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{record.userName2}}
+                                                            {{record.assignedTo}}
                                                         </span>
                                                     </td>
                                                     <td>
@@ -227,7 +243,7 @@
                                                     </td>
                                                     <td>
                                                         <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{record.userName}}
+                                                            {{record.completedBy}}
                                                         </span>
                                                     </td>
                                                     <td>
@@ -243,7 +259,7 @@
                                                                 </span>
                                                             </div>
                                                             <div class="progress progress-sm w-100">
-                                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                                <div class="progress-bar bg-success" role="progressbar"
                                                                     [style.width]="(record.workingPaperNew.score) + '%'" aria-valuenow="50"
                                                                     aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
@@ -265,7 +281,7 @@
                                                                 title="View working paper">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
-                                                        <button (click)="openAssignToUserModal(record)"
+                                                        <button *ngIf="record.workingPaperNew.assigneeId === appSession.userId" (click)="openAssignToUserModal(record)"
                                                                 class="btn btn-label-warning btn-sm btn-bold btn-upper btn-sm"
                                                                 title="Assign task to user">
                                                             <i class="fa fa-user-plus"></i>

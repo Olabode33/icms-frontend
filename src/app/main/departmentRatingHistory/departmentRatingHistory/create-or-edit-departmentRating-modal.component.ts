@@ -21,6 +21,7 @@ export class CreateOrEditDepartmentRatingModalComponent extends AppComponentBase
 
     active = false;
     saving = false;
+    overrideRating = false;
 
     departmentRating: CreateOrEditDepartmentRatingDto = new CreateOrEditDepartmentRatingDto();
 
@@ -36,7 +37,7 @@ export class CreateOrEditDepartmentRatingModalComponent extends AppComponentBase
     }
 
     show(departmentRatingId?: number): void {
-
+        this.overrideRating = false;
         if (!departmentRatingId) {
             this.departmentRating = new CreateOrEditDepartmentRatingDto();
             this.departmentRating.id = departmentRatingId;
@@ -57,13 +58,25 @@ export class CreateOrEditDepartmentRatingModalComponent extends AppComponentBase
                 this.modal.show();
             });
         }
-        
+    }
+
+    overrideDepartmentRating(departmentId: number, departmentName: string): void {
+        this.departmentRating = new CreateOrEditDepartmentRatingDto();
+            this.departmentRating.id = null;
+            this.departmentRating.ratingDate = moment().startOf('day');
+            this.departmentRating.organizationUnitId = departmentId;
+            this.organizationUnitDisplayName = departmentName;
+            this.departmentRating.changeType = 'Manual';
+            this.ratingName = '';
+
+            this.overrideRating = true;
+            this.active = true;
+            this.modal.show();
     }
 
     save(): void {
             this.saving = true;
 
-			
             this._departmentRatingHistoryServiceProxy.createOrEdit(this.departmentRating)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {

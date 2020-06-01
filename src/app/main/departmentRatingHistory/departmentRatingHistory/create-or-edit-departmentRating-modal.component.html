@@ -18,9 +18,10 @@
                         <label for="OrganizationUnitDisplayName">{{l("OrganizationUnit")}}</label>
                         <div class="input-group">
                             <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>     
-                            <div class="input-group-append">
+                            <div *ngIf="!overrideRating" class="input-group-append">
                                 <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                            </div> <div class="input-group-prepend">
+                            </div> 
+                            <div *ngIf="!overrideRating" class="input-group-prepend">
                                 <button class="btn btn-danger btn-icon" type="button" (click)="setOrganizationUnitIdNull()"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
@@ -48,7 +49,7 @@
 					
 								<div class="form-group">
 									<label for="DepartmentRating_ChangeType">{{l("ChangeType")}}</label>
-									<input type="text" id="DepartmentRating_ChangeType" class="form-control" [(ngModel)]="departmentRating.changeType" name="ChangeType"    />
+									<input type="text" id="DepartmentRating_ChangeType" class="form-control" [(ngModel)]="departmentRating.changeType" name="ChangeType" [disabled]="overrideRating" [readOnly]="overrideRating"   />
 								</div>
 					
 

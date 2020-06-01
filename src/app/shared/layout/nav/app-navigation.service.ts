@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -22,26 +22,39 @@ export class AppNavigationService {
             new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-            new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),
-            new AppMenuItem('Projects', 'Pages.Projects', 'flaticon-squares-4', '/app/main/projects/projects'),
-            new AppMenuItem('Working Papers', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
+            new AppMenuItem('My Projects', '', 'flaticon-squares-4', '/app/main/projects/projects'),
+            new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
+     
+  
+        //    new AppMenuItem('Working Papers', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
             new AppMenuItem('Testing Templates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
 
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
 
-            new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
-                new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
-                new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
-                new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
-            ]),
-            new AppMenuItem('Exception Management', '', 'flaticon-warning', '', [
-                new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
-                new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
-            ]),
-            //  new AppMenuItem('Set Up', '', 'flaticon-warning', '', []),
+
+
+         
+            
             new AppMenuItem('Ratings', 'Pages.Ratings', 'flaticon-more', '/app/main/ratings/ratings'),
-            new AppMenuItem('DepartmentRatingHistory', 'Pages.DepartmentRatingHistory', 'flaticon-more', '/app/main/departmentRatingHistory/departmentRatingHistory'),
+
+            //new AppMenuItem('DepartmentRatingHistory', 'Pages.DepartmentRatingHistory', 'flaticon-more', '/app/main/departmentRatingHistory/departmentRatingHistory'),
+
+
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
+                new AppMenuItem('Planning', '', 'flaticon2-dashboard', '', [    
+                    new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning')
+                    ]),
+
+                new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [             
+                    new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
+                    new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
+                    new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
+                    new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
+                ]),
+
+       
+
+
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
                 new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                 new AppMenuItem('Languages', 'Pages.Administration.Languages', 'flaticon-tabs', '/app/admin/languages'),

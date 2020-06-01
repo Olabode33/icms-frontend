@@ -1,25 +1,27 @@
 <div class="kt-footer kt-grid__item" id="kt_footer">
     <div [class]="containerClass" *ngIf="useBottomDiv">
-        <div class="kt-footer__bottom">
-            <div class="kt-footer__copyright">
-                ICMSDemo <span
-                    *ngIf="appSession.tenant && appSession.tenant.edition && appSession.tenant.edition.displayName">
-                    {{appSession.tenant.edition.displayName}}</span> | v{{appSession.application.version}}
-                [{{releaseDate}}]
+        <div class="kt-footer__bottom  mt-2" style="width: 100%">
+            <div class="kt-footer__menu pull-right">
+                <span class="pull-right" style="margin-top: 5px; display: contents;">
+                    Developed by
+                    <img src="/assets/common/images/pwc-logo.png" class="" style="margin-top: -15px;" height="35px">
+                </span>
             </div>
-            <div class="kt-footer__menu">
+            <div class="kt-footer__copyright" >
+                Internal Control Management System | <i class="fa fa-copyright  mx-1 mt-1"></i> 2020
             </div>
         </div>
     </div>
     <div [class]="containerClass" *ngIf="!useBottomDiv">
-        <div class="kt-footer__wrapper">
-            <div class="kt-footer__copyright">
-                ICMSDemo <span
-                    *ngIf="appSession.tenant && appSession.tenant.edition && appSession.tenant.edition.displayName">
-                    {{appSession.tenant.edition.displayName}}</span> | v{{appSession.application.version}}
-                [{{releaseDate}}]
+        <div class="kt-footer__wrapper  mt-2" style="width: 100%">
+            <div class="kt-footer__menu pull-right">
+                <span class="pull-right" style="margin-top: 5px; display: contents;">
+                    Developed by
+                    <img src="/assets/common/images/pwc-logo.png" class="" style="margin-top: -15px;" height="35px">
+                </span>
             </div>
-            <div class="kt-footer__menu">
+            <div class="kt-footer__copyright"  >
+                Internal Control Management System | <i class="fa fa-copyright  mx-1 mt-1"></i> 2020
             </div>
         </div>
     </div>

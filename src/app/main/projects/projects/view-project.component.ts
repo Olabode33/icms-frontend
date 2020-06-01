@@ -121,7 +121,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         this.loading = true;
         this.projectId = projectId;
         this._projectsServiceProxy.getProjectForEdit(projectId).subscribe(result => {
-            console.log(result);
+           // console.log(result);
             this.project = result.project;
 
             this.organizationUnitDisplayName = result.organizationUnitDisplayName;
@@ -179,6 +179,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
+           // console.log(result.items);
             this.loadingWorkingPapers = false;
         });
     }
@@ -206,13 +207,13 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     openAssignToUserModal(workingPaper: GetWorkingPaperNewForViewDto) {
         this.selectedWorkingPaper = workingPaper;
         this.workingPaperNewUserLookupTableModal.id = workingPaper.workingPaperNew.completedUserId;
-        this.workingPaperNewUserLookupTableModal.displayName = workingPaper.userName;
+        this.workingPaperNewUserLookupTableModal.displayName = workingPaper.assignedTo;
         this.workingPaperNewUserLookupTableModal.show();
     }
 
     getNewCompletedUserId() {
         this.selectedWorkingPaper.workingPaperNew.completedUserId = this.workingPaperNewUserLookupTableModal.id;
-        this.selectedWorkingPaper.userName = this.workingPaperNewUserLookupTableModal.displayName;
+        this.selectedWorkingPaper.assignedTo = this.workingPaperNewUserLookupTableModal.displayName;
 
         let assignToUserDto = new AssignWorkingPaperNewDto();
         assignToUserDto.id = this.selectedWorkingPaper.workingPaperNew.id;
@@ -224,5 +225,9 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     viewException(id: number): void {
         this.createOrEditExceptionIncidentModal.show(id);
+    }
+
+    goBack(): void {
+        this._router.navigate(['/app/main/projects/projects']);    
     }
 }

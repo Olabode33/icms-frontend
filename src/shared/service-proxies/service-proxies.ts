@@ -33417,6 +33417,7 @@ export interface IPagedResultDtoOfGetProjectForViewDto {
 
 export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
     code!: string | undefined;
+    commenced!: boolean;
     description!: string | undefined;
     startDate!: moment.Moment | undefined;
     reviewType!: ReviewType;
@@ -33443,6 +33444,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
     init(data?: any) {
         if (data) {
             this.code = data["code"];
+            this.commenced = data["commenced"];
             this.description = data["description"];
             this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.reviewType = data["reviewType"];
@@ -33469,6 +33471,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["code"] = this.code;
+        data["commenced"] = this.commenced;
         data["description"] = this.description;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["reviewType"] = this.reviewType;
@@ -33488,6 +33491,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
 
 export interface ICreateOrEditProjectDto {
     code: string | undefined;
+    commenced: boolean;
     description: string | undefined;
     startDate: moment.Moment | undefined;
     reviewType: ReviewType;
@@ -38680,6 +38684,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
     completedUserId!: number | undefined;
     reviewedUserId!: number | undefined;
     projectId!: number | undefined;
+    assigneeId!: number | undefined;
     id!: string;
 
     constructor(data?: IWorkingPaperNewDto) {
@@ -38706,6 +38711,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
             this.completedUserId = data["completedUserId"];
             this.reviewedUserId = data["reviewedUserId"];
             this.projectId = data["projectId"];
+            this.assigneeId = data["assigneeId"];
             this.id = data["id"];
         }
     }
@@ -38732,6 +38738,7 @@ export class WorkingPaperNewDto implements IWorkingPaperNewDto {
         data["completedUserId"] = this.completedUserId;
         data["reviewedUserId"] = this.reviewedUserId;
         data["projectId"] = this.projectId;
+        data["assigneeId"] = this.assigneeId;
         data["id"] = this.id;
         return data; 
     }
@@ -38751,6 +38758,7 @@ export interface IWorkingPaperNewDto {
     completedUserId: number | undefined;
     reviewedUserId: number | undefined;
     projectId: number | undefined;
+    assigneeId: number | undefined;
     id: string;
 }
 
@@ -38758,14 +38766,15 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
     workingPaperNew!: WorkingPaperNewDto;
     testingTemplateCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
-    userName!: string | undefined;
-    userName2!: string | undefined;
+    assignedTo!: string | undefined;
+    completedBy!: string | undefined;
     completionLevel!: number;
     ouCode!: string | undefined;
     frequency!: Frequency;
     sampleSize!: number | undefined;
     testingTemplateName!: string | undefined;
     projectName!: string | undefined;
+    reviewedBy!: string | undefined;
 
     constructor(data?: IGetWorkingPaperNewForViewDto) {
         if (data) {
@@ -38781,14 +38790,15 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
             this.workingPaperNew = data["workingPaperNew"] ? WorkingPaperNewDto.fromJS(data["workingPaperNew"]) : <any>undefined;
             this.testingTemplateCode = data["testingTemplateCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
-            this.userName = data["userName"];
-            this.userName2 = data["userName2"];
+            this.assignedTo = data["assignedTo"];
+            this.completedBy = data["completedBy"];
             this.completionLevel = data["completionLevel"];
             this.ouCode = data["ouCode"];
             this.frequency = data["frequency"];
             this.sampleSize = data["sampleSize"];
             this.testingTemplateName = data["testingTemplateName"];
             this.projectName = data["projectName"];
+            this.reviewedBy = data["reviewedBy"];
         }
     }
 
@@ -38804,14 +38814,15 @@ export class GetWorkingPaperNewForViewDto implements IGetWorkingPaperNewForViewD
         data["workingPaperNew"] = this.workingPaperNew ? this.workingPaperNew.toJSON() : <any>undefined;
         data["testingTemplateCode"] = this.testingTemplateCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
-        data["userName"] = this.userName;
-        data["userName2"] = this.userName2;
+        data["assignedTo"] = this.assignedTo;
+        data["completedBy"] = this.completedBy;
         data["completionLevel"] = this.completionLevel;
         data["ouCode"] = this.ouCode;
         data["frequency"] = this.frequency;
         data["sampleSize"] = this.sampleSize;
         data["testingTemplateName"] = this.testingTemplateName;
         data["projectName"] = this.projectName;
+        data["reviewedBy"] = this.reviewedBy;
         return data; 
     }
 }
@@ -38820,14 +38831,15 @@ export interface IGetWorkingPaperNewForViewDto {
     workingPaperNew: WorkingPaperNewDto;
     testingTemplateCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
-    userName: string | undefined;
-    userName2: string | undefined;
+    assignedTo: string | undefined;
+    completedBy: string | undefined;
     completionLevel: number;
     ouCode: string | undefined;
     frequency: Frequency;
     sampleSize: number | undefined;
     testingTemplateName: string | undefined;
     projectName: string | undefined;
+    reviewedBy: string | undefined;
 }
 
 export class PagedResultDtoOfGetWorkingPaperNewForViewDto implements IPagedResultDtoOfGetWorkingPaperNewForViewDto {
@@ -38892,6 +38904,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
     organizationUnitId!: number | undefined;
     completedUserId!: number | undefined;
     reviewedUserId!: number | undefined;
+    assignedToId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWorkingPaperNewDto) {
@@ -38922,6 +38935,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
             this.organizationUnitId = data["organizationUnitId"];
             this.completedUserId = data["completedUserId"];
             this.reviewedUserId = data["reviewedUserId"];
+            this.assignedToId = data["assignedToId"];
             this.id = data["id"];
         }
     }
@@ -38952,6 +38966,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
         data["organizationUnitId"] = this.organizationUnitId;
         data["completedUserId"] = this.completedUserId;
         data["reviewedUserId"] = this.reviewedUserId;
+        data["assignedToId"] = this.assignedToId;
         data["id"] = this.id;
         return data; 
     }
@@ -38971,6 +38986,7 @@ export interface ICreateOrEditWorkingPaperNewDto {
     organizationUnitId: number | undefined;
     completedUserId: number | undefined;
     reviewedUserId: number | undefined;
+    assignedToId: number | undefined;
     id: string | undefined;
 }
 
@@ -38981,8 +38997,9 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
     lastSequence!: number | undefined;
     testingTemplateCode!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
-    userName!: string | undefined;
-    userName2!: string | undefined;
+    completedBy!: string | undefined;
+    reviewedBy!: string | undefined;
+    assignedTo!: string | undefined;
 
     constructor(data?: IGetWorkingPaperNewForEditOutput) {
         if (data) {
@@ -39005,8 +39022,9 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
             this.lastSequence = data["lastSequence"];
             this.testingTemplateCode = data["testingTemplateCode"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
-            this.userName = data["userName"];
-            this.userName2 = data["userName2"];
+            this.completedBy = data["completedBy"];
+            this.reviewedBy = data["reviewedBy"];
+            this.assignedTo = data["assignedTo"];
         }
     }
 
@@ -39029,8 +39047,9 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
         data["lastSequence"] = this.lastSequence;
         data["testingTemplateCode"] = this.testingTemplateCode;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
-        data["userName"] = this.userName;
-        data["userName2"] = this.userName2;
+        data["completedBy"] = this.completedBy;
+        data["reviewedBy"] = this.reviewedBy;
+        data["assignedTo"] = this.assignedTo;
         return data; 
     }
 }
@@ -39042,8 +39061,9 @@ export interface IGetWorkingPaperNewForEditOutput {
     lastSequence: number | undefined;
     testingTemplateCode: string | undefined;
     organizationUnitDisplayName: string | undefined;
-    userName: string | undefined;
-    userName2: string | undefined;
+    completedBy: string | undefined;
+    reviewedBy: string | undefined;
+    assignedTo: string | undefined;
 }
 
 export class AssignWorkingPaperNewDto implements IAssignWorkingPaperNewDto {

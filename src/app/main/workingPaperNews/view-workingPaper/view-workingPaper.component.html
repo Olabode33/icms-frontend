@@ -16,11 +16,11 @@
                             <i class="fa fa-reply"></i>
                             {{l("Back")}}
                         </button>
-                        <button *ngIf="workingPaperNew.taskStatus === taskStatusEnum.PendingReview" (click)="approve()" class="btn btn-success blue">
+                        <button *ngIf="workingPaperNew.taskStatus === taskStatusEnum.PendingReview && appSession.userId === workingPaperNew.assignedToId " (click)="approve()" class="btn btn-success blue">
                             <i class="fa fa-check"></i>
                             {{l("Approve")}}
                         </button>
-                        <button *ngIf="workingPaperNew.taskStatus === taskStatusEnum.PendingReview" (click)="reject()" class="btn btn-danger blue">
+                        <button *ngIf="workingPaperNew.taskStatus === taskStatusEnum.PendingReview && appSession.userId === workingPaperNew.assignedToId " (click)="reject()" class="btn btn-danger blue">
                             <i class="fa fa-times"></i>
                             {{l("Reject")}}
                         </button>
@@ -190,7 +190,7 @@
                 <div class="kt-portlet__head hoverable" (click)="showSamplingCard = !showSamplingCard">
                     <div class="kt-portlet__head-label">
                         <h3 class="kt-portlet__head-title">
-                            <span>Sampling</span>
+                            <span>Test</span>
                         </h3>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                 </div>
                 <div *ngIf="!loading" [hidden]="!showSamplingCard" class="kt-portlet__body  ">
                     <tabset>
-                        <tab heading="Samples">
+                        <tab heading="Test Results">
                             <div *ngIf="sampleResponses.length > 0" class="mx-auto">
                                 <button *ngIf="!isFirstSample()" (click)="gotoPrev()" class="btn btn-primary btn-sm">
                                     <i class="fa fa-arrow-left"></i>
@@ -234,7 +234,7 @@
                                         <table class="table table-striped">
                                             <tr>
                                                 <th>
-                                                    Attribute Question(s)
+                                                    Test Question(s)
                                                 </th>
                                                 <th>Weight</th>
                                                 <th>Response</th>
@@ -249,11 +249,9 @@
                                         </table>
                                         <div class="form-group">
                                             <label for="WorkingPaperNew_Comment">{{l("Comment")}}</label>
-                                            <textarea type="text" id="WorkingPaperNew_Comment" class="form-control" rows="5" [(ngModel)]="workingPaperNew.comment" name="Comment"></textarea>
+                                            <textarea readonly type="text" id="WorkingPaperNew_Comment" class="form-control" rows="5" [(ngModel)]="workingPaperNew.comment" name="Comment"></textarea>
                                         </div>
-                                        <!-- <div>
-                                            <button type="button" class="btn btn-primary" (click)="addResult()">Add Result</button>
-                                        </div> -->
+                               
                                     </div>
                                 </div>
                             </div>
@@ -283,7 +281,7 @@
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="UpdatedBy">Completed By</label>
-                            <input type="text" readonly disabled id="UpdatedBy" class="form-control" [value]="userName2" name="UpdatedBy" />
+                            <input type="text" readonly disabled id="UpdatedBy" class="form-control" [value]="completedBy" name="UpdatedBy" />
                         </div>
 
                         
@@ -296,7 +294,7 @@
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="CreatedBy">Reviewed By</label>
-                            <input type="text" readonly disabled id="CreatedBy" class="form-control" [value]="userName" name="CreatedBy" />
+                            <input type="text" readonly disabled id="CreatedBy" class="form-control" [value]="reviewedBy" name="CreatedBy" />
                         </div>
 
                         <div class="form-group col-md-4">
