@@ -327,8 +327,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     }
 
     createExceptionIncident(): void {
-        if (this.workingPaperNew.organizationUnitId && this.organizationUnitDisplayName) {
-            this.createOrEditExceptionIncidentModal.logException(this.workingPaperNew.organizationUnitId, this.organizationUnitDisplayName);
+        if (this.workingPaperNew.organizationUnitId && this.organizationUnitDisplayName && this.workingPaperNew.id) {
+            this.createOrEditExceptionIncidentModal.logException(this.workingPaperNew.organizationUnitId, this.organizationUnitDisplayName, this.workingPaperNew.id);
         }
     }
 

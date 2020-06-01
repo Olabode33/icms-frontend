@@ -84,10 +84,11 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         }
     }
 
-    logException(departmentId: number, ouName: string): void {
+    logException(departmentId: number, ouName: string, workingPaperId: string): void {
         this.exceptionIncident = new CreateOrEditExceptionIncidentDto();
         this.exceptionIncident.id = null;
         this.exceptionIncident.organizationUnitId = departmentId;
+        this.exceptionIncident.workingPaperId = workingPaperId;
         this.exceptionTypeName = '';
         this.userName = '';
         this.testingTemplateCode = '';

@@ -126,12 +126,12 @@
 
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
-                                                       (click)="createNew(record.department)">Override</a>
+                                                       (click)="overrideDepartmentRating(record)">Override</a>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <a href="javascript:;" *ngIf="entityHistoryEnabled"
                                                        (click)="showHistory(record.testingTemplate)">{{l('History')}}</a>
-                                                </li>
+                                                </li> -->
                                             </ul>
                                         </div>
                                     </td>
@@ -184,6 +184,8 @@
         </div>
     </div>
 
+    
+    <createOrEditDepartmentRatingModal #createOrEditDepartmentRatingModal (modalSave)="getDepartments()"></createOrEditDepartmentRatingModal> 
     <!--<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="getTestingTemplates()"></createOrEditTestingTemplateModal>
     <viewTestingTemplateModal #viewTestingTemplateModal></viewTestingTemplateModal>
      <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>-->
