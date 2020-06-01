@@ -16,7 +16,8 @@ import { Location } from '@angular/common';
 export class ViewTestingTemplateComponent extends AppComponentBase implements OnInit {
 
     saving = false;
-    showRiskCard = true;
+    showProcessCard = true;
+    showRiskCard = false;
     showControlsCard = false;
 
     item: GetTestingTemplateForViewDto;

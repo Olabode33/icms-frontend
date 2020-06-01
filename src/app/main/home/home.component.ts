@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, Injector } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { WorkingPaper } from '@app/UIModel/WorkingPaper';
 import { Router } from '@angular/router';
 import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto, WorkspaceServiceProxy, GetExceptionIncidentForViewDto, GetWorkingPaperNewForViewDto, Status, TaskStatus, Frequency } from '@shared/service-proxies/service-proxies';
 import * as shape from 'd3-shape';
+import { CreateOrEditExceptionIncidentModalComponent } from '../exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 
 @Component({
     selector: 'app-home',
@@ -14,6 +15,8 @@ import * as shape from 'd3-shape';
     animations: [appModuleAnimation()]
 })
 export class HomeComponent extends AppComponentBase implements OnInit {
+
+    @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
 
     loadingExceptions = false;
     loadingTask = false;
@@ -112,7 +115,6 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     getWorkingPaper(): void {
         this.loadingTask = true;
         this._workspaceService.getWorkingPapers().subscribe(result => {
-        
             this.savedWorkingPaper = result.items.filter(x => x.completionLevel > 0 && x.completionLevel < 1 );
             this.newWorkingPaper = result.items.filter(x => x.completionLevel === 0 && x.workingPaperNew.taskStatus === TaskStatus.Open);
             this.submittedWorkingPaper = result.items.filter(x => x.completionLevel === 1);
@@ -121,7 +123,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     }
 
     viewException(id: number): void {
-        //this._router.navigate(['/app/main/exceptions/view', id]);
+        this.createOrEditExceptionIncidentModal.show(id);
     }
 
     editWorkingPaper(id: string): void {

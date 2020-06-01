@@ -74,21 +74,40 @@
                             <div class="form-row">
                                 <div class="form-group col-6">
                                     <label for="TestingTemplate_Title">Selection Type</label>
-                                    <select id="testingTemplate.selectionType" class="form-control" [(ngModel)]="testingTemplate.selectionType">
-                                        <option value="0">Manual</option>
-                                        <option value="1">Auto-generated</option>
-                                    </select>
+                                    <div class="kt-radio-inline">
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionType" value="1" checked> Auto-generated
+                                            <span></span>
+                                        </label>
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionType" value="2"> Manual
+                                            <span></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-12">
                                     <label for="TestingTemplate_Title">Selection Methodology</label>
-                                    <select id="testingTemplate.selectionMethodology" class="form-control" [(ngModel)]="testingTemplate.selectionMethodology">
-                                        <option value="0">Haphazard</option>
-                                        <option value="1">Materiality</option>
-                                        <option value="1">Lowest</option>
-                                    </select>
+                                    <div class="kt-radio-inline">
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionMethod" checked> Random
+                                            <span></span>
+                                        </label>
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionMethod"> Haphazard
+                                            <span></span>
+                                        </label>
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionMethod"> Materiality
+                                            <span></span>
+                                        </label>
+                                        <label class="kt-radio">
+                                            <input type="radio" name="testingTemplate.selectionMethod"> Lowest
+                                            <span></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </tab>

@@ -282,25 +282,26 @@
                     
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="DateCreated">Date created</label>
-                            <input type="text" readonly disabled id="DateCreated" class="form-control" [value]="workingPaperNew.taskDate | momentFormat: 'LL'" name="DateCreated" />
+                            <label for="UpdatedBy">Completed By</label>
+                            <input type="text" readonly disabled id="UpdatedBy" class="form-control" [value]="userName2" name="UpdatedBy" />
                         </div>
 
+                        
                         <div class="form-group col-md-4">
-                            <label for="DateCreated">Last updated</label>
+                            <label for="DateCreated">Date Completed</label>
                             <input type="text" readonly disabled id="DateLastUpdated" class="form-control" [value]="workingPaperNew.completionDate | momentFormat: 'LL'" name="DateLastUpdated" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="CreatedBy">Assigned to</label>
+                            <label for="CreatedBy">Reviewed By</label>
                             <input type="text" readonly disabled id="CreatedBy" class="form-control" [value]="userName" name="CreatedBy" />
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="UpdatedBy">Last updated by</label>
-                            <input type="text" readonly disabled id="UpdatedBy" class="form-control" [value]="userName2" name="UpdatedBy" />
+                            <label for="DateCreated">Date Reviewed</label>
+                            <input type="text" readonly disabled id="DateCreated" class="form-control" [value]="workingPaperNew.taskDate | momentFormat: 'LL'" name="DateCreated" />
                         </div>
                     </div>
 

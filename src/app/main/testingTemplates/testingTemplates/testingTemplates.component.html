@@ -110,9 +110,9 @@
                                         {{l('Title')}}
                                         <p-sortIcon field="testingTemplate.title"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="frequency">
-                                        {{l('Frequency')}}
-                                        <p-sortIcon field="testingTemplate.frequency"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="ouDisplayName">
+                                        {{l('Process')}}
+                                        <p-sortIcon field="ouDisplayName"></p-sortIcon>
                                     </th>
                                     <th style="width: 250px" pSortableColumn="frequency">
                                        Affected Business Units
@@ -160,8 +160,8 @@
                                         {{record.testingTemplate.title}}
                                     </td>
                                     <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Frequency')}}</span>
-                                        <span >{{record.testingTemplate.frequency}}</span>
+                                        <span class="ui-column-title"> {{l('Process')}}</span>
+                                        <span >{{record.ouDisplayName}}</span>
                                 
                                     </td>
                                     <td style="width:250px">

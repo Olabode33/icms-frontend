@@ -13,8 +13,8 @@
                 </div>
                 <div class="kt-subheader__toolbar">
                     <div class="kt-subheader__wrapper">
-                        <button (click)="exportToExcel()" class="btn btn-outline-success"><i
-                                class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                        <!-- <button (click)="exportToExcel()" class="btn btn-outline-success"><i
+                                class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button> -->
                         <button *ngIf="isGranted('Pages.Projects.Create')" (click)="createProject()"
                             class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewProject")}}</button>
                     </div>
@@ -37,7 +37,7 @@
 
             <div class="row">
                 <div class="col-xl-4" *ngFor="let project of primengTableHelper.records">
-                    <div class="card card-custom gutter-b card-stretch">
+                    <div class="card card-custom bg-border-{{project.project.commenced ? 'success' : 'danger'}} gutter-b card-stretch">
                         <!--begin::Body-->
                         <div class="card-body">
                             <!--begin::Info-->
@@ -99,7 +99,7 @@
                                 <div class="d-flex flex-row-fluid align-items-center">
                                     <div class="progress progress-sm w-100">
                                         <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 59%;" aria-valuenow="50" aria-valuemin="0"
+                                            [ngStyle]="{'width': project.project.progress + '%'}" aria-valuenow="50" aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
                                     <span class="ml-3 font-weight-bolder">{{project.project.progress}}%</span>
@@ -129,13 +129,33 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon--></span> <a href="#"
-                                        class="font-weight-bolder text-primary ml-2">72 Tasks</a>
+                                        class="font-weight-bolder text-primary ml-2">8 Tasks</a>
                                 </div>
                             </div>
-                            <button type="button" [routerLink]="['/app/main/projects/projects/view']" [queryParams]="{id: project.project.id}"
-                                class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto pull-right">
-                                details
-                            </button>
+                            <div class="mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto font-weight-bolder pull-right">
+                                <button *ngIf="project.project.commenced"
+                                    type="button" [routerLink]="['/app/main/projects/projects/view']" [queryParams]="{id: project.project.id}"
+                                    class="btn btn-primary btn-sm text-uppercase"
+                                    title="View project">
+                                    <i class="fa fa-info-circle"></i> Details
+                                </button>
+                                <button *ngIf="!project.project.commenced"
+                                    type="button" [routerLink]="['/app/main/projects/projects/createOrEdit']" [queryParams]="{id: project.project.id}"
+                                    class="btn btn-warning btn-sm text-uppercase"
+                                    title="Edit project">
+                                    <i class="fa fa-edit"></i> Edit
+                                </button>
+                                <button *ngIf="!project.project.commenced"
+                                    type="button" (click)="activateProject(project.project)" title="Activate project"
+                                    class="btn btn-success btn-sm text-uppercase">
+                                    <i class="fa fa-check"></i> Activate
+                                </button>
+                                <button *ngIf="!project.project.commenced"
+                                    type="button" (click)="deleteProject(project.project)" title="Delete project"
+                                    class="btn btn-danger btn-sm text-uppercase">
+                                    <i class="fa fa-times"></i> Delete
+                                </button>
+                            </div>
                         </div>
                         <!--end::Footer-->
                     </div>
