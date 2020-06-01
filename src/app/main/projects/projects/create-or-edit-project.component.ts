@@ -76,7 +76,7 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
                  this.notify.success(this.l('SavedSuccessfully'));
-                 this._router.navigate(['/app/main/projects/projects']);       
+                 this._router.navigate(['/app/main/projects/planning']);       
              });
     }
 

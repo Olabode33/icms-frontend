@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
 import { RatingsComponent } from './ratings/ratings/ratings.component';
@@ -7,6 +7,7 @@ import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit
 import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { WorkingPaperNewsComponent } from './workingPaperNews/workingPaperNews/workingPaperNews.component';
 import { ExceptionIncidentsComponent } from './exceptionIncidents/exceptionIncidents/exceptionIncidents.component';
+import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 import { TestingTemplatesComponent } from './testingTemplates/testingTemplates/testingTemplates.component';
 import { DepartmentRiskControlsComponent } from './departmentRiskControls/departmentRiskControls/departmentRiskControls.component';
 import { DepartmentRisksComponent } from './departmentRisks/departmentRisks/departmentRisks.component';
@@ -34,14 +35,15 @@ import { PlanningComponent } from './projects/planning/planning.component';
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
                     { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },
-                    { path: 'projects/projects', component: ProjectsComponent, data: { permission: 'Pages.Projects' }  },
+                    { path: 'projects/projects', component: ProjectsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
-                    { path: 'projects/projects/view', component: ViewProjectComponent, data: { permission: 'Pages.Projects' }  },
+                    { path: 'projects/projects/view', component: ViewProjectComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/:workingPaperId', component: ViewWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/new/:testingTemplateId/:departmentId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/edit/:workingPaperId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
+                    { path: 'exceptionIncidents/exceptionIncidents/createOrEdit', component: CreateOrEditExceptionIncidentComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'testingTemplates/:testingTemplateId', component: ViewTestingTemplateComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },

@@ -1,19 +1,23 @@
-import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto, CreateOrEditExceptionIncidentColumnDto } from '@shared/service-proxies/service-proxies';
+import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto, CreateOrEditExceptionIncidentColumnDto, ExceptionIncidentAttachment } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from './exceptionIncident-exceptionType-lookup-table-modal.component';
 import { ExceptionIncidentUserLookupTableModalComponent } from './exceptionIncident-user-lookup-table-modal.component';
 import { ExceptionIncidentTestingTemplateLookupTableModalComponent } from './exceptionIncident-testingTemplate-lookup-table-modal.component';
 import { ExceptionIncidentOrganizationUnitLookupTableModalComponent } from './exceptionIncident-organizationUnit-lookup-table-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
-    selector: 'createOrEditExceptionIncidentModal',
-    templateUrl: './create-or-edit-exceptionIncident-modal.component.html'
+    selector: 'createOrEditExceptionIncident',
+    templateUrl: './create-or-edit-exceptionIncident.component.html',
+    animations: [appModuleAnimation()]
 })
-export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBase {
+export class CreateOrEditExceptionIncidentComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @ViewChild('exceptionIncidentExceptionTypeLookupTableModal', { static: true }) exceptionIncidentExceptionTypeLookupTableModal: ExceptionIncidentExceptionTypeLookupTableModalComponent;
@@ -21,12 +25,16 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     @ViewChild('exceptionIncidentTestingTemplateLookupTableModal', { static: true }) exceptionIncidentTestingTemplateLookupTableModal: ExceptionIncidentTestingTemplateLookupTableModalComponent;
     @ViewChild('exceptionIncidentOrganizationUnitLookupTableModal', { static: true }) exceptionIncidentOrganizationUnitLookupTableModal: ExceptionIncidentOrganizationUnitLookupTableModalComponent;
 
-    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-
     active = false;
     saving = false;
 
+    uploadUrl = AppConsts.remoteServiceBaseUrl + '/DemoUiComponents/UploadFiles';
+
     exceptionIncident: CreateOrEditExceptionIncidentDto = new CreateOrEditExceptionIncidentDto();
+
+    attachments=[];
+    
+    uploadedFiles=[];
 
     closureDate: Date;
     exceptionTypeName = '';
@@ -35,19 +43,29 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     organizationUnitDisplayName = '';
     additionalColumns = [];
 
-
     changeReviewDepartment = true;
 
     constructor(
         injector: Injector,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute,  
         private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy
     ) {
         super(injector);
     }
 
+    ngOnInit(): void {
+        this.uploadedFiles=[];
+        this.show(this._activatedRoute.snapshot.queryParams['id']);
+    }
+
+    
     show(exceptionIncidentId?: number): void {
         this.closureDate = null;
         this.changeReviewDepartment = true;
+
+        this.additionalColumns = [];
+        this.uploadedFiles=[];
 
         if (!exceptionIncidentId) {
             this.exceptionIncident = new CreateOrEditExceptionIncidentDto();
@@ -58,7 +76,6 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             this.organizationUnitDisplayName = '';
 
             this.active = true;
-            this.modal.show();
         } else {
             this._exceptionIncidentsServiceProxy.getExceptionIncidentForEdit(exceptionIncidentId).subscribe(result => {
                 this.exceptionIncident = result.exceptionIncident;
@@ -67,7 +84,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
                 this.userName = result.userName;
               
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-                this.additionalColumns = [];
+                
 
                 result.exceptionIncident.incidentColumns.forEach(x => {
                     var item = {
@@ -78,25 +95,13 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
 
                     this.additionalColumns.push(item);
                 });
+
+                
+            this.uploadedFiles=this.exceptionIncident.exceptionIncidentAttachment;
+console.log(this.uploadedFiles);
                 this.active = true;
-                this.modal.show();
             });
         }
-    }
-
-    logException(departmentId: number, ouName: string): void {
-        this.exceptionIncident = new CreateOrEditExceptionIncidentDto();
-        this.exceptionIncident.id = null;
-        this.exceptionIncident.organizationUnitId = departmentId;
-        this.exceptionTypeName = '';
-        this.userName = '';
-        this.testingTemplateCode = '';
-        this.organizationUnitDisplayName = ouName;
-        this.closureDate = null;
-
-        this.changeReviewDepartment = false;
-        this.active = true;
-        this.modal.show();
     }
 
     save(): void {
@@ -112,13 +117,17 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             this.exceptionIncident.incidentColumns.push(item);
         });
 
+        this.exceptionIncident.exceptionIncidentAttachment=[];
+        this.attachments.forEach(x => {
+            this.exceptionIncident.exceptionIncidentAttachment.push(x);
+        });
+
 
             this._exceptionIncidentsServiceProxy.createOrEdit(this.exceptionIncident)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
              });
     }
 
@@ -128,8 +137,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
             });
     }
 
@@ -139,8 +147,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
             });
     }
 
@@ -150,8 +157,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
             });
     }
 
@@ -247,5 +253,36 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             });
     }
 
+
+
+    onUpload(event): void {
+
+        let resultArray = event.originalEvent.body.result;
+        let files = event.files;
+
+        for (let i = 0; i < resultArray.length; i++) {
+            let attachment = new ExceptionIncidentAttachment();
+
+            attachment.documentId = resultArray[i].id;
+            attachment.fileName = files[i].name;
+            attachment.fileFormat = files[i].type;
+
+            this.attachments.push(attachment);
+        }
+    }
+
+    onBeforeSend(event): void {
+        event.xhr.setRequestHeader('Authorization', 'Bearer ' + abp.auth.getToken());
+    }
+
+    downloadResourceFile(attachment: ExceptionIncidentAttachment): string {
+        return AppConsts.remoteServiceBaseUrl +
+            '/File/DownloadBinaryFile?id=' +
+            attachment.documentId +
+            '&contentType=' +
+            attachment.fileFormat +
+            '&fileName=' +
+            attachment.fileName;
+    }
 
 }
