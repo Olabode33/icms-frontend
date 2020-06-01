@@ -1,0 +1,73 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #libraryControlForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="libraryControl.id">{{l("EditLibraryControl")}}</span>
+                        <span *ngIf="!libraryControl.id">{{l("CreateNewLibraryControl")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="LibraryControl_Name">{{l("Name")}}</label>
+									<input type="text" id="LibraryControl_Name" class="form-control" [(ngModel)]="libraryControl.name" name="Name"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_Description">{{l("Description")}}</label>
+									<input type="text" id="LibraryControl_Description" class="form-control" [(ngModel)]="libraryControl.description" name="Description"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_Process">{{l("Process")}}</label>
+									<input type="text" id="LibraryControl_Process" class="form-control" [(ngModel)]="libraryControl.process" name="Process"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_SubProcess">{{l("SubProcess")}}</label>
+									<input type="text" id="LibraryControl_SubProcess" class="form-control" [(ngModel)]="libraryControl.subProcess" name="SubProcess"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_Risk">{{l("Risk")}}</label>
+									<input type="text" id="LibraryControl_Risk" class="form-control" [(ngModel)]="libraryControl.risk" name="Risk"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_ControlType">{{l("ControlType")}}</label>
+									<input type="text" id="LibraryControl_ControlType" class="form-control" [(ngModel)]="libraryControl.controlType" name="ControlType"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_ControlPoint">{{l("ControlPoint")}}</label>
+									<input type="text" id="LibraryControl_ControlPoint" class="form-control" [(ngModel)]="libraryControl.controlPoint" name="ControlPoint"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_Frequency">{{l("Frequency")}}</label>
+									<input type="text" id="LibraryControl_Frequency" class="form-control" [(ngModel)]="libraryControl.frequency" name="Frequency"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryControl_InformationProcessingObjectives">{{l("InformationProcessingObjectives")}}</label>
+									<input type="text" id="LibraryControl_InformationProcessingObjectives" class="form-control" [(ngModel)]="libraryControl.informationProcessingObjectives" name="InformationProcessingObjectives"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!libraryControlForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
+import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
 import { RatingsComponent } from './ratings/ratings/ratings.component';
 import { ProjectsComponent } from './projects/projects/projects.component';
@@ -25,6 +27,7 @@ import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/
 import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-auditor.component';
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
+import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
 
 @NgModule({
     imports: [
@@ -32,9 +35,12 @@ import { PlanningComponent } from './projects/planning/planning.component';
             {
                 path: '',
                 children: [
+                    { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
+                    { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
                     { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },
+                    { path: 'departmentRatingList/departmentRatingList', component: DepartmentRatingListComponent, data: { permission: 'Pages.Ratings' }  },
                     { path: 'projects/projects', component: ProjectsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
                     { path: 'projects/projects/view', component: ViewProjectComponent, /*data: { permission: 'Pages.Projects' } */ },

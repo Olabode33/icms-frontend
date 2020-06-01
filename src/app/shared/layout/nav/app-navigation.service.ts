@@ -1,4 +1,4 @@
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -23,7 +23,7 @@ export class AppNavigationService {
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('My Projects', '', 'flaticon-squares-4', '/app/main/projects/projects'),
-            new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/exceptionIncidents/exceptionIncidents'),
+            new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/exceptionIncidents/exceptionIncidents'),
      
   
         //    new AppMenuItem('Working Papers', 'Pages.WorkingPaperNews', 'flaticon-layer', '/app/main/workingPaperNews/workingPaperNews'),
@@ -35,14 +35,19 @@ export class AppNavigationService {
 
          
             
-            new AppMenuItem('Ratings', 'Pages.Ratings', 'flaticon-more', '/app/main/ratings/ratings'),
+      
 
             //new AppMenuItem('DepartmentRatingHistory', 'Pages.DepartmentRatingHistory', 'flaticon-more', '/app/main/departmentRatingHistory/departmentRatingHistory'),
 
 
-            new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
-                new AppMenuItem('Planning', '', 'flaticon2-dashboard', '', [    
-                    new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning')
+           
+
+             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
+
+                new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [    
+                    new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),
+                    new AppMenuItem('Internal Rating', 'Pages.Ratings', 'fa fa-balance-scale', '/app/main/ratings/ratings'),
+                    new AppMenuItem('Department Rating', 'Pages.Ratings', 'fa fa-cubes', '/app/main/departmentRatingList/departmentRatingList'),
                     ]),
 
                 new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [             
@@ -52,7 +57,10 @@ export class AppNavigationService {
                     new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
                 ]),
 
-       
+                 new AppMenuItem('Library', '', 'fa fa-briefcase', '', [
+                     new AppMenuItem('LibraryRisks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
+                     new AppMenuItem('LibraryControls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),
+                 ]),
 
 
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
