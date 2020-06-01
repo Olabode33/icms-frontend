@@ -4,11 +4,11 @@
       <div [class]="containerClass">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l("TestingTemplates")}}</span>
+                <span>Department Rating</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-                Manage testing templates here.
+                Manage department rating here.
             </span>
         </div>
         <div class="kt-subheader__toolbar">
@@ -45,32 +45,13 @@
 
 							<div class="col-md-3">
 								<div class="form-group">
-									<label for="TitleFilter">{{l("Title")}}</label>
-									<input type="text" class="form-control" id="TitleFilter" name="titleFilter" [(ngModel)]="titleFilter">
+									<label for="TitleFilter">Rating</label>
+									<select class="form-control" [(ngModel)] ="ratingFilter" name="ratingFilter">
+                                        <option value="-1">All Ratings</option>
+                                        <option *ngFor="let x of ratings" value="{{x.rating.id}}">{{x.rating.name}} ({{x.rating.code}})</option>
+
+                                    </select>
 								</div>
-                            </div>
-							<div class="col-md-3">
-								<label for="FrequencyFilterSelect">{{l("Frequency")}}</label>
-								<select class="form-control" name="FrequencyFilter" id="FrequencyFilterSelect" [(ngModel)]="frequencyFilter">
-								<option value="-1">{{l("All")}}</option>
-																			<option value="0">{{l('Daily')}}</option>
-
-										<option value="1">{{l('Weekly')}}</option>
-
-										<option value="2">{{l('Monthly')}}</option>
-
-										<option value="3">{{l('Quarterly')}}</option>
-
-										<option value="4">{{l('Yearly')}}</option>
-
-
-								</select>
-                            </div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="DepartmentRiskControlCodeFilter">({{l("DepartmentRiskControl")}}) {{l("Code")}}</label>
-									<input type="text" class="form-control" id="DepartmentRiskControlCodeFilter" name="departmentRiskControlCodeFilter" [(ngModel)]="departmentRiskControlCodeFilter">
-                                </div>
                             </div>
 
                         </div>
@@ -88,7 +69,7 @@
                     <div class="primeng-datatable-container col-12"
                          [busyIf]="primengTableHelper.isLoading">
                         <p-table #dataTable
-                                     (onLazyLoad)="getTestingTemplates($event)"
+                                     (onLazyLoad)="getDepartments($event)"
                                      [value]="primengTableHelper.records"
                                      rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
                                      [paginator]="false"
@@ -99,32 +80,36 @@
                                      [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.TestingTemplates.Edit', 'Pages.TestingTemplates.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 130px">{{l('Actions')}}</th>
 
                                     <th style="width: 100px" pSortableColumn="code">
                                         {{l('Code')}}
                                         <p-sortIcon field="testingTemplate.code"></p-sortIcon>
                                     </th>
 
-                                    <th style="width: 250px" pSortableColumn="title">
-                                        {{l('Title')}}
+                                    <th style="width: 300px" pSortableColumn="title">
+                                        Name
                                         <p-sortIcon field="testingTemplate.title"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="ouDisplayName">
-                                        {{l('Process')}}
+                                    <th style="width: 250px" pSortableColumn="ouDisplayName">
+                                        Unit Head
                                         <p-sortIcon field="ouDisplayName"></p-sortIcon>
                                     </th>
-                                    <!--<th style="width: 250px" pSortableColumn="frequency">
-                                       Affected Business Units
-                                        <p-sortIcon field="testingTemplate.frequency"></p-sortIcon>
-                                    </th>-->
 
+                                    <th style="width: 250px" pSortableColumn="ouDisplayName">
+                                        Control Team
+                                        <p-sortIcon field="ouDisplayName"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 150px" pSortableColumn="ouDisplayName">
+                                       Current Rating
+                                        <p-sortIcon field="ouDisplayName"></p-sortIcon>
+                                    </th>
                                 </tr>
                             </ng-template>                           
 							<ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
-                                    <td style="width: 130px"
-                                        [hidden]="!isGrantedAny('Pages.TestingTemplates.Edit', 'Pages.TestingTemplates.Delete')">
+                                    <td style="width: 130px">
                                         <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
@@ -132,16 +117,16 @@
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
                                                     <a href="javascript:;"
-                                                       (click)="view(record.testingTemplate.id)">{{l('View')}}</a>
+                                                       (click)="view(record.department.id)">{{l('View')}}</a>
                                                 </li>
                                                 <!-- <li>
-                                                    <a href="javascript:;"
-                                                       (click)="createOrEditTestingTemplateModal.show(record.testingTemplate.id)">{{l('Edit')}}</a>
-                                                </li> -->
+                    <a href="javascript:;"
+                       (click)="createOrEditTestingTemplateModal.show(record.testingTemplate.id)">{{l('Edit')}}</a>
+                </li> -->
 
                                                 <li>
                                                     <a href="javascript:;" *ngIf="permission.isGranted('Pages.TestingTemplates.Delete')"
-                                                       (click)="deleteTestingTemplate(record.testingTemplate)">De-Activate</a>
+                                                       (click)="createNew(record.department)">Override</a>
                                                 </li>
                                                 <li>
                                                     <a href="javascript:;" *ngIf="entityHistoryEnabled"
@@ -153,21 +138,28 @@
 
                                     <td style="width:100px">
                                         <span class="ui-column-title"> {{l('Code')}}</span>
-                                        {{record.testingTemplate.code}}
+                                        {{record.department.code}}
+                                    </td>
+                                    <td style="width:300px">
+                                        <span class="ui-column-title"> Name</span>
+                                        {{record.department.name}}
                                     </td>
                                     <td style="width:250px">
-                                        <span class="ui-column-title"> {{l('Title')}}</span>
-                                        {{record.testingTemplate.title}}
+                                        <span class="ui-column-title"> Unit Head</span>
+                                        <span>{{record.userName}}</span>
+
+                                    </td>
+                                    <td style="width:250px">
+                                        <span class="ui-column-title"> Unit Head</span>
+                                        <span>{{record.organizationUnitDisplayName}}</span>
+
                                     </td>
                                     <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Process')}}</span>
-                                        <span >{{record.ouDisplayName}}</span>
-                                
+                                        <span class="ui-column-title"> Unit Head</span>
+                                        <span>{{record.ratingName}}  ({{record.ratingCode}})</span>
+
                                     </td>
-                                    <!--<td style="width:250px">
-                                        <span class="ui-column-title">Units Affected</span>
-                                        {{record.affectedDepartments}} <span *ngIf="record.cascade && record.affectedDepartments">and all sub-departments.</span>
-                                    </td>-->
+
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -177,7 +169,7 @@
                         <div class="primeng-paging-container">
                             <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
                                          #paginator
-                                         (onPageChange)="getTestingTemplates($event)"
+                                         (onPageChange)="getDepartments($event)"
                                          [totalRecords]="primengTableHelper.totalRecordsCount"
                                          [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                             </p-paginator>
@@ -192,8 +184,8 @@
         </div>
     </div>
 
-    <createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="getTestingTemplates()"></createOrEditTestingTemplateModal>
+    <!--<createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="getTestingTemplates()"></createOrEditTestingTemplateModal>
     <viewTestingTemplateModal #viewTestingTemplateModal></viewTestingTemplateModal>
-     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>-->
   </div>
 </div>

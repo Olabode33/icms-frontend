@@ -25,6 +25,7 @@ import { ViewWorkingPaperComponent } from './workingPaperNews/view-workingPaper/
 import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-auditor.component';
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
+import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { PlanningComponent } from './projects/planning/planning.component';
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
                     { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },
+                    { path: 'departmentRatingList/departmentRatingList', component: DepartmentRatingListComponent, data: { permission: 'Pages.Ratings' }  },
                     { path: 'projects/projects', component: ProjectsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
                     { path: 'projects/projects/view', component: ViewProjectComponent, /*data: { permission: 'Pages.Projects' } */ },

@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
@@ -86,6 +86,7 @@ import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-audi
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
 import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
+import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -138,7 +139,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         ExceptionIncidentsComponent,
         CreateOrEditExceptionIncidentComponent,
         ViewExceptionIncidentModalComponent, CreateOrEditExceptionIncidentModalComponent,
-
+        DepartmentRatingListComponent,
         ExceptionIncidentUserLookupTableModalComponent,
         ExceptionIncidentTestingTemplateLookupTableModalComponent,
         ExceptionIncidentOrganizationUnitLookupTableModalComponent,
