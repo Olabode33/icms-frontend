@@ -1,5 +1,5 @@
 import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExceptionIncidentsServiceProxy, ExceptionIncidentDto , Status } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -48,7 +48,8 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
-        private _fileDownloadService: FileDownloadService
+        private _fileDownloadService: FileDownloadService,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -88,7 +89,8 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
     }
 
     createExceptionIncident(): void {
-        this.createOrEditExceptionIncidentModal.show();
+        //this.createOrEditExceptionIncidentModal.show();
+        this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents/createOrEdit']);
     }
 
     deleteExceptionIncident(exceptionIncident: ExceptionIncidentDto): void {
@@ -123,5 +125,9 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
         .subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
          });
+    }
+
+    view(id:number): void {
+        this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents/createOrEdit'], { queryParams: { id: id } });
     }
 }

@@ -25784,8 +25784,53 @@ export interface IExceptionIncidentDto {
     id: number;
 }
 
+export class ExceptionIncidentAttachment implements IExceptionIncidentAttachment {
+    documentId!: string | undefined;
+    fileName!: string | undefined;
+    fileFormat!: string | undefined;
+
+    constructor(data?: IExceptionIncidentAttachment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.documentId = data["documentId"];
+            this.fileName = data["fileName"];
+            this.fileFormat = data["fileFormat"];
+        }
+    }
+
+    static fromJS(data: any): ExceptionIncidentAttachment {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExceptionIncidentAttachment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentId"] = this.documentId;
+        data["fileName"] = this.fileName;
+        data["fileFormat"] = this.fileFormat;
+        return data; 
+    }
+}
+
+export interface IExceptionIncidentAttachment {
+    documentId: string | undefined;
+    fileName: string | undefined;
+    fileFormat: string | undefined;
+}
+
 export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForViewDto {
     exceptionIncident!: ExceptionIncidentDto;
+    exceptionIncidentAttachment!: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName!: string | undefined;
     userName!: string | undefined;
     workingPaperCode!: string | undefined;
@@ -25804,6 +25849,11 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
     init(data?: any) {
         if (data) {
             this.exceptionIncident = data["exceptionIncident"] ? ExceptionIncidentDto.fromJS(data["exceptionIncident"]) : <any>undefined;
+            if (Array.isArray(data["exceptionIncidentAttachment"])) {
+                this.exceptionIncidentAttachment = [] as any;
+                for (let item of data["exceptionIncidentAttachment"])
+                    this.exceptionIncidentAttachment!.push(ExceptionIncidentAttachment.fromJS(item));
+            }
             this.exceptionTypeName = data["exceptionTypeName"];
             this.userName = data["userName"];
             this.workingPaperCode = data["workingPaperCode"];
@@ -25822,6 +25872,11 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["exceptionIncident"] = this.exceptionIncident ? this.exceptionIncident.toJSON() : <any>undefined;
+        if (Array.isArray(this.exceptionIncidentAttachment)) {
+            data["exceptionIncidentAttachment"] = [];
+            for (let item of this.exceptionIncidentAttachment)
+                data["exceptionIncidentAttachment"].push(item.toJSON());
+        }
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["userName"] = this.userName;
         data["workingPaperCode"] = this.workingPaperCode;
@@ -25833,6 +25888,7 @@ export class GetExceptionIncidentForViewDto implements IGetExceptionIncidentForV
 
 export interface IGetExceptionIncidentForViewDto {
     exceptionIncident: ExceptionIncidentDto;
+    exceptionIncidentAttachment: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName: string | undefined;
     userName: string | undefined;
     workingPaperCode: string | undefined;
@@ -25947,6 +26003,7 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
     workingPaperId!: string | undefined;
     organizationUnitId!: number | undefined;
     incidentColumns!: CreateOrEditExceptionIncidentColumnDto[] | undefined;
+    exceptionIncidentAttachment!: ExceptionIncidentAttachment[] | undefined;
     status!: Status;
     closureDate!: moment.Moment | undefined;
     closureComments!: string | undefined;
@@ -25974,6 +26031,11 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
                 this.incidentColumns = [] as any;
                 for (let item of data["incidentColumns"])
                     this.incidentColumns!.push(CreateOrEditExceptionIncidentColumnDto.fromJS(item));
+            }
+            if (Array.isArray(data["exceptionIncidentAttachment"])) {
+                this.exceptionIncidentAttachment = [] as any;
+                for (let item of data["exceptionIncidentAttachment"])
+                    this.exceptionIncidentAttachment!.push(ExceptionIncidentAttachment.fromJS(item));
             }
             this.status = data["status"];
             this.closureDate = data["closureDate"] ? moment(data["closureDate"].toString()) : <any>undefined;
@@ -26003,6 +26065,11 @@ export class CreateOrEditExceptionIncidentDto implements ICreateOrEditExceptionI
             for (let item of this.incidentColumns)
                 data["incidentColumns"].push(item.toJSON());
         }
+        if (Array.isArray(this.exceptionIncidentAttachment)) {
+            data["exceptionIncidentAttachment"] = [];
+            for (let item of this.exceptionIncidentAttachment)
+                data["exceptionIncidentAttachment"].push(item.toJSON());
+        }
         data["status"] = this.status;
         data["closureDate"] = this.closureDate ? this.closureDate.toISOString() : <any>undefined;
         data["closureComments"] = this.closureComments;
@@ -26020,6 +26087,7 @@ export interface ICreateOrEditExceptionIncidentDto {
     workingPaperId: string | undefined;
     organizationUnitId: number | undefined;
     incidentColumns: CreateOrEditExceptionIncidentColumnDto[] | undefined;
+    exceptionIncidentAttachment: ExceptionIncidentAttachment[] | undefined;
     status: Status;
     closureDate: moment.Moment | undefined;
     closureComments: string | undefined;
@@ -26030,6 +26098,7 @@ export interface ICreateOrEditExceptionIncidentDto {
 
 export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentForEditOutput {
     exceptionIncident!: CreateOrEditExceptionIncidentDto;
+    exceptionIncidentAttachment!: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName!: string | undefined;
     userName!: string | undefined;
     workingPaperCode!: string | undefined;
@@ -26047,6 +26116,11 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
     init(data?: any) {
         if (data) {
             this.exceptionIncident = data["exceptionIncident"] ? CreateOrEditExceptionIncidentDto.fromJS(data["exceptionIncident"]) : <any>undefined;
+            if (Array.isArray(data["exceptionIncidentAttachment"])) {
+                this.exceptionIncidentAttachment = [] as any;
+                for (let item of data["exceptionIncidentAttachment"])
+                    this.exceptionIncidentAttachment!.push(ExceptionIncidentAttachment.fromJS(item));
+            }
             this.exceptionTypeName = data["exceptionTypeName"];
             this.userName = data["userName"];
             this.workingPaperCode = data["workingPaperCode"];
@@ -26064,6 +26138,11 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["exceptionIncident"] = this.exceptionIncident ? this.exceptionIncident.toJSON() : <any>undefined;
+        if (Array.isArray(this.exceptionIncidentAttachment)) {
+            data["exceptionIncidentAttachment"] = [];
+            for (let item of this.exceptionIncidentAttachment)
+                data["exceptionIncidentAttachment"].push(item.toJSON());
+        }
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["userName"] = this.userName;
         data["workingPaperCode"] = this.workingPaperCode;
@@ -26074,6 +26153,7 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
 
 export interface IGetExceptionIncidentForEditOutput {
     exceptionIncident: CreateOrEditExceptionIncidentDto;
+    exceptionIncidentAttachment: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName: string | undefined;
     userName: string | undefined;
     workingPaperCode: string | undefined;
