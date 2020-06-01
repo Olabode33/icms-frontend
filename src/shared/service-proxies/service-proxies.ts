@@ -26098,7 +26098,6 @@ export interface ICreateOrEditExceptionIncidentDto {
 
 export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentForEditOutput {
     exceptionIncident!: CreateOrEditExceptionIncidentDto;
-    exceptionIncidentAttachment!: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName!: string | undefined;
     userName!: string | undefined;
     workingPaperCode!: string | undefined;
@@ -26116,11 +26115,6 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
     init(data?: any) {
         if (data) {
             this.exceptionIncident = data["exceptionIncident"] ? CreateOrEditExceptionIncidentDto.fromJS(data["exceptionIncident"]) : <any>undefined;
-            if (Array.isArray(data["exceptionIncidentAttachment"])) {
-                this.exceptionIncidentAttachment = [] as any;
-                for (let item of data["exceptionIncidentAttachment"])
-                    this.exceptionIncidentAttachment!.push(ExceptionIncidentAttachment.fromJS(item));
-            }
             this.exceptionTypeName = data["exceptionTypeName"];
             this.userName = data["userName"];
             this.workingPaperCode = data["workingPaperCode"];
@@ -26138,11 +26132,6 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["exceptionIncident"] = this.exceptionIncident ? this.exceptionIncident.toJSON() : <any>undefined;
-        if (Array.isArray(this.exceptionIncidentAttachment)) {
-            data["exceptionIncidentAttachment"] = [];
-            for (let item of this.exceptionIncidentAttachment)
-                data["exceptionIncidentAttachment"].push(item.toJSON());
-        }
         data["exceptionTypeName"] = this.exceptionTypeName;
         data["userName"] = this.userName;
         data["workingPaperCode"] = this.workingPaperCode;
@@ -26153,7 +26142,6 @@ export class GetExceptionIncidentForEditOutput implements IGetExceptionIncidentF
 
 export interface IGetExceptionIncidentForEditOutput {
     exceptionIncident: CreateOrEditExceptionIncidentDto;
-    exceptionIncidentAttachment: ExceptionIncidentAttachment[] | undefined;
     exceptionTypeName: string | undefined;
     userName: string | undefined;
     workingPaperCode: string | undefined;

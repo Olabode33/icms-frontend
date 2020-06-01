@@ -153,7 +153,8 @@
                                     </div>
                                 </tab>
                             </tabset>
-        
+
+                            
                             <div class="form-group">
                                 <label for="SignedTORFileUploadFileInput" class="control-label">Attachments</label>
                                 <p-fileUpload multiple="multiple"
@@ -163,14 +164,33 @@
                                             accept="image/*,.pdf,.xlsx,.docx"
                                             maxFileSize="1000000"
                                             (onUpload)="onUpload($event)"
-                                            (onBeforeSend)="onBeforeSend($event)">
-        
+                                            (onBeforeSend)="onBeforeSend($event)" >
+                                            <!-- *ngIf="exceptionIncident.status ==0 || exceptionIncident.id==0" -->
                                     <ng-template pTemplate="content">
-                                        <ul *ngIf="uploadedFiles.length>0">
-                                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                                        </ul>
+                                        <!-- <ul *ngIf="uploadedFiles.length>0">
+                                            <li *ngFor="let file of uploadedFiles">{{file.fileName}} - {{file.fileFormat}} bytes
+                                                | <a href="{{downloadResourceFile(file)}}" class="text-info" target="_blank"
+                                                title="{{l('DownloadFile')}}">
+                                                <span>
+                                                    <i class="fa fa-download"></i>&nbsp;<span>{{file.fileName}}</span>
+                                                </span>
+                                            </a>
+                                            </li>
+                                        </ul> -->
                                     </ng-template>
                                 </p-fileUpload>
+                                <div class="form-group">
+                                    <ul *ngIf="uploadedFiles.length>0">
+                                        <li *ngFor="let file of uploadedFiles">{{file.fileName}} - {{file.fileFormat}} 
+                                            | <a href="{{downloadResourceFile(file)}}" class="text-info" target="_blank"
+                                            title="{{l('DownloadFile')}}">
+                                            <span>
+                                                <i class="fa fa-download"></i>&nbsp;<span>{{file.fileName}}</span>
+                                            </span>
+                                        </a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <ul  *ngIf="attachments.length > 0">
                                     <li *ngFor="let file of attachments">
                                         <a href="{{downloadResourceFile(file)}}" class="text-info" target="_blank"
@@ -181,7 +201,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <p *ngIf="attachments.length == 0">No attachments found</p>
+                                <p *ngIf="attachments.length == 0 && exceptionIncident.status ==0">No new attachments found</p>
                             </div>
                     </div>
 

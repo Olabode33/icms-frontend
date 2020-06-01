@@ -96,9 +96,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
                     this.additionalColumns.push(item);
                 });
 
-                
             this.uploadedFiles=this.exceptionIncident.exceptionIncidentAttachment;
-console.log(this.uploadedFiles);
                 this.active = true;
             });
         }
@@ -127,7 +125,7 @@ console.log(this.uploadedFiles);
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
+                this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
              });
     }
 
@@ -137,7 +135,7 @@ console.log(this.uploadedFiles);
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
+                this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
             });
     }
 
@@ -147,7 +145,7 @@ console.log(this.uploadedFiles);
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
-                this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
+                this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
             });
     }
 
