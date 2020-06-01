@@ -1,14 +1,14 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
   <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
     <div class="kt-subheader kt-grid__item">
       <div [class]="containerClass">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{l("LibraryControls")}}</span>
+                <span>Control Library</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-                {{l("LibraryControlsHeaderInfo")}}
+                A list of generic controls.
             </span>
         </div>
         <div class="kt-subheader__toolbar">
@@ -71,23 +71,20 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.LibraryControls.Edit', 'Pages.LibraryControls.Delete')">{{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="name">
+                                    <th style="width: 350px" pSortableColumn="name">
                                         {{l('Name')}}
                                         <p-sortIcon field="libraryControl.name"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="description">
-                                        {{l('Description')}}
-                                        <p-sortIcon field="libraryControl.description"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="process">
+                            
+                                    <th style="width: 250px" pSortableColumn="process">
                                         {{l('Process')}}
                                         <p-sortIcon field="libraryControl.process"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="subProcess">
+                                    <th style="width: 200px" pSortableColumn="subProcess">
                                         {{l('SubProcess')}}
                                         <p-sortIcon field="libraryControl.subProcess"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="risk">
+                                    <th style="width: 250px" pSortableColumn="risk">
                                         {{l('Risk')}}
                                         <p-sortIcon field="libraryControl.risk"></p-sortIcon>
                                     </th>
@@ -95,16 +92,13 @@
                                         {{l('ControlType')}}
                                         <p-sortIcon field="libraryControl.controlType"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="controlPoint">
+                                    <th style="width: 200px" pSortableColumn="controlPoint">
                                         {{l('ControlPoint')}}
                                         <p-sortIcon field="libraryControl.controlPoint"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="frequency">
-                                        {{l('Frequency')}}
-                                        <p-sortIcon field="libraryControl.frequency"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="informationProcessingObjectives">
-                                        {{l('InformationProcessingObjectives')}}
+                            
+                                    <th style="width: 200px" pSortableColumn="informationProcessingObjectives">
+                                       Control Objectives
                                         <p-sortIcon field="libraryControl.informationProcessingObjectives"></p-sortIcon>
                                     </th>
 
@@ -134,23 +128,20 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <td style="width:150px">
+                                    <td style="width:350px">
 											<span class="ui-column-title"> {{l('Name')}}</span>
 											{{record.libraryControl.name}}
 										</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Description')}}</span>
-											{{record.libraryControl.description}}
-										</td>
-                                    <td style="width:150px">
+                            
+                                    <td style="width:200px">
 											<span class="ui-column-title"> {{l('Process')}}</span>
 											{{record.libraryControl.process}}
 										</td>
-                                    <td style="width:150px">
+                                    <td style="width:250px">
 											<span class="ui-column-title"> {{l('SubProcess')}}</span>
 											{{record.libraryControl.subProcess}}
 										</td>
-                                    <td style="width:150px">
+                                    <td style="width:250px">
 											<span class="ui-column-title"> {{l('Risk')}}</span>
 											{{record.libraryControl.risk}}
 										</td>
@@ -158,15 +149,12 @@
 											<span class="ui-column-title"> {{l('ControlType')}}</span>
 											{{record.libraryControl.controlType}}
 										</td>
-                                    <td style="width:150px">
+                                    <td style="width:200px">
 											<span class="ui-column-title"> {{l('ControlPoint')}}</span>
 											{{record.libraryControl.controlPoint}}
 										</td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('Frequency')}}</span>
-											{{record.libraryControl.frequency}}
-										</td>
-                                    <td style="width:150px">
+                    
+                                    <td style="width:200px">
 											<span class="ui-column-title"> {{l('InformationProcessingObjectives')}}</span>
 											{{record.libraryControl.informationProcessingObjectives}}
 										</td>
