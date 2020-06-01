@@ -403,17 +403,17 @@
                                     <div class="primeng-no-data" *ngIf="exceptions.length == 0">
                                         {{l('NoData')}}
                                     </div>
-                                    <!-- <div class="primeng-paging-container">
+                                    <div class="primeng-paging-container">
                                         <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
-                                                     #paginator
-                                                     (onPageChange)="getWorkingPaperNews($event)"
-                                                     [totalRecords]="primengTableHelper.totalRecordsCount"
+                                                     #exceptionsPaginator
+                                                     (onPageChange)="getException($event)"
+                                                     [totalRecords]="exceptionsCount"
                                                      [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                                         </p-paginator>
                                         <span class="total-records-count">
-                                            {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                            {{l('TotalRecordsCount', exceptionsCount)}}
                                         </span>
-                                    </div> -->
+                                    </div>
                                 </div>
                                 <!--<Primeng-Datatable-End>-->
                             </div>
@@ -509,7 +509,7 @@
 
                             <div class="font-weight-bold-sm text-muted font-size-sm">
                                 <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">{{exceptionsCount}}</span>
-                                exception(s) raised
+                                exceptions
                             </div>
 
                             <div class="progress progress-sm mt-7 bg-danger-o-60">

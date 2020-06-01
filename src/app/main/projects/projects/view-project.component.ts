@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -21,6 +21,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('exceptionsPaginator', { static: true }) exceptionsPaginator: Paginator;
     @ViewChild('workingPaperNewUserLookupTableModal', { static: true }) workingPaperNewUserLookupTableModal: WorkingPaperNewUserLookupTableModalComponent;
     @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
 
@@ -106,6 +107,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         private _activatedRoute: ActivatedRoute,
         private _projectsServiceProxy: ProjectsServiceProxy,
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
+        private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -144,6 +146,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             this.loading = false;
         });
         this.getWorkingPaperNews({ first: 0, sortField: undefined, rows: 10 });
+        this.getException({ first: 0, sortField: undefined, rows: 10 });
     }
 
     valueFormatting(value: number): string {
@@ -185,12 +188,27 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    getException(): void {
-        // this.loadingExceptions = true;
-        // this._workspaceService.getExceptions().subscribe(result => {
-        //     this.exceptions = result.items.filter(x => x.exceptionIncident.status !== Status.Closed);
-        //     this.loadingExceptions = false;
-        // });
+    getException(event?: LazyLoadEvent): void {
+        this._exceptionIncidentsServiceProxy.getAll(
+            this.filterText,
+            this.maxTaskDateFilter,
+            this.maxTaskDateFilter,
+            this.taskStatusFilter,
+            this.maxTaskDateFilter,
+            this.maxTaskDateFilter,
+            this.filterText,
+            this.userNameFilter,
+            this.testingTemplateCodeFilter,
+            this.organizationUnitDisplayNameFilter,
+            this.projectId,
+            -1,
+            '',
+            this.primengTableHelper.getSkipCount(this.exceptionsPaginator, event),
+            this.primengTableHelper.getMaxResultCount(this.exceptionsPaginator, event)
+        ).subscribe(result => {
+            this.exceptions = result.items;
+            this.exceptionsCount = result.totalCount;
+        });
     }
 
     reloadPage(): void {
@@ -229,7 +247,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     }
 
     goBack(): void {
-        this._router.navigate(['/app/main/projects/projects']);    
+        this._router.navigate(['/app/main/projects/projects']);
     }
 
 
