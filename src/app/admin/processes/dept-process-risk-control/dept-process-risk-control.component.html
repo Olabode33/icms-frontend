@@ -49,12 +49,62 @@
                                     </div>
                                     <div id="collapse{{i}}" class="collapse" [ngClass]="{show: item.isActive}">
                                         <div class="card-body">
-                                            Controls
-                                            <hr>
                                             <div *ngIf="loadingControls" class="progress">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
                                                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
+                                            <!--begin::Accordion-->
+                                            <div class="accordion accordion-toggle-arrow" id="accordionExample6">
+                                                <!-- General -->
+                                                <div class="card" *ngFor="let control of riskControls; let c = index;">
+                                                    <div class="card-header" id="heading{{c}}">
+                                                        <div class="card-title" [ngClass]="{collapsed: !control.isActive}" (click)="toggleControlAccordion(c)">
+                                                            <i class="fa fa-cog pr-2 kt-font-success"></i>
+                                                            <span class="pr-2 kt-font-success"> Control: {{ control.control.controlName }}</span>
+                                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-success">
+                                                                {{frequencyEnum[control.control.processRiskControl.frequency]}}
+                                                            </span>
+                                                            <!-- <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-primary">
+                                                                {{controlTypeEnum[control.control.processRiskControl.]}}
+                                                            </span> -->
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapse{{c}}" class="collapse" [ngClass]="{show: control.isActive}">
+                                                        <div class="card-body">
+                                                            <button type="button" class="btn btn-primary btn-sm" 
+                                                                (click)="createTestingTemplate(control.control.processRiskControl.id)">
+                                                                <i class="fa fa-plus"></i> Add Testing Template
+                                                            </button><br><br>
+                                                            <div class="table-responsive">
+                                                                <div class="table table-hover">
+                                                                    <p *ngIf="control.control.testingTemplates.items.length == 0">No template found</p>
+                                                                    <table class="table table-hover">
+                                                                        <tr *ngFor="let template of control.control.testingTemplates.items">
+                                                                            <td style="width: 70%;">
+                                                                                {{ template.testingTemplate.title }}
+                                                                            </td>
+                                                                            <td style="width: 30%;">
+                                                                                <button type="button" class="btn btn-primary btn-outline btn-sm pull-right" 
+                                                                                    (click)="review(template.testingTemplate.id)">
+                                                                                    Review
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="riskControls.length <= 0" class="text-muted">
+                                                    No control defined
+                                                </div>
+                                            </div>
+                                            <!--end::Accordion-->
+
+
+
+
                                             <!-- <div class="">
                                                 <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill"
                                                     dropdown container="body">
@@ -77,7 +127,7 @@
                                                     </ul>
                                                 </div>
                                             </div> -->
-                                            <div class="table-responsive">
+                                            <!-- <div class="table-responsive">
                                                 <div class="table table-hover">
                                                     <div *ngFor="let control of riskControls">
                                                         <div>
@@ -115,7 +165,7 @@
                                                         <div class="kt-separator kt-separator--border-solid"></div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>

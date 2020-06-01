@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
+import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditProcessRiskModalComponent } from '../process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
@@ -23,12 +23,15 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     private _isViewOnly = false;
     deptProcesses: {process: OrganizationUnitDto, isActive: boolean}[] = new Array();
     deptRisks: {risk: GetProcessRiskForViewDto, isActive: boolean}[] = new Array();
+    riskControls: {control: GetProcessRiskControlForViewDto, isActive: boolean}[] = new Array();
 
     //Controls
     loadingProcess = false;
     loadingRisk = false;
     loadingControls = false;
-    riskControls: GetProcessRiskControlForViewDto[] = new Array();
+
+    frequencyEnum = Frequency;
+    controlTypeEnum = ControlType;
 
     constructor(
         injector: Injector,
@@ -110,7 +113,10 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
             .pipe(finalize(() => this.loadingControls = false ))
             .subscribe(result => {
                 console.log(result);
-                this.riskControls = result.items.filter(x => x.processRiskControl.processRiskId == riskId);
+                this.riskControls = Array.from(new Set(result.items.filter(x => x.processRiskControl.processRiskId == riskId).map((i) => {
+                    return {control: i, isActive: false};
+                })));
+                    //result.items.filter(x => x.processRiskControl.processRiskId == riskId);
         });
     }
 
@@ -128,6 +134,15 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         this.deptRisks = this.deptRisks.map(x => { x.isActive = false; return x; } );
         this.deptRisks[index].isActive = !state;
         this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.processRisk.id, this.deptRisks[index].risk.processRisk.processId);
+    }
+
+    toggleControlAccordion(index) {
+        // let element = event.target;
+        // element.classList.toggle('active');
+        let state = this.riskControls[index].isActive;
+        this.riskControls = this.riskControls.map(x => { x.isActive = false; return x; } );
+        this.riskControls[index].isActive = !state;
+        //this.getOrganizationUnitRiskControl(this.deptRisks[index].risk.processRisk.id, this.deptRisks[index].risk.processRisk.processId);
     }
 
     createTestingTemplate(id: number): void {
