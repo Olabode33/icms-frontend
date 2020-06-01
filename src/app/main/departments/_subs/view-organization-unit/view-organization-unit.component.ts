@@ -115,7 +115,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         this.createOrEditDepartmentRatingModal.overrideDepartmentRating(this._organizationUnitId, this.department.name);
     }
 
-    getRatingHistory(): void {
+    getRatingHistory(event?): void {
         this._departmentRatingHistory.getAll('', '', '', '', 0, 100).subscribe(result => {
             let series =  Array.from(new Set(result.items.filter(x => x.departmentRating.organizationUnitId === this._organizationUnitId).map((i) => {
                 return { value: 26, name: i.departmentRating.ratingDate.toLocaleString() };
@@ -130,11 +130,11 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         });
     }
 
-    getWorkingPapers(): void {
+    getWorkingPapers(event?): void {
         //
     }
 
-    getExceptions(): void {
+    getExceptions(event?): void {
         //
     }
 
