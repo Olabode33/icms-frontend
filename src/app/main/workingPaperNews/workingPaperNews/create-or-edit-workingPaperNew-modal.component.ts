@@ -75,8 +75,8 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
                 }
                 this.testingTemplateCode = result.testingTemplateCode;
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-                this.userName = result.userName;
-                this.userName2 = result.userName2;
+                //this.userName = result.userName;
+                //this.userName2 = result.userName2;
 
                 this.active = true;
                 this.modal.show();

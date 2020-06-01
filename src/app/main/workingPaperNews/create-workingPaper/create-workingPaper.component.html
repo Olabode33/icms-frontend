@@ -45,43 +45,24 @@
                 <div [hidden]="!showGeneralInfoCard" class="kt-portlet__body">
 
                     <!--<div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="TestingTemplate_Title">Date</label>
-                            <input type="text" readonly id="TestingTemplate_Time_To_Complete" class="form-control" [value]="workingPaperNew.completionDate | momentFormat: 'LL'" name="DaysToComplete" />
-                        </div>
-                    </div>-->
+        <div class="form-group col-md-4">
+            <label for="TestingTemplate_Title">Date</label>
+            <input type="text" readonly id="TestingTemplate_Time_To_Complete" class="form-control" [value]="workingPaperNew.completionDate | momentFormat: 'LL'" name="DaysToComplete" />
+        </div>
+    </div>-->
                     <!--<div class="row">
-                        <div class="form-group col-md-6">
+        <div class="form-group col-md-6">
 
-                            <label for="TestingTemplate_Title">{{l("Testing Template")}} </label>
-                            <input type="text" readonly id="TestingTemplate_Title" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.title" name="Title" />
-                        </div>
-                    </div>-->
+            <label for="TestingTemplate_Title">{{l("Testing Template")}} </label>
+            <input type="text" readonly id="TestingTemplate_Title" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.title" name="Title" />
+        </div>
+    </div>-->
 
                     <div class="row">
                         <div class="form-group col-md-4">
 
                             <label for="TestingTemplate_Title">Business Unit</label>
                             <input type="text" readonly id="TestingTemplate_BU" class="form-control" [(ngModel)]="organizationUnitDisplayName" name="BU" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
-                        <textarea type="text" readonly rows="5" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.detailedInstructions" name="DetailedInstructions"></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="TestingTemplate_Title">Sample Size</label>
-                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.sampleSize" name="frequency" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="TestingTemplate_Title">Sample Type</label>
-                            <input type="text" readonly id="TestingTemplate_Value" class="form-control" value="Manual" name="TestingTemplate_Value" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="TestingTemplate_Title">Sample Approach</label>
-                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" value="Random" name="Approach" />
                         </div>
                     </div>
 
@@ -165,7 +146,7 @@
                                             <table class="table">
                                                 <tr>
                                                     <td style="width: 20%;">Code:</td>
-                                                    <td style="width: 80%;" >{{testingTemplate.control.code}}</td>
+                                                    <td style="width: 80%;">{{testingTemplate.control.code}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Name:</td>
@@ -199,6 +180,28 @@
                         </div>
                     </div>
 
+
+                    <div class="form-group">
+                        <label for="TestingTemplate_DetailedInstructions">{{l("DetailedInstructions")}}</label>
+                        <textarea type="text" readonly rows="5" id="TestingTemplate_DetailedInstructions" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.detailedInstructions" name="DetailedInstructions"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="TestingTemplate_Title">Sample Size</label>
+                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" [(ngModel)]="testingTemplate.testingTemplate.sampleSize" name="frequency" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="TestingTemplate_Title">Sample Type</label>
+                            <input type="text" readonly id="TestingTemplate_Value" class="form-control" value="Manual" name="TestingTemplate_Value" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="TestingTemplate_Title">Sample Approach</label>
+                            <input type="text" readonly id="TestingTemplate_Frequency" class="form-control" value="Random" name="Approach" />
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -225,7 +228,7 @@
 
                                 <div class="form-group col-md-7">
                                     <label for="TestingTemplate_Title">Sample Description</label>
-                                    <input type="text" id="TestingTemplate_SampleDescription" class="form-control" name="SampleSize" />
+                                    <input type="text" id="TestingTemplate_SampleDescription" class="form-control" [(ngModel)]="sampleIdentifier" name="SampleSize" />
                                 </div>
                                 <div class="form-group col-md-2">
                                     <br />

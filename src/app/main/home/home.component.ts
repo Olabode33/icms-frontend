@@ -115,9 +115,9 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     getWorkingPaper(): void {
         this.loadingTask = true;
         this._workspaceService.getWorkingPapers().subscribe(result => {
-            this.savedWorkingPaper = result.items.filter(x => x.completionLevel > 0 && x.completionLevel < 1 );
-            this.newWorkingPaper = result.items.filter(x => x.completionLevel === 0 && x.workingPaperNew.taskStatus === TaskStatus.Open);
-            this.submittedWorkingPaper = result.items.filter(x => x.completionLevel === 1);
+            this.savedWorkingPaper = result.items.filter(x => x.workingPaperNew.taskStatus != 3);
+            this.newWorkingPaper = result.items.filter(x => x.workingPaperNew.taskStatus != 3);
+            this.submittedWorkingPaper = result.items;
             this.loadingTask = false;
         });
     }

@@ -8,15 +8,15 @@
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <span class="kt-subheader__desc">
-                      Manage projects here.
+                      View your active projects here.
                     </span>
                 </div>
                 <div class="kt-subheader__toolbar">
                     <div class="kt-subheader__wrapper">
                         <!-- <button (click)="exportToExcel()" class="btn btn-outline-success"><i
                                 class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button> -->
-                        <button *ngIf="isGranted('Pages.Projects.Create')" (click)="createProject()"
-                            class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewProject")}}</button>
+                        <!--<button *ngIf="isGranted('Pages.Projects.Create')" (click)="createProject()"
+                            class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewProject")}}</button>-->
                     </div>
                 </div>
             </div>

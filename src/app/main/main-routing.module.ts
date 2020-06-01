@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
 import { RatingsComponent } from './ratings/ratings/ratings.component';
@@ -34,9 +34,9 @@ import { PlanningComponent } from './projects/planning/planning.component';
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
                     { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },
-                    { path: 'projects/projects', component: ProjectsComponent, data: { permission: 'Pages.Projects' }  },
+                    { path: 'projects/projects', component: ProjectsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'projects/projects/createOrEdit', component: CreateOrEditProjectComponent, data: { permission: 'Pages.Projects.Create' }  },
-                    { path: 'projects/projects/view', component: ViewProjectComponent, data: { permission: 'Pages.Projects' }  },
+                    { path: 'projects/projects/view', component: ViewProjectComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'workingPaperNews/workingPaperNews', component: WorkingPaperNewsComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/:workingPaperId', component: ViewWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },
                     { path: 'workingPaperNews/new/:testingTemplateId/:departmentId', component: CreateWorkingPaperComponent, data: { permission: 'Pages.WorkingPaperNews' }  },

@@ -28,8 +28,10 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     completionDate: Date;
     testingTemplateCode = '';
     organizationUnitDisplayName = '';
-    userName = '';
-    userName2 = '';
+    completedBy = '';
+    reviewedBy = '';
+    assignedTo = '';
+
 
     fakeTestingTemplateId = 6;
     fakeTestingTemplateCode = 'TT-1';
@@ -93,8 +95,9 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
             this.workingPaperNew.reviewDate = moment().startOf('day');
             this.testingTemplateCode = '';
             this.organizationUnitDisplayName = '';
-            this.userName = '';
-            this.userName2 = '';
+            this.completedBy = '';
+            this.reviewedBy = '';
+            this.assignedTo = '';
 
             this.testingTemplate.testingTemplate = new TestingTemplateDto();
             this.testingTemplate.attributes = [];
@@ -110,7 +113,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
             this.loading = false;
         } else {
             this._workingPaperNewsServiceProxy.getWorkingPaperNewForEdit(workingPaperNewId).subscribe(result => {
-                console.log(result);
+                //console.log(result);
                 this.workingPaperNew = result.workingPaperNew;
 
                 if (this.workingPaperNew.completionDate) {
@@ -119,8 +122,13 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                 //this.testingTemplate = result.testingTemplate;
                 this.testingTemplateCode = result.testingTemplateCode;
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-                this.userName = result.userName;
-                this.userName2 = result.userName2;
+                this.completedBy = '';
+                this.reviewedBy = '';
+                this.assignedTo = '';
+
+                this.reviewedBy = result.reviewedBy;
+                this.completedBy = result.completedBy;
+                this.assignedTo = result.assignedTo;
 
                 this.getTemplateDetails();
                 if (result.workingPaperDetails.length > 0) {
