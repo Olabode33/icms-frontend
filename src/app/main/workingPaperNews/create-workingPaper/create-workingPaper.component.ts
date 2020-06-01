@@ -60,6 +60,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     uploadedFiles: any[] = [];
     documentId: any;
 
+    maxCount = 0;
+
     constructor(
         injector: Injector,
         private _changeDetector: ChangeDetectorRef,
@@ -74,6 +76,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this.depts.items = new Array();
        // this.getAllDepartments();
         this.testingTemplate.testingTemplate = new TestingTemplateDto();
+        this.testingTemplate.risk = new RiskDto();
+        this.testingTemplate.control = new ControlDto();
         this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/DemoUiComponents/UploadFiles';
     }
 
@@ -92,7 +96,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
             if (params.workingPaperId) {
                 workingPaperId = params['workingPaperId'];
-             
+
                 this.show(workingPaperId);
             }
             //this.show();
@@ -136,7 +140,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 if (this.workingPaperNew.completionDate) {
                     this.completionDate = this.workingPaperNew.completionDate.toDate();
                 }
-                this.testingTemplate = result.testingTemplate;
+                //this.testingTemplate = result.testingTemplate;
                 this.testingTemplateCode = result.testingTemplateCode;
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName;
                 this.assignedTo = result.assignedTo;
@@ -144,6 +148,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.reviewedBy = result.reviewedBy;
 
                 this.sampleId = result.lastSequence ? result.lastSequence + 1 : 1;
+                this.maxCount = this.sampleId;
 
                 this.getTemplateDetails();
                 this.active = true;
@@ -195,27 +200,23 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     //    });
     //}
 
-    maxCount = 0;
 
     addResult(): void {
-
-       
         //check that all questions have been answered
         var test = false;
         this.attributes.forEach(x => {
             if (x.value == null) {
                 test = true;
             }
-        })
+        });
 
 
         if (test) {
-            this.notify.warn("Please complete all questions before you move on to the next sample.");
+            this.notify.warn('Please complete all questions before you move on to the next sample.');
             return;
         }
 
         let sample = this.samples.find(x => x.sampleId == this.sampleId);
-      
 
         if (sample != null) {
 
@@ -224,7 +225,6 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.samples.splice(sampleIndex);
         }
 
-       
         let item = {
             sampleId: this.sampleId,
             sampleIdentifier: this.sampleIdentifier,
@@ -242,16 +242,13 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                     id: x.testingAttrributeId,
                     name: x.attributeText,
                     value: null,
-                    
                     weight: x.weight,
                 };
                 this.comments = '';
                 this.sampleIdentifier = '';
-      
                 this.attributes.push(item);
             });
             this.sampleId++;
-        
             this.notify.info('Result for sample saved successfully!.');
         } else {
 
@@ -265,11 +262,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     getPrevious(): void {
         let sample = this.samples.find(x => x.sampleId == (this.sampleId - 1));
-
         this.sampleId--;
 
         this.sampleId = sample.sampleId;
-        this.attributes = sample.attributes;        
+        this.attributes = sample.attributes;
     }
 
 
@@ -285,7 +281,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     save(taskStatus: TaskStatus): void {
 
         this.message.confirm(
-            '',"Are you sure you want to submit this document?",
+            '', 'Are you sure you want to submit this document?',
             (isConfirmed) => {
                 if (isConfirmed) {
                     this.saving = true;
@@ -309,7 +305,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                             var item = new CreateOrEditTestingAttributeDto();
                             item.sequence = x.sampleId;
                             item.attributeText = y.name;
-                            item.result = y.value == "false" ? false : true;
+                            item.result = y.value; //== "false" ? false : true;
                             item.testingAttrributeId = y.id;
                             item.comments = y.comments;
                             item.sampleIdentifier = x.sampleIdentifier;
@@ -337,7 +333,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     }
 
     onUpload(event): void {
-
+        console.log(event);
         let resultArray = event.originalEvent.body.result;
         let files = event.files;
 

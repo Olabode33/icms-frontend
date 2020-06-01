@@ -250,11 +250,21 @@
                                             <td>{{x.name}}</td>
                                             <td>{{x.weight}}</td>
                                             <td>
-                                                <select class="form-control" name="result" [(ngModel)]="x.value">
+                                                <div class="kt-radio-inline">
+                                                    <label class="kt-radio">
+                                                        <input type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="true" checked> Yes
+                                                        <span></span>
+                                                    </label>
+                                                    <label class="kt-radio">
+                                                        <input type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="false"> No
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <!-- <select class="form-control" name="result" [(ngModel)]="x.value">
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                           
-                                                </select>
+                                                </select> -->
                                             </td>
                                         </tr>
                                     </table>
@@ -263,8 +273,9 @@
                                         <textarea type="text" id="WorkingPaperNew_Comment" class="form-control" rows="5" [(ngModel)]="workingPaperNew.comment" name="Comment"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="SignedTORFileUploadFileInput" class="control-label">Attachments</label>
+                                        <label for="SignedTORFileUploadFileInput" class="control-label">Attachments</label><br>
                                         <p-fileUpload 
+                                                    mode="basic"
                                                     id="DefaultFileUploadFileInput"
                                                     name="DefaultFileUploadFileInput[]"
                                                     [url]="uploadUrl"
@@ -291,19 +302,19 @@
                                         </ul>
                                         <p *ngIf="attachments.length == 0">No attachments found</p> -->
                                     </div>
-
+                                    {{maxCount}}
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <button *ngIf="sampleId > 1" type="button" class="btn btn-outline-primary" (click)="getPrevious()">Previous Sample</button>
                                             <button *ngIf="sampleId < maxCount" type="button" class="btn btn-outline-primary" (click)="getNext()">Next Sample</button>
                                         </div>
                                         <div class="col-md-6 pull-right">
-                                            <button *ngIf="workingPaperNew.organizationUnitId && organizationUnitDisplayName" (click)="createExceptionIncident()" class="btn btn-danger ">
+                                            <button type="button" class="btn btn-primary pull-right mx-1" (click)="addResult()">Add Result</button>
+                                            <button *ngIf="workingPaperNew.organizationUnitId && organizationUnitDisplayName" 
+                                                (click)="createExceptionIncident()" class="btn btn-danger pull-right mx-1">
                                                 <!--<i class="fa fa-plus"></i>-->
                                                 {{l("Log Exception")}}
                                             </button>
-                                         
-                                            <button type="button" class="btn btn-primary" (click)="addResult()">Add Result</button>
                                         </div>
                                     </div>
                                 </div>
