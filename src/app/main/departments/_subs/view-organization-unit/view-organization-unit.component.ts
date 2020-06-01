@@ -94,6 +94,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         this._activatedRoute.paramMap.subscribe(params => {
             this._organizationUnitId = +params.get('departmentId');
             this.getDepartmentDetails();
+            this.getRatingHistory();
         });
     }
 
@@ -117,16 +118,18 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     getRatingHistory(event?): void {
         this._departmentRatingHistory.getAll('', '', '', '', 0, 100).subscribe(result => {
+            console.log(result);
             let series =  Array.from(new Set(result.items.filter(x => x.departmentRating.organizationUnitId === this._organizationUnitId).map((i) => {
-                return { value: 26, name: i.departmentRating.ratingDate.toLocaleString() };
+                return { value: 26, name: i.departmentRating.ratingDate.format('YYYY-MMM-dd') };
             })));
+            console.log(series);
 
-            // this.lineChartData = [
-            //     {
-            //       name: 'Rating history',
-            //       series: series
-            //     }
-            // ];
+            this.lineChartData = [
+                {
+                  name: 'Rating history',
+                  series: series
+                }
+            ];
         });
     }
 

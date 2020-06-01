@@ -276,10 +276,19 @@
                                                         </span>
                                                     </td>
                                                     <td class="pr-0 text-right">
-                                                        <button (click)="view(record.workingPaperNew.id)"
+                                                        <button *ngIf="record.workingPaperNew.taskStatus === taskStatusEnum.PendingReview || 
+                                                                       record.workingPaperNew.taskStatus === taskStatusEnum.Approved || 
+                                                                       record.workingPaperNew.taskStatus === taskStatusEnum.Rejected"
+                                                                (click)="view(record.workingPaperNew.id)"
                                                                 class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
                                                                 title="View working paper">
                                                             <i class="fa fa-eye"></i>
+                                                        </button>
+                                                        <button *ngIf="record.workingPaperNew.taskStatus === taskStatusEnum.Draft || record.workingPaperNew.taskStatus === taskStatusEnum.Open"
+                                                                (click)="edit(record.workingPaperNew.id)"
+                                                                class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
+                                                                title="View working paper">
+                                                            <i class="fa fa-edit"></i>
                                                         </button>
                                                         <button *ngIf="record.workingPaperNew.assigneeId === appSession.userId" (click)="openAssignToUserModal(record)"
                                                                 class="btn btn-label-warning btn-sm btn-bold btn-upper btn-sm"

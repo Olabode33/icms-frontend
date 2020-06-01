@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-create-workingPaper',
@@ -55,6 +56,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     completedBy = '';
     assignedTo = '';
 
+    uploadUrl: string;
+    uploadedFiles: any[] = [];
+    documentId: any;
+
     constructor(
         injector: Injector,
         private _changeDetector: ChangeDetectorRef,
@@ -69,6 +74,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this.depts.items = new Array();
        // this.getAllDepartments();
         this.testingTemplate.testingTemplate = new TestingTemplateDto();
+        this.uploadUrl = AppConsts.remoteServiceBaseUrl + '/DemoUiComponents/UploadFiles';
     }
 
     ngOnInit(): void {
@@ -324,14 +330,34 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         );
     }
 
-
-
-
-
     createExceptionIncident(): void {
         if (this.workingPaperNew.organizationUnitId && this.organizationUnitDisplayName) {
             this.createOrEditExceptionIncidentModal.logException(this.workingPaperNew.organizationUnitId, this.organizationUnitDisplayName);
         }
+    }
+
+    onUpload(event): void {
+
+        let resultArray = event.originalEvent.body.result;
+        let files = event.files;
+
+        for (let i = 0; i < resultArray.length; i++) {
+            this.documentId = resultArray[i].id;
+        }
+    }
+
+    onBeforeSend(event): void {
+        event.xhr.setRequestHeader('Authorization', 'Bearer ' + abp.auth.getToken());
+    }
+
+    downloadResourceFile(): string {
+        return AppConsts.remoteServiceBaseUrl +
+            '/File/DownloadBinaryFile?id=' +
+            this.documentId +
+            // '&contentType=' +
+            // attachment.fileFormat +
+            '&fileName=' +
+            this.testingTemplate.testingTemplate.title;
     }
 
 }
