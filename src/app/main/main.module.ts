@@ -1,7 +1,15 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
+import { ViewLibraryControlModalComponent } from './libraryControls/libraryControls/view-libraryControl-modal.component';
+import { CreateOrEditLibraryControlModalComponent } from './libraryControls/libraryControls/create-or-edit-libraryControl-modal.component';
+
+import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
+import { ViewLibraryRiskModalComponent } from './libraryRisks/libraryRisks/view-libraryRisk-modal.component';
+import { CreateOrEditLibraryRiskModalComponent } from './libraryRisks/libraryRisks/create-or-edit-libraryRisk-modal.component';
+
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
 import { ViewDepartmentRatingModalComponent } from './departmentRatingHistory/departmentRatingHistory/view-departmentRating-modal.component';
 import { CreateOrEditDepartmentRatingModalComponent } from './departmentRatingHistory/departmentRatingHistory/create-or-edit-departmentRating-modal.component';
@@ -113,6 +121,10 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+		LibraryControlsComponent,
+		ViewLibraryControlModalComponent,		CreateOrEditLibraryControlModalComponent,
+		LibraryRisksComponent,
+		ViewLibraryRiskModalComponent,		CreateOrEditLibraryRiskModalComponent,
         PlanningComponent,
         DepartmentRatingHistoryComponent,
         ViewDepartmentRatingModalComponent, CreateOrEditDepartmentRatingModalComponent,

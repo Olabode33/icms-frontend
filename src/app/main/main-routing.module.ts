@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
+import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
 import { RatingsComponent } from './ratings/ratings/ratings.component';
 import { ProjectsComponent } from './projects/projects/projects.component';
@@ -33,6 +35,8 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
             {
                 path: '',
                 children: [
+                    { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
+                    { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
                     { path: 'departmentRatingHistory/departmentRatingHistory', component: DepartmentRatingHistoryComponent, data: { permission: 'Pages.DepartmentRatingHistory' }  },
                     { path: 'ratings/ratings', component: RatingsComponent, data: { permission: 'Pages.Ratings' }  },

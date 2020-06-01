@@ -1,0 +1,48 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #libraryRiskForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="libraryRisk.id">{{l("EditLibraryRisk")}}</span>
+                        <span *ngIf="!libraryRisk.id">{{l("CreateNewLibraryRisk")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="LibraryRisk_Name">{{l("Name")}} *</label>
+									<input type="text" id="LibraryRisk_Name" class="form-control" [(ngModel)]="libraryRisk.name" name="Name"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryRisk_Process">{{l("Process")}}</label>
+									<input type="text" id="LibraryRisk_Process" class="form-control" [(ngModel)]="libraryRisk.process" name="Process"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryRisk_Description">{{l("Description")}}</label>
+									<input type="text" id="LibraryRisk_Description" class="form-control" [(ngModel)]="libraryRisk.description" name="Description"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="LibraryRisk_SubProcess">{{l("SubProcess")}}</label>
+									<input type="text" id="LibraryRisk_SubProcess" class="form-control" [(ngModel)]="libraryRisk.subProcess" name="SubProcess"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!libraryRiskForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

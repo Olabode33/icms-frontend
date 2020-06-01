@@ -1,4 +1,4 @@
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -40,7 +40,9 @@ export class AppNavigationService {
             //new AppMenuItem('DepartmentRatingHistory', 'Pages.DepartmentRatingHistory', 'flaticon-more', '/app/main/departmentRatingHistory/departmentRatingHistory'),
 
 
-            new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
+           
+
+             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
 
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [    
                     new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),
@@ -55,7 +57,10 @@ export class AppNavigationService {
                     new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
                 ]),
 
-       
+                 new AppMenuItem('Library', '', 'fa fa-briefcase', '', [
+                     new AppMenuItem('LibraryRisks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
+                     new AppMenuItem('LibraryControls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),
+                 ]),
 
 
                 new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
