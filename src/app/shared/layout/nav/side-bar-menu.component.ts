@@ -56,7 +56,22 @@ export class SideBarMenuComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
-        this.menu = this._appNavigationService.getMenu();
+        switch (localStorage.getItem('selectedModule')) {
+            case 'internalControl':
+                this.menu = this._appNavigationService.getInternalControlMenu();
+                break;
+            case 'internalAudit':
+                this.menu = this._appNavigationService.getInternalAuditMenu();
+                break;
+            case 'opRisk':
+                this.menu = this._appNavigationService.getOpRiskMenu();
+                break;
+            case 'general':
+                this.menu = this._appNavigationService.getGeneralMenu();
+                break;
+            default:
+                break;
+        }
 
         this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
 

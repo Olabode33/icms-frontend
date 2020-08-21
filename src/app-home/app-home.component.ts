@@ -12,4 +12,8 @@ export class AppHomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  setSelectedModule(module: string) {
+    localStorage.setItem('selectedModule', module);
+  }
+
 }

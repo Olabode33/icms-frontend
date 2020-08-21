@@ -12,7 +12,7 @@
                 </p>
                 <nav>
                     <div class="landing_container">
-                        <a class="items animated fadeIn" routerLink="/app/main/home">
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('internalControl')">
                             <div class="icon-wrapper">
                                 <i class="flaticon-interface-8"></i>
                             </div>
@@ -20,8 +20,8 @@
                                 <p >INTERNAL CONTROL</p>
                             </div>
                         </a>
-            
-                        <a class="items animated fadeIn" routerLink="/app/main/home">
+
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('opRisk')">
                             <div class="icon-wrapper">
                                 <i class="flaticon-graph"></i>
                             </div>
@@ -29,8 +29,8 @@
                                 <p >OPERATIONAL RISK</p>
                             </div>
                         </a>
-            
-                        <a class="items animated fadeIn" routerLink="/app/main/home">
+
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('internalAudit')">
                             <div class="icon-wrapper">
                                 <i class="flaticon-background"></i>
                             </div>
@@ -38,8 +38,8 @@
                                 <p >INTERNAL AUDIT</p>
                             </div>
                         </a>
-            
-                        <a class="items animated fadeIn" routerLink="/app/main/home">
+
+                        <a class="items animated fadeIn" routerLink="/app/main/home"  (click)="setSelectedModule('general')">
                             <div class="icon-wrapper">
                                 <i class="flaticon-app"></i>
                             </div>
@@ -47,7 +47,7 @@
                                 <p >GENERAL</p>
                             </div>
                         </a>
-            
+
                     </div>
                 </nav>
             </header>
