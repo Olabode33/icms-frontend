@@ -2,6 +2,7 @@ import { Injector, Component, ViewEncapsulation, Inject } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './default-brand.component.html',
@@ -15,9 +16,15 @@ export class DefaultBrandComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        @Inject(DOCUMENT) private document: Document
+        @Inject(DOCUMENT) private document: Document,
+        private _router: Router
     ) {
         super(injector);
+        if (this._router.url.indexOf('/app/main/landing') >= 0 ) {
+            this.document.body.classList.add('kt-aside--minimize');
+        } else {
+            this.document.body.classList.remove('kt-aside--minimize');
+        }
     }
 
     toggleLeftAside(): void {

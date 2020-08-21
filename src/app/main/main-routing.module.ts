@@ -28,6 +28,7 @@ import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-audi
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
     imports: [
@@ -64,6 +65,7 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
             }

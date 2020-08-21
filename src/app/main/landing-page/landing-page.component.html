@@ -1,0 +1,97 @@
+<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span>Home</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <span class="kt-subheader__desc">
+                 
+                    </span>
+                </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <!-- <button (click)="goBack()" class="btn btn-outline-success">
+                            <i class="fa fa-reply"></i> {{l("Back")}}
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head  kt-portlet__head--noborder">
+                </div>
+                <div class="kt-portlet__body kt-portlet__body--fit-y">
+                    <header>
+                        <h1>
+                            ICOA MANAGEMENT SYSTEM
+                        </h1>
+                        <p>
+                            Enterprise grade solution that automates the process of managing your
+                            Internal Control, Internal Audit and Operations activities.
+                        </p>
+                    </header>
+                    <section class="tiles">
+                        <article class="style1">
+                            <span class="image">
+                                <img src="assets/common/images/icons/pic01.jpg" alt="" />
+                            </span>
+                            <a routerLink="/app/main/home">
+                                <h2>
+                                    <i class="flaticon-interface-8"></i><br>
+                                    Internal Control
+                                </h2>
+                                <div class="content">
+                                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="style2">
+                            <span class="image">
+                                <img src="assets/common/images/icons/pic02.jpg" alt="" />
+                            </span>
+                            <a routerLink="/app/main/home">
+                                <h2>
+                                    <i class="flaticon-graph"></i><br>
+                                    Operations</h2>
+                                <div class="content">
+                                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="style3">
+                            <span class="image">
+                                <img src="assets/common/images/icons/pic03.jpg" alt="" />
+                            </span>
+                            <a routerLink="/app/main/home">
+                                <h2>
+                                    <i class="flaticon-background"></i><br>
+                                    Internal Audit</h2>
+                                <div class="content">
+                                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                                </div>
+                            </a>
+                        </article>
+                        <article class="style4">
+                            <span class="image">
+                                <img src="assets/common/images/icons/pic04.jpg" alt="" />
+                            </span>
+                            <a routerLink="/app/main/home">
+                                <h2>
+                                    <i class="flaticon-app"></i><br>
+                                    General
+                                </h2>
+                                <div class="content">
+                                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                                </div>
+                            </a>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

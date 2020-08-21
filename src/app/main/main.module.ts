@@ -95,6 +95,7 @@ import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPa
 import { PlanningComponent } from './projects/planning/planning.component';
 import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -121,6 +122,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        LandingPageComponent,
 		LibraryControlsComponent,
 		ViewLibraryControlModalComponent,		CreateOrEditLibraryControlModalComponent,
 		LibraryRisksComponent,

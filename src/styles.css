@@ -558,3 +558,8 @@ body{margin-top:20px;
         background-color: #c9f7f5;
         border-color: transparent;
     }
+
+    .table.table-head-bg thead th, .table.table-head-bg thead tr {
+        background-color: var(--primary-color) !important;
+        color: #fff !important;
+    }
