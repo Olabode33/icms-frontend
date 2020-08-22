@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
   selector: 'app-app-home',
@@ -7,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppHomeComponent implements OnInit {
 
+  _AppConsts = AppConsts;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   setSelectedModule(module: string) {
-    localStorage.setItem('selectedModule', module);
+    localStorage.setItem(AppConsts.SelectedModuleKey, module);
   }
 
 }

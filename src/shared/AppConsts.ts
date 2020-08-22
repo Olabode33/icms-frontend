@@ -27,4 +27,11 @@ export class AppConsts {
     static readonly grid = {
         defaultPageSize: 10
     };
+
+
+    static readonly SelectedModuleKey = 'selectedModule';
+    static readonly ModuleKeyValueInternalControl = 'internalControl';
+    static readonly ModuleKeyValueInternalAudit = 'internalAudit';
+    static readonly ModuleKeyValueOpRisk = 'opRisk';
+    static readonly ModuleKeyValueGeneral = 'general';
 }

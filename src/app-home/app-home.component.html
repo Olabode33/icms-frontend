@@ -5,14 +5,14 @@
 
         <!-- Header -->
             <header id="header">
-                <h1 class="text-white">iGRCS</h1>
+                <h1 class="text-white" style="font-family: Georgia, 'Times New Roman', Times, serif;"><i>i</i>GRCS</h1>
                 <p class="text-white" style="width: 40%; margin-left: auto; margin-right: auto;">
                     Enterprise grade solution that automates the process of managing your
                     Internal Control, Internal Audit and Operational Risk activities.
                 </p>
                 <nav>
                     <div class="landing_container">
-                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('internalControl')">
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule(_AppConsts.ModuleKeyValueInternalControl)">
                             <div class="icon-wrapper">
                                 <i class="flaticon-interface-8"></i>
                             </div>
@@ -21,7 +21,7 @@
                             </div>
                         </a>
 
-                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('opRisk')">
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule(_AppConsts.ModuleKeyValueOpRisk)">
                             <div class="icon-wrapper">
                                 <i class="flaticon-graph"></i>
                             </div>
@@ -30,7 +30,7 @@
                             </div>
                         </a>
 
-                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule('internalAudit')">
+                        <a class="items animated fadeIn" routerLink="/app/main/home" (click)="setSelectedModule(_AppConsts.ModuleKeyValueInternalAudit)">
                             <div class="icon-wrapper">
                                 <i class="flaticon-background"></i>
                             </div>
@@ -39,7 +39,7 @@
                             </div>
                         </a>
 
-                        <a class="items animated fadeIn" routerLink="/app/main/home"  (click)="setSelectedModule('general')">
+                        <a class="items animated fadeIn" routerLink="/app/main/home"  (click)="setSelectedModule(_AppConsts.ModuleKeyValueGeneral)">
                             <div class="icon-wrapper">
                                 <i class="flaticon-app"></i>
                             </div>

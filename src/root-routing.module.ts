@@ -3,7 +3,7 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { AppUiCustomizationService } from '@shared/common/ui/app-ui-customization.service';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/icms', pathMatch: 'full' },
+    { path: '', redirectTo: '/igrcs', pathMatch: 'full' },
     {
         path: 'account',
         loadChildren: () => import('account/account.module').then(m => m.AccountModule), //Lazy load account module
@@ -11,7 +11,7 @@ const routes: Routes = [
     },
 
     {
-        path: 'icms',
+        path: 'igrcs',
         loadChildren: () => import('app-home/app-home.module').then(m => m.AppHomeModule), //Lazy load player module
     },
 ];
@@ -48,7 +48,7 @@ export class RootRoutingModule {
                 this.setAppModuleBodyClassInternal();
             }
 
-            if (url.indexOf('/icms/') >= 0) {
+            if (url.indexOf('/igrcs/') >= 0) {
                 this.setAccountModuleBodyClassInternal();
             } else {
                 this.setAppModuleBodyClassInternal();

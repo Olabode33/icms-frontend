@@ -73,8 +73,10 @@
 /* Set your background with this */
 
     background: #348cb2 url("/assets/common/images/bg.png") bottom left;
-    background-repeat: repeat-x;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 100%;
+    width: 100%;
     left: 0;
     opacity: 1;
     position: fixed;
@@ -146,8 +148,8 @@
 }
 
 #bg {
-    background-size: 2250px auto;
-    width: 6750px;
+    /* background-size: 2250px auto;
+    width: 6750px; */
 }
 
 /* Overlay */
@@ -651,8 +653,8 @@
     }
 
     #bg {
-        background-size: 1500px auto;
-        width: 4500px;
+        /* background-size: 1500px auto; */
+        width: 100%;
     } }
 
 /* Normal */
@@ -733,8 +735,8 @@
     }
 
     #bg {
-        background-size: 750px auto;
-        width: 2250px;
+        /* background-size: 750px auto;
+        width: 2250px; */
     } }
 
 
@@ -755,6 +757,13 @@
 
         .landing_container {
             grid-template-columns: repeat(1, auto);
+        }
+
+        #header {
+            vertical-align: baseline;
+            height: 90vh;
+            overflow-y: scroll;
+            top: 5vh;
         }
 
     }

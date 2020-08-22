@@ -7,6 +7,7 @@ import { DOCUMENT } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MenuOptions } from '@metronic/app/core/_base/layout/directives/menu.directive';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './side-bar-menu.component.html',
@@ -56,20 +57,21 @@ export class SideBarMenuComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
-        switch (localStorage.getItem('selectedModule')) {
-            case 'internalControl':
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
                 this.menu = this._appNavigationService.getInternalControlMenu();
                 break;
-            case 'internalAudit':
+            case AppConsts.ModuleKeyValueInternalAudit:
                 this.menu = this._appNavigationService.getInternalAuditMenu();
                 break;
-            case 'opRisk':
+            case AppConsts.ModuleKeyValueOpRisk:
                 this.menu = this._appNavigationService.getOpRiskMenu();
                 break;
-            case 'general':
+            case AppConsts.ModuleKeyValueGeneral:
                 this.menu = this._appNavigationService.getGeneralMenu();
                 break;
             default:
+                this.router.navigate(['/igrcs']);
                 break;
         }
 

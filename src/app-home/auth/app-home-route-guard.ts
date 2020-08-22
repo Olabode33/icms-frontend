@@ -85,6 +85,6 @@ export class AppHomeRouteGuard implements CanActivate, CanActivateChild, CanLoad
         //    return '/app/main/dashboard';
         //}
 
-        return 'icms/home';
+        return 'igrcs/home';
     }
 }
