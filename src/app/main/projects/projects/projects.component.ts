@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectsServiceProxy, ProjectDto, EntityDto } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, ProjectDto, EntityDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -17,6 +17,7 @@ import * as moment from 'moment';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './projects.component.html',
@@ -48,6 +49,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
 
     viewAllProjectFilter = false;
     commencedFilter: boolean;
+    projectOwner: ProjectOwner;
 
     constructor(
         injector: Injector,
@@ -69,6 +71,26 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
         return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+    }
+
+    getModule(): void {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.projectOwner = ProjectOwner.InternalControl;
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.projectOwner = ProjectOwner.InternalAudit;
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.projectOwner = ProjectOwner.OperationRisk;
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.projectOwner = ProjectOwner.General;
+                break;
+            default:
+                this.projectOwner = undefined;
+                break;
+        }
     }
 
     getProjects(event?: LazyLoadEvent) {
@@ -93,6 +115,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
             !this.viewAllProjectFilter,
+            this.projectOwner,
             '',
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)

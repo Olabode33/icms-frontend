@@ -269,4 +269,23 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             }
         );
     }
+
+    activateProject(project: ProjectDto): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let item = new EntityDto();
+
+                    item.id = project.id;
+                    this._projectsServiceProxy.activate(item)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success('Successfully Activated');
+                        });
+                }
+            }
+        );
+    }
 }

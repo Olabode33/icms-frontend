@@ -563,3 +563,21 @@ body{margin-top:20px;
         background-color: var(--primary-color) !important;
         color: #fff !important;
     }
+
+    datalist {
+        width: 121%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+    
+    datalist option {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
+        -webkit-flex-basis: 0;
+            -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+    }

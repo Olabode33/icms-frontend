@@ -14768,12 +14768,13 @@ export class ProjectsServiceProxy {
      * @param organizationUnitDisplayNameFilter (optional) 
      * @param organizationUnitDisplayName2Filter (optional) 
      * @param commencedFilter (optional) 
+     * @param projectOwner (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, commencedFilter: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
+    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, commencedFilter: boolean | undefined, projectOwner: ProjectOwner | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Projects/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14827,6 +14828,10 @@ export class ProjectsServiceProxy {
             throw new Error("The parameter 'commencedFilter' cannot be null.");
         else if (commencedFilter !== undefined)
             url_ += "CommencedFilter=" + encodeURIComponent("" + commencedFilter) + "&"; 
+        if (projectOwner === null)
+            throw new Error("The parameter 'projectOwner' cannot be null.");
+        else if (projectOwner !== undefined)
+            url_ += "ProjectOwner=" + encodeURIComponent("" + projectOwner) + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -32996,6 +33001,8 @@ export class RiskDto implements IRiskDto {
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IRiskDto) {
@@ -33013,6 +33020,8 @@ export class RiskDto implements IRiskDto {
             this.name = data["name"];
             this.description = data["description"];
             this.severity = data["severity"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33030,6 +33039,8 @@ export class RiskDto implements IRiskDto {
         data["name"] = this.name;
         data["description"] = this.description;
         data["severity"] = this.severity;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33040,6 +33051,8 @@ export interface IRiskDto {
     name: string | undefined;
     description: string | undefined;
     severity: Severity;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -34631,6 +34644,13 @@ export interface IChangeUserLanguageDto {
     languageName: string | undefined;
 }
 
+export enum ProjectOwner {
+    InternalAudit = 0,
+    InternalControl = 1,
+    OperationRisk = 2,
+    General = 3,
+}
+
 export enum ReviewType {
     Department = 0,
     Process = 1,
@@ -34652,6 +34672,7 @@ export class ProjectDto implements IProjectDto {
     controlUnitId!: number | undefined;
     scopeId!: number | undefined;
     commenced!: boolean;
+    projectOwner!: ProjectOwner;
     id!: number;
 
     constructor(data?: IProjectDto) {
@@ -34680,6 +34701,7 @@ export class ProjectDto implements IProjectDto {
             this.controlUnitId = data["controlUnitId"];
             this.scopeId = data["scopeId"];
             this.commenced = data["commenced"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -34708,6 +34730,7 @@ export class ProjectDto implements IProjectDto {
         data["controlUnitId"] = this.controlUnitId;
         data["scopeId"] = this.scopeId;
         data["commenced"] = this.commenced;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -34729,6 +34752,7 @@ export interface IProjectDto {
     controlUnitId: number | undefined;
     scopeId: number | undefined;
     commenced: boolean;
+    projectOwner: ProjectOwner;
     id: number;
 }
 
@@ -35424,6 +35448,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditRiskDto) {
@@ -35440,6 +35466,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
             this.name = data["name"];
             this.description = data["description"];
             this.severity = data["severity"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -35456,6 +35484,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
         data["name"] = this.name;
         data["description"] = this.description;
         data["severity"] = this.severity;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -35465,6 +35495,8 @@ export interface ICreateOrEditRiskDto {
     name: string | undefined;
     description: string | undefined;
     severity: Severity;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
