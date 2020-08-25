@@ -23016,6 +23016,9 @@ export class ControlDto implements IControlDto {
     description!: string | undefined;
     controlType!: ControlType;
     frequency!: Frequency;
+    controlPoint!: string | undefined;
+    controlObjective!: string | undefined;
+    controlOwnerId!: number | undefined;
     id!: number;
 
     constructor(data?: IControlDto) {
@@ -23034,6 +23037,9 @@ export class ControlDto implements IControlDto {
             this.description = data["description"];
             this.controlType = data["controlType"];
             this.frequency = data["frequency"];
+            this.controlPoint = data["controlPoint"];
+            this.controlObjective = data["controlObjective"];
+            this.controlOwnerId = data["controlOwnerId"];
             this.id = data["id"];
         }
     }
@@ -23052,6 +23058,9 @@ export class ControlDto implements IControlDto {
         data["description"] = this.description;
         data["controlType"] = this.controlType;
         data["frequency"] = this.frequency;
+        data["controlPoint"] = this.controlPoint;
+        data["controlObjective"] = this.controlObjective;
+        data["controlOwnerId"] = this.controlOwnerId;
         data["id"] = this.id;
         return data; 
     }
@@ -23063,11 +23072,15 @@ export interface IControlDto {
     description: string | undefined;
     controlType: ControlType;
     frequency: Frequency;
+    controlPoint: string | undefined;
+    controlObjective: string | undefined;
+    controlOwnerId: number | undefined;
     id: number;
 }
 
 export class GetControlForViewDto implements IGetControlForViewDto {
     control!: ControlDto;
+    controlOwnerName!: string | undefined;
 
     constructor(data?: IGetControlForViewDto) {
         if (data) {
@@ -23081,6 +23094,7 @@ export class GetControlForViewDto implements IGetControlForViewDto {
     init(data?: any) {
         if (data) {
             this.control = data["control"] ? ControlDto.fromJS(data["control"]) : <any>undefined;
+            this.controlOwnerName = data["controlOwnerName"];
         }
     }
 
@@ -23094,12 +23108,14 @@ export class GetControlForViewDto implements IGetControlForViewDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        data["controlOwnerName"] = this.controlOwnerName;
         return data; 
     }
 }
 
 export interface IGetControlForViewDto {
     control: ControlDto;
+    controlOwnerName: string | undefined;
 }
 
 export class PagedResultDtoOfGetControlForViewDto implements IPagedResultDtoOfGetControlForViewDto {
@@ -23155,6 +23171,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
     description!: string | undefined;
     controlType!: ControlType;
     frequency!: Frequency;
+    controlPoint!: string | undefined;
+    controlObjective!: string | undefined;
+    controlOwnerId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditControlDto) {
@@ -23172,6 +23191,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
             this.description = data["description"];
             this.controlType = data["controlType"];
             this.frequency = data["frequency"];
+            this.controlPoint = data["controlPoint"];
+            this.controlObjective = data["controlObjective"];
+            this.controlOwnerId = data["controlOwnerId"];
             this.id = data["id"];
         }
     }
@@ -23189,6 +23211,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
         data["description"] = this.description;
         data["controlType"] = this.controlType;
         data["frequency"] = this.frequency;
+        data["controlPoint"] = this.controlPoint;
+        data["controlObjective"] = this.controlObjective;
+        data["controlOwnerId"] = this.controlOwnerId;
         data["id"] = this.id;
         return data; 
     }
@@ -23199,11 +23224,15 @@ export interface ICreateOrEditControlDto {
     description: string | undefined;
     controlType: ControlType;
     frequency: Frequency;
+    controlPoint: string | undefined;
+    controlObjective: string | undefined;
+    controlOwnerId: number | undefined;
     id: number | undefined;
 }
 
 export class GetControlForEditOutput implements IGetControlForEditOutput {
     control!: CreateOrEditControlDto;
+    controlOwnerName!: string | undefined;
 
     constructor(data?: IGetControlForEditOutput) {
         if (data) {
@@ -23217,6 +23246,7 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
     init(data?: any) {
         if (data) {
             this.control = data["control"] ? CreateOrEditControlDto.fromJS(data["control"]) : <any>undefined;
+            this.controlOwnerName = data["controlOwnerName"];
         }
     }
 
@@ -23230,12 +23260,14 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        data["controlOwnerName"] = this.controlOwnerName;
         return data; 
     }
 }
 
 export interface IGetControlForEditOutput {
     control: CreateOrEditControlDto;
+    controlOwnerName: string | undefined;
 }
 
 export class Widget implements IWidget {

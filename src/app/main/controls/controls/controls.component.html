@@ -128,9 +128,9 @@
                                             {{l('ControlType')}}
                                             <p-sortIcon field="control.controlType"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="frequency">
-                                            {{l('Frequency')}}
-                                            <p-sortIcon field="control.frequency"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="controlPoint">
+                                            {{l('Control Point')}}
+                                            <p-sortIcon field="control.controlPoint"></p-sortIcon>
                                         </th>
 
                                     </tr>
@@ -179,8 +179,8 @@
                                             </span>
                                         </td>
                                         <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('Frequency')}}</span>
-                                            {{l( frequency[record.control.frequency])}}
+                                            <span class="ui-column-title"> {{l('Control Point')}}</span>
+                                            {{record.control.controlPoint}}
                                         </td>
 
                                     </tr>

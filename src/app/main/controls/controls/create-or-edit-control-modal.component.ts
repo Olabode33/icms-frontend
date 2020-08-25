@@ -20,6 +20,7 @@ export class CreateOrEditControlModalComponent extends AppComponentBase {
 
     control: CreateOrEditControlDto = new CreateOrEditControlDto();
 
+    controlObjective: string[] = new Array();
 
 
     constructor(
@@ -51,21 +52,17 @@ export class CreateOrEditControlModalComponent extends AppComponentBase {
     save(): void {
             this.saving = true;
 
-			
+            this.control.controlObjective = this.controlObjective.join(',');
+
+            console.log(this.control);
             this._controlsServiceProxy.createOrEdit(this.control)
-             .pipe(finalize(() => { this.saving = false;}))
+             .pipe(finalize(() => { this.saving = false; }))
              .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
     }
-
-
-
-
-
-
 
     close(): void {
         this.active = false;
