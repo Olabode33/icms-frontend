@@ -90,10 +90,13 @@
                                         {{l('Name')}}
                                         <p-sortIcon field="risk.name"></p-sortIcon>
                                     </th>
-                         
-                                    <th style="width: 150px" pSortableColumn="severity">
-                                        {{l('Severity')}}
-                                        <p-sortIcon field="risk.severity"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="likelyhood">
+                                        {{l('Likelihood')}}
+                                        <p-sortIcon field="risk.likelyhood"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="impact">
+                                        {{l('Impact')}}
+                                        <p-sortIcon field="risk.impact"></p-sortIcon>
                                     </th>
 
                                 </tr>
@@ -136,21 +139,20 @@
 										</td>
                           
                                     <td style="width:150px">
-                                        <span class="ui-column-title"> {{l('Severity')}}</span>
-                                        <span *ngIf="record.risk.severity == 2"
+                                        <span class="ui-column-title"> {{l('Likelihood')}}</span>
+                                        <span *ngIf="record.risk.likelyhood" [style.background]="_appConsts.getLikelihoodStatusColor(record.risk.likelyhood)"
                                               class="kt-badge kt-badge--danger kt-badge--inline"
                                               data-placement="top">
-                                            {{l( severity[record.risk.severity])}}
+                                              {{l('Likelihood_' + record.risk.likelyhood)}}
                                         </span>
-                                        <span *ngIf="record.risk.severity == 1"
-                                              class="kt-badge kt-badge--warning kt-badge--inline"
+                                    </td>
+                                    
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Impact')}}</span>
+                                        <span *ngIf="record.risk.impact" [style.background]="_appConsts.getLikelihoodStatusColor(record.risk.impact)"
+                                              class="kt-badge kt-badge--danger kt-badge--inline"
                                               data-placement="top">
-                                            {{l( severity[record.risk.severity])}}
-                                        </span>
-                                        <span *ngIf="record.risk.severity == 0"
-                                              class="kt-badge kt-badge--info kt-badge--inline"
-                                              data-placement="top">
-                                            {{l( severity[record.risk.severity])}}
+                                            {{l('Impact_' + record.risk.impact)}}
                                         </span>
                                     </td>
 

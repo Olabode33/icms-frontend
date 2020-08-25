@@ -34,4 +34,19 @@ export class AppConsts {
     static readonly ModuleKeyValueInternalAudit = 'internalAudit';
     static readonly ModuleKeyValueOpRisk = 'opRisk';
     static readonly ModuleKeyValueGeneral = 'general';
+
+    static getLikelihoodStatusColor(likelihood: number): string {
+        switch (likelihood) {
+            case 1:
+                return '#2196F3';
+            case 2:
+                return '#00BCD4';
+            case 3:
+                return '#FFC107';
+            case 4:
+                return '#FF5722';
+            case 5:
+                return 'red';
+        }
+    }
 }
