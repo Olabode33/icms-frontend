@@ -1,11 +1,12 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { CreateOrEditProcessRiskDto, ProcessRisksServiceProxy, ProcessesServiceProxy, CreateOrEditProcessDto } from '@shared/service-proxies/service-proxies';
+import { CreateOrEditProcessRiskDto, ProcessRisksServiceProxy, ProcessesServiceProxy, CreateOrEditProcessDto, RisksServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentRiskRiskLookupTableModalComponent } from '@app/main/departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
 import { CreateOrEditRiskModalComponent } from '../../../../main/risks/risks/create-or-edit-risk-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-create-or-edit-process-risk',
@@ -22,6 +23,8 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
     active = false;
     saving = false;
 
+    showProcess = false;
+
     departmentRisk: CreateOrEditProcessRiskDto = new CreateOrEditProcessRiskDto();
 
     departmentName = '';
@@ -31,10 +34,13 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
     userName: string;
     organizationUnitDisplayName: string;
 
+    _appConsts = AppConsts;
+
     constructor(
         injector: Injector,
         private _departmentRisksServiceProxy: ProcessRisksServiceProxy,
-        private _processesServiceProxy: ProcessesServiceProxy
+        private _processesServiceProxy: ProcessesServiceProxy,
+        private _riskServiceProxy: RisksServiceProxy
     ) {
         super(injector);
     }
@@ -49,7 +55,6 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
             if (this.process.casade) {
                 this.organizationUnitDisplayName = result.organizationUnitDisplayName + " and all its sub-departments."; 
             }
-            
         });
 
         if (!processRiskId) {
@@ -76,7 +81,7 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
 
     save(): void {
             this.saving = true;
-
+            console.log(this.departmentRisk);
             this._departmentRisksServiceProxy.createOrEdit(this.departmentRisk)
              .pipe(finalize(() => { this.saving = false; }))
              .subscribe(() => {
@@ -109,6 +114,14 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
     getNewRiskId() {
         this.departmentRisk.riskId = this.departmentRiskRiskLookupTableModal.id;
         this.riskName = this.departmentRiskRiskLookupTableModal.displayName;
+        this.getRiskDetails(this.departmentRisk.riskId);
+    }
+
+    getRiskDetails(riskId: number) {
+        this._riskServiceProxy.getRiskForEdit(riskId).subscribe(result => {
+            this.departmentRisk.likelyhood = result.risk.likelyhood;
+            this.departmentRisk.impact = result.risk.impact;
+        });
     }
 
 

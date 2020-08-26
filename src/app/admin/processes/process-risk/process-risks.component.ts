@@ -14,6 +14,7 @@ import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-
 import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 import { Router } from '@angular/router';
+import { AppConsts } from '@shared/AppConsts';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     @Output() riskRemoved = new EventEmitter<any>();
     @Output() risksAdded = new EventEmitter<any>();
+    @Output() riskScoreUpdated = new EventEmitter<any>();
 
     @ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
     @ViewChild('dataTable', {static: true}) dataTable: Table;
@@ -42,6 +44,11 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     loadingControls = false;
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
+
+    _appConsts = AppConsts;
+
+    private _totalInherentRiskScore = 0;
+    private _totalResidualRiskScore = 0;
 
     constructor(
         injector: Injector,
@@ -76,6 +83,14 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
         this._isViewOnly = viewOnly;
     }
 
+    getInherentRiskScore(): number {
+        return this._totalInherentRiskScore;
+    }
+
+    getResidualRiskScore(): number {
+        return this._totalResidualRiskScore;
+    }
+
     ngOnInit(): void {
 
     }
@@ -88,6 +103,9 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
             this.deptRisks = Array.from(new Set(result.items.map((i) => {
                 return {risk: i, isActive: false};
             })));
+            this._totalInherentRiskScore = result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+            this._totalResidualRiskScore = result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+            this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore});
             this.loadingRisk = false;
         });
     }

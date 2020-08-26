@@ -26,6 +26,8 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
 
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
 
+    selectedModule = '';
+
     constructor(
         injector: Injector,
         @Inject(DOCUMENT) private document: Document,
@@ -37,10 +39,32 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
     ngOnInit() {
         this.installationMode = UrlHelper.isInstallUrl(location.href);
         this.getDisplayStyle();
+        this.getSelectedModule();
     }
 
     ngAfterViewInit() {
         this.getDisplayStyle();
+        this.getSelectedModule();
+    }
+
+    getSelectedModule() {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.selectedModule = 'INTERNAL CONTROL';
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.selectedModule = 'INTERNAL AUDIT';
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.selectedModule = 'OP RISK';
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.selectedModule = 'GENERAL';
+                break;
+            default:
+                this.selectedModule = '';
+                break;
+        }
     }
 
     getDisplayStyle() {

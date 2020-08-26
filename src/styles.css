@@ -481,6 +481,23 @@ body{margin-top:20px;
         border: 1px solid #000!important;
     }
 
+    .bg-border-brand {
+        border: 1px solid var(--primary-color)!important;
+        border-radius: 5px;
+    }
+
+    .risk-card:hover {
+        background-color: #E8EAF6 !important;
+    }
+
+    .text-hover-primary:hover {
+        color: var(--primary-color) !important;
+    }
+
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
+
     .kt-svg-icon.kt-svg-icon--white g [fill] {
         fill: #fff !important;
     }
@@ -581,3 +598,26 @@ body{margin-top:20px;
             -ms-flex-preferred-size: 0;
                 flex-basis: 0;
     }
+
+    @media (min-width: 992px) {
+    #kt_header_menu_wrapper .menu-nav {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+    }
+    
+    #kt_header_menu_wrapper .menu-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+    }
+}

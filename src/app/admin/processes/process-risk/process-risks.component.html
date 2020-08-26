@@ -13,7 +13,165 @@
                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
                     style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
+            <div class="row" >
+                <div class="col-12 px-4" *ngFor="let risk of deptRisks; let r = index;">
+                    <div class="bg-border-danger mb-3 risk-card">
+                        <div class="row px-3">
+                            <div class="col-md-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <a href="javascript:void(0);" (click)="toggleAccordion(r)"
+                                            class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                            {{risk.risk.riskName}}
+                                        </a>
+                                        <span class="text-muted d-block">Risk</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2  py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 100%;text-align: right;">
+                                        <span [style.background]="_appConsts.getLikelihoodStatusColor(risk.risk.processRisk.likelyhood)"
+                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                data-placement="top">
+                                            {{l('Likelihood_' + risk.risk.processRisk.likelyhood)}}
+                                        </span>
+                                        <span class="text-muted d-block">Likelihood</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 100%;text-align: right;">
+                                        <span [style.background]="_appConsts.getLikelihoodStatusColor(risk.risk.processRisk.impact)"
+                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                data-placement="top">
+                                            {{l('Impact_' + risk.risk.processRisk.impact)}}
+                                        </span>
+                                        <span class="text-muted d-block">Impact</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 100%">
+                                        <h4 class="mb-0 text-right">{{risk.risk.inherentRiskScore}}</h4>
+                                        <span class="text-muted d-block text-right">Inherent Risk</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 100%">
+                                        <h4 class="mb-0 text-right">{{risk.risk.residualRiskScore | number:'1.2-2'}}</h4>
+                                        <span class="text-muted d-block text-right">Residual Risk</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="risk.isActive" class="px-2 pb-2">
+                            <hr>
+                            <div *ngIf="loadingControls" class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                    role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <div class="pb-2">
+                                <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill pull-right" dropdown
+                                    container="body">
+                                    <button type="button" class="btn btn-success btn-sm"
+                                        (click)="addControlToRisk(null,risk.risk.processRisk.id, risk.risk.processRisk.processId, risk.risk.processRisk.riskId)">
+                                        <i class="fa fa-plus"></i> Add Control
+                                    </button>
+                                    <button class="dropdown-toggle btn btn-sm btn-success dropdown-toggle-split"
+                                        dropdownToggle>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" *dropdownMenu>
+                                        <li *ngIf="_organizationUnit.id == risk.risk.processRisk.processId">
+                                            <a href="javascript:;" (click)="deleteRisk(risk.risk.processRisk.id)">
+                                                {{l('Delete Risk')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <br><br>
+                            </div>
+                            <div class="bg-border-success py-2" *ngFor="let control of riskControls; let c = index;">
+                                <div class="row">
+                                    <div class="col-md-1 py-3"></div>
+                                    <div class="col-md-7 py-3">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <a href="javascript:void(0);" (click)="toggleControlAccordion(c)"
+                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                    {{ control.control.controlName }}
+                                                </a>
+                                                <span class="text-muted d-block">Control</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2  py-3">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <!-- <span [style.background]="_appConsts.getLikelihoodStatusColor(control.control.processRiskControl.likelyhood)"
+                                                        class="kt-badge kt-badge--danger kt-badge--inline"
+                                                        data-placement="top">
+                                                    {{l('Likelihood_' + control.control.processRiskControl.likelyhood)}}
+                                                </span> -->
+                                                {{control.control.processRiskControl.likelyhood | percent:'1.0-0'}}
+                                                <span class="text-muted d-block">Likelihood</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 py-3">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <!-- <span [style.background]="_appConsts.getLikelihoodStatusColor(control.control.processRiskControl.impact)"
+                                                        class="kt-badge kt-badge--danger kt-badge--inline"
+                                                        data-placement="top">
+                                                    {{l('Impact_' + control.control.processRiskControl.impact)}}
+                                                </span> -->
+                                                {{control.control.processRiskControl.impact | percent:'1.0-0'}}
+                                                <span class="text-muted d-block">Impact</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="control.isActive" class="mx-2">
+                                    <hr>
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" 
+                                        (click)="createTestingTemplate(control.control.processRiskControl.id)">
+                                        <i class="fa fa-plus"></i> Add Testing Template
+                                    </button><br><br>
+                                    <div class="table-responsive">
+                                        <div class="table table-hover">
+                                            <p *ngIf="control.control.testingTemplates.items.length == 0">No template found</p>
+                                            <table class="table table-hover">
+                                                <tr *ngFor="let template of control.control.testingTemplates.items">
+                                                    <td style="width: 20%;"></td>
+                                                    <td style="width: 60%;">
+                                                        {{ template.testingTemplate.title }}
+                                                    </td>
+                                                    <td style="width: 20%;">
+                                                        <button type="button" class="btn btn-primary btn-outline btn-sm pull-right" 
+                                                            (click)="review(template.testingTemplate.id)">
+                                                            Review
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Controls -->
+                </div>
+            </div>
+            <!-- <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
                 <div class="card" *ngFor="let risk of deptRisks; let r = index;">
                     <div class="card-header" id="headingOne{{risk.risk.processRisk.id}}">
                         <div class="card-title" [ngClass]="{collapsed: !risk.isActive}" (click)="toggleAccordion(r)"
@@ -41,7 +199,6 @@
                                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
                                     aria-valuemax="100"></div>
                             </div>
-                            <!-- <span class="kt-font-success"> <i  class="fa fa-check-square"></i>   Controls</span> -->
                             <div class="">
                                 <div *ngIf="!isViewOnly" class="btn-group m-btn-group m-btn-group--pill" dropdown
                                     container="body">
@@ -69,25 +226,15 @@
                                     aria-valuemax="100"></div>
                             </div>
 
-                            <!--begin::Accordion-->
                             <div class="accordion accordion-toggle-arrow" id="accordionExample6">
-                                <!-- General -->
                                 <div class="card" *ngFor="let control of riskControls; let c = index;">
                                     <div class="card-header" id="heading{{c}}">
                                         <div class="card-title" [ngClass]="{collapsed: !control.isActive}" (click)="toggleControlAccordion(c)">
                                             <i class="fa fa-cog pr-2 kt-font-success"></i>
                                             <span class="pr-2 kt-font-success"> Control: {{ control.control.controlName }}</span>
-                                            <!-- <span *ngIf="_organizationUnit.id != control.control.processRiskCode"
-                                                class="kt-badge kt-badge--brand kt-badge--inline ml-3" data-toggle="tooltip"
-                                                title="This process was inherited from a parent department." data-placement="top">
-                                                Inherited
-                                            </span> -->
                                             <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-success">
                                                 {{frequencyEnum[control.control.processRiskControl.frequency]}}
                                             </span>
-                                            <!-- <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-primary">
-                                                {{controlTypeEnum[control.control.processRiskControl.]}}
-                                            </span> -->
                                         </div>
                                     </div>
                                     <div id="collapse{{c}}" class="collapse" [ngClass]="{show: control.isActive}">
@@ -121,46 +268,10 @@
                                     No control defined
                                 </div>
                             </div>
-                            <!--end::Accordion-->
-                            <!-- <div class="table-responsive">
-                                <div class="table table-hover">
-                                    <div *ngFor="let control of riskControls">
-                                        <div>
-                                            <div class="row">
-                                                <div class="col-lg-9">
-                                                    <span class="kt-font-success"> {{ control.controlName }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <button type="button" class="btn btn-primary btn-sm pull-right"
-                                                        (click)="createTestingTemplate(control.processRiskControl.id)">
-                                                        <i class="fa fa-plus"></i> Add Testing Template
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="pl-5">
-                                                <p class="form-text kt-font-brand text-muted"><i class="fa fa-cogs"></i>  Testing Templates</p>
-                                                <hr>
-                                                <p *ngIf="control.testingTemplates.items.length == 0">No template found
-                                                </p>
-                                                <div *ngFor="let template of control.testingTemplates.items"
-                                                    class="row">
-                                                    <div class="col-md-10 kt-font-brand">
-                                                        <p>
-                                                            {{ template.testingTemplate.title }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-separator kt-separator--border-solid"></div>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         
     </div>

@@ -13570,6 +13570,62 @@ export class ProcessRisksServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    calculateResidualRiskScore(body: ProcessRiskDto | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/CalculateResidualRiskScore";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCalculateResidualRiskScore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCalculateResidualRiskScore(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCalculateResidualRiskScore(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -24994,6 +25050,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
     cascade!: boolean;
     inherited!: boolean;
     deptCode!: string | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IDepartmentRiskDto) {
@@ -25014,6 +25072,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
             this.cascade = data["cascade"];
             this.inherited = data["inherited"];
             this.deptCode = data["deptCode"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -25034,6 +25094,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
         data["cascade"] = this.cascade;
         data["inherited"] = this.inherited;
         data["deptCode"] = this.deptCode;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -25047,6 +25109,8 @@ export interface IDepartmentRiskDto {
     cascade: boolean;
     inherited: boolean;
     deptCode: string | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -25151,6 +25215,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
     departmentId!: number | undefined;
     riskId!: number | undefined;
     cascade!: boolean;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditDepartmentRiskDto) {
@@ -25168,6 +25234,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
             this.departmentId = data["departmentId"];
             this.riskId = data["riskId"];
             this.cascade = data["cascade"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -25185,6 +25253,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
         data["departmentId"] = this.departmentId;
         data["riskId"] = this.riskId;
         data["cascade"] = this.cascade;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -25195,6 +25265,8 @@ export interface ICreateOrEditDepartmentRiskDto {
     departmentId: number | undefined;
     riskId: number | undefined;
     cascade: boolean;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -32904,6 +32976,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
     processRiskId!: number | undefined;
     processId!: number | undefined;
     controlId!: number | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IProcessRiskControlDto) {
@@ -32924,6 +32998,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
             this.processRiskId = data["processRiskId"];
             this.processId = data["processId"];
             this.controlId = data["controlId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -32944,6 +33020,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
         data["processRiskId"] = this.processRiskId;
         data["processId"] = this.processId;
         data["controlId"] = this.controlId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -32957,6 +33035,8 @@ export interface IProcessRiskControlDto {
     processRiskId: number | undefined;
     processId: number | undefined;
     controlId: number | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -33448,6 +33528,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
     processRiskId!: number | undefined;
     processId!: number | undefined;
     controlId!: number | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProcessRiskControlDto) {
@@ -33468,6 +33550,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
             this.processRiskId = data["processRiskId"];
             this.processId = data["processId"];
             this.controlId = data["controlId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33488,6 +33572,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
         data["processRiskId"] = this.processRiskId;
         data["processId"] = this.processId;
         data["controlId"] = this.controlId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33501,6 +33587,8 @@ export interface ICreateOrEditProcessRiskControlDto {
     processRiskId: number | undefined;
     processId: number | undefined;
     controlId: number | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -33822,6 +33910,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
     cascade!: boolean;
     processId!: number;
     riskId!: number;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IProcessRiskDto) {
@@ -33840,6 +33930,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
             this.cascade = data["cascade"];
             this.processId = data["processId"];
             this.riskId = data["riskId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33858,6 +33950,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
         data["cascade"] = this.cascade;
         data["processId"] = this.processId;
         data["riskId"] = this.riskId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33869,6 +33963,8 @@ export interface IProcessRiskDto {
     cascade: boolean;
     processId: number;
     riskId: number;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -33879,6 +33975,8 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
     inherited!: boolean;
     severity!: string | undefined;
     processCode!: string | undefined;
+    inherentRiskScore!: number;
+    residualRiskScore!: number;
 
     constructor(data?: IGetProcessRiskForViewDto) {
         if (data) {
@@ -33897,6 +33995,8 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
             this.inherited = data["inherited"];
             this.severity = data["severity"];
             this.processCode = data["processCode"];
+            this.inherentRiskScore = data["inherentRiskScore"];
+            this.residualRiskScore = data["residualRiskScore"];
         }
     }
 
@@ -33915,6 +34015,8 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
         data["inherited"] = this.inherited;
         data["severity"] = this.severity;
         data["processCode"] = this.processCode;
+        data["inherentRiskScore"] = this.inherentRiskScore;
+        data["residualRiskScore"] = this.residualRiskScore;
         return data; 
     }
 }
@@ -33926,6 +34028,8 @@ export interface IGetProcessRiskForViewDto {
     inherited: boolean;
     severity: string | undefined;
     processCode: string | undefined;
+    inherentRiskScore: number;
+    residualRiskScore: number;
 }
 
 export class PagedResultDtoOfGetProcessRiskForViewDto implements IPagedResultDtoOfGetProcessRiskForViewDto {
@@ -34026,6 +34130,8 @@ export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
     cascade!: boolean;
     processId!: number;
     riskId!: number;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProcessRiskDto) {
@@ -34044,6 +34150,8 @@ export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
             this.cascade = data["cascade"];
             this.processId = data["processId"];
             this.riskId = data["riskId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -34062,6 +34170,8 @@ export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
         data["cascade"] = this.cascade;
         data["processId"] = this.processId;
         data["riskId"] = this.riskId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -34073,6 +34183,8 @@ export interface ICreateOrEditProcessRiskDto {
     cascade: boolean;
     processId: number;
     riskId: number;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 

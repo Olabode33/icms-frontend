@@ -6,6 +6,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 import { CreateOrEditControlModalComponent } from '../../../../main/controls/controls/create-or-edit-control-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-create-or-edit-process-risk-control',
@@ -24,6 +25,9 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     active = false;
     saving = false;
 
+    showProcessCard = false;
+    showRiskCard = false;
+
     departmentRiskControl: CreateOrEditProcessRiskControlDto = new CreateOrEditProcessRiskControlDto();
 
     departmentRiskCode = '';
@@ -37,6 +41,9 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     departmentRiskId: number;
     userName: string;
     organizationUnitDisplayName: string;
+
+    _appConsts = AppConsts;
+
     constructor(
         injector: Injector,
         private _departmentRiskControlsServiceProxy: ProcessRiskControlsServiceProxy,
@@ -140,6 +147,8 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     getNewControlId() {
         this.departmentRiskControl.controlId = this.departmentRiskControlControlLookupTableModal.id;
         this.controlCode = this.departmentRiskControlControlLookupTableModal.displayName;
+        this.departmentRiskControl.likelyhood = 0;
+        this.departmentRiskControl.impact = 0;
     }
 
 

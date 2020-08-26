@@ -1,0 +1,352 @@
+<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span>{{l("Process")}}</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <span class="kt-subheader__desc">
+                        View process details
+                    </span>
+                </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button (click)="goBack()" class="btn btn-outline-danger">
+                            <i class="fa fa-reply"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Basic Information
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <div class="form-group">
+                                <label for="Department_Name">{{l("Name")}}</label>
+                                <input type="text" id="Department_Name" class="form-control" [(ngModel)]="process.name" name="Name" />
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="UserName">Unit Head</label>
+                                    <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" >
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="UserName">Control Officer</label>
+                                    <input class="form-control" id="cUserName" name="cuserName" value="Deb Madgwick" type="text" >
+                                </div>
+                            </div>
+
+                            <div class="form-group m-form__group">
+                                <label for="OrganizationUnitDisplayName">Description</label>
+                                <textarea class="form-control" id="Description" name="Description" [(ngModel)]="process.description" type="text" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <!-- <div class="kt-portlet kt-iconbox kt-iconbox--wave">
+                        <div class="kt-portlet__body">
+                            <div class="kt-iconbox__body">
+                                <div class="kt-iconbox__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+                                            <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                        </g>
+                                    </svg>					
+                                </div>
+                                <div class="kt-iconbox__desc" style="width: 100%;">
+                                    <h3 class="kt-iconbox__title">
+                                        <a class="kt-link" href="javascript:void(0)">{{ratingCode}}</a>
+                                    </h3>
+                                    <div class="kt-iconbox__content">
+                                        <i class="fa fa-edit hoverable pull-right text-dark" (click)="overrideDepartmentRating()" title="Override Rating"></i>
+                                        {{rating}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card card-custom bgi-no-repeat gutter-b"
+                        style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
+                        <!--begin::Body-->
+                        <div class="card-body my-4">
+                            <a href="javascript:void(0);"
+                                class="card-title font-weight-bolder kt-font-danger font-size-h6 mb-4 text-hover-state-dark d-block">
+                                Inherent Risk
+                            </a>
+
+                            <div class="font-weight-bold-sm text-muted font-size-sm">
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">{{inherentRiskScore}}</span>
+                                inherent risk score
+                            </div>
+
+                            <div class="progress progress-sm mt-7 bg-danger-o-60">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-custom bgi-no-repeat gutter-b"
+                        style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
+                        <!--begin::Body-->
+                        <div class="card-body my-4">
+                            <a href="javascript:void(0);"
+                                class="card-title font-weight-bolder kt-font-danger font-size-h6 mb-4 text-hover-state-dark d-block">
+                                Residual Risk
+                            </a>
+
+                            <div class="font-weight-bold-sm text-muted font-size-sm">
+                                <span class="text-dark-75 font-weight-bolder font-size-h2 mr-2">{{residualRiskScore | number:'1.2-2'}}</span>
+                                residual risk score
+                            </div>
+
+                            <div class="progress progress-sm mt-7 bg-danger-o-60">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;"
+                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__body">
+                    <tabset>
+                        <tab heading="Assessment">
+                            <app-process-risks #ouProcess (riskScoreUpdated)="updateRiskScore($event)"></app-process-risks>
+                        </tab>
+                        <tab heading="Assurance Review">
+                            <div class="row align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container col-12">
+                                     <div class="table-responsive">
+                                        <table
+                                            class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                            <thead>
+                                                <tr class="text-left">
+                                                    <th style="min-width: 200px" class="pl-2">
+                                                        <span class="text-dark-75">Task</span>
+                                                    </th>
+                                                    <th style="min-width: 200px">Assigned to</th>
+                                                    <th style="min-width: 100px">Due Date</th>
+                                                    <th style="min-width: 200px">Completed By</th>                                           
+                                                    <th style="min-width: 120px">Score</th>                                           
+                                                    <th style="min-width: 100px">Status</th>                                           
+                                                    <th style="min-width: 120px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let workingPaper of workingPapers">
+                                                    <td class="pl-0 py-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <div>
+                                                                <a href="javascript:void(0);"
+                                                                   class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                    {{workingPaper.testingTemplateName}}
+                                                                </a>
+                                                                <span class="text-muted d-block">
+                                                                    {{workingPaper.organizationUnitDisplayName}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{workingPaper.assignedTo}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            <span *ngIf="workingPaper.workingPaperNew.taskDate">
+                                                                {{workingPaper.workingPaperNew.dueDate | momentFormat:'LL'}}
+                                                            </span>
+                                                            <span *ngIf="!workingPaper.workingPaperNew.dueDate">-</span>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{workingPaper.completedBy}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column w-100 mr-2">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-between mb-2">
+                                                                <span
+                                                                    class="text-muted mr-2 font-size-sm font-weight-bold">
+                                                                    {{workingPaper.workingPaperNew.score}}%
+                                                                </span>
+                                                                <span class="text-muted font-size-sm font-weight-bold">
+                                                                    <!-- Score -->
+                                                                </span>
+                                                            </div>
+                                                            <div class="progress progress-sm w-100">
+                                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                                    [style.width]="(workingPaper.workingPaperNew.score) + '%'" aria-valuenow="50"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="kt-badge kt-badge--{{ 
+                                                                workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Approved ? 'success' :
+                                                                (workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Rejected ? 'danger' :
+                                                                (workingPaper.workingPaperNew.taskStatus === taskStatusEnum.PendingReview ? 'warning' :
+                                                                (workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Draft ? 'info': 'primary')))
+                                                            }} kt-badge--inline">
+                                                            {{l(taskStatusEnum[workingPaper.workingPaperNew.taskStatus])}}
+                                                        </span>
+                                                    </td>
+                                                    <td class="pr-0 text-right">
+                                                        <button *ngIf="workingPaper.workingPaperNew.taskStatus === taskStatusEnum.PendingReview || 
+                                                                       workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Approved || 
+                                                                       workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Rejected"
+                                                                (click)="view(workingPaper.workingPaperNew.id)"
+                                                                class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
+                                                                title="View working paper">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                        <button *ngIf="workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Draft || workingPaper.workingPaperNew.taskStatus === taskStatusEnum.Open"
+                                                                (click)="edit(workingPaper.workingPaperNew.id)"
+                                                                class="btn btn-label-primary btn-sm btn-bold btn-upper btn-sm"
+                                                                title="View working paper">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="primeng-no-data" *ngIf="totalWorkingPapers == 0">
+                                        {{l('NoData')}}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                     #workingPaperPaginator
+                                                     (onPageChange)="getWorkingPapers($event)"
+                                                     [totalRecords]="totalWorkingPapers"
+                                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', totalWorkingPapers)}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
+                            </div>
+                        </tab>
+                        <tab heading="Exceptions">
+                            <div class="row align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container col-12">
+                                     <div class="table-responsive">
+                                        <table
+                                            class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                            <thead>
+                                                <tr class="text-left">
+                                                    <th style="min-width: 250px" class="pl-2">
+                                                        <span class="text-dark-75">Exceptions</span></th>
+                                                    <th style="min-width: 100px">Date Raised</th>
+                                                    <th style="min-width: 100px">Status</th>
+                                                    <th style="min-width: 100px">Raised by</th>
+                                                    <th style="min-width: 100px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let exception of exceptions">
+                                                    <td class="pl-0 py-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="symbol symbol-50 symbol-light mr-4">
+                                                                <i class="fa fa-2x fa-exclamation-triangle kt-font-danger"></i>
+                                                            </div>
+                                                            <div>
+                                                                <a href="javascript:void(0);"
+                                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                    {{ exception.exceptionTypeName }}
+                                                                </a>
+                                                                <span class="text-muted d-block">
+                                                                    {{ exception.organizationUnitDisplayName }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{ exception.exceptionIncident.date | momentFormat:'LL'}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                                        kt-badge--{{exception.exceptionIncident.status == statusEnum.Open ? 'warning' :
+                                                                                            (exception.exceptionIncident.status == statusEnum.Closed ? 'success' : 'info') }}">
+                                                                {{statusEnum[exception.exceptionIncident.status]}}
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{ exception.userName }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="pr-0 text-right">
+                                                        <button (click)="viewException(exception.exceptionIncident.id)"
+                                                            class="btn btn-label-danger btn-sm btn-bold btn-upper btn-sm">
+                                                                {{ exception.exceptionIncident.status == statusEnum.Resolved ? 'Close' : 'Resolve' }}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="primeng-no-data" *ngIf="exceptions.length == 0">
+                                        {{l('NoData')}}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                     #exceptionsPaginator
+                                                     (onPageChange)="getExceptions($event)"
+                                                     [totalRecords]="exceptionsCount"
+                                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', exceptionsCount)}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                        <!-- <tab heading="Rating History">
+                            <div class="kt-widget11__chart" style="height:300px; width: 100%">
+                                <ngx-charts-area-chart [results]="lineChartData" [scheme]="colorScheme"
+                                    [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxis]="true"
+                                    [yAxis]="false" [autoScale]="false" [animations]="true"
+                                    [showGridLines]="false" [timeline]="false">
+                                </ngx-charts-area-chart>
+                            </div>                            
+                        </tab> -->
+                    </tabset>
+                </div>
+            </div>
+        </div>
+
+
+        <createOrEditExceptionIncidentModal #createOrEditExceptionIncidentModal (modalSave)="getExceptions()"></createOrEditExceptionIncidentModal>
+        <createOrEditDepartmentRatingModal #createOrEditDepartmentRatingModal (modalSave)="getProcessDetails()"></createOrEditDepartmentRatingModal> 
+    </div>
+</div>

@@ -30,6 +30,11 @@
                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
                                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                            <button
+                                    *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly"
+                                (click)="addRiskToUnit(process.process.id)" class="btn btn-danger my-3">
+                                <i class="fa fa-plus"></i> Add Risk
+                            </button>
                             <!--<span *ngIf="!loadingRisk && deptRisks.length > 0">Risks</span>-->
                             <!--begin::Accordion-->
                             <div class="accordion accordion-toggle-arrow" id="accordionExample5">
@@ -53,6 +58,10 @@
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
                                                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
+                                            <button type="button" class="btn btn-primary btn-sm my-3"
+                                                (click)="addControlToRisk(null,item.risk.processRisk.id, item.risk.processRisk.processId, item.risk.processRisk.riskId)">
+                                                <i class="fa fa-plus"></i> Add Control
+                                            </button>
                                             <!--begin::Accordion-->
                                             <div class="accordion accordion-toggle-arrow" id="accordionExample6">
                                                 <!-- General -->

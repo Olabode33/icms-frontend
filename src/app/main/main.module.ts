@@ -1,4 +1,5 @@
-﻿import { CommonModule } from '@angular/common';
+﻿import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
@@ -96,6 +97,7 @@ import { PlanningComponent } from './projects/planning/planning.component';
 import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { OpRiskHomeComponent } from './opRisk/home/home.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -122,11 +124,13 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        OpRiskHomeComponent,
+        ViewProcessComponent,
         LandingPageComponent,
-		LibraryControlsComponent,
-		ViewLibraryControlModalComponent,		CreateOrEditLibraryControlModalComponent,
-		LibraryRisksComponent,
-		ViewLibraryRiskModalComponent,		CreateOrEditLibraryRiskModalComponent,
+        LibraryControlsComponent,
+        ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
+        LibraryRisksComponent,
+        ViewLibraryRiskModalComponent, CreateOrEditLibraryRiskModalComponent,
         PlanningComponent,
         DepartmentRatingHistoryComponent,
         ViewDepartmentRatingModalComponent, CreateOrEditDepartmentRatingModalComponent,

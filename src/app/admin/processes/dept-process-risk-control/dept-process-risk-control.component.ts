@@ -153,8 +153,8 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         this.getDepartmentProcesses();
     }
 
-    addRiskToUnit(): void {
-        this.createOrEditProcessRiskModal.show(null, this._organizationUnit.id);
+    addRiskToUnit(processId: number): void {
+        this.createOrEditProcessRiskModal.show(null, processId);
     }
 
 
