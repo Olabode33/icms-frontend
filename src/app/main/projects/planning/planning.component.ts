@@ -82,7 +82,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     ngOnInit(): void {
         this.getModule();
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
-        this.getProjects({ first: 0, sortField: undefined, rows: 10 });
+        this.getProjects({ first: 0, sortField: undefined, rows: 4 });
     }
 
     getModule(): void {

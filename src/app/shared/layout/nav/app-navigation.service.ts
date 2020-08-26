@@ -111,7 +111,7 @@ export class AppNavigationService {
             new AppMenuItem('Home', 'Pages.HomePage', 'flaticon-home', '/igrcs'),
             new AppMenuItem('Workspace', 'Pages.HomePage', 'flaticon-profile', '/app/main/home/oprisk'),
             new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
-            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
+            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard/oprisk'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem('My Projects', '', 'flaticon-squares-4', '/app/main/projects/projects'),

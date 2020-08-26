@@ -36,8 +36,8 @@
                 <!-- BEGIN: Header -->
                 <div class="kt-header kt-grid__item kt-header--{{currentTheme.baseSettings.header.desktopFixedHeader ? 'fixed':'static'}} kt-head--skin-{{currentTheme.baseSettings.header.headerSkin}}" id="kt_header">
                     <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
-                        <div class="kt-container kt-container--fluid" style="height: 100%; padding-top: 10%">
-                            <h4 class="text-dark">{{selectedModule}}</h4>
+                        <div class="kt-container kt-container--fluid" style="height: 100%; position: relative; min-width: 300px;">
+                            <h4 class="text-dark" style="position: absolute; top: 50%; transform: translate(0, -50%); width: 100%; ">{{selectedModule}}</h4>
                         </div>
                     </div>
                     <topbar></topbar>

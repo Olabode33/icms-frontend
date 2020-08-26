@@ -56,7 +56,7 @@ export class DefaultLayoutComponent extends ThemesLayoutBaseComponent implements
                 this.selectedModule = 'INTERNAL AUDIT';
                 break;
             case AppConsts.ModuleKeyValueOpRisk:
-                this.selectedModule = 'OP RISK';
+                this.selectedModule = 'OPERATIONAL RISK';
                 break;
             case AppConsts.ModuleKeyValueGeneral:
                 this.selectedModule = 'GENERAL';

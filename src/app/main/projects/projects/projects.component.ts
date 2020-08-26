@@ -65,6 +65,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
+        this.getModule();
         this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 

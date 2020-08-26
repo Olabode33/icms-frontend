@@ -280,7 +280,7 @@
                                         <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
                                             (onPageChange)="getProjects($event)"
                                             [totalRecords]="primengTableHelper.totalRecordsCount"
-                                            [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                            [rowsPerPageOptions]="[4]">
                                         </p-paginator>
                                         <span class="total-records-count">
                                             {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}

@@ -31,6 +31,7 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 import { OpRiskHomeComponent } from './opRisk/home/home.component';
+import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
 
 @NgModule({
     imports: [
@@ -69,6 +70,7 @@ import { OpRiskHomeComponent } from './opRisk/home/home.component';
                     { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.HomePage'} },
                     { path: 'home/oprisk', component: OpRiskHomeComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'dashboard/oprisk', component: OpRiskDashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]

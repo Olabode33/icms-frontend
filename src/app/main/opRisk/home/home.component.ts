@@ -176,7 +176,7 @@ export class OpRiskHomeComponent extends AppComponentBase implements OnInit {
     getProcessRisk(): void {
         this.loadingExceptions = true;
         this._processRiskSerivceProxy.getAll('', '', '', '', -1, '', 0, 1000).subscribe(result => {
-            var icms = result.items;
+            //var icms = result.items;
         });
     }
 

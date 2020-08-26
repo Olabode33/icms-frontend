@@ -35007,6 +35007,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
     title!: string | undefined;
     controlUnitId!: number | undefined;
     scopeId!: number | undefined;
+    projectOwner!: ProjectOwner;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProjectDto) {
@@ -35034,6 +35035,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
             this.title = data["title"];
             this.controlUnitId = data["controlUnitId"];
             this.scopeId = data["scopeId"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -35061,6 +35063,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
         data["title"] = this.title;
         data["controlUnitId"] = this.controlUnitId;
         data["scopeId"] = this.scopeId;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -35081,6 +35084,7 @@ export interface ICreateOrEditProjectDto {
     title: string | undefined;
     controlUnitId: number | undefined;
     scopeId: number | undefined;
+    projectOwner: ProjectOwner;
     id: number | undefined;
 }
 

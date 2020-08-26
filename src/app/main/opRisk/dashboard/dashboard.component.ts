@@ -135,7 +135,7 @@ export class OpRiskDashboardComponent extends AppComponentBase implements OnInit
         }
     ];
 
-    processRisk: GetProcessRiskForViewDto[] = new Array();
+    processRisks: GetProcessRiskForViewDto[] = new Array();
 
     constructor(private _router: Router,
         injector: Injector,
@@ -153,6 +153,7 @@ export class OpRiskDashboardComponent extends AppComponentBase implements OnInit
     ngOnInit() {
         this.getException();
         this.getWorkingPaper();
+        this.getProcessRisk();
     }
 
     getException(): void {
@@ -176,7 +177,8 @@ export class OpRiskDashboardComponent extends AppComponentBase implements OnInit
     getProcessRisk(): void {
         this.loadingExceptions = true;
         this._processRiskSerivceProxy.getAll('', '', '', '', -1, '', 0, 1000).subscribe(result => {
-            this.processRisk = result.items;
+            console.log(result);
+            this.processRisks = result.items.sort((a, b) => b.residualRiskScore - a.residualRiskScore).slice(0, 10);
         });
     }
 

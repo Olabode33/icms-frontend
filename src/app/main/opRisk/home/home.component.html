@@ -51,7 +51,7 @@
                                     <span class="card-title font-weight-bold kt-font-danger font-size-h2 mb-0 mt-6 d-block">
                                         {{exceptions.length}}
                                     </span>
-                                    <span class="font-weight-bolder kt-font-danger  font-size-sm">High Risk Processes</span>
+                                    <span class="font-weight-bolder kt-font-danger  font-size-sm">Open Assessments</span>
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -76,7 +76,7 @@
                                     <span class="card-title font-weight-bold kt-font-warning font-size-h2 mb-0 mt-6 d-block">
                                         {{newWorkingPaper.length}}
                                     </span>
-                                    <span class="font-weight-bolder kt-font-warning  font-size-sm">Medium Risk Processes</span>
+                                    <span class="font-weight-bolder kt-font-warning  font-size-sm">Pending Approvals</span>
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -101,7 +101,7 @@
                                     <span class="card-title font-weight-bold kt-font-success font-size-h2 mb-0 mt-6 d-block">
                                         {{savedWorkingPaper.length}}
                                     </span>
-                                    <span class="font-weight-bolder kt-font-success font-size-sm">Low Risk Processes</span>
+                                    <span class="font-weight-bolder kt-font-success font-size-sm">KRI Alerts</span>
                                 </div>
                                 <!--end::Body-->
                             </div>
@@ -115,72 +115,7 @@
                                 <div class="kt-portlet__head  kt-portlet__head--noborder">
                                     <div class="kt-portlet__head-label">
                                         <h3 class="kt-portlet__head-title">
-                                            Loss Event Summary by Category
-                                            <small></small>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div *ngIf="loadingExceptions" class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
-                                        role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="kt-portlet__body kt-portlet__body--fit-y" style="height: 300px;">
-                                    <ngx-charts-advanced-pie-chart
-                                        class="chart-container"
-                                        [scheme]="colorScheme"
-                                        [results]="fakeLossEventByCategory"
-                                        [animations]="animations"
-                                    >
-                                    </ngx-charts-advanced-pie-chart>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6">
-                            <div class="kt-portlet kt-portlet--height-fluid">
-                                <div class="kt-portlet__head  kt-portlet__head--noborder">
-                                    <div class="kt-portlet__head-label">
-                                        <h3 class="kt-portlet__head-title">
-                                            Loss Event Summary by Type
-                                            <small></small>
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div *ngIf="loadingExceptions" class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
-                                        role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="kt-portlet__body" >
-                                    <div class="pr-4" style="height: 300px;">
-                                        <ngx-charts-bar-horizontal
-                                            class="chart-container"
-                                            [scheme]="barColorScheme"
-                                            [results]="fakeLossEventByType"
-                                            [animations]="animations"
-                                            [showXAxisLabel]="showXAxisLabel"
-                                            [showYAxisLabel]="showYAxisLabel"
-                                            [xAxisLabel]="xAxisLabel"
-                                            [yAxisLabel]="yAxisLabel"
-                                            [showGridLines]="showGridLines"
-                                            [showDataLabel]="true"
-                                            [xAxis]="xAxis"
-                                            [yAxis]="yAxis"
-                                            [noBarWhenZero]="false"
-                                        >
-                                        </ngx-charts-bar-horizontal>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="kt-portlet kt-portlet--height-fluid">
-                                <div class="kt-portlet__head  kt-portlet__head--noborder">
-                                    <div class="kt-portlet__head-label">
-                                        <h3 class="kt-portlet__head-title">
-                                            Top 10 Risk
+                                            Open Assessments
                                             <small></small>
                                         </h3>
                                     </div>
@@ -232,7 +167,7 @@
                                                 </tr>
                                                 <tr *ngIf="exceptions.length === 0">
                                                     <td colspan="5">
-                                                        No exceptions available
+                                                        No open assessments found
                                                     </td>
                                                 </tr>
                                             </tbody>

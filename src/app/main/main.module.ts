@@ -98,6 +98,7 @@ import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exc
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { OpRiskHomeComponent } from './opRisk/home/home.component';
+import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -124,6 +125,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        OpRiskDashboardComponent,
         OpRiskHomeComponent,
         ViewProcessComponent,
         LandingPageComponent,
