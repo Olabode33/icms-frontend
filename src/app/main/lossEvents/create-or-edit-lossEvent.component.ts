@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status } from '@shared/service-proxies/service-proxies';
+import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status, LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { LossEventUserLookupTableModalComponent } from './lossEvent-user-lookup-table-modal.component';
@@ -22,16 +22,18 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
     @ViewChild('lossEventOrganizationUnitLookupTableModal', { static: true }) lossEventOrganizationUnitLookupTableModal: LossEventOrganizationUnitLookupTableModalComponent;
 
     lossEvent: CreateOrEditLossEventDto = new CreateOrEditLossEventDto();
+    lossTypeColumn: {lossType: LossTypeColumnDto, value: string}[] = new Array();
 
     userName = '';
     organizationUnitDisplayName = '';
 
-
+    dataTypeEnum = DataTypes;
 
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _lossEventsServiceProxy: LossEventsServiceProxy,
+        private _lossTypeColumnServiceProxy: LossTypeColumnsServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -66,9 +68,24 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
 
     }
 
+    getAdditionalColumn(): void {
+        this._lossTypeColumnServiceProxy.getColumnsForLossType(this.lossEvent.lossType).subscribe(result => {
+            this.lossTypeColumn = Array.from(new Set(result.map((i) => {
+                return {lossType: i, value: ''};
+            })));
+        });
+    }
+
     private saveInternal(): Observable<void> {
         this.saving = true;
 
+        let customData = Array.from(new Set(this.lossTypeColumn.map((i) => {
+            let map = new Map();
+            return map.set(i.lossType.columnName, i.value);
+        })));
+
+        this.lossEvent.extensionData = JSON.stringify([...customData]);
+        console.log(this.lossEvent.extensionData);
 
         return this._lossEventsServiceProxy.createOrEdit(this.lossEvent)
             .pipe(finalize(() => {
@@ -79,7 +96,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
 
     save(): void {
         this.saveInternal().subscribe(x => {
-            this._router.navigate(['/app/main/lossEvents/lossEvents']);
+            this._router.navigate(['/app/main/lossEvents']);
         });
     }
 

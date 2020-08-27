@@ -1,4 +1,5 @@
-﻿import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
+﻿import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
+import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -104,6 +105,7 @@ import { LossEventOrganizationUnitLookupTableModalComponent } from './lossEvents
 import { LossEventUserLookupTableModalComponent } from './lossEvents/lossEvent-user-lookup-table-modal.component';
 import { LossEventsComponent } from './lossEvents/lossEvents.component';
 import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
+import { CreateOrEditLossTypeColumnModalComponent } from './lossEvents/lossTypeColumns/create-or-edit-lossTypeColumn-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -130,6 +132,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        CreateOrEditLossTypeColumnModalComponent,
+        LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
         LossEventOrganizationUnitLookupTableModalComponent,
         LossEventUserLookupTableModalComponent,

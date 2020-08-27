@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="form-group col-lg-8">
                             <label for="LossEvent_LossType">{{l("LossType")}}</label>
-                            <select class="form-control" name="LossType" id="LossEvent_LossType"
+                            <select class="form-control" name="LossType" id="LossEvent_LossType" (change)="getAdditionalColumn()"
                                 [(ngModel)]="lossEvent.lossType">
                                 <option value="0">Internal Fraud</option>
                                 <option value="1">External Fraud</option>
@@ -128,6 +128,28 @@
                                 name="Amount" />
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="form-group col-lg-6" *ngFor="let column of lossTypeColumn">
+                                    <label for="CustomData{{column.lossType.id}}">{{column.lossType.columnName}}</label>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.Number" type="number" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.Date" type="date" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.String" type="text" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <select class="form-control custom-select" *ngIf="column.lossType.dataType === dataTypeEnum.Bool" id="CustomData{{column.lossType.id}}" 
+                                        class="form-control" [required]="column.lossType.required" [(ngModel)]="column.value">
+                                        <option [value]="true">Yes</option>
+                                        <option [value]="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- <div class="form-group">
                         <label for="LossEvent_Status">{{l("Status")}}</label>

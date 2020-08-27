@@ -10763,6 +10763,308 @@ export class LossEventsServiceProxy {
 }
 
 @Injectable()
+export class LossTypeColumnsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossTypeColumnForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossTypeColumnForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossTypeColumnForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossTypeColumnForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossTypeColumnForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossTypeColumnForViewDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getColumnsForLossType(input: LossEventTypeEnums): Observable<LossTypeColumnDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetColumnsForLossType?";
+        if (input === undefined || input === null)
+            throw new Error("The parameter 'input' must be defined and cannot be null.");
+        else
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetColumnsForLossType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetColumnsForLossType(<any>response_);
+                } catch (e) {
+                    return <Observable<LossTypeColumnDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LossTypeColumnDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetColumnsForLossType(response: HttpResponseBase): Observable<LossTypeColumnDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LossTypeColumnDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LossTypeColumnDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossTypeColumnForEdit(id: number | undefined): Observable<GetLossTypeColumnForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetLossTypeColumnForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossTypeColumnForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossTypeColumnForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossTypeColumnForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossTypeColumnForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossTypeColumnForEdit(response: HttpResponseBase): Observable<GetLossTypeColumnForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossTypeColumnForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossTypeColumnForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossTypeColumnDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class NotificationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -31328,6 +31630,7 @@ export class LossEventDto implements ILossEventDto {
     lossType!: LossEventTypeEnums;
     status!: Status;
     lossCategory!: LossCategoryEnums;
+    extensionData!: string | undefined;
     employeeUserId!: number | undefined;
     departmentId!: number | undefined;
     id!: number;
@@ -31349,6 +31652,7 @@ export class LossEventDto implements ILossEventDto {
             this.lossType = data["lossType"];
             this.status = data["status"];
             this.lossCategory = data["lossCategory"];
+            this.extensionData = data["extensionData"];
             this.employeeUserId = data["employeeUserId"];
             this.departmentId = data["departmentId"];
             this.id = data["id"];
@@ -31370,6 +31674,7 @@ export class LossEventDto implements ILossEventDto {
         data["lossType"] = this.lossType;
         data["status"] = this.status;
         data["lossCategory"] = this.lossCategory;
+        data["extensionData"] = this.extensionData;
         data["employeeUserId"] = this.employeeUserId;
         data["departmentId"] = this.departmentId;
         data["id"] = this.id;
@@ -31384,6 +31689,7 @@ export interface ILossEventDto {
     lossType: LossEventTypeEnums;
     status: Status;
     lossCategory: LossCategoryEnums;
+    extensionData: string | undefined;
     employeeUserId: number | undefined;
     departmentId: number | undefined;
     id: number;
@@ -31489,6 +31795,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
     lossType!: LossEventTypeEnums;
     status!: Status;
     lossCategory!: LossCategoryEnums;
+    extensionData!: string | undefined;
     employeeUserId!: number | undefined;
     departmentId!: number | undefined;
     id!: number | undefined;
@@ -31511,6 +31818,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
             this.lossType = data["lossType"];
             this.status = data["status"];
             this.lossCategory = data["lossCategory"];
+            this.extensionData = data["extensionData"];
             this.employeeUserId = data["employeeUserId"];
             this.departmentId = data["departmentId"];
             this.id = data["id"];
@@ -31533,6 +31841,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
         data["lossType"] = this.lossType;
         data["status"] = this.status;
         data["lossCategory"] = this.lossCategory;
+        data["extensionData"] = this.extensionData;
         data["employeeUserId"] = this.employeeUserId;
         data["departmentId"] = this.departmentId;
         data["id"] = this.id;
@@ -31548,6 +31857,7 @@ export interface ICreateOrEditLossEventDto {
     lossType: LossEventTypeEnums;
     status: Status;
     lossCategory: LossCategoryEnums;
+    extensionData: string | undefined;
     employeeUserId: number | undefined;
     departmentId: number | undefined;
     id: number | undefined;
@@ -31771,6 +32081,246 @@ export class PagedResultDtoOfLossEventOrganizationUnitLookupTableDto implements 
 export interface IPagedResultDtoOfLossEventOrganizationUnitLookupTableDto {
     totalCount: number;
     items: LossEventOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class LossTypeColumnDto implements ILossTypeColumnDto {
+    columnName!: string | undefined;
+    dataType!: DataTypes;
+    required!: boolean;
+    lossType!: LossEventTypeEnums;
+    minimum!: number | undefined;
+    maximum!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILossTypeColumnDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.columnName = data["columnName"];
+            this.dataType = data["dataType"];
+            this.required = data["required"];
+            this.lossType = data["lossType"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossTypeColumnDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossTypeColumnDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["columnName"] = this.columnName;
+        data["dataType"] = this.dataType;
+        data["required"] = this.required;
+        data["lossType"] = this.lossType;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossTypeColumnDto {
+    columnName: string | undefined;
+    dataType: DataTypes;
+    required: boolean;
+    lossType: LossEventTypeEnums;
+    minimum: number | undefined;
+    maximum: number | undefined;
+    id: number;
+}
+
+export class GetLossTypeColumnForViewDto implements IGetLossTypeColumnForViewDto {
+    lossTypeColumn!: LossTypeColumnDto;
+
+    constructor(data?: IGetLossTypeColumnForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeColumn = data["lossTypeColumn"] ? LossTypeColumnDto.fromJS(data["lossTypeColumn"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeColumnForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeColumnForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeColumn"] = this.lossTypeColumn ? this.lossTypeColumn.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeColumnForViewDto {
+    lossTypeColumn: LossTypeColumnDto;
+}
+
+export class PagedResultDtoOfGetLossTypeColumnForViewDto implements IPagedResultDtoOfGetLossTypeColumnForViewDto {
+    totalCount!: number;
+    items!: GetLossTypeColumnForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossTypeColumnForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossTypeColumnForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossTypeColumnForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossTypeColumnForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossTypeColumnForViewDto {
+    totalCount: number;
+    items: GetLossTypeColumnForViewDto[] | undefined;
+}
+
+export class CreateOrEditLossTypeColumnDto implements ICreateOrEditLossTypeColumnDto {
+    columnName!: string | undefined;
+    dataType!: DataTypes;
+    required!: boolean;
+    lossType!: LossEventTypeEnums;
+    minimum!: number | undefined;
+    maximum!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLossTypeColumnDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.columnName = data["columnName"];
+            this.dataType = data["dataType"];
+            this.required = data["required"];
+            this.lossType = data["lossType"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossTypeColumnDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossTypeColumnDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["columnName"] = this.columnName;
+        data["dataType"] = this.dataType;
+        data["required"] = this.required;
+        data["lossType"] = this.lossType;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossTypeColumnDto {
+    columnName: string | undefined;
+    dataType: DataTypes;
+    required: boolean;
+    lossType: LossEventTypeEnums;
+    minimum: number | undefined;
+    maximum: number | undefined;
+    id: number | undefined;
+}
+
+export class GetLossTypeColumnForEditOutput implements IGetLossTypeColumnForEditOutput {
+    lossTypeColumn!: CreateOrEditLossTypeColumnDto;
+
+    constructor(data?: IGetLossTypeColumnForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeColumn = data["lossTypeColumn"] ? CreateOrEditLossTypeColumnDto.fromJS(data["lossTypeColumn"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeColumnForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeColumnForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeColumn"] = this.lossTypeColumn ? this.lossTypeColumn.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeColumnForEditOutput {
+    lossTypeColumn: CreateOrEditLossTypeColumnDto;
 }
 
 export enum UserNotificationState {

@@ -1,0 +1,84 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #lossTypeColumnForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="lossTypeColumn.id">{{l("EditLossTypeColumn")}}</span>
+                        <span *ngIf="!lossTypeColumn.id">{{l("CreateNewLossTypeColumn")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="LossTypeColumn_LossType">{{l("LossType")}}</label>
+                        <select class="form-control" name="LossType" id="LossTypeColumn_LossType"
+                            [(ngModel)]="lossTypeColumn.lossType">
+                            <option value="0">{{l('InternalFraud')}}</option>
+                            <option value="1">{{l('ExternalFraud')}}</option>
+                            <option value="2">{{l('EmploymentPracticesWorkplaceSafety')}}</option>
+                            <option value="3">{{l('ClientsProductsBusinessPractice')}}</option>
+                            <option value="4">{{l('DamagePhysicalAssets')}}</option>
+                            <option value="5">{{l('BusinessDisruptionSystemsFailures')}}</option>
+                            <option value="6">{{l('ExecutionDeliveryProcessManagement')}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LossTypeColumn_ColumnName">{{l("ColumnName")}}</label>
+                        <input type="text" id="LossTypeColumn_ColumnName" class="form-control"
+                            [(ngModel)]="lossTypeColumn.columnName" name="ColumnName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LossTypeColumn_DataType">{{l("DataType")}}</label>
+                        <select class="form-control" name="DataType" id="LossTypeColumn_DataType"
+                            [(ngModel)]="lossTypeColumn.dataType">
+                            <option value="0">{{l('String')}}</option>
+                            <option value="1">{{l('Number')}}</option>
+                            <option value="2">{{l('Bool')}}</option>
+                            <option value="3">{{l('Date')}}</option>
+                            <option value="4">{{l('List')}}</option>
+                        </select>
+                    </div>
+
+                    <br />
+                    <div class="m-checkbox-list">
+                        <label for="LossTypeColumn_Required" class="kt-checkbox">
+                            <input id="LossTypeColumn_Required" type="checkbox" name="Required"
+                                [(ngModel)]="lossTypeColumn.required">
+                            {{l("Required")}}
+                            <span></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LossTypeColumn_Minimum">{{l("Minimum")}}</label>
+                        <input type="number" id="LossTypeColumn_Minimum" class="form-control"
+                            [(ngModel)]="lossTypeColumn.minimum" name="Minimum" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LossTypeColumn_Maximum">{{l("Maximum")}}</label>
+                        <input type="number" id="LossTypeColumn_Maximum" class="form-control"
+                            [(ngModel)]="lossTypeColumn.maximum" name="Maximum" />
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!lossTypeColumnForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

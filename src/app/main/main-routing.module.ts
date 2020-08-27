@@ -35,6 +35,7 @@ import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component
 import { LossEventsComponent } from './lossEvents/lossEvents.component';
 import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
 import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
+import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
             {
                 path: '',
                 children: [
+                    { path: 'lossEvents/columns', component: LossTypeColumnsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
                     { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
