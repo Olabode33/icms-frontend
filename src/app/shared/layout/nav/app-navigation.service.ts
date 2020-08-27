@@ -123,7 +123,7 @@ export class AppNavigationService {
                 //new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
             ]),
             new AppMenuItem('KRI', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
-            new AppMenuItem('Loss Management', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/exceptionIncidents/exceptionIncidents'),
+            new AppMenuItem('Loss Management', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/lossEvents'),
             new AppMenuItem('Capital Modeling', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [

@@ -32,6 +32,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 import { OpRiskHomeComponent } from './opRisk/home/home.component';
 import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
+import { LossEventsComponent } from './lossEvents/lossEvents.component';
+import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
+import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
 
 @NgModule({
     imports: [
@@ -39,6 +42,9 @@ import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component
             {
                 path: '',
                 children: [
+                    { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
+                    { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
