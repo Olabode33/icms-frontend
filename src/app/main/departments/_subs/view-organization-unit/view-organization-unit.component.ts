@@ -30,6 +30,8 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     @ViewChild('createOrEditDepartmentRatingModal', { static: true }) createOrEditDepartmentRatingModal: CreateOrEditDepartmentRatingModalComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
+    loadingScore = false;
+
     _organizationUnitId = -1;
     department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
     userName = '';
@@ -85,6 +87,13 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     userName2Filter = '';
     projectId: number;
 
+    residualRiskPercent = 0;
+    inherentRiskPercent = 0;
+    residualRiskScore = 0;
+    inherentRiskScore = 0;
+    residualRiskRating = '';
+    inherentRiskRating = '';
+
     constructor(
         injector: Injector,
         private _location: Location,
@@ -102,6 +111,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     ngOnInit() {
         this._activatedRoute.paramMap.subscribe(params => {
             this._organizationUnitId = +params.get('departmentId');
+            this.loadingScore = true;
             this.getDepartmentDetails();
             this.getWorkingPapers({ first: 0, sortField: undefined, rows: 10 });
             this.getExceptions({ first: 0, sortField: undefined, rows: 10 });
@@ -203,6 +213,42 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     viewException(id: number): void {
         this.createOrEditExceptionIncidentModal.show(id);
+    }
+
+    updateRiskScore(event: any): void {
+        this.loadingScore = false;
+        this.residualRiskScore = event.residualRiskScore;
+        this.inherentRiskScore = event.inherentRiskScore;
+
+        this.residualRiskPercent = this.residualRiskScore / (event.riskCount * 25);
+        this.inherentRiskPercent = this.inherentRiskScore / (event.riskCount * 25);
+
+        this.residualRiskRating = this.getRiskRating(this.residualRiskPercent);
+        this.inherentRiskRating = this.getRiskRating(this.inherentRiskPercent);
+    }
+
+    getRiskRating(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return 'Low Risk';
+        }
+
+        if (riskPercent <= 0.6) {
+            return 'Medium Risk';
+        }
+
+        return 'High Risk';
+    }
+
+    getRiskRatingColor(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return '#2196F3';
+        }
+
+        if (riskPercent <= 0.6) {
+            return '#FFC107';
+        }
+
+        return 'red';
     }
 
 }

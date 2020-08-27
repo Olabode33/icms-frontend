@@ -83,8 +83,12 @@ export class ViewProcessComponent extends AppComponentBase implements OnInit {
     userName2Filter = '';
     projectId: number;
 
+    residualRiskPercent = 0;
+    inherentRiskPercent = 0;
     residualRiskScore = 0;
     inherentRiskScore = 0;
+    residualRiskRating = '';
+    inherentRiskRating = '';
 
     constructor(
         injector: Injector,
@@ -209,9 +213,39 @@ export class ViewProcessComponent extends AppComponentBase implements OnInit {
     }
 
     updateRiskScore(event: any): void {
-        console.log(event);
+        //console.log(event);
         this.residualRiskScore = event.residualRiskScore;
         this.inherentRiskScore = event.inherentRiskScore;
+
+        this.residualRiskPercent = this.residualRiskScore / (event.riskCount * 25);
+        this.inherentRiskPercent = this.inherentRiskScore / (event.riskCount * 25);
+
+        this.residualRiskRating = this.getRiskRating(this.residualRiskPercent);
+        this.inherentRiskRating = this.getRiskRating(this.inherentRiskPercent);
+    }
+
+    getRiskRating(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return 'Low Risk';
+        }
+
+        if (riskPercent <= 0.6) {
+            return 'Medium Risk';
+        }
+
+        return 'High Risk';
+    }
+
+    getRiskRatingColor(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return '#2196F3';
+        }
+
+        if (riskPercent <= 0.6) {
+            return '#FFC107';
+        }
+
+        return 'red';
     }
 
 }

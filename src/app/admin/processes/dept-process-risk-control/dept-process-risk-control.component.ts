@@ -39,8 +39,16 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
 
     _appConsts = AppConsts;
 
+    processResidualRiskPercent = 0;
+    processInherentRiskPercent = 0;
+    processResidualRiskScore = 0;
+    processInherentRiskScore = 0;
+    processResidualRiskRating = '';
+    processInherentRiskRating = '';
+
     private _totalInherentRiskScore = 0;
     private _totalResidualRiskScore = 0;
+    private _totalRiskCount = 0;
 
     constructor(
         injector: Injector,
@@ -101,6 +109,26 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
             this.deptProcesses = Array.from(new Set(result. items.map((i) => {
                 return {process: i, isActive: false};
             })));
+            this.calculateScore();
+        });
+    }
+
+    calculateScore() {
+        this._totalInherentRiskScore = 0;
+        this._totalResidualRiskScore = 0;
+        this._totalRiskCount = 0;
+
+        this.deptProcesses.forEach((process, i, arr) => {
+            this._processRiskService.getRiskForProcess('', '', '', '', process.process.id, '', 0, 1000)
+                .subscribe(result => {
+                    this._totalInherentRiskScore += result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+                    this._totalResidualRiskScore += result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+                    this._totalRiskCount += result.items.length;
+
+                    if (Object.is(arr.length - 1, i)) {
+                        this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore, riskCount: this._totalRiskCount});
+                    }
+                });
         });
     }
 
@@ -114,6 +142,15 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                 this.deptRisks = Array.from(new Set(result.items.map((i) => {
                     return {risk: i, isActive: false};
                 })));
+
+                this.processInherentRiskScore = result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+                this.processResidualRiskScore = result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+
+                this.processInherentRiskPercent = this.processInherentRiskScore / (result.items.length * 25);
+                this.processResidualRiskPercent = this.processResidualRiskScore / (result.items.length * 25);
+
+                this.processInherentRiskRating = this.getRiskRating(this.processInherentRiskPercent);
+                this.processResidualRiskRating = this.getRiskRating(this.processResidualRiskPercent);
             });
     }
 
@@ -230,6 +267,30 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                 }
             }
         );
+    }
+
+    getRiskRating(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return 'Low Risk';
+        }
+
+        if (riskPercent <= 0.6) {
+            return 'Medium Risk';
+        }
+
+        return 'High Risk';
+    }
+
+    getRiskRatingColor(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return '#2196F3';
+        }
+
+        if (riskPercent <= 0.6) {
+            return '#FFC107';
+        }
+
+        return 'red';
     }
 
 }

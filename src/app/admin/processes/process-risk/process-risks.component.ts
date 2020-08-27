@@ -49,6 +49,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     private _totalInherentRiskScore = 0;
     private _totalResidualRiskScore = 0;
+    private _totalRiskCount = 0;
 
     constructor(
         injector: Injector,
@@ -106,7 +107,8 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
             })));
             this._totalInherentRiskScore = result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
             this._totalResidualRiskScore = result.items.reduce((a, b) => a + b.residualRiskScore, 0);
-            this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore});
+            this._totalRiskCount = result.items.length;
+            this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore, riskCount: this._totalRiskCount});
             this.loadingRisk = false;
         });
     }

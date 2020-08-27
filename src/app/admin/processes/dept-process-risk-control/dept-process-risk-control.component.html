@@ -26,6 +26,41 @@
                     <div id="collapseOne{{process.process.id}}" class="collapse" [ngClass]="{show: process.isActive}"
                         aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
                         <div class="card-body">
+                            <div *ngIf="processResidualRiskRating" class="row">
+                                <div class="col-lg-3">
+                                    <div>
+                                        <span [style.background]="getRiskRatingColor(processInherentRiskPercent)"
+                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                data-placement="top">
+                                            {{ processInherentRiskRating }}
+                                        </span>
+                                        <span class="text-muted d-block">Inherent Risk Rating</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="width: 100%;text-align: right;">
+                                        <h4 class="mb-0">{{ processInherentRiskPercent | percent:'1.0-0' }}</h4>
+                                        <span class="text-muted d-block">Inherent Risk Score</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div>
+                                        <span [style.background]="getRiskRatingColor(processResidualRiskPercent)"
+                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                data-placement="top">
+                                            {{ processResidualRiskRating }}
+                                        </span>
+                                        <span class="text-muted d-block">Residual Risk Rating</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div style="width: 100%;text-align: right;">
+                                        <h4 class="mb-0">{{ processResidualRiskPercent | percent:'1.0-0' }}</h4>
+                                        <span class="text-muted d-block">Residual Risk Score</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="row">
                                 <div class="col-12">
                                     <!-- <button *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly"
@@ -59,6 +94,7 @@
                                                                     <a href="javascript:void(0);" (click)="toggleRiskAccordion(r)"
                                                                         class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
                                                                         {{risk.risk.riskName}}
+                                                                        <i *ngIf="risk.risk.overControlled" class="fa fa-info-circle kt-font-danger" title="This risk is over controlled"></i>
                                                                     </a>
                                                                     <span class="text-muted d-block">Risk</span>
                                                                 </div>

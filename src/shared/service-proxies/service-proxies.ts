@@ -13573,7 +13573,7 @@ export class ProcessRisksServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    calculateResidualRiskScore(body: ProcessRiskDto | undefined): Observable<number> {
+    calculateResidualRiskScore(body: ProcessRiskDto | undefined): Observable<ResidualRiskScoreComponents> {
         let url_ = this.baseUrl + "/api/services/app/ProcessRisks/CalculateResidualRiskScore";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13596,14 +13596,14 @@ export class ProcessRisksServiceProxy {
                 try {
                     return this.processCalculateResidualRiskScore(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<ResidualRiskScoreComponents>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<ResidualRiskScoreComponents>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCalculateResidualRiskScore(response: HttpResponseBase): Observable<number> {
+    protected processCalculateResidualRiskScore(response: HttpResponseBase): Observable<ResidualRiskScoreComponents> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13614,7 +13614,7 @@ export class ProcessRisksServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = ResidualRiskScoreComponents.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13622,7 +13622,7 @@ export class ProcessRisksServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<ResidualRiskScoreComponents>(<any>null);
     }
 
     /**
@@ -33988,6 +33988,7 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
     processCode!: string | undefined;
     inherentRiskScore!: number;
     residualRiskScore!: number;
+    overControlled!: boolean;
 
     constructor(data?: IGetProcessRiskForViewDto) {
         if (data) {
@@ -34008,6 +34009,7 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
             this.processCode = data["processCode"];
             this.inherentRiskScore = data["inherentRiskScore"];
             this.residualRiskScore = data["residualRiskScore"];
+            this.overControlled = data["overControlled"];
         }
     }
 
@@ -34028,6 +34030,7 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
         data["processCode"] = this.processCode;
         data["inherentRiskScore"] = this.inherentRiskScore;
         data["residualRiskScore"] = this.residualRiskScore;
+        data["overControlled"] = this.overControlled;
         return data; 
     }
 }
@@ -34041,6 +34044,7 @@ export interface IGetProcessRiskForViewDto {
     processCode: string | undefined;
     inherentRiskScore: number;
     residualRiskScore: number;
+    overControlled: boolean;
 }
 
 export class PagedResultDtoOfGetProcessRiskForViewDto implements IPagedResultDtoOfGetProcessRiskForViewDto {
@@ -34133,6 +34137,46 @@ export class ListResultDtoOfGetProcessRiskForViewDto implements IListResultDtoOf
 
 export interface IListResultDtoOfGetProcessRiskForViewDto {
     items: GetProcessRiskForViewDto[] | undefined;
+}
+
+export class ResidualRiskScoreComponents implements IResidualRiskScoreComponents {
+    residualRiskScore!: number;
+    overControlled!: boolean;
+
+    constructor(data?: IResidualRiskScoreComponents) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.residualRiskScore = data["residualRiskScore"];
+            this.overControlled = data["overControlled"];
+        }
+    }
+
+    static fromJS(data: any): ResidualRiskScoreComponents {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResidualRiskScoreComponents();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["residualRiskScore"] = this.residualRiskScore;
+        data["overControlled"] = this.overControlled;
+        return data; 
+    }
+}
+
+export interface IResidualRiskScoreComponents {
+    residualRiskScore: number;
+    overControlled: boolean;
 }
 
 export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
