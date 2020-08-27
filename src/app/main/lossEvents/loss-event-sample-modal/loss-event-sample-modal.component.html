@@ -1,0 +1,33 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #exceptionIncidentForm="ngForm" novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Review Loss Event</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Application</label>
+                        <input type="text" class="form-control" value="Finnacle" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" value="System Downtime: Application not responding" disabled readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Date Checked</label>
+                        <input type="text" class="form-control" value="Aug 28, 2020 9:00am" disabled readonly />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-primary" (click)="close()">Send for Verification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
