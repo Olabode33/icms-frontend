@@ -33040,6 +33040,13 @@ export interface IProcessRiskControlDto {
     id: number;
 }
 
+export enum ProjectOwner {
+    InternalAudit = 0,
+    InternalControl = 1,
+    OperationRisk = 2,
+    General = 3,
+}
+
 export class TestingTemplateDto implements ITestingTemplateDto {
     code!: string | undefined;
     detailedInstructions!: string | undefined;
@@ -33049,6 +33056,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
     daysToComplete!: number;
     departmentRiskControlId!: number | undefined;
     isActive!: boolean;
+    projectOwner!: ProjectOwner;
     id!: number;
 
     constructor(data?: ITestingTemplateDto) {
@@ -33070,6 +33078,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
             this.daysToComplete = data["daysToComplete"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
             this.isActive = data["isActive"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -33091,6 +33100,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
         data["daysToComplete"] = this.daysToComplete;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
         data["isActive"] = this.isActive;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -33105,6 +33115,7 @@ export interface ITestingTemplateDto {
     daysToComplete: number;
     departmentRiskControlId: number | undefined;
     isActive: boolean;
+    projectOwner: ProjectOwner;
     id: number;
 }
 
@@ -34786,13 +34797,6 @@ export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
 
 export interface IChangeUserLanguageDto {
     languageName: string | undefined;
-}
-
-export enum ProjectOwner {
-    InternalAudit = 0,
-    InternalControl = 1,
-    OperationRisk = 2,
-    General = 3,
 }
 
 export enum ReviewType {
@@ -38553,6 +38557,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
     exceptionTypeId!: number | undefined;
     departmentRiskControlId!: number | undefined;
     sampleSize!: number | undefined;
+    projectOwner!: ProjectOwner;
     attributes!: CreateorEditTestTemplateDetailsDto[] | undefined;
     id!: number | undefined;
 
@@ -38574,6 +38579,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
             this.exceptionTypeId = data["exceptionTypeId"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
             this.sampleSize = data["sampleSize"];
+            this.projectOwner = data["projectOwner"];
             if (Array.isArray(data["attributes"])) {
                 this.attributes = [] as any;
                 for (let item of data["attributes"])
@@ -38599,6 +38605,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
         data["sampleSize"] = this.sampleSize;
+        data["projectOwner"] = this.projectOwner;
         if (Array.isArray(this.attributes)) {
             data["attributes"] = [];
             for (let item of this.attributes)
@@ -38617,6 +38624,7 @@ export interface ICreateOrEditTestingTemplateDto {
     exceptionTypeId: number | undefined;
     departmentRiskControlId: number | undefined;
     sampleSize: number | undefined;
+    projectOwner: ProjectOwner;
     attributes: CreateorEditTestTemplateDetailsDto[] | undefined;
     id: number | undefined;
 }

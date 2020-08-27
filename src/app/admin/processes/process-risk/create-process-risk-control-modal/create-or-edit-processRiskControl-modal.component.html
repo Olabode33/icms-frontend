@@ -40,8 +40,8 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="card">
-                        <div class="card-header" (click)="showRiskCard = !showRiskCard; showProcessCard = false;">Risk</div>
+                    <div class="card bg-border-danger">
+                        <div class="card-header bg-danger text-white" (click)="showRiskCard = !showRiskCard; showProcessCard = false;">Risk</div>
                         <div class="card-body" *ngIf="showRiskCard">
                             <div class="form-group">
                                 <label for="Risk_Name">{{l("Name")}}</label>
@@ -76,8 +76,8 @@
                     </div>
                     <hr />
 
-                    <div class="card">
-                        <div class="card-header">Control</div>
+                    <div class="card bg-border-success">
+                        <div class="card-header bg-success text-white">Control</div>
                         <div class="card-body">
                             <div class="form-group m-form__group">
                                 <label for="ControlCode">Attach this control to the risk</label>
@@ -124,8 +124,8 @@
                                     <p>How would this control affect:</p>
                                 </div>
                                 <div class="form-group col-10">
-                                    <label for="LikelihoodRange">1. Likelihood of the Risk</label>
-                                    <input type="range" class="form-control-range"  name="LikelihoodRange" id="LikelihoodRange" class="custom-range" min="0" max="1" step="0.25" list="LikelihoodTickmarks"
+                                    <label for="LikelihoodRange">1. Likelihood of the Risk : {{departmentRiskControl.likelyhood | percent:'1.0-0'}}</label>
+                                    <input type="range" class="form-control-range"  name="LikelihoodRange" id="LikelihoodRange" class="custom-range" min="0" max="1" step="0.001" list="LikelihoodTickmarks"
                                         [(ngModel)]="departmentRiskControl.likelyhood">
                                     
                                     <datalist #LikelihoodTickmarks id="LikelihoodTickmarks">
@@ -138,8 +138,8 @@
                                 </div>
                                 <!-- <div class="col-lg-1"></div> -->
                                 <div class="form-group col-10">
-                                    <label for="ImpactRange">2. Impact of the Risk</label>
-                                    <input type="range" class="form-control-range" name="ImpactRange" id="ImpactRange" class="custom-range" min="0" max="100" step="0.25" list="ImpactTickmarks"
+                                    <label for="ImpactRange">2. Impact of the Risk : {{departmentRiskControl.impact | percent:'1.0-0'}}</label>
+                                    <input type="range" class="form-control-range" name="ImpactRange" id="ImpactRange" class="custom-range" min="0" max="1" step="0.001" list="ImpactTickmarks"
                                         [(ngModel)]="departmentRiskControl.impact">
         
                                     <datalist id="ImpactTickmarks">

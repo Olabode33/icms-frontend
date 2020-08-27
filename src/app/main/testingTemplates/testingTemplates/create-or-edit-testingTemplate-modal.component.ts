@@ -1,11 +1,12 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto } from '@shared/service-proxies/service-proxies';
+import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 //import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplate-departmentRiskControl-lookup-table-modal.component';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'createOrEditTestingTemplateModal',
@@ -33,6 +34,8 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     exceptionTypeName: string;
     departmentRiskControlId: number;
 
+    projectOwnerEnum = ProjectOwner;
+
     constructor(
         injector: Injector,
         private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
@@ -47,6 +50,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this.testingTemplate.id = null;
             this.departmentRiskControlCode = '';
             this.testingTemplate.departmentRiskControlId = departmentRiskControlId;
+            this.getModule();
 
             this.active = true;
             this.modal.show();
@@ -54,6 +58,26 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         else {
             this.notify.warn("Please select a risk to attach the template to.");
             return;
+        }
+    }
+
+    getModule(): void {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.testingTemplate.projectOwner = ProjectOwner.InternalControl;
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.testingTemplate.projectOwner = ProjectOwner.InternalAudit;
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.testingTemplate.projectOwner = ProjectOwner.OperationRisk;
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.testingTemplate.projectOwner = ProjectOwner.General;
+                break;
+            default:
+                this.testingTemplate.projectOwner = ProjectOwner.General;
+                break;
         }
     }
 

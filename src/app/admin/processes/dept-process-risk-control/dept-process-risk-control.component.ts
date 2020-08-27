@@ -1,5 +1,6 @@
+import { ProcessRiskDto, ProcessRiskControlDto, TestingTemplatesServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
@@ -7,6 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditProcessRiskModalComponent } from '../process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from '../process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
   selector: 'app-dept-process-risk-control',
@@ -14,6 +16,8 @@ import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemp
   styleUrls: ['./dept-process-risk-control.component.css']
 })
 export class DeptProcessRiskControlComponent extends AppComponentBase {
+
+    @Output() riskScoreUpdated = new EventEmitter<any>();
 
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
@@ -33,12 +37,18 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
 
+    _appConsts = AppConsts;
+
+    private _totalInherentRiskScore = 0;
+    private _totalResidualRiskScore = 0;
+
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private _processService: ProcessesServiceProxy,
         private _processRiskService: ProcessRisksServiceProxy,
         private _processRiskControlService: ProcessRiskControlsServiceProxy,
+        private _testingTemplateServiceProcess: TestingTemplatesServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -157,14 +167,69 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         this.createOrEditProcessRiskModal.show(null, processId);
     }
 
+    editProcessRisk(processRiskId: number, processId: number): void {
+        this.createOrEditProcessRiskModal.show(processRiskId, processId);
+    }
 
-    addControlToRisk(riskId: number, riskDepartmentId?: number): void {
 
-        this.createOrEditProcessRiskControlModal.show(null, riskId, this._organizationUnit.id);
+    addControlToRisk(processRisk: ProcessRiskDto): void {
+        this.createOrEditProcessRiskControlModal.show(null, processRisk.id, processRisk.processId, processRisk.riskId);
+    }
+
+    editProcessRiskControl(processRiskControl: ProcessRiskControlDto, riskId: number): void {
+        this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, riskId);
     }
 
     review(testingTemplateId: number): void {
         this._router.navigate(['app/main/workingPaperNews/new', testingTemplateId, this._organizationUnit.id]);
+    }
+
+    removeProcessRisk(processRiskId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._processRiskService.delete(processRiskId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.notify.success(this.l('Risk Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeProcessRiskControl(processRiskControlId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._processRiskControlService.delete(processRiskControlId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.notify.success(this.l('Control Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeControlTestingTemplate(testingTemplateId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._testingTemplateServiceProcess.delete(testingTemplateId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.notify.success(this.l('Testing Template Successfully Removed'));
+                        });
+                }
+            }
+        );
     }
 
 }

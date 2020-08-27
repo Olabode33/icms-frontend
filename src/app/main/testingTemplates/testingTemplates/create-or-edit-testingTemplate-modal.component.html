@@ -60,6 +60,17 @@
                             <input type="number" min="0" id="TestingTemplate_DaysToComplete" class="form-control" [(ngModel)]="testingTemplate.daysToComplete" name="daysToComplete" required />
                         </div>
 
+                        <div class="form-group col-4">
+                            <label for="Project_Owner">Project Owner</label>
+                            <select type="text" id="Project_owner" class="form-control"
+                                [(ngModel)]="testingTemplate.projectOwner" name="owner">
+                                <option [value]="projectOwnerEnum.InternalAudit">Internal Audit</option>
+                                <option [value]="projectOwnerEnum.InternalControl">Internal Control</option>
+                                <option [value]="projectOwnerEnum.OperationRisk">Operational Risk</option>
+                                <option [value]="projectOwnerEnum.General">General</option>
+                            </select>
+                        </div>
+
 
                     </div>
                     <hr />

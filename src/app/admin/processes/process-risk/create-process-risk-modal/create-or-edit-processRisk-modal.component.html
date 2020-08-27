@@ -16,7 +16,6 @@
                         <div class="card-header" (click)="showProcess = !showProcess">Process</div>
                         <div class="card-body" *ngIf="showProcess">
                             <div>
-
                                 <div class="form-group">
                                     <label for="Process_Name">Process {{l("Name")}}</label>
                                     <input type="text" readonly id="Process_Name" class="form-control" value="{{process.name}}"
@@ -44,8 +43,8 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="card">
-                        <div class="card-header">Risk</div>
+                    <div class="card bg-border-danger">
+                        <div class="card-header  bg-danger text-white">Risk</div>
                         <div class="card-body">
                             <div class="form-group m-form__group">
                                 <label for="RiskName">Attach this risk to this process</label>
