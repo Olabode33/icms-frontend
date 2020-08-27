@@ -167,14 +167,14 @@
                                         </th>
                                         <th></th>
                                     </tr>
-                                    <tr *ngFor="let item of attributes">
+                                    <tr *ngFor="let item of attributes; let i = index">
                                         <td>{{item.name}}</td>
-                                        <td><input type="number" class="form-control" /></td>
+                                        <td><input type="number" class="form-control" name="question{{i}}" [(ngModel)]="item.weight" /></td>
                                         <td>{{item.exceptionTypeName}}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm btn-icon"
-                                                    (click)="removeItem(item)">
-                                                <i class="fa fa-stop"
+                                                    (click)="removeColumn(item)">
+                                                <i class="fa fa-times"
                                                    [attr.aria-label]="l('Remove')"></i>
                                             </button>
                                         </td>

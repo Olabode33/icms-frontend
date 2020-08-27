@@ -39,13 +39,13 @@
 
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="UserName">Unit Head</label>
+                                    <label for="UserName">Owner</label>
                                     <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" >
                                 </div>
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <label for="UserName">Control Officer</label>
                                     <input class="form-control" id="cUserName" name="cuserName" value="Deb Madgwick" type="text" >
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="form-group m-form__group">
@@ -260,87 +260,6 @@
                                 <!--<Primeng-Datatable-End>-->
                             </div>
                         </tab>
-                        <tab heading="Exceptions">
-                            <div class="row align-items-center">
-                                <!--<Primeng-Datatable-Start>-->
-                                <div class="primeng-datatable-container col-12">
-                                     <div class="table-responsive">
-                                        <table
-                                            class="table table-head-custom table-vertical-center table-head-bg table-borderless">
-                                            <thead>
-                                                <tr class="text-left">
-                                                    <th style="min-width: 250px" class="pl-2">
-                                                        <span class="text-dark-75">Exceptions</span></th>
-                                                    <th style="min-width: 100px">Date Raised</th>
-                                                    <th style="min-width: 100px">Status</th>
-                                                    <th style="min-width: 100px">Raised by</th>
-                                                    <th style="min-width: 100px"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let exception of exceptions">
-                                                    <td class="pl-0 py-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="symbol symbol-50 symbol-light mr-4">
-                                                                <i class="fa fa-2x fa-exclamation-triangle kt-font-danger"></i>
-                                                            </div>
-                                                            <div>
-                                                                <a href="javascript:void(0);"
-                                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
-                                                                    {{ exception.exceptionTypeName }}
-                                                                </a>
-                                                                <span class="text-muted d-block">
-                                                                    {{ exception.organizationUnitDisplayName }}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{ exception.exceptionIncident.date | momentFormat:'LL'}}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
-                                                                        kt-badge--{{exception.exceptionIncident.status == statusEnum.Open ? 'warning' :
-                                                                                            (exception.exceptionIncident.status == statusEnum.Closed ? 'success' : 'info') }}">
-                                                                {{statusEnum[exception.exceptionIncident.status]}}
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                                            {{ exception.userName }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="pr-0 text-right">
-                                                        <button (click)="viewException(exception.exceptionIncident.id)"
-                                                            class="btn btn-label-danger btn-sm btn-bold btn-upper btn-sm">
-                                                                {{ exception.exceptionIncident.status == statusEnum.Resolved ? 'Close' : 'Resolve' }}
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="primeng-no-data" *ngIf="exceptions.length == 0">
-                                        {{l('NoData')}}
-                                    </div>
-                                    <div class="primeng-paging-container">
-                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
-                                                     #exceptionsPaginator
-                                                     (onPageChange)="getExceptions($event)"
-                                                     [totalRecords]="exceptionsCount"
-                                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
-                                        </p-paginator>
-                                        <span class="total-records-count">
-                                            {{l('TotalRecordsCount', exceptionsCount)}}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </tab>
                         <tab heading="Tasks">
                             <div class="row align-items-center">
                                 <!--<Primeng-Datatable-Start>-->
@@ -424,6 +343,87 @@
                                             </tbody>
                                         </table>
                                     </div>
+                            </div>
+                        </tab>
+                        <tab heading="Exceptions">
+                            <div class="row align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container col-12">
+                                     <div class="table-responsive">
+                                        <table
+                                            class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                            <thead>
+                                                <tr class="text-left">
+                                                    <th style="min-width: 250px" class="pl-2">
+                                                        <span class="text-dark-75">Exceptions</span></th>
+                                                    <th style="min-width: 100px">Date Raised</th>
+                                                    <th style="min-width: 100px">Status</th>
+                                                    <th style="min-width: 100px">Raised by</th>
+                                                    <th style="min-width: 100px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let exception of exceptions">
+                                                    <td class="pl-0 py-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="symbol symbol-50 symbol-light mr-4">
+                                                                <i class="fa fa-2x fa-exclamation-triangle kt-font-danger"></i>
+                                                            </div>
+                                                            <div>
+                                                                <a href="javascript:void(0);"
+                                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                    {{ exception.exceptionTypeName }}
+                                                                </a>
+                                                                <span class="text-muted d-block">
+                                                                    {{ exception.organizationUnitDisplayName }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{ exception.exceptionIncident.date | momentFormat:'LL'}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline 
+                                                                        kt-badge--{{exception.exceptionIncident.status == statusEnum.Open ? 'warning' :
+                                                                                            (exception.exceptionIncident.status == statusEnum.Closed ? 'success' : 'info') }}">
+                                                                {{statusEnum[exception.exceptionIncident.status]}}
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{ exception.userName }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="pr-0 text-right">
+                                                        <button (click)="viewException(exception.exceptionIncident.id)"
+                                                            class="btn btn-label-danger btn-sm btn-bold btn-upper btn-sm">
+                                                                {{ exception.exceptionIncident.status == statusEnum.Resolved ? 'Close' : 'Resolve' }}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="primeng-no-data" *ngIf="exceptions.length == 0">
+                                        {{l('NoData')}}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                     #exceptionsPaginator
+                                                     (onPageChange)="getExceptions($event)"
+                                                     [totalRecords]="exceptionsCount"
+                                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', exceptionsCount)}}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </tab>
                         <!-- <tab heading="Rating History">

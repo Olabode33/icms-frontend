@@ -170,6 +170,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         this.attributeQuestion = '';
         this.availableWeight -= this.weight;
         this.weight = this.availableWeight;
+        //console.log(this.attributes);
     }
 
 
