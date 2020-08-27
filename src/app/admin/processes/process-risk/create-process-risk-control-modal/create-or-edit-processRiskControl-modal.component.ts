@@ -1,7 +1,7 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { DepartmentRiskControlsServiceProxy, CreateOrEditDepartmentRiskControlDto, CreateOrEditProcessRiskControlDto, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, CreateOrEditProcessRiskDto, CreateOrEditProcessDto, RisksServiceProxy, CreateOrEditRiskDto, Severity } from '@shared/service-proxies/service-proxies';
+import { DepartmentRiskControlsServiceProxy, CreateOrEditDepartmentRiskControlDto, CreateOrEditProcessRiskControlDto, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, CreateOrEditProcessRiskDto, CreateOrEditProcessDto, RisksServiceProxy, CreateOrEditRiskDto, Severity, ProcessRiskDto, GetProcessRiskForViewDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
@@ -54,9 +54,7 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
         super(injector);
     }
 
-    show(processRiskControlId?: number, processRiskId?: number, processId?: number, riskId?: number): void {
-
-        console.log(riskId);
+    show(processRiskControlId?: number, processRiskId?: number, processId?: number, processRisk?: GetProcessRiskForViewDto): void {
 
         this._processesServiceProxy.getProcessForEdit(processId).subscribe(result => {
             this.process = result.process;
@@ -69,15 +67,10 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
         });
 
 
-        this._risksServiceProxy.getRiskForEdit(riskId).subscribe(result => {
-            this.risk = result.risk;
-            //this.userName = result.userName;
-            //this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-
-            //if (this.process.casade) {
-            //    this.organizationUnitDisplayName = result.organizationUnitDisplayName + " and all its sub-departments.";
-            //}
-        });
+        this.risk = new CreateOrEditRiskDto();
+        this.risk.name = processRisk.riskName;
+        this.risk.impact = processRisk.processRisk.impact;
+        this.risk.likelyhood = processRisk.processRisk.likelyhood;
 
 
         if (!processRiskControlId) {

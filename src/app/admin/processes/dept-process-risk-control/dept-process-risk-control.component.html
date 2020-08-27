@@ -117,7 +117,7 @@
                                                                 <i class="fa fa-times"></i> Remove Risk
                                                             </button>
                                                             <button type="button" class="btn btn-success btn-sm float-right"
-                                                                (click)="addControlToRisk(risk.risk.processRisk.id)">
+                                                                (click)="addControlToRisk(risk.risk)">
                                                                 <i class="fa fa-plus"></i> Add Control
                                                             </button>
                                                         </div>
@@ -169,7 +169,7 @@
                                                             <div *ngIf="control.isActive" class="mx-2">
                                                                 <hr>
                                                                 <button type="button" class="btn btn-primary btn-sm" 
-                                                                    (click)="editProcessRiskControl(control.control.processRiskControl, risk.risk.processRisk.riskId)">
+                                                                    (click)="editProcessRiskControl(control.control.processRiskControl, risk.risk)">
                                                                     <i class="fa fa-edit"></i> Edit Control
                                                                 </button>
                                                                 <button type="button" class="btn btn-primary btn-sm" 

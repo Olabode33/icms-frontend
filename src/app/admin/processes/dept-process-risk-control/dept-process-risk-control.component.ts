@@ -172,12 +172,12 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     }
 
 
-    addControlToRisk(processRisk: ProcessRiskDto): void {
-        this.createOrEditProcessRiskControlModal.show(null, processRisk.id, processRisk.processId, processRisk.riskId);
+    addControlToRisk(processRisk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(null, processRisk.processRisk.id, processRisk.processRisk.processId, processRisk);
     }
 
-    editProcessRiskControl(processRiskControl: ProcessRiskControlDto, riskId: number): void {
-        this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, riskId);
+    editProcessRiskControl(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
     }
 
     review(testingTemplateId: number): void {
