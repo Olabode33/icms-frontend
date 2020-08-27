@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -11,6 +11,7 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { WorkingPaperNewUserLookupTableModalComponent } from '@app/main/workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'viewProject',
@@ -44,6 +45,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     exceptionsPercent = 0;
     taskStatusEnum = TaskStatus;
     statusEnum = Status;
+    selectedModule: ProjectOwner;
 
     item: GetProjectForViewDto;
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
@@ -101,6 +103,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     taskStatus = TaskStatus;
     frequencyEnum = Frequency;
+    projectOwnerEnum = ProjectOwner;
 
     constructor(
         injector: Injector,
@@ -270,7 +273,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         );
     }
 
-    activateProject(project: ProjectDto): void {
+    activateProject(): void {
         this.message.confirm(
             '',
             this.l('AreYouSure'),
@@ -278,14 +281,15 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
                 if (isConfirmed) {
                     let item = new EntityDto();
 
-                    item.id = project.id;
+                    item.id = this.project.id;
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
-                            this.reloadPage();
+                            this.show(this.project.id);
                             this.notify.success('Successfully Activated');
                         });
                 }
             }
         );
     }
+
 }

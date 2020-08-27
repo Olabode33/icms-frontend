@@ -27,6 +27,22 @@
                             <i class="fa fa-check"></i>
                             {{l("Activate")}}
                         </button>
+                        <div *ngIf="completedTaskPercent === 100 && (project.projectOwner == projectOwnerEnum.General || project.projectOwner == projectOwnerEnum.InternalAudit)"
+                            class="btn-group" dropdown>
+                            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-file" style="font-size: 1.2rem !important;"></i>
+                                Generate Report
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
+                                <a class="dropdown-item" href="/assets/sampleFiles/audit-report-1.pdf" target="_blank">
+                                    Download to Excel
+                                </a>
+                                <a class="dropdown-item" id="ExportUsersToExcelButton" target="_blank" href="/assets/sampleFiles/audit-report-2.pdf">
+                                    Download to PDF
+                                </a>
+                            </div>
+                        </div>
                         <button *ngIf="completedTaskPercent === 100" (click)="closeProject()" class="btn btn-success blue">
                             <i class="fa fa-times"></i>
                            Close Project
@@ -95,6 +111,19 @@
                                         <span></span>
                                     </label>
 
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="Project_Owner">Project Owner</label>
+                                    <select type="text" id="Project_owner" class="form-control" readonly disabled
+                                        [(ngModel)]="project.projectOwner" name="owner">
+                                        <option [value]="projectOwnerEnum.InternalAudit">Internal Audit</option>
+                                        <option [value]="projectOwnerEnum.InternalControl">Internal Control</option>
+                                        <option [value]="projectOwnerEnum.OperationRisk">Operational Risk</option>
+                                        <option [value]="projectOwnerEnum.General">General</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -421,7 +450,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <div class="kt-portlet kt-portlet--mobile">
+                    <div class="kt-portlet kt-portlet--mobile bg-border-success">
                         <div class="kt-portlet__body-" style="height: 300px;">
                             <ngx-charts-gauge class="chart-container" [results]="single" [animations]="animations"
                                 [textValue]="gaugeTextValue" [scheme]="colorScheme" [units]="gaugeUnits"
@@ -433,7 +462,7 @@
                         </div>
                     </div>
 
-                    <div class="card card-custom bgi-no-repeat gutter-b"
+                    <div class="card card-custom bgi-no-repeat gutter-b bg-border-success"
                         style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body my-4">
@@ -455,7 +484,7 @@
                         <!--end::Body-->
                     </div>
 
-                    <div class="card card-custom bgi-no-repeat gutter-b"
+                    <div class="card card-custom bgi-no-repeat gutter-b bg-border-primary"
                         style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body my-4">
@@ -476,7 +505,7 @@
                         <!--end::Body-->
                     </div>
 
-                    <div class="card card-custom bgi-no-repeat gutter-b"
+                    <div class="card card-custom bgi-no-repeat gutter-b bg-border-warning"
                         style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body my-4">
@@ -498,7 +527,7 @@
                         <!--end::Body-->
                     </div>
 
-                    <div class="card card-custom bgi-no-repeat gutter-b"
+                    <div class="card card-custom bgi-no-repeat gutter-b bg-border-danger"
                         style="background-position: right top; background-size: 30% auto; background-image: url(/assets/common/images/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body my-4">
