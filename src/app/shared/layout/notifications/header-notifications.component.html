@@ -35,7 +35,7 @@
                     <i class="{{notification.icon}} kt-font-success"></i>
                 </div>
                 <div class="kt-notification__item-details">
-                    <div class="kt-notification__item-title">
+                    <div class="kt-notification__item-title" (click)="openTestModal()">
                         {{notification.text}}
                     </div>
                     <div class="kt-notification__item-time">

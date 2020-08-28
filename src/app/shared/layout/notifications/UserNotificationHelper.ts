@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import * as Push from 'push.js'; // if using ES6
 import { NotificationSettingsModalComponent } from './notification-settings-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
 
 export interface IFormattedUserNotification {
     userNotificationId: string;
@@ -22,6 +23,7 @@ export interface IFormattedUserNotification {
 export class UserNotificationHelper extends AppComponentBase {
 
     settingsModal: NotificationSettingsModalComponent;
+    lossEventDemoModal: LossEventSampleModalComponent;
 
     constructor(
         injector: Injector,
@@ -134,5 +136,9 @@ export class UserNotificationHelper extends AppComponentBase {
 
     openSettingsModal(): void {
         this.settingsModal.show();
+    }
+
+    openLossEventSampleModal(): void {
+        this.lossEventDemoModal.show();
     }
 }

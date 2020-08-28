@@ -133,7 +133,6 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-        LossEventSampleModalComponent,
         CreateOrEditLossTypeColumnModalComponent,
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,

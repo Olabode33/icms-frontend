@@ -59,6 +59,7 @@ import { CreateOrEditProcessRiskControlModalComponent } from '@app/admin/process
 import { CreateOrEditRiskModalComponent } from '../../main/risks/risks/create-or-edit-risk-modal.component';
 import { CreateOrEditControlModalComponent } from '../../main/controls/controls/create-or-edit-control-modal.component';
 import { ProcessRisksComponent } from '@app/admin/processes/process-risk/process-risks.component';
+import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
 
 
 @NgModule({
@@ -121,9 +122,11 @@ import { ProcessRisksComponent } from '@app/admin/processes/process-risk/process
         CreateOrEditRiskModalComponent,
         CreateOrEditProcessRiskControlModalComponent,
         CreateOrEditControlModalComponent,
-        ProcessRisksComponent
+        ProcessRisksComponent,
+        LossEventSampleModalComponent
     ],
     exports: [
+        LossEventSampleModalComponent,
         ProcessRisksComponent,
         CreateOrEditProcessRiskModalComponent,
         CreateOrEditProcessRiskControlModalComponent,

@@ -1,9 +1,10 @@
-import { Component, Injector, OnInit, ViewEncapsulation, NgZone } from '@angular/core';
+import { Component, Injector, OnInit, ViewEncapsulation, NgZone, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { NotificationServiceProxy, UserNotification } from '@shared/service-proxies/service-proxies';
 import { IFormattedUserNotification, UserNotificationHelper } from './UserNotificationHelper';
 import * as _ from 'lodash';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
+import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
 
 @Component({
     templateUrl: './header-notifications.component.html',
@@ -100,5 +101,9 @@ export class HeaderNotificationsComponent extends AppComponentBase implements On
         if (url) {
             location.href = url;
         }
+    }
+
+    openTestModal(): void {
+        this._userNotificationHelper.openLossEventSampleModal();
     }
 }
