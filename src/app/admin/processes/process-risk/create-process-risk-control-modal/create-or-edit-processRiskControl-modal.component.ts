@@ -101,7 +101,7 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
             this._departmentRiskControlsServiceProxy.createOrEdit(this.departmentRiskControl)
              .pipe(finalize(() => { this.saving = false; }))
              .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

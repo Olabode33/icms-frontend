@@ -110,7 +110,7 @@ export class DepartmentsComponent extends AppComponentBase {
                     this._departmentsServiceProxy.delete(department.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

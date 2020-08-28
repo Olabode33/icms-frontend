@@ -81,7 +81,7 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
 
     unlockUser(record): void {
         this._userServiceProxy.unlockUser(new EntityDtoOfInt64({ id: record.id })).subscribe(() => {
-            this.notify.success(this.l('UnlockedTheUser', record.userName));
+            this.message.success(this.l('UnlockedTheUser', record.userName));
         });
     }
 
@@ -129,15 +129,15 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
             .pipe(finalize(() => this.excelFileUpload.clear()))
             .subscribe(response => {
                 if (response.success) {
-                    this.notify.success(this.l('ImportUsersProcessStart'));
+                    this.message.success(this.l('ImportUsersProcessStart'));
                 } else if (response.error != null) {
-                    this.notify.error(this.l('ImportUsersUploadFailed'));
+                    this.message.error(this.l('ImportUsersUploadFailed'));
                 }
             });
     }
 
     onUploadExcelError(): void {
-        this.notify.error(this.l('ImportUsersUploadFailed'));
+        this.message.error(this.l('ImportUsersUploadFailed'));
     }
 
     deleteUser(user: UserListDto): void {
@@ -154,7 +154,7 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
                     this._userServiceProxy.deleteUser(user.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

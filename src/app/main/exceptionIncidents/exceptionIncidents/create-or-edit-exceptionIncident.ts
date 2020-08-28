@@ -124,7 +124,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
             this._exceptionIncidentsServiceProxy.createOrEdit(this.exceptionIncident)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
              });
     }
@@ -134,7 +134,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
         this._exceptionIncidentsServiceProxy.resolve(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
             });
     }
@@ -144,7 +144,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
         this._exceptionIncidentsServiceProxy.close(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/exceptionIncidents/exceptionIncidents']);   
             });
     }
@@ -154,7 +154,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
         this._exceptionIncidentsServiceProxy.reject(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/exceptionincident/exceptionincident']);   
             });
     }
@@ -229,7 +229,7 @@ export class CreateOrEditExceptionIncidentComponent extends AppComponentBase imp
 
 
     getColumns(id: number): void {
-        this.notify.info("Fetching additional data points.");
+        this.message.info("Fetching additional data points.");
  
         this._exceptionIncidentsServiceProxy.getExceptionColumnsForIncident(id)
             .pipe(finalize(() => { this.saving = false; }))

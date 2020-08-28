@@ -91,7 +91,7 @@ export class CreateOrEditExceptionTypeModalComponent extends AppComponentBase {
             this._exceptionTypesServiceProxy.createOrEdit(this.exceptionType)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
@@ -115,7 +115,7 @@ export class CreateOrEditExceptionTypeModalComponent extends AppComponentBase {
 
     addColumn(): void {
         if (this.columns.find(x => x.name == this.name) != undefined) {
-            this.notify.info("This column has been added already.");
+            this.message.info("This column has been added already.");
             return;
         }
 
@@ -162,7 +162,7 @@ export class CreateOrEditExceptionTypeModalComponent extends AppComponentBase {
         };
 
         if (this.escalations.filter(x => x.id == item.id).length > 0) {
-            this.notify.warn("This user has been added already!");
+            this.message.warn("This user has been added already!");
             return;
         }
 

@@ -122,7 +122,7 @@ export class NotificationsComponent extends AppComponentBase {
                     this._notificationService.deleteNotification(userNotification.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -140,7 +140,7 @@ export class NotificationsComponent extends AppComponentBase {
                         moment(this.dateRange[0]),
                         moment(this.dateRange[1]).endOf('day')).subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

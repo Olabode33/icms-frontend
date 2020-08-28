@@ -74,7 +74,7 @@ export class CreateOrEditDepartmentModalComponent extends AppComponentBase {
             this._departmentsServiceProxy.createOrEdit(this.department)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                  this.close();
                  this.unitCreated.emit(null);
             //    this.modalSave.emit(null);

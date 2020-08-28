@@ -130,7 +130,7 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
                     this._organizationUnitService
                         .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.message.success(this.l('SuccessfullyRemoved'));
                             this.controlsRemoved.emit({
                                 userId: user.id,
                                 ouId: this.organizationUnit.id

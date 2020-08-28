@@ -173,7 +173,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._organizationUnitService
                         .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.message.success(this.l('SuccessfullyRemoved'));
                             this.riskRemoved.emit({
                                 userId: user.id,
                                 ouId: this.organizationUnit.id
@@ -240,7 +240,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskService.delete(riskId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -256,7 +256,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskControlService.delete(riskControlId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -276,7 +276,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskService.delete(processRiskId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('Risk Successfully Removed'));
+                            this.message.success(this.l('Risk Successfully Removed'));
                         });
                 }
             }
@@ -292,7 +292,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskControlService.delete(processRiskControlId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('Control Successfully Removed'));
+                            this.message.success(this.l('Control Successfully Removed'));
                         });
                 }
             }
@@ -308,7 +308,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._testingTemplateServiceProcess.delete(testingTemplateId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('Testing Template Successfully Removed'));
+                            this.message.success(this.l('Testing Template Successfully Removed'));
                         });
                 }
             }

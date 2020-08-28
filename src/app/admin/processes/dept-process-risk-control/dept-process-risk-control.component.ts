@@ -230,7 +230,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                     this._processRiskService.delete(processRiskId)
                         .subscribe(() => {
                             this.reload();
-                            this.notify.success(this.l('Risk Successfully Removed'));
+                            this.message.success(this.l('Risk Successfully Removed'));
                         });
                 }
             }
@@ -246,7 +246,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                     this._processRiskControlService.delete(processRiskControlId)
                         .subscribe(() => {
                             this.reload();
-                            this.notify.success(this.l('Control Successfully Removed'));
+                            this.message.success(this.l('Control Successfully Removed'));
                         });
                 }
             }
@@ -262,7 +262,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                     this._testingTemplateServiceProcess.delete(testingTemplateId)
                         .subscribe(() => {
                             this.reload();
-                            this.notify.success(this.l('Testing Template Successfully Removed'));
+                            this.message.success(this.l('Testing Template Successfully Removed'));
                         });
                 }
             }

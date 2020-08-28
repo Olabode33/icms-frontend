@@ -54,7 +54,7 @@ export class CreateOrEditLibraryControlModalComponent extends AppComponentBase {
             this._libraryControlsServiceProxy.createOrEdit(this.libraryControl)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

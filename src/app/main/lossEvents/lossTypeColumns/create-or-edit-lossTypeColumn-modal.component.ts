@@ -56,7 +56,7 @@ export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
         this._lossTypeColumnsServiceProxy.createOrEdit(this.lossTypeColumn)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

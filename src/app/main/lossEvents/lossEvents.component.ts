@@ -100,7 +100,7 @@ export class LossEventsComponent extends AppComponentBase {
                     this._lossEventsServiceProxy.delete(lossEvent.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

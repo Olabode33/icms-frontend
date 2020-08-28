@@ -82,7 +82,7 @@ export class LibraryControlsComponent extends AppComponentBase {
                     this._libraryControlsServiceProxy.delete(libraryControl.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

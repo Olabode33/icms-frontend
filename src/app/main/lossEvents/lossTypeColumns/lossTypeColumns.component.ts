@@ -84,7 +84,7 @@ export class LossTypeColumnsComponent extends AppComponentBase {
                     this._lossTypeColumnsServiceProxy.delete(lossTypeColumn.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

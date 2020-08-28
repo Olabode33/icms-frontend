@@ -99,7 +99,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
                             return Observable.throw(error);
                         }))
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyMoved'));
+                            this.message.success(this.l('SuccessfullyMoved'));
                             this.reload();
                         });
                 } else {
@@ -220,7 +220,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
                             if (isConfirmed) {
                                 this._processService.delete(this.selectedOu.data.id).subscribe(() => {
                                     this.deleteUnit(this.selectedOu.data.id);
-                                    this.notify.success(this.l('SuccessfullyDeleted'));
+                                    this.message.success(this.l('SuccessfullyDeleted'));
                                     this.selectedOu = null;
                                     this.reload();
                                 });

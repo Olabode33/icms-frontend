@@ -224,7 +224,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
         blockUserInput.userId = user.friendUserId;
 
         this._friendshipService.blockUser(blockUserInput).subscribe(() => {
-            this.notify.info(this.l('UserBlocked'));
+            this.message.info(this.l('UserBlocked'));
         });
     }
 
@@ -234,7 +234,7 @@ export class ChatBarComponent extends AppComponentBase implements OnInit, AfterV
         unblockUserInput.userId = user.friendUserId;
 
         this._friendshipService.unblockUser(unblockUserInput).subscribe(() => {
-            this.notify.info(this.l('UserUnblocked'));
+            this.message.info(this.l('UserUnblocked'));
         });
     }
 

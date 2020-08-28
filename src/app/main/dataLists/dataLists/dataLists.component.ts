@@ -82,7 +82,7 @@ export class DataListsComponent extends AppComponentBase {
                     this._dataListsServiceProxy.delete(dataList.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

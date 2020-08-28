@@ -117,7 +117,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
             this._exceptionIncidentsServiceProxy.createOrEdit(this.exceptionIncident)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
@@ -128,7 +128,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this._exceptionIncidentsServiceProxy.resolve(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
@@ -139,7 +139,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this._exceptionIncidentsServiceProxy.close(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
@@ -150,7 +150,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
         this._exceptionIncidentsServiceProxy.reject(this.exceptionIncident)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
@@ -226,7 +226,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
 
 
     getColumns(id: number): void {
-        this.notify.info("Fetching additional data points.");
+        this.message.info("Fetching additional data points.");
  
         this._exceptionIncidentsServiceProxy.getExceptionColumnsForIncident(id)
             .pipe(finalize(() => { this.saving = false; }))

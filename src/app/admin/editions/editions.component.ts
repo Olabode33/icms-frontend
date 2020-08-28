@@ -51,7 +51,7 @@ export class EditionsComponent extends AppComponentBase {
                 if (isConfirmed) {
                     this._editionService.deleteEdition(edition.id).subscribe(() => {
                         this.getEditions();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.message.success(this.l('SuccessfullyDeleted'));
                     });
                 }
             }

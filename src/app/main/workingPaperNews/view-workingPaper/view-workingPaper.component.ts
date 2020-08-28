@@ -229,7 +229,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                     input.id = this.workingPaperNew.id;
                     this._workingPaperNewsServiceProxy.approveWorkPaper(input)
                         .subscribe(() => {
-                            this.notify.success('This page has been approved.');
+                            this.message.success('This page has been approved.');
                             this._location.back();
                         });
                 }
@@ -256,7 +256,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
 
         //Validate
         if (!this.isValid()) {
-            this.notify.error('Please select a response');
+            this.message.error('Please select a response');
             return;
         }
 

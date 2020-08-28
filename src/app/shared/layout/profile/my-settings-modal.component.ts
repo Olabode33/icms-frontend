@@ -108,7 +108,7 @@ export class MySettingsModalComponent extends AppComponentBase implements OnInit
                 this.appSession.user.surname = this.user.surname;
                 this.appSession.user.userName = this.user.userName;
                 this.appSession.user.emailAddress = this.user.emailAddress;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
 

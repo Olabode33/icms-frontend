@@ -66,7 +66,7 @@ export class LinkedAccountsModalComponent extends AppComponentBase {
 
                     this._userLinkService.unlinkUser(unlinkUserInput).subscribe(() => {
                         this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyUnlinked'));
+                        this.message.success(this.l('SuccessfullyUnlinked'));
                     });
                 }
             }

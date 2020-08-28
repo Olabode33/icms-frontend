@@ -56,7 +56,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this.modal.show();
         }
         else {
-            this.notify.warn("Please select a risk to attach the template to.");
+            this.message.warn("Please select a risk to attach the template to.");
             return;
         }
     }
@@ -85,13 +85,13 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this.saving = true;
 
         if (this.attributes.length == 0) {
-            this.notify.error("Include at least one attribute to test.");
+            this.message.error("Include at least one attribute to test.");
             return;
         }
 
 
         if (this.availableWeight != 0) {
-            this.notify.error("Please ensure the sum of the weight across all attributes is equal to 0.");
+            this.message.error("Please ensure the sum of the weight across all attributes is equal to 0.");
             return;
         }
 
@@ -109,7 +109,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this._testingTemplatesServiceProxy.createOrEdit(this.testingTemplate)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
@@ -135,28 +135,28 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     addAttribute(): void {
 
         if (this.availableWeight == 0) {
-            this.notify.warn("The sum of all weights is equal to 0, please remove or re-allocate the weights.");
+            this.message.warn("The sum of all weights is equal to 0, please remove or re-allocate the weights.");
             return;
         }
 
         if (this.attributes.find(x => x.name == this.attributeQuestion) != undefined) {
-            this.notify.warn("This attribute has been added already.");
+            this.message.warn("This attribute has been added already.");
             return;
         }
 
         if (this.attributeQuestion == '') {
-            this.notify.warn("The attribute can not be blank.");
+            this.message.warn("The attribute can not be blank.");
             return;
         }
 
         if (this.exceptionTypeId != null) {
-            this.notify.warn("Select an exception type.");
+            this.message.warn("Select an exception type.");
             return;
         }
 
 
         if (this.weight > this.availableWeight) {
-            this.notify.warn("This weight can not be more than " + this.availableWeight.toString() + ".");
+            this.message.warn("This weight can not be more than " + this.availableWeight.toString() + ".");
             return;
         }
 

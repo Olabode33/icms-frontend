@@ -141,7 +141,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
                     this._organizationUnitService
                         .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.message.success(this.l('SuccessfullyRemoved'));
                             this.riskRemoved.emit({
                                 userId: user.id,
                                 ouId: this.organizationUnit.id

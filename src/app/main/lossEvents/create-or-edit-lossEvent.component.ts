@@ -90,7 +90,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
         return this._lossEventsServiceProxy.createOrEdit(this.lossEvent)
             .pipe(finalize(() => {
                 this.saving = false;
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
             }));
     }
 

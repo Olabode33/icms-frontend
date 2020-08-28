@@ -54,7 +54,7 @@ export class CreateOrEditRoleModalComponent extends AppComponentBase {
         this._roleService.createOrUpdateRole(input)
             .pipe(finalize(() => this.saving = false))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

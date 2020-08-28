@@ -145,7 +145,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.delete(project.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -165,7 +165,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success('Successfully Activated');
+                            this.message.success('Successfully Activated');
                         });
                 }
             }

@@ -108,7 +108,7 @@ export class RisksComponent extends AppComponentBase implements OnInit {
                     this._risksServiceProxy.delete(risk.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

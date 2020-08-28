@@ -86,7 +86,7 @@ export class LibraryRisksComponent extends AppComponentBase {
                     this._libraryRisksServiceProxy.delete(libraryRisk.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

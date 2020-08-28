@@ -212,7 +212,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
 
         if (test) {
-            this.notify.warn('Please complete all questions before you move on to the next sample.');
+            this.message.warn('Please complete all questions before you move on to the next sample.');
             return;
         }
 
@@ -249,10 +249,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.attributes.push(item);
             });
             this.sampleId++;
-            this.notify.info('Result for sample saved successfully!.');
+            this.message.info('Result for sample saved successfully!.');
         } else {
 
-            this.notify.info('Result for sample saved successfully!.');
+            this.message.info('Result for sample saved successfully!.');
           //  this.save(TaskStatus.PendingReview);
         }
         this.maxCount++;
@@ -318,7 +318,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                     this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
                         .pipe(finalize(() => { this.saving = false; this.loading = false; }))
                         .subscribe(() => {
-                            this.notify.success(this.l('SavedSuccessfully'));
+                            this.message.success(this.l('SavedSuccessfully'));
                             this.goBack();
                         });
                 }

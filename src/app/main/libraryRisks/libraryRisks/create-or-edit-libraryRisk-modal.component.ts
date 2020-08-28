@@ -54,7 +54,7 @@ export class CreateOrEditLibraryRiskModalComponent extends AppComponentBase {
             this._libraryRisksServiceProxy.createOrEdit(this.libraryRisk)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

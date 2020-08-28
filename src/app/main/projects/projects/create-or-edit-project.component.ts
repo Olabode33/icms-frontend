@@ -98,7 +98,7 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
         this._projectsServiceProxy.createOrEdit(this.project)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this._router.navigate(['/app/main/projects/planning']);
             });
     }

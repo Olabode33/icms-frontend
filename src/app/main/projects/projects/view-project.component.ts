@@ -266,7 +266,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.closeProject(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success("This project has been successfully closed.");
+                            this.message.success("This project has been successfully closed.");
                         });
                 }
             }
@@ -285,7 +285,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
                             this.show(this.project.id);
-                            this.notify.success('Successfully Activated');
+                            this.message.success('Successfully Activated');
                         });
                 }
             }

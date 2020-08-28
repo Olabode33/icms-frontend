@@ -45,7 +45,7 @@ export class NotificationSettingsModalComponent extends AppComponentBase {
         this._notificationService.updateNotificationSettings(input)
             .pipe(finalize(() => this.saving = false))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
             });
     }

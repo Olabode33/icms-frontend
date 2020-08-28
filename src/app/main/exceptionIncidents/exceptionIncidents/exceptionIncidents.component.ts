@@ -102,7 +102,7 @@ export class ExceptionIncidentsComponent extends AppComponentBase {
                     this._exceptionIncidentsServiceProxy.delete(exceptionIncident.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

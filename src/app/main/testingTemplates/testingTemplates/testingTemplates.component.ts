@@ -108,7 +108,7 @@ export class TestingTemplatesComponent extends AppComponentBase {
                     this._testingTemplatesServiceProxy.delete(testingTemplate.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
