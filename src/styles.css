@@ -599,6 +599,10 @@ body{margin-top:20px;
                 flex-basis: 0;
     }
 
+    body .ui-autocomplete .ui-autocomplete-input {
+        padding: 0.65rem 1rem !important;
+    }
+
     @media (min-width: 992px) {
     #kt_header_menu_wrapper .menu-nav {
         display: -webkit-box;
@@ -620,4 +624,6 @@ body{margin-top:20px;
         -ms-flex-align: stretch;
         align-items: stretch;
     }
+
+    
 }

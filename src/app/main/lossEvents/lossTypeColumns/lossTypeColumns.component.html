@@ -79,31 +79,10 @@
                                         <th style="width: 130px"
                                             [hidden]="!isGrantedAny('Pages.LossTypeColumns.Edit', 'Pages.LossTypeColumns.Delete')">
                                             {{l('Actions')}}</th>
-                                        <th style="width: 200px" pSortableColumn="lossType">
-                                            {{l('LossType')}}
-                                            <p-sortIcon field="lossTypeColumn.lossType"></p-sortIcon>
+                                        <th style="width: 150px" pSortableColumn="name">
+                                            {{l('Name')}}
+                                            <p-sortIcon field="lossType.name"></p-sortIcon>
                                         </th>
-                                        <th style="width: 150px" pSortableColumn="columnName">
-                                            {{l('ColumnName')}}
-                                            <p-sortIcon field="lossTypeColumn.columnName"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="dataType">
-                                            {{l('DataType')}}
-                                            <p-sortIcon field="lossTypeColumn.dataType"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="required">
-                                            {{l('Required')}}
-                                            <p-sortIcon field="lossTypeColumn.required"></p-sortIcon>
-                                        </th>
-                                        <!-- <th style="width: 150px" pSortableColumn="minimum">
-                                            {{l('Minimum')}}
-                                            <p-sortIcon field="lossTypeColumn.minimum"></p-sortIcon>
-                                        </th>
-                                        <th style="width: 150px" pSortableColumn="maximum">
-                                            {{l('Maximum')}}
-                                            <p-sortIcon field="lossTypeColumn.maximum"></p-sortIcon>
-                                        </th> -->
-
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-record="$implicit">
@@ -120,46 +99,20 @@
                                                     <li>
                                                         <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.LossTypeColumns.Edit')"
-                                                            (click)="createOrEditLossTypeColumnModal.show(record.lossTypeColumn.id)">{{l('Edit')}}</a>
+                                                            (click)="createOrEditLossTypeColumnModal.show(record.lossType.id)">{{l('Edit')}}</a>
                                                     </li>
                                                     <li>
                                                         <a href="javascript:;"
                                                             *ngIf="permission.isGranted('Pages.LossTypeColumns.Delete')"
-                                                            (click)="deleteLossTypeColumn(record.lossTypeColumn)">{{l('Delete')}}</a>
+                                                            (click)="deleteLossTypeColumn(record.lossType)">{{l('Delete')}}</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </td>
                                         <td style="width:200px">
-                                            <span class="ui-column-title"> {{l('LossType')}}</span>
-                                            {{l( lossEventTypeEnums[record.lossTypeColumn.lossType])}}
+                                            <span class="ui-column-title"> {{l('Name')}}</span>
+                                            {{ record.lossType.name }}
                                         </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('ColumnName')}}</span>
-                                            {{record.lossTypeColumn.columnName}}
-                                        </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('DataType')}}</span>
-                                            {{l( dataTypes[record.lossTypeColumn.dataType])}}
-                                        </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('Required')}}</span>
-                                            <span *ngIf="record.lossTypeColumn.required" class="kt-badge kt-badge--success kt-badge--inline" data-placement="top">
-                                                Yes
-                                            </span>
-                                            <span *ngIf="!record.lossTypeColumn.required" class="kt-badge kt-badge--danger kt-badge--inline" data-placement="top">
-                                                No
-                                            </span>
-                                        </td>
-                                        <!-- <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('Minimum')}}</span>
-                                            {{record.lossTypeColumn.minimum}}
-                                        </td>
-                                        <td style="width:150px">
-                                            <span class="ui-column-title"> {{l('Maximum')}}</span>
-                                            {{record.lossTypeColumn.maximum}}
-                                        </td> -->
-
                                     </tr>
                                 </ng-template>
                             </p-table>

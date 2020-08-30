@@ -5,8 +5,8 @@
             <form *ngIf="active" #lossTypeColumnForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="lossTypeColumn.id">{{l("EditLossTypeColumn")}}</span>
-                        <span *ngIf="!lossTypeColumn.id">{{l("CreateNewLossTypeColumn")}}</span>
+                        <span *ngIf="type.id">{{l("Edit Loss Type")}}</span>
+                        <span *ngIf="!type.id">{{l("New Loss Type")}}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -15,58 +15,166 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="LossTypeColumn_LossType">{{l("LossType")}}</label>
-                        <select class="form-control" name="LossType" id="LossTypeColumn_LossType"
-                            [(ngModel)]="lossTypeColumn.lossType">
-                            <option value="0">{{l('InternalFraud')}}</option>
-                            <option value="1">{{l('ExternalFraud')}}</option>
-                            <option value="2">{{l('EmploymentPracticesWorkplaceSafety')}}</option>
-                            <option value="3">{{l('ClientsProductsBusinessPractice')}}</option>
-                            <option value="4">{{l('DamagePhysicalAssets')}}</option>
-                            <option value="5">{{l('BusinessDisruptionSystemsFailures')}}</option>
-                            <option value="6">{{l('ExecutionDeliveryProcessManagement')}}</option>
-                        </select>
+                        <label for="LossType_Name">{{l("Name")}}</label>
+                        <input type="text" id="LossType_Name" class="form-control"
+                            [(ngModel)]="type.name" name="Name" />
                     </div>
 
                     <div class="form-group">
-                        <label for="LossTypeColumn_ColumnName">{{l("ColumnName")}}</label>
-                        <input type="text" id="LossTypeColumn_ColumnName" class="form-control"
-                            [(ngModel)]="lossTypeColumn.columnName" name="ColumnName" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="LossTypeColumn_DataType">{{l("DataType")}}</label>
-                        <select class="form-control" name="DataType" id="LossTypeColumn_DataType"
-                            [(ngModel)]="lossTypeColumn.dataType">
-                            <option value="0">{{l('String')}}</option>
-                            <option value="1">{{l('Number')}}</option>
-                            <option value="2">{{l('Bool')}}</option>
-                            <option value="3">{{l('Date')}}</option>
-                            <option value="4">{{l('List')}}</option>
-                        </select>
+                        <label for="LossType_Name">{{l("Description")}}</label>
+                        <textarea id="LossType_Name" class="form-control" 
+                            [(ngModel)]="type.description" name="Description"></textarea>
                     </div>
 
                     <br />
-                    <div class="m-checkbox-list">
-                        <label for="LossTypeColumn_Required" class="kt-checkbox">
-                            <input id="LossTypeColumn_Required" type="checkbox" name="Required"
-                                [(ngModel)]="lossTypeColumn.required">
-                            {{l("Required")}}
-                            <span></span>
-                        </label>
-                    </div>
+                    <tabset>
+                        <tab heading="Custom Data">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="name">{{l("Name")}}</label>
+                                    <input type="text" id="name" class="form-control" [(ngModel)]="lossTypeColumn.columnName" name="DataTypeName" />
+                                </div>
 
-                    <div class="form-group">
-                        <label for="LossTypeColumn_Minimum">{{l("Minimum")}}</label>
-                        <input type="number" id="LossTypeColumn_Minimum" class="form-control"
-                            [(ngModel)]="lossTypeColumn.minimum" name="Minimum" />
-                    </div>
+                                <div class="form-group col-md-4">
+                                    <label for="ExceptionType_Severity">Data Type</label>
+                                    <select class="form-control" name="DataType" id="DataType" [(ngModel)]="lossTypeColumn.dataType">
+                                        <option value="0">String</option>
+                                        <option value="1">Number</option>
+                                        <option value="3">Yes or No</option>
+                                        <option value="2">Date</option>
 
-                    <div class="form-group">
-                        <label for="LossTypeColumn_Maximum">{{l("Maximum")}}</label>
-                        <input type="number" id="LossTypeColumn_Maximum" class="form-control"
-                            [(ngModel)]="lossTypeColumn.maximum" name="Maximum" />
-                    </div>
+                                        <option value="4">List</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="ExceptionType_Severity">Required</label><br>
+                                    <div class="m-checkbox-list">
+                                        <label for="LossTypeColumn_Required" class="kt-checkbox">
+                                            <input id="LossTypeColumn_Required" type="checkbox" name="Required"
+                                                [(ngModel)]="lossTypeColumn.required">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-hover-success" (click)=" addColumn()">Add</button>
+                                </div>
+                           
+
+                            <hr />
+                            <br />
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Data Name
+                                        </th>
+                                        <th>
+                                            Data Type
+                                        </th>
+                                        <th>
+                                            Required
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of columns">
+                                        <td>{{item.columnName}}</td>
+                                        <td>{{dataTypeEnum[item.dataType]}}</td>
+                                        <td>{{item.required ? 'Yes' : 'No'}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm btn-icon"
+                                                    (click)="removeColumn(item)">
+                                                <i class="fa fa-times" [attr.aria-label]="l('Remove')"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </tab>
+                        <tab heading="Triggers">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="TriggerName">{{l("Trigger Name")}}</label>
+                                    <input type="text" id="TriggerName" class="form-control" [(ngModel)]="lossTypeTrigger.name" name="TriggerName" />
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="TriggerDesc">{{l("Description")}}</label>
+                                    <textarea id="TriggerDesc" class="form-control" [(ngModel)]="lossTypeTrigger.description" name="TriggerDesc"></textarea>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="TriggerDataSource">{{l("Data source")}}</label>
+                                    <input type="text" id="TriggerDataSource" class="form-control" [(ngModel)]="lossTypeTrigger.dataSource" name="TriggerDataSource" />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="TriggerRole">Role</label>
+                                    <input type="text" id="TriggerRole" class="form-control" [(ngModel)]="lossTypeTrigger.role" name="TriggerRole" />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="ExceptionType_Severity">Frequency</label>
+                                    <select class="form-control" name="DataType" id="DataType" [(ngModel)]="lossTypeTrigger.frequency">
+                                        <option [value]="frequencyEnum.Continuous">Continuous</option>
+                                        <option [value]="frequencyEnum.Daily">Daily</option>
+                                        <option [value]="frequencyEnum.Weekly">Weekly</option>
+                                        <option [value]="frequencyEnum.Monthly">Monthly</option>
+                                        <option [value]="frequencyEnum.Quarterly">Quarterly</option>
+                                        <option [value]="frequencyEnum.Yearly">Yearly</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-hover-success" (click)=" addTrigger()">Add</button>
+                                </div>
+                           
+
+                            <hr />
+                            <br />
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Trigger Name
+                                        </th>
+                                        <th>
+                                            Data Source
+                                        </th>
+                                        <th>
+                                            Role
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of triggers">
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.dataSource}}</td>
+                                        <td>{{item.role}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm btn-icon"
+                                                    (click)="removeTrigger(item)">
+                                                <i class="fa fa-times" [attr.aria-label]="l('Remove')"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </tab>
+                    </tabset>
 
 
                 </div>

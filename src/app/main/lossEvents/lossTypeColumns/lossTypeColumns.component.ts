@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes, LossEventTypeEnums } from '@shared/service-proxies/service-proxies';
+import { LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes, LossEventTypeEnums, LossTypesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -37,7 +37,7 @@ export class LossTypeColumnsComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        private _lossTypeColumnsServiceProxy: LossTypeColumnsServiceProxy,
+        private _lossTypeServiceProxy: LossTypesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -54,7 +54,7 @@ export class LossTypeColumnsComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._lossTypeColumnsServiceProxy.getAll(
+        this._lossTypeServiceProxy.getAll(
             this.filterText,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
@@ -81,7 +81,7 @@ export class LossTypeColumnsComponent extends AppComponentBase {
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    this._lossTypeColumnsServiceProxy.delete(lossTypeColumn.id)
+                    this._lossTypeServiceProxy.delete(lossTypeColumn.id)
                         .subscribe(() => {
                             this.reloadPage();
                             this.message.success(this.l('SuccessfullyDeleted'));
