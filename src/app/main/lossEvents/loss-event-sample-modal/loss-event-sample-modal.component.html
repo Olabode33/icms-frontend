@@ -4,7 +4,7 @@
             <form *ngIf="active" #exceptionIncidentForm="ngForm" novalidate autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span>Review Loss Event</span>
+                        <span>Possible Loss Event</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -12,8 +12,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Application</label>
-                        <input type="text" class="form-control" value="Finnacle" disabled readonly />
+                        <label>Trigger Name</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeTrigger.name" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Source</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeTrigger.dataSource" disabled readonly />
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -21,7 +25,11 @@
                     </div>
                     <div class="form-group">
                         <label>Date Checked</label>
-                        <input type="text" class="form-control" value="Aug 28, 2020 9:00am" disabled readonly />
+                        <input type="text" class="form-control" [value]="today | momentFormat: 'LLL'" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Notify</label>
+                        <input type="text" class="form-control" [value]="trigger.notifyUserName" disabled readonly />
                     </div>
                 </div>
                 <div class="modal-footer">

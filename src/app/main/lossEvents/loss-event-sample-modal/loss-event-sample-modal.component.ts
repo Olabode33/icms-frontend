@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
+import { LossTypesServiceProxy, LossTypeTriggerDto, GetLossTypeTriggerForView } from '@shared/service-proxies/service-proxies';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-loss-event-sample-modal',
@@ -16,16 +18,25 @@ export class LossEventSampleModalComponent extends AppComponentBase {
     active = false;
     saving = false;
 
+    trigger: GetLossTypeTriggerForView = new GetLossTypeTriggerForView();
+    today: moment.Moment;
+
 
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _lossTypeServiceProxy: LossTypesServiceProxy
     ) {
         super(injector);
     }
 
     show(): void {
-        this.active = true;
-        this.modal.show();
+        this._lossTypeServiceProxy.getLossTrigerForNotificationDemo().subscribe(result => {
+            this.trigger = result;
+            this.today = moment();
+
+            this.active = true;
+            this.modal.show();
+        });
     }
 
     close(): void {
