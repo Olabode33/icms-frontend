@@ -130,11 +130,15 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.LossEvents.Edit', 'Pages.LossEvents.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 250px" pSortableColumn="lossType">
+                                        {{l('Loss Type')}}
+                                        <p-sortIcon field="lossEvent.lossType"></p-sortIcon>
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="employeeUserFk.name">
                                         {{l('Employee')}}
                                         <p-sortIcon field="userName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="departmentFk.displayName">
+                                    <th style="width: 250px" pSortableColumn="departmentFk.displayName">
                                         {{l('Business Unit')}}
                                         <p-sortIcon field="organizationUnitDisplayName"></p-sortIcon>
                                     </th>
@@ -149,10 +153,6 @@
                                     <th style="width: 150px" pSortableColumn="dateDiscovered">
                                         {{l('DateDiscovered')}}
                                         <p-sortIcon field="lossEvent.dateDiscovered"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 200px" pSortableColumn="lossType">
-                                        {{l('Type')}}
-                                        <p-sortIcon field="lossEvent.lossType"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="status">
                                         {{l('Status')}}
@@ -174,15 +174,15 @@
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
 												<ul class="dropdown-menu"  *dropdownMenu>
-										    <li>
+										    <!-- <li>
                                                 <a *ngIf="permission.isGranted('Pages.LossEvents.Edit')" 
-			[routerLink]="['/app/main/lossEvents/lossEvents/view']" [queryParams]="{id: record.lossEvent.id}">
+			[routerLink]="['/app/main/lossEvents/view']" [queryParams]="{id: record.lossEvent.id}">
   {{l('View')}}	
 </a>
-                                            </li>
+                                            </li> -->
 												<li>
                                                  <a *ngIf="permission.isGranted('Pages.LossEvents.Edit')" 
-			[routerLink]="['/app/main/lossEvents/lossEvents/createOrEdit']" [queryParams]="{id: record.lossEvent.id}">
+			[routerLink]="['/app/main/lossEvents/createOrEdit']" [queryParams]="{id: record.lossEvent.id}">
   {{l('Edit')}}	
 </a>												
                                                 </li>
@@ -193,17 +193,21 @@
                                             </ul>
                                         </div>
                                     </td>
+                                    <td style="width:250px">
+										<span class="ui-column-title"> {{l('LossType')}}</span>
+										{{record.lossTypeName}}
+                                    </td>
                                     <td style="width:150px">
 												<span class="ui-column-title"> {{l('Name')}}</span>
 												{{record.userName}}
 											</td>
-                                    <td style="width:150px">
+                                    <td style="width:250px">
 												<span class="ui-column-title"> {{l('DisplayName')}}</span>
 												{{record.organizationUnitDisplayName}}
 											</td>
                                     <td style="width:150px">
 											<span class="ui-column-title"> {{l('Amount')}}</span>
-											{{record.lossEvent.amount}}
+											{{record.lossEvent.amount | number:'1.0-0'}}
 										</td>
                                     <td style="width:150px">
 										<span class="ui-column-title"> {{l('DateOccured')}}</span>
@@ -218,10 +222,6 @@
 											{{record.lossEvent.dateDiscovered | momentFormat:'L'}}
                                         </span>
                                         <span *ngIf="!record.lossEvent.dateDiscovered">-</span>
-                                    </td>
-                                    <td style="width:200px">
-										<span class="ui-column-title"> {{l('LossType')}}</span>
-										{{l( lossEventTypeEnums[record.lossEvent.lossType])}}
                                     </td>
                                     <td style="width:150px">
 										<span class="ui-column-title"> {{l('Status')}}</span>

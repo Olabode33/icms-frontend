@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button [disabled]="saving" type="button" class="btn btn-primary" (click)="close()">Send for Verification</button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-primary" (click)="save()">Send for Verification</button>
                 </div>
             </form>
         </div>

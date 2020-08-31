@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status, LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes } from '@shared/service-proxies/service-proxies';
+import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status, LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes, LossTypesServiceProxy, GetLossTypeForViewDto, LossEventTasksServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { LossEventUserLookupTableModalComponent } from './lossEvent-user-lookup-table-modal.component';
@@ -29,18 +29,52 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
 
     dataTypeEnum = DataTypes;
 
+    lossTypes: GetLossTypeForViewDto[] = new Array();
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _lossEventsServiceProxy: LossEventsServiceProxy,
         private _lossTypeColumnServiceProxy: LossTypeColumnsServiceProxy,
+        private _lossTypeServiceProxy: LossTypesServiceProxy,
+        private _lossEventTaskServiceProxy: LossEventTasksServiceProxy,
         private _router: Router
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        this.show(this._activatedRoute.snapshot.queryParams['id']);
+        let lossTaskId = this._activatedRoute.snapshot.queryParams['lossTaskId'];
+        if (lossTaskId) {
+            this.showFromLossTask(lossTaskId);
+        } else {
+            this.show(this._activatedRoute.snapshot.queryParams['id']);
+        }
+        this.getAllLossType();
+    }
+
+    getAllLossType(): void {
+        this._lossTypeServiceProxy.getAll('', '', 0, 100).subscribe(result => {
+            this.lossTypes = result.items;
+        });
+    }
+
+    showFromLossTask(lossTaskId: number): void {
+        this._lossEventTaskServiceProxy.getLossEventTaskForEdit(lossTaskId).subscribe(result => {
+            this.lossEvent = new CreateOrEditLossEventDto();
+            this.lossEvent.id = null;
+            this.lossEvent.dateOccured = moment().startOf('day');
+            this.lossEvent.dateDiscovered = result.lossEventTask.dateAssigned;
+            this.lossEvent.status = Status.Open;
+            this.lossEvent.lossTypeId = result.lossEventTask.lossTypeId;
+            this.lossEvent.description = 'Triggered by: ' + result.lossEventTask.title + '\r' + result.lossEventTask.description;
+            this.userName = '';
+            this.organizationUnitDisplayName = '';
+
+            this.getAdditionalColumn();
+
+            this.active = true;
+        });
     }
 
     show(lossEventId?: number): void {
@@ -69,7 +103,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
     }
 
     getAdditionalColumn(): void {
-        this._lossTypeColumnServiceProxy.getColumnsForLossType(this.lossEvent.lossType).subscribe(result => {
+        this._lossTypeServiceProxy.getColumnsForLossType(this.lossEvent.lossTypeId).subscribe(result => {
             this.lossTypeColumn = Array.from(new Set(result.map((i) => {
                 return {lossType: i, value: ''};
             })));

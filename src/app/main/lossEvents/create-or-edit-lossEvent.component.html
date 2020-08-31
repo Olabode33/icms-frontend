@@ -46,14 +46,8 @@
                         <div class="form-group col-lg-8">
                             <label for="LossEvent_LossType">{{l("LossType")}}</label>
                             <select class="form-control" name="LossType" id="LossEvent_LossType" (change)="getAdditionalColumn()"
-                                [(ngModel)]="lossEvent.lossType">
-                                <option value="0">Internal Fraud</option>
-                                <option value="1">External Fraud</option>
-                                <option value="2">Employment Practices and Workplace Safety</option>
-                                <option value="3">Clients, Products, and Business Practice</option>
-                                <option value="4">Damage to Physical Assets</option>
-                                <option value="5">Business Disruption and Systems Failures</option>
-                                <option value="6">Execution, Delivery, and Process Management </option>
+                                [(ngModel)]="lossEvent.lossTypeId">
+                                <option *ngFor="let item of lossTypes" [value]="item.lossType.id">{{item.lossType.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -164,7 +158,7 @@
                         </select>
                     </div> -->
 
-                    <!-- <div class="form-group">
+                    <div class="form-group col-lg-4">
                         <label for="LossEvent_LossCategory">{{l("LossCategory")}}</label>
                         <select class="form-control" name="LossCategory" id="LossEvent_LossCategory"
                             [(ngModel)]="lossEvent.lossCategory">
@@ -176,7 +170,7 @@
 
 
                         </select>
-                    </div> -->
+                    </div>
 
                 </div>
                 <div class="kt-portlet__foot">

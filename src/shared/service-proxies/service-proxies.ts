@@ -10763,6 +10763,249 @@ export class LossEventsServiceProxy {
 }
 
 @Injectable()
+export class LossEventTasksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossEventTaskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossEventTaskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossEventTaskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossEventTaskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossEventTaskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossEventTaskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossEventTaskForEdit(id: number | undefined): Observable<GetLossEventTaskForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/GetLossEventTaskForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossEventTaskForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossEventTaskForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossEventTaskForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossEventTaskForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossEventTaskForEdit(response: HttpResponseBase): Observable<GetLossEventTaskForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossEventTaskForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossEventTaskForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossEventTaskDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class LossTypeColumnsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -11144,6 +11387,66 @@ export class LossTypesServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetLossTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getColumnsForLossType(input: number | undefined): Observable<LossTypeColumnDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/GetColumnsForLossType?";
+        if (input === null)
+            throw new Error("The parameter 'input' cannot be null.");
+        else if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetColumnsForLossType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetColumnsForLossType(<any>response_);
+                } catch (e) {
+                    return <Observable<LossTypeColumnDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LossTypeColumnDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetColumnsForLossType(response: HttpResponseBase): Observable<LossTypeColumnDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LossTypeColumnDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LossTypeColumnDto[]>(<any>null);
     }
 
     /**
@@ -31953,16 +32256,6 @@ export interface IGetLibraryRiskForEditOutput {
     libraryRisk: CreateOrEditLibraryRiskDto;
 }
 
-export enum LossEventTypeEnums {
-    InternalFraud = 0,
-    ExternalFraud = 1,
-    EmploymentPracticesWorkplaceSafety = 2,
-    ClientsProductsBusinessPractice = 3,
-    DamagePhysicalAssets = 4,
-    BusinessDisruptionSystemsFailures = 5,
-    ExecutionDeliveryProcessManagement = 6,
-}
-
 export enum LossCategoryEnums {
     Actual = 0,
     Potential = 1,
@@ -31973,7 +32266,7 @@ export class LossEventDto implements ILossEventDto {
     amount!: number;
     dateOccured!: moment.Moment;
     dateDiscovered!: moment.Moment;
-    lossType!: LossEventTypeEnums;
+    lossTypeId!: number;
     status!: Status;
     lossCategory!: LossCategoryEnums;
     extensionData!: string | undefined;
@@ -31995,7 +32288,7 @@ export class LossEventDto implements ILossEventDto {
             this.amount = data["amount"];
             this.dateOccured = data["dateOccured"] ? moment(data["dateOccured"].toString()) : <any>undefined;
             this.dateDiscovered = data["dateDiscovered"] ? moment(data["dateDiscovered"].toString()) : <any>undefined;
-            this.lossType = data["lossType"];
+            this.lossTypeId = data["lossTypeId"];
             this.status = data["status"];
             this.lossCategory = data["lossCategory"];
             this.extensionData = data["extensionData"];
@@ -32017,7 +32310,7 @@ export class LossEventDto implements ILossEventDto {
         data["amount"] = this.amount;
         data["dateOccured"] = this.dateOccured ? this.dateOccured.toISOString() : <any>undefined;
         data["dateDiscovered"] = this.dateDiscovered ? this.dateDiscovered.toISOString() : <any>undefined;
-        data["lossType"] = this.lossType;
+        data["lossTypeId"] = this.lossTypeId;
         data["status"] = this.status;
         data["lossCategory"] = this.lossCategory;
         data["extensionData"] = this.extensionData;
@@ -32032,7 +32325,7 @@ export interface ILossEventDto {
     amount: number;
     dateOccured: moment.Moment;
     dateDiscovered: moment.Moment;
-    lossType: LossEventTypeEnums;
+    lossTypeId: number;
     status: Status;
     lossCategory: LossCategoryEnums;
     extensionData: string | undefined;
@@ -32045,6 +32338,7 @@ export class GetLossEventForViewDto implements IGetLossEventForViewDto {
     lossEvent!: LossEventDto;
     userName!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
+    lossTypeName!: string | undefined;
 
     constructor(data?: IGetLossEventForViewDto) {
         if (data) {
@@ -32060,6 +32354,7 @@ export class GetLossEventForViewDto implements IGetLossEventForViewDto {
             this.lossEvent = data["lossEvent"] ? LossEventDto.fromJS(data["lossEvent"]) : <any>undefined;
             this.userName = data["userName"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.lossTypeName = data["lossTypeName"];
         }
     }
 
@@ -32075,6 +32370,7 @@ export class GetLossEventForViewDto implements IGetLossEventForViewDto {
         data["lossEvent"] = this.lossEvent ? this.lossEvent.toJSON() : <any>undefined;
         data["userName"] = this.userName;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["lossTypeName"] = this.lossTypeName;
         return data; 
     }
 }
@@ -32083,6 +32379,7 @@ export interface IGetLossEventForViewDto {
     lossEvent: LossEventDto;
     userName: string | undefined;
     organizationUnitDisplayName: string | undefined;
+    lossTypeName: string | undefined;
 }
 
 export class PagedResultDtoOfGetLossEventForViewDto implements IPagedResultDtoOfGetLossEventForViewDto {
@@ -32138,7 +32435,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
     description!: string | undefined;
     dateOccured!: moment.Moment;
     dateDiscovered!: moment.Moment;
-    lossType!: LossEventTypeEnums;
+    lossTypeId!: number;
     status!: Status;
     lossCategory!: LossCategoryEnums;
     extensionData!: string | undefined;
@@ -32161,7 +32458,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
             this.description = data["description"];
             this.dateOccured = data["dateOccured"] ? moment(data["dateOccured"].toString()) : <any>undefined;
             this.dateDiscovered = data["dateDiscovered"] ? moment(data["dateDiscovered"].toString()) : <any>undefined;
-            this.lossType = data["lossType"];
+            this.lossTypeId = data["lossTypeId"];
             this.status = data["status"];
             this.lossCategory = data["lossCategory"];
             this.extensionData = data["extensionData"];
@@ -32184,7 +32481,7 @@ export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
         data["description"] = this.description;
         data["dateOccured"] = this.dateOccured ? this.dateOccured.toISOString() : <any>undefined;
         data["dateDiscovered"] = this.dateDiscovered ? this.dateDiscovered.toISOString() : <any>undefined;
-        data["lossType"] = this.lossType;
+        data["lossTypeId"] = this.lossTypeId;
         data["status"] = this.status;
         data["lossCategory"] = this.lossCategory;
         data["extensionData"] = this.extensionData;
@@ -32200,7 +32497,7 @@ export interface ICreateOrEditLossEventDto {
     description: string | undefined;
     dateOccured: moment.Moment;
     dateDiscovered: moment.Moment;
-    lossType: LossEventTypeEnums;
+    lossTypeId: number;
     status: Status;
     lossCategory: LossCategoryEnums;
     extensionData: string | undefined;
@@ -32213,6 +32510,7 @@ export class GetLossEventForEditOutput implements IGetLossEventForEditOutput {
     lossEvent!: CreateOrEditLossEventDto;
     userName!: string | undefined;
     organizationUnitDisplayName!: string | undefined;
+    lossEventTypeName!: string | undefined;
 
     constructor(data?: IGetLossEventForEditOutput) {
         if (data) {
@@ -32228,6 +32526,7 @@ export class GetLossEventForEditOutput implements IGetLossEventForEditOutput {
             this.lossEvent = data["lossEvent"] ? CreateOrEditLossEventDto.fromJS(data["lossEvent"]) : <any>undefined;
             this.userName = data["userName"];
             this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.lossEventTypeName = data["lossEventTypeName"];
         }
     }
 
@@ -32243,6 +32542,7 @@ export class GetLossEventForEditOutput implements IGetLossEventForEditOutput {
         data["lossEvent"] = this.lossEvent ? this.lossEvent.toJSON() : <any>undefined;
         data["userName"] = this.userName;
         data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["lossEventTypeName"] = this.lossEventTypeName;
         return data; 
     }
 }
@@ -32251,6 +32551,7 @@ export interface IGetLossEventForEditOutput {
     lossEvent: CreateOrEditLossEventDto;
     userName: string | undefined;
     organizationUnitDisplayName: string | undefined;
+    lossEventTypeName: string | undefined;
 }
 
 export class LossEventUserLookupTableDto implements ILossEventUserLookupTableDto {
@@ -32429,6 +32730,258 @@ export interface IPagedResultDtoOfLossEventOrganizationUnitLookupTableDto {
     items: LossEventOrganizationUnitLookupTableDto[] | undefined;
 }
 
+export class LossEventTaskDto implements ILossEventTaskDto {
+    title!: string | undefined;
+    description!: string | undefined;
+    lossTypeId!: number | undefined;
+    lossTypeTriggerId!: number | undefined;
+    status!: Status;
+    assignedTo!: number | undefined;
+    dateAssigned!: moment.Moment;
+    id!: number;
+
+    constructor(data?: ILossEventTaskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.description = data["description"];
+            this.lossTypeId = data["lossTypeId"];
+            this.lossTypeTriggerId = data["lossTypeTriggerId"];
+            this.status = data["status"];
+            this.assignedTo = data["assignedTo"];
+            this.dateAssigned = data["dateAssigned"] ? moment(data["dateAssigned"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossEventTaskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossEventTaskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["lossTypeId"] = this.lossTypeId;
+        data["lossTypeTriggerId"] = this.lossTypeTriggerId;
+        data["status"] = this.status;
+        data["assignedTo"] = this.assignedTo;
+        data["dateAssigned"] = this.dateAssigned ? this.dateAssigned.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossEventTaskDto {
+    title: string | undefined;
+    description: string | undefined;
+    lossTypeId: number | undefined;
+    lossTypeTriggerId: number | undefined;
+    status: Status;
+    assignedTo: number | undefined;
+    dateAssigned: moment.Moment;
+    id: number;
+}
+
+export class GetLossEventTaskForViewDto implements IGetLossEventTaskForViewDto {
+    lossEventTask!: LossEventTaskDto;
+    lossTypeName!: string | undefined;
+
+    constructor(data?: IGetLossEventTaskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEventTask = data["lossEventTask"] ? LossEventTaskDto.fromJS(data["lossEventTask"]) : <any>undefined;
+            this.lossTypeName = data["lossTypeName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossEventTaskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventTaskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEventTask"] = this.lossEventTask ? this.lossEventTask.toJSON() : <any>undefined;
+        data["lossTypeName"] = this.lossTypeName;
+        return data; 
+    }
+}
+
+export interface IGetLossEventTaskForViewDto {
+    lossEventTask: LossEventTaskDto;
+    lossTypeName: string | undefined;
+}
+
+export class PagedResultDtoOfGetLossEventTaskForViewDto implements IPagedResultDtoOfGetLossEventTaskForViewDto {
+    totalCount!: number;
+    items!: GetLossEventTaskForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossEventTaskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossEventTaskForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossEventTaskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossEventTaskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossEventTaskForViewDto {
+    totalCount: number;
+    items: GetLossEventTaskForViewDto[] | undefined;
+}
+
+export class CreateOrEditLossEventTaskDto implements ICreateOrEditLossEventTaskDto {
+    title!: string | undefined;
+    description!: string | undefined;
+    lossTypeId!: number | undefined;
+    lossTypeTriggerId!: number | undefined;
+    status!: Status;
+    assignedTo!: number | undefined;
+    dateAssigned!: moment.Moment;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLossEventTaskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.description = data["description"];
+            this.lossTypeId = data["lossTypeId"];
+            this.lossTypeTriggerId = data["lossTypeTriggerId"];
+            this.status = data["status"];
+            this.assignedTo = data["assignedTo"];
+            this.dateAssigned = data["dateAssigned"] ? moment(data["dateAssigned"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossEventTaskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossEventTaskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["lossTypeId"] = this.lossTypeId;
+        data["lossTypeTriggerId"] = this.lossTypeTriggerId;
+        data["status"] = this.status;
+        data["assignedTo"] = this.assignedTo;
+        data["dateAssigned"] = this.dateAssigned ? this.dateAssigned.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossEventTaskDto {
+    title: string | undefined;
+    description: string | undefined;
+    lossTypeId: number | undefined;
+    lossTypeTriggerId: number | undefined;
+    status: Status;
+    assignedTo: number | undefined;
+    dateAssigned: moment.Moment;
+    id: number | undefined;
+}
+
+export class GetLossEventTaskForEditOutput implements IGetLossEventTaskForEditOutput {
+    lossEventTask!: CreateOrEditLossEventTaskDto;
+
+    constructor(data?: IGetLossEventTaskForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEventTask = data["lossEventTask"] ? CreateOrEditLossEventTaskDto.fromJS(data["lossEventTask"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossEventTaskForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventTaskForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEventTask"] = this.lossEventTask ? this.lossEventTask.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossEventTaskForEditOutput {
+    lossEventTask: CreateOrEditLossEventTaskDto;
+}
+
 export class LossTypeColumnDto implements ILossTypeColumnDto {
     columnName!: string | undefined;
     dataType!: DataTypes;
@@ -32571,6 +33124,16 @@ export class PagedResultDtoOfGetLossTypeColumnForViewDto implements IPagedResult
 export interface IPagedResultDtoOfGetLossTypeColumnForViewDto {
     totalCount: number;
     items: GetLossTypeColumnForViewDto[] | undefined;
+}
+
+export enum LossEventTypeEnums {
+    InternalFraud = 0,
+    ExternalFraud = 1,
+    EmploymentPracticesWorkplaceSafety = 2,
+    ClientsProductsBusinessPractice = 3,
+    DamagePhysicalAssets = 4,
+    BusinessDisruptionSystemsFailures = 5,
+    ExecutionDeliveryProcessManagement = 6,
 }
 
 export class CreateOrEditLossTypeColumnDto implements ICreateOrEditLossTypeColumnDto {

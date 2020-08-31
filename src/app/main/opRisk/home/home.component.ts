@@ -3,7 +3,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { WorkingPaper } from '@app/UIModel/WorkingPaper';
 import { Router } from '@angular/router';
-import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto, WorkspaceServiceProxy, GetExceptionIncidentForViewDto, GetWorkingPaperNewForViewDto, Status, TaskStatus, Frequency, ProcessRisksServiceProxy, GetProcessRiskForViewDto } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, ListResultDtoOfOrganizationUnitDto, DepartmentsServiceProxy, OrganizationUnitDto, WorkspaceServiceProxy, GetExceptionIncidentForViewDto, GetWorkingPaperNewForViewDto, Status, TaskStatus, Frequency, ProcessRisksServiceProxy, GetProcessRiskForViewDto, LossEventTasksServiceProxy, GetLossEventTaskForViewDto } from '@shared/service-proxies/service-proxies';
 import * as shape from 'd3-shape';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 
@@ -136,13 +136,15 @@ export class OpRiskHomeComponent extends AppComponentBase implements OnInit {
     ];
 
     processRisk: GetProcessRiskForViewDto[] = new Array();
+    lossEventTasks: GetLossEventTaskForViewDto[] = new Array();
 
     constructor(private _router: Router,
         injector: Injector,
         private _ouService: OrganizationUnitServiceProxy,
         private _departmentService: DepartmentsServiceProxy,
         private _workspaceService: WorkspaceServiceProxy,
-        private _processRiskSerivceProxy: ProcessRisksServiceProxy
+        private _processRiskSerivceProxy: ProcessRisksServiceProxy,
+        private _lossEventTaskServiceProxy: LossEventTasksServiceProxy
     ) {
         super(injector);
         //_ouService.getOrganizationUnits().subscribe(result => {
@@ -153,6 +155,7 @@ export class OpRiskHomeComponent extends AppComponentBase implements OnInit {
     ngOnInit() {
         this.getException();
         this.getWorkingPaper();
+        this.getLossEventTasks();
     }
 
     getException(): void {
@@ -180,6 +183,12 @@ export class OpRiskHomeComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    getLossEventTasks(): void {
+        this._lossEventTaskServiceProxy.getAll('', '', 0, 100).subscribe(result => {
+            this.lossEventTasks = result.items;
+        });
+    }
+
     viewException(id: number): void {
         this.createOrEditExceptionIncidentModal.show(id);
     }
@@ -190,6 +199,10 @@ export class OpRiskHomeComponent extends AppComponentBase implements OnInit {
 
     viewWorkingPaper(id: string): void {
         this._router.navigate(['/app/main/workingPaperNews', id]);
+    }
+
+    createLossEventIncident(id: string): void {
+        this._router.navigate(['/app/main/lossEvents/createOrEdit', id]);
     }
 
 
