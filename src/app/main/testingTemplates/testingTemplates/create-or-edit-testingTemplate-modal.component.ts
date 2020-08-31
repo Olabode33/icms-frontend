@@ -1,7 +1,7 @@
-import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
+import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner, NameValueDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 //import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplate-departmentRiskControl-lookup-table-modal.component';
@@ -13,9 +13,12 @@ import { AppConsts } from '@shared/AppConsts';
     templateUrl: './create-or-edit-testingTemplate-modal.component.html'
 })
 export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase {
+    state: boolean = false;
+
+    changeState: boolean;
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-//    @ViewChild('testingTemplateDepartmentRiskControlLookupTableModal', { static: true }) testingTemplateDepartmentRiskControlLookupTableModal: TestingTemplateDepartmentRiskControlLookupTableModalComponent;
+    //    @ViewChild('testingTemplateDepartmentRiskControlLookupTableModal', { static: true }) testingTemplateDepartmentRiskControlLookupTableModal: TestingTemplateDepartmentRiskControlLookupTableModalComponent;
     @ViewChild('exceptionIncidentExceptionTypeLookupTableModal', { static: true }) exceptionIncidentExceptionTypeLookupTableModal: ExceptionIncidentExceptionTypeLookupTableModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
@@ -23,10 +26,12 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     active = false;
     saving = false;
     attributes = [];
+    QuestionsDropdown: NameValueDto[] = new Array();
     attributeQuestion = '';
     exceptionTypeId: number;
     availableWeight = 100;
     weight = 100;
+    selectedQuestion = '';
 
     testingTemplate: CreateOrEditTestingTemplateDto = new CreateOrEditTestingTemplateDto();
 
@@ -41,6 +46,10 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
     ) {
         super(injector);
+        _testingTemplatesServiceProxy.getTestAttributesForTemplate().subscribe(result => {
+            console.log("RES", result)
+            this.QuestionsDropdown = result;
+        });
     }
 
     show(departmentRiskControlId?: number): void {
@@ -56,7 +65,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this.modal.show();
         }
         else {
-            this.message.warn("Please select a risk to attach the template to.");
+            this.notify.warn("Please select a risk to attach the template to.");
             return;
         }
     }
@@ -82,16 +91,16 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     }
 
     save(): void {
-            this.saving = true;
+        this.saving = true;
 
         if (this.attributes.length == 0) {
-            this.message.error("Include at least one attribute to test.");
+            this.notify.error("Include at least one attribute to test.");
             return;
         }
 
 
         if (this.availableWeight != 0) {
-            this.message.error("Please ensure the sum of the weight across all attributes is equal to 0.");
+            this.notify.error("Please ensure the sum of the weight across all attributes is equal to 0.");
             return;
         }
 
@@ -102,20 +111,21 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
 
             item.testAttribute = x.name;
             item.weight = x.weight;
+            item.parentId = x.parentId;
             this.testingTemplate.attributes.push(item);
         })
 
-			
-            this._testingTemplatesServiceProxy.createOrEdit(this.testingTemplate)
-             .pipe(finalize(() => { this.saving = false;}))
-             .subscribe(() => {
-                this.message.success(this.l('SavedSuccessfully'));
+
+        this._testingTemplatesServiceProxy.createOrEdit(this.testingTemplate)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.notify.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
-             });
+            });
     }
 
- 
+
 
     setDepartmentRiskControlIdNull() {
         this.testingTemplate.departmentRiskControlId = null;
@@ -123,6 +133,19 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     }
 
 
+    // removeItem(Id: number): void {
+    //   //  this.attributes.splice(line, 1);
+
+    //     for(let i = 0; i < this.attributes.length; ++i){
+    //         if (this.attributes[i].parentId === Id) 
+    //         {
+    //           var position = this.attributes.indexOf(this.attributes[i].parentId);
+    //             this.attributes.splice(position, 1);
+    //         }
+    //     }
+
+
+    //   }
 
 
 
@@ -135,42 +158,46 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     addAttribute(): void {
 
         if (this.availableWeight == 0) {
-            this.message.warn("The sum of all weights is equal to 0, please remove or re-allocate the weights.");
+            this.notify.warn("The sum of all weights is equal to 0, please remove or re-allocate the weights.");
             return;
         }
 
         if (this.attributes.find(x => x.name == this.attributeQuestion) != undefined) {
-            this.message.warn("This attribute has been added already.");
+            this.notify.warn("This attribute has been added already.");
             return;
         }
 
         if (this.attributeQuestion == '') {
-            this.message.warn("The attribute can not be blank.");
+            this.notify.warn("The attribute can not be blank.");
             return;
         }
 
         if (this.exceptionTypeId != null) {
-            this.message.warn("Select an exception type.");
+            this.notify.warn("Select an exception type.");
             return;
         }
 
 
         if (this.weight > this.availableWeight) {
-            this.message.warn("This weight can not be more than " + this.availableWeight.toString() + ".");
+            this.notify.warn("This weight can not be more than " + this.availableWeight.toString() + ".");
             return;
         }
 
+        //find the question text using the value
+        let obj = this.QuestionsDropdown.find(o => o.value === this.selectedQuestion);
 
         var item = {
             name: this.attributeQuestion,
-            weight: this.weight
+            weight: this.weight,
+            selectedQuestion: obj == null ? null : obj.name,
+            parentId: this.selectedQuestion == null ? null : this.selectedQuestion
         };
 
         this.attributes.push(item);
         this.attributeQuestion = '';
+        this.selectedQuestion = '';
         this.availableWeight -= this.weight;
         this.weight = this.availableWeight;
-        //console.log(this.attributes);
     }
 
 
@@ -190,7 +217,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         var index = this.attributes.findIndex(x => x.name == item.name);
         this.availableWeight += this.attributes[index].weight;
         this.attributes.splice(index, 1);
-        
+
     }
 
 }

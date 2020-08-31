@@ -3,6 +3,7 @@ import { AppUiCustomizationService } from '@shared/common/ui/app-ui-customizatio
 import { NgModule } from '@angular/core';
 import { AppHomeRouteGuard } from './auth/app-home-route-guard';
 import { AppHomeComponent } from './app-home.component';
+import { GeneralComponent } from './app-general/app-general.component';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { AppHomeComponent } from './app-home.component';
                 canActivateChild: [AppHomeRouteGuard],
                 children: [
                     { path: '', redirectTo: 'home' },
+                    { path: 'home/general', component: GeneralComponent, data: {  } },
                     { path: 'home', component: AppHomeComponent, data: {  } },
                     { path: '**', redirectTo: 'home' }
                 ]

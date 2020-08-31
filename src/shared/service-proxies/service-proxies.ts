@@ -19930,6 +19930,61 @@ export class TestingTemplatesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getTestAttributesForTemplate(): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetTestAttributesForTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTestAttributesForTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTestAttributesForTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTestAttributesForTemplate(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -35976,6 +36031,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
     sequence!: number;
     workingPaperId!: string | undefined;
     sampleIdentifier!: string | undefined;
+    parentId!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingAttributeDto) {
         if (data) {
@@ -35996,6 +36052,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
             this.sequence = data["sequence"];
             this.workingPaperId = data["workingPaperId"];
             this.sampleIdentifier = data["sampleIdentifier"];
+            this.parentId = data["parentId"];
         }
     }
 
@@ -36016,6 +36073,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
         data["sequence"] = this.sequence;
         data["workingPaperId"] = this.workingPaperId;
         data["sampleIdentifier"] = this.sampleIdentifier;
+        data["parentId"] = this.parentId;
         return data; 
     }
 }
@@ -36029,6 +36087,7 @@ export interface ICreateOrEditTestingAttributeDto {
     sequence: number;
     workingPaperId: string | undefined;
     sampleIdentifier: string | undefined;
+    parentId: number | undefined;
 }
 
 export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
@@ -41344,6 +41403,7 @@ export interface IPagedResultDtoOfGetTestingTemplateForViewDto {
 export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemplateDetailsDto {
     testAttribute!: string | undefined;
     weight!: number;
+    parentId!: number | undefined;
 
     constructor(data?: ICreateorEditTestTemplateDetailsDto) {
         if (data) {
@@ -41358,6 +41418,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
         if (data) {
             this.testAttribute = data["testAttribute"];
             this.weight = data["weight"];
+            this.parentId = data["parentId"];
         }
     }
 
@@ -41372,6 +41433,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
         data = typeof data === 'object' ? data : {};
         data["testAttribute"] = this.testAttribute;
         data["weight"] = this.weight;
+        data["parentId"] = this.parentId;
         return data; 
     }
 }
@@ -41379,6 +41441,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 export interface ICreateorEditTestTemplateDetailsDto {
     testAttribute: string | undefined;
     weight: number;
+    parentId: number | undefined;
 }
 
 export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTemplateDto {

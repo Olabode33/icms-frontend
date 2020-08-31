@@ -21,6 +21,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { AppHomeRoutingModule } from './app-home-routing.module';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { GeneralComponent } from './app-general/app-general.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
@@ -35,14 +37,16 @@ import { AppCommonModule } from '@app/shared/common/app-common.module';
     ModalModule,
     TooltipModule,
     UtilsModule,
-    //NgxChartsModule,
-    //ChartsModule,
+    NgxChartsModule,
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     PopoverModule.forRoot(),
-    //AppCommonModule
+    AppCommonModule
   ],
-  declarations: [AppHomeComponent],
+  declarations: [
+      GeneralComponent,
+      AppHomeComponent
+    ],
   providers: [
       AppHomeRouteGuard
   ]//,

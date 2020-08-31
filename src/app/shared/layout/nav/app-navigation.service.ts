@@ -157,13 +157,13 @@ export class AppNavigationService {
     getGeneralMenu(): AppMenu {
         return new AppMenu('MainMenu', 'MainMenu', [
             new AppMenuItem('Home', 'Pages.HomePage', 'flaticon-home', '/igrcs'),
-            new AppMenuItem('Workspace', 'Pages.HomePage', 'flaticon-profile', '/app/main/home'),
-            new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
-            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
+            //new AppMenuItem('Workspace', 'Pages.HomePage', 'flaticon-profile', '/app/main/home'),
+            //new AppMenuItem('Dashboard', 'Pages.Administration.Host.Dashboard', 'flaticon-line-graph', '/app/admin/hostDashboard'),
+            //new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
             new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
-            new AppMenuItem('My Projects', '', 'flaticon-squares-4', '/app/main/projects/projects'),
-            new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/exceptionIncidents/exceptionIncidents'),
+            new AppMenuItem('Reports', '', 'flaticon-squares-4', '/app/main/projects/projects'),
+            //new AppMenuItem('Exceptions', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/exceptionIncidents/exceptionIncidents'),
             new AppMenuItem('Testing Templates', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Business Units', 'Pages.Administration.OrganizationUnits', 'flaticon-map', '/app/admin/organization-units'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
