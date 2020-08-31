@@ -118,7 +118,19 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="TriggerRole">Role</label>
-                                    <input type="text" id="TriggerRole" class="form-control" [(ngModel)]="lossTypeTrigger.role" name="TriggerRole" />
+                                    <div class="input-group">
+                                        <input class="form-control" id="UserName" name="userName" [(ngModel)]="triggerUserName" type="text"
+                                            disabled>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i
+                                                    class="fa fa-search"></i> {{l("Pick")}}</button>
+                                        </div>
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-danger btn-icon" type="button"
+                                                (click)="setEmployeeUserIdNull()"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <input class="form-control" name="lossEvent.employeeUserId" [(ngModel)]="lossTypeTrigger.notifyUserId" type="text" hidden>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -161,12 +173,12 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of triggers">
-                                        <td>{{item.name}}</td>
-                                        <td>{{item.dataSource}}</td>
-                                        <td>{{item.role}}</td>
+                                        <td>{{item.lossTypeTrigger.name}}</td>
+                                        <td>{{item.lossTypeTrigger.dataSource}}</td>
+                                        <td>{{item.notifyUserName}}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm btn-icon"
-                                                    (click)="removeTrigger(item)">
+                                                    (click)="removeTrigger(item.lossTypeTrigger)">
                                                 <i class="fa fa-times" [attr.aria-label]="l('Remove')"></i>
                                             </button>
                                         </td>
@@ -188,5 +200,8 @@
             </form>
         </div>
     </div>
+
+    <lossEventUserLookupTableModal #lossEventUserLookupTableModal (modalSave)="getNewEmployeeUserId()">
+    </lossEventUserLookupTableModal>
 
 </div>

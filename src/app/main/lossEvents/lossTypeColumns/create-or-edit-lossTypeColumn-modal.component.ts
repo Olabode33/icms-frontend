@@ -1,9 +1,10 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { LossTypeColumnsServiceProxy, CreateOrEditLossTypeColumnDto, LossTypesServiceProxy, CreateOrEditLossTypeDto, LossTypeColumnDto, LossTypeTriggerDto, LossTypeDto, DataTypes, Frequency } from '@shared/service-proxies/service-proxies';
+import { LossTypeColumnsServiceProxy, CreateOrEditLossTypeColumnDto, LossTypesServiceProxy, CreateOrEditLossTypeDto, LossTypeColumnDto, LossTypeTriggerDto, LossTypeDto, DataTypes, Frequency, GetLossTypeTriggerForView } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
+import { LossEventUserLookupTableModalComponent } from '../lossEvent-user-lookup-table-modal.component';
 
 @Component({
     selector: 'createOrEditLossTypeColumnModal',
@@ -12,6 +13,7 @@ import * as moment from 'moment';
 export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
 
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+    @ViewChild('lossEventUserLookupTableModal', { static: true }) lossEventUserLookupTableModal: LossEventUserLookupTableModalComponent;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -24,7 +26,8 @@ export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
 
     type: LossTypeDto = new LossTypeDto();
     columns: LossTypeColumnDto[] = new Array();
-    triggers: LossTypeTriggerDto[] = new Array();
+    triggers: GetLossTypeTriggerForView[] = new Array();
+    triggerUserName = '';
 
     dataTypeEnum = DataTypes;
     frequencyEnum = Frequency;
@@ -48,7 +51,7 @@ export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
             this.modal.show();
         } else {
             this._lossTypeServiceProxy.getLossTypeColumnForEdit(lossTypeId).subscribe(result => {
-                console.log(result);
+
                 this.type = result.lossType;
                 this.columns = result.lossTypeColumns;
                 this.triggers = result.lossTypeTriggers;
@@ -86,8 +89,12 @@ export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
     }
 
     addTrigger(): void {
-        this.triggers.push(this.lossTypeTrigger);
+        let t = new GetLossTypeTriggerForView();
+        t.lossTypeTrigger = this.lossTypeTrigger;
+        t.notifyUserName = this.triggerUserName;
+        this.triggers.push(t);
         this.lossTypeTrigger = new LossTypeTriggerDto();
+        this.triggerUserName = '';
     }
 
     removeColumn(item: any): void {
@@ -96,7 +103,23 @@ export class CreateOrEditLossTypeColumnModalComponent extends AppComponentBase {
     }
 
     removeTrigger(item: LossTypeTriggerDto): void {
-        let index = this.triggers.findIndex(e => e === item);
+        let index = this.triggers.findIndex(e => e.lossTypeTrigger === item);
         this.triggers.splice(index, 1);
+    }
+
+    openSelectUserModal() {
+        this.lossEventUserLookupTableModal.id = this.lossTypeTrigger.notifyUserId;
+        this.lossEventUserLookupTableModal.displayName = this.triggerUserName;
+        this.lossEventUserLookupTableModal.show();
+    }
+
+    setEmployeeUserIdNull() {
+        this.lossTypeTrigger.notifyUserId = null;
+        this.triggerUserName = '';
+    }
+
+    getNewEmployeeUserId() {
+        this.lossTypeTrigger.notifyUserId = this.lossEventUserLookupTableModal.id;
+        this.triggerUserName = this.lossEventUserLookupTableModal.displayName;
     }
 }

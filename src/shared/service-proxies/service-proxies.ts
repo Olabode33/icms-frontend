@@ -32759,6 +32759,7 @@ export class LossTypeTriggerDto implements ILossTypeTriggerDto {
     role!: string | undefined;
     dataSource!: string | undefined;
     lossTypeId!: number;
+    notifyUserId!: number | undefined;
     id!: number;
 
     constructor(data?: ILossTypeTriggerDto) {
@@ -32780,6 +32781,7 @@ export class LossTypeTriggerDto implements ILossTypeTriggerDto {
             this.role = data["role"];
             this.dataSource = data["dataSource"];
             this.lossTypeId = data["lossTypeId"];
+            this.notifyUserId = data["notifyUserId"];
             this.id = data["id"];
         }
     }
@@ -32801,6 +32803,7 @@ export class LossTypeTriggerDto implements ILossTypeTriggerDto {
         data["role"] = this.role;
         data["dataSource"] = this.dataSource;
         data["lossTypeId"] = this.lossTypeId;
+        data["notifyUserId"] = this.notifyUserId;
         data["id"] = this.id;
         return data; 
     }
@@ -32815,13 +32818,54 @@ export interface ILossTypeTriggerDto {
     role: string | undefined;
     dataSource: string | undefined;
     lossTypeId: number;
+    notifyUserId: number | undefined;
     id: number;
+}
+
+export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
+    lossTypeTrigger!: LossTypeTriggerDto;
+    notifyUserName!: string | undefined;
+
+    constructor(data?: IGetLossTypeTriggerForView) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeTrigger = data["lossTypeTrigger"] ? LossTypeTriggerDto.fromJS(data["lossTypeTrigger"]) : <any>undefined;
+            this.notifyUserName = data["notifyUserName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeTriggerForView {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeTriggerForView();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeTrigger"] = this.lossTypeTrigger ? this.lossTypeTrigger.toJSON() : <any>undefined;
+        data["notifyUserName"] = this.notifyUserName;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeTriggerForView {
+    lossTypeTrigger: LossTypeTriggerDto;
+    notifyUserName: string | undefined;
 }
 
 export class CreateOrEditLossTypeDto implements ICreateOrEditLossTypeDto {
     lossType!: LossTypeDto;
     lossTypeColumns!: LossTypeColumnDto[] | undefined;
-    lossTypeTriggers!: LossTypeTriggerDto[] | undefined;
+    lossTypeTriggers!: GetLossTypeTriggerForView[] | undefined;
 
     constructor(data?: ICreateOrEditLossTypeDto) {
         if (data) {
@@ -32843,7 +32887,7 @@ export class CreateOrEditLossTypeDto implements ICreateOrEditLossTypeDto {
             if (Array.isArray(data["lossTypeTriggers"])) {
                 this.lossTypeTriggers = [] as any;
                 for (let item of data["lossTypeTriggers"])
-                    this.lossTypeTriggers!.push(LossTypeTriggerDto.fromJS(item));
+                    this.lossTypeTriggers!.push(GetLossTypeTriggerForView.fromJS(item));
             }
         }
     }
@@ -32875,7 +32919,7 @@ export class CreateOrEditLossTypeDto implements ICreateOrEditLossTypeDto {
 export interface ICreateOrEditLossTypeDto {
     lossType: LossTypeDto;
     lossTypeColumns: LossTypeColumnDto[] | undefined;
-    lossTypeTriggers: LossTypeTriggerDto[] | undefined;
+    lossTypeTriggers: GetLossTypeTriggerForView[] | undefined;
 }
 
 export enum UserNotificationState {

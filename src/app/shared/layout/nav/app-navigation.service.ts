@@ -123,9 +123,9 @@ export class AppNavigationService {
                 //new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
             ]),
             new AppMenuItem('KRI', 'Pages.TestingTemplates', 'flaticon2-document', '/app/main/testingTemplates/testingTemplates'),
-            new AppMenuItem('Loss Management', '', 'fas fa-database', '', [
-                new AppMenuItem('Loss Events', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/lossEvents'),
-                new AppMenuItem('Loss Types', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/lossEvents/columns'),
+            new AppMenuItem('Loss Events', '', 'fas fa-database', '', [
+                new AppMenuItem('Incidents', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/lossEvents'),
+                new AppMenuItem('Configuration', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/lossEvents/columns'),
             ]),
             new AppMenuItem('Capital Modeling', 'Pages.TestingTemplates', 'flaticon2-chart', '/app/main/testingTemplates/testingTemplates'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
