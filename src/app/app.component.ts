@@ -13,6 +13,7 @@ import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/c
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 import { NotificationSettingsModalComponent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
+import { LossEventSampleModalComponent } from './main/lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
 
 @Component({
     templateUrl: './app.component.html',
@@ -30,6 +31,7 @@ export class AppComponent extends AppComponentBase implements OnInit {
     @ViewChild('changeProfilePictureModal', {static: true}) changeProfilePictureModal: ChangeProfilePictureModalComponent;
     @ViewChild('mySettingsModal', {static: true}) mySettingsModal: MySettingsModalComponent;
     @ViewChild('notificationSettingsModal', {static: true}) notificationSettingsModal: NotificationSettingsModalComponent;
+    @ViewChild('appLossEventSampleModal', { static: true }) appLossEventSampleModal: LossEventSampleModalComponent;
     @ViewChild('chatBarComponent', {static: false}) chatBarComponent;
     isQuickThemeSelectEnabled: boolean = this.setting.getBoolean('App.UserManagement.IsQuickThemeSelectEnabled');
     IsSessionTimeOutEnabled: boolean = this.setting.getBoolean('App.UserManagement.SessionTimeOut.IsEnabled') && this.appSession.userId != null;
@@ -44,6 +46,7 @@ export class AppComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this._userNotificationHelper.settingsModal = this.notificationSettingsModal;
+        this._userNotificationHelper.lossEventDemoModal = this.appLossEventSampleModal;
         this.theme = abp.setting.get('App.UiManagement.Theme').toLocaleLowerCase();
         this.installationMode = UrlHelper.isInstallUrl(location.href);
 

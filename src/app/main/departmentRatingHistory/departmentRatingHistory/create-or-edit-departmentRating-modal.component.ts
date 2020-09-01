@@ -80,7 +80,7 @@ export class CreateOrEditDepartmentRatingModalComponent extends AppComponentBase
             this._departmentRatingHistoryServiceProxy.createOrEdit(this.departmentRating)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

@@ -20,6 +20,22 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
 
+
+//     state: boolean = false;
+
+// isAllowed = (optional) => {
+//   return optional === null ? true : this.state;
+// }
+
+// changeState = () => {
+//   this.state = !this.state;
+// }
+
+
+
+  
+
+
     active = false;
     saving = false;
     loading = false;
@@ -161,8 +177,73 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this._location.back();
     }
 
-    getTemplateDetails(): void {
+    RemoveQuestion = (Id:number) => 
+    {
+        this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.testingTemplate = result;
+                this.testingTemplateCode = result.testingTemplate.code;
+                
+                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id ); 
+                if(res.length > 0)
+                {
+                   
+                    for(let i = 0; i < res.length; ++i){
+                        if (res[i].parentId === Id) 
+                        {
+                          var position = this.attributes.indexOf(res[i].testingAttrributeId);
+                            this.attributes.splice(position, 1);
+                        }
+                    }
 
+                }
+                
+            });
+    }
+
+
+
+    AddQuestion = (Id:number) => 
+    {
+        this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.testingTemplate = result;
+                this.testingTemplateCode = result.testingTemplate.code;
+                
+                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id );              
+                if(res.length > 0)
+                {
+                    this.testingTemplate.attributes.filter(o=>o.parentId ==Id ).forEach(x => {
+                        
+                        let item = 
+                        {
+                            id: x.testingAttrributeId,
+                            name: x.attributeText,
+                            weight: x.weight,
+                            parentId:x.parentId,
+                            value: null ,
+                            comment: ''
+                        };
+                     //   alert(x.testingAttrributeId)
+                        if(this.attributes.some(code => code.id === x.testingAttrributeId) == false)
+                        {
+                           
+                            this.attributes.push(item);
+                        }
+                       
+                    });
+                    console.log("FULL RES",this.attributes)
+                }
+               
+                
+            });
+    }
+
+
+    getTemplateDetails(): void {
+//alert("test")
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(result => {
@@ -171,12 +252,12 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.attributes = [];
                 this.samples = [];
 
-
-                this.testingTemplate.attributes.forEach(x => {
+                this.testingTemplate.attributes.filter(o=>o.parentId ==null ).forEach(x => {
                     let item = {
                         id: x.testingAttrributeId,
                         name: x.attributeText,
                         weight: x.weight,
+                        parentId:x.parentId,
                         value: null ,
                         comment: ''
                     };

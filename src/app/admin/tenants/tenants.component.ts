@@ -146,7 +146,7 @@ export class TenantsComponent extends AppComponentBase implements OnInit {
 
     unlockUser(record: any): void {
         this._tenantService.unlockTenantAdmin(new EntityDtoOfInt64({ id: record.id })).subscribe(() => {
-            this.notify.success(this.l('UnlockedTenandAdmin', record.name));
+            this.message.success(this.l('UnlockedTenandAdmin', record.name));
         });
     }
 
@@ -166,7 +166,7 @@ export class TenantsComponent extends AppComponentBase implements OnInit {
                 if (isConfirmed) {
                     this._tenantService.deleteTenant(tenant.id).subscribe(() => {
                         this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
+                        this.message.success(this.l('SuccessfullyDeleted'));
                     });
                 }
             }

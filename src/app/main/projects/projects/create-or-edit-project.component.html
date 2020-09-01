@@ -9,14 +9,13 @@
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <div class="kt-subheader__breadcrumbs">
-                        <a [routerLink]="['/app/main/projects/projects']"
-                           class="kt-subheader__breadcrumbs-home">
-                            <i class="flaticon2-shelter"></i>      {{l("Project")}}
+                        <a [routerLink]="['/app/main/projects/projects']" class="kt-subheader__breadcrumbs-home">
+                            <i class="flaticon2-shelter"></i> {{l("Project")}}
                         </a>
                         <span class="kt-subheader__breadcrumbs-separator"></span>
                         <a class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
-                            <span *ngIf="active && project.id">  {{l("Edit")}}</span>
-                            <span *ngIf="active && !project.id">   {{l("Create")}}</span>
+                            <span *ngIf="active && project.id"> {{l("Edit")}}</span>
+                            <span *ngIf="active && !project.id"> {{l("Create")}}</span>
                         </a>
                     </div>
                 </div>
@@ -36,21 +35,24 @@
                     <div class="form-row">
                         <div class="form-group  col-6">
                             <label for="Project_Title">{{l("Title")}}</label>
-                            <input type="text" id="Project_Title" class="form-control" [(ngModel)]="project.title" name="Title" />
+                            <input type="text" id="Project_Title" class="form-control" [(ngModel)]="project.title"
+                                name="Title" />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-8 ">
                             <label for="Project_Description">{{l("Description")}}</label>
-                            <textarea type="text" id="Project_Description" class="form-control" [(ngModel)]="project.description" name="Description"></textarea>
+                            <textarea type="text" id="Project_Description" class="form-control"
+                                [(ngModel)]="project.description" name="Description"></textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label for="Project_reviewType">Review Type</label>
-                            <select type="text" id="Project_reviewType" class="form-control" [(ngModel)]="project.reviewType" name="reviewType">
+                            <select type="text" id="Project_reviewType" class="form-control"
+                                [(ngModel)]="project.reviewType" name="reviewType">
                                 <option value=0>Business Unit</option>
                                 <option value=1>Process</option>
                             </select>
@@ -58,77 +60,110 @@
                         <div class="form-group col-6">
                             <br /><br />
                             <label for="Project_cascade" class="kt-checkbox">
-                                <input id="Project_cascade" type="checkbox" name="Cascade" [(ngModel)]="project.cascade">
+                                <input id="Project_cascade" type="checkbox" name="Cascade"
+                                    [(ngModel)]="project.cascade">
                                 Cascade to sub-units?
                                 <span></span>
                             </label>
 
-                            </div>
                         </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="Project_Owner">Project Owner</label>
+                            <select type="text" id="Project_owner" class="form-control"
+                                [(ngModel)]="project.projectOwner" name="owner">
+                                <option [value]="projectOwnerEnum.InternalAudit">Internal Audit</option>
+                                <option [value]="projectOwnerEnum.InternalControl">Internal Control</option>
+                                <option [value]="projectOwnerEnum.OperationRisk">Operational Risk</option>
+                                <option [value]="projectOwnerEnum.General">General</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <hr />
 
-                        <tabset>
-                            <tab heading="Scope Definition">
-                                <div class="form-row">
-                                    <div class="form-group m-form__group col-6">
-                                        <label for="OrganizationUnitDisplayName2">Scope of review</label>
-                                        <div class="input-group">
-                                            <input class="form-control" id="OrganizationUnitDisplayName2" name="organizationUnitDisplayName2" [(ngModel)]="organizationUnitDisplayName2" type="text" disabled>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal2()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
-                                            </div>
+                    <tabset>
+                        <tab heading="Scope Definition">
+                            <div class="form-row">
+                                <div class="form-group m-form__group col-6">
+                                    <label for="OrganizationUnitDisplayName2">Scope of review</label>
+                                    <div class="input-group">
+                                        <input class="form-control" id="OrganizationUnitDisplayName2"
+                                            name="organizationUnitDisplayName2"
+                                            [(ngModel)]="organizationUnitDisplayName2" type="text" disabled>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary blue"
+                                                (click)="openSelectOrganizationUnitModal2()" type="button"><i
+                                                    class="fa fa-search"></i> {{l("Pick")}}</button>
                                         </div>
                                     </div>
-                                    <input class="form-control" name="project.scopeId" [(ngModel)]="project.scopeId" type="text" hidden>
+                                </div>
+                                <input class="form-control" name="project.scopeId" [(ngModel)]="project.scopeId"
+                                    type="text" hidden>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_scopeStartDate">Start Date (Scope) </label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.scopeStartDate"
+                                        id="Project_scopeStartDate" name="Project_scopeStartDate">
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_scopeStartDate">Start Date (Scope) </label>
-                                        <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.scopeStartDate" id="Project_scopeStartDate" name="Project_scopeStartDate">
-                                    </div>
 
-
-                                    <div class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_ScopeEndDate">End Date (Scope)</label>
-                                        <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.scopeEndDate" id="Project_ScopeEndDate" name="Project_ScopeEndDate">
-                                    </div>
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_ScopeEndDate">End Date (Scope)</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.scopeEndDate"
+                                        id="Project_ScopeEndDate" name="Project_ScopeEndDate">
                                 </div>
-                            </tab>
-                            <tab heading="Timelines">
-                                <div class="form-row">
-                                    <div class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_BudgetedStartDate">{{l("BudgetedStartDate")}}</label>
-                                        <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.budgetedStartDate" id="Project_BudgetedStartDate" name="Project_BudgetedStartDate">
-                                    </div>
-
-
-                                    <div class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_BudgetedEndDate">{{l("BudgetedEndDate")}}</label>
-                                        <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.budgetedEndDate" id="Project_BudgetedEndDate" name="Project_BudgetedEndDate">
-                                    </div>
-
-
-                                    <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_StartDate">{{l("StartDate")}}</label>
-                                        <input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.startDate" id="Project_StartDate" name="Project_StartDate">
-                                    </div>
-
-                                    <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
-                                        <label for="Project_EndDate">{{l("EndDate")}}</label>
-                                        <input *ngIf="project.id" class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.endDate" id="Project_EndDate" name="Project_EndDate">
-                                        <input *ngIf="!project.id" readonly class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="project.endDate" id="Project_EndDate" name="Project_EndDate">
-                                    </div>
+                            </div>
+                        </tab>
+                        <tab heading="Timelines">
+                            <div class="form-row">
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_BudgetedStartDate">{{l("BudgetedStartDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.budgetedStartDate"
+                                        id="Project_BudgetedStartDate" name="Project_BudgetedStartDate">
                                 </div>
-                            </tab>
-                        </tabset>
-                    </div>
+
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_BudgetedEndDate">{{l("BudgetedEndDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.budgetedEndDate"
+                                        id="Project_BudgetedEndDate" name="Project_BudgetedEndDate">
+                                </div>
+
+
+                                <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_StartDate">{{l("StartDate")}}</label>
+                                    <input required class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.startDate" id="Project_StartDate"
+                                        name="Project_StartDate">
+                                </div>
+
+                                <div *ngIf="project.id" class="form-group col-lg-6 col-md-6">
+                                    <label for="Project_EndDate">{{l("EndDate")}}</label>
+                                    <input *ngIf="project.id" class="form-control m-input" type="datetime" bsDatepicker
+                                        datePickerMomentModifier [(date)]="project.endDate" id="Project_EndDate"
+                                        name="Project_EndDate">
+                                    <input *ngIf="!project.id" readonly class="form-control m-input" type="datetime"
+                                        bsDatepicker datePickerMomentModifier [(date)]="project.endDate"
+                                        id="Project_EndDate" name="Project_EndDate">
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
 
                 <div class="kt-portlet__foot">
                     <div class="col-lg-12">
-                        <button (click)="save()" class="btn btn-primary blue"
-                                [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <button (click)="save()" class="btn btn-primary blue" [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')">
                             <i class="fa fa-save"></i>
                             <span>{{l("Save")}}</span>
                         </button>
@@ -137,8 +172,10 @@
             </div>
         </div>
     </div>
-    <projectOrganizationUnitLookupTableModal #projectOrganizationUnitLookupTableModal (modalSave)="getNewControlUnitId()"></projectOrganizationUnitLookupTableModal>
-    <projectOrganizationUnitLookupTableModal #projectOrganizationUnitLookupTableModal2 (modalSave)="getNewScopeId()"></projectOrganizationUnitLookupTableModal>
+    <projectOrganizationUnitLookupTableModal #projectOrganizationUnitLookupTableModal
+        (modalSave)="getNewControlUnitId()"></projectOrganizationUnitLookupTableModal>
+    <projectOrganizationUnitLookupTableModal #projectOrganizationUnitLookupTableModal2 (modalSave)="getNewScopeId()">
+    </projectOrganizationUnitLookupTableModal>
 
 </div>
 

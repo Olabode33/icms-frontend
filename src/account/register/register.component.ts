@@ -62,7 +62,7 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
             }))
             .subscribe((result: RegisterOutput) => {
                 if (!result.canLogin) {
-                    this.notify.success(this.l('SuccessfullyRegistered'));
+                    this.message.success(this.l('SuccessfullyRegistered'));
                     this._router.navigate(['account/login']);
                     return;
                 }

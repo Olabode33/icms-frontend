@@ -59,7 +59,7 @@ export class ChangePasswordModalComponent extends AppComponentBase {
         this._profileService.changePassword(input)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.info(this.l('YourPasswordHasChangedSuccessfully'));
+                this.message.info(this.l('YourPasswordHasChangedSuccessfully'));
                 this.close();
             });
     }

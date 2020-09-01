@@ -137,7 +137,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         // DeptProcessRiskControlComponent,
         // CreateOrEditProcessRiskControlModalComponent,
         // CreateOrEditProcessRiskModalComponent,
-        ProcessRisksComponent,
+        //ProcessRisksComponent,
         CreateEditProcessModalComponent,
         ProcessUserLookupTableModalComponent,
         ProcessOrganizationUnitLookupTableModalComponent,

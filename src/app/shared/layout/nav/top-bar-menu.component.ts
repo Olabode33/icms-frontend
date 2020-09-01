@@ -54,8 +54,24 @@ export class TopBarMenuComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        this.menu = this._appNavigationService.getMenu();
-        this.currentRouteUrl = this.router.url;
+
+        let menu = null;
+        switch (localStorage.getItem('selectedModule')) {
+            case 'internalControl':
+                menu = this._appNavigationService.getInternalControlMenu();
+                break;
+            case 'internalAudit':
+                menu = this._appNavigationService.getInternalAuditMenu();
+                break;
+            case 'opRisk':
+                menu = this._appNavigationService.getOpRiskMenu();
+                break;
+            case 'general':
+                menu = this._appNavigationService.getGeneralMenu();
+                break;
+            default:
+                break;
+        }        this.currentRouteUrl = this.router.url;
 
         this.router.events
             .pipe(filter(event => event instanceof NavigationEnd))

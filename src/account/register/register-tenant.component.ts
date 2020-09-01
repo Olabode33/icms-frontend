@@ -93,7 +93,7 @@ export class RegisterTenantComponent extends AppComponentBase implements OnInit,
                 this.recaptchaRef.reset();
             }))
             .subscribe((result: RegisterTenantOutput) => {
-                this.notify.success(this.l('SuccessfullyRegistered'));
+                this.message.success(this.l('SuccessfullyRegistered'));
                 this._tenantRegistrationHelper.registrationResult = result;
 
                 if (parseInt(this.model.subscriptionStartType.toString()) === SubscriptionStartType.Paid) {

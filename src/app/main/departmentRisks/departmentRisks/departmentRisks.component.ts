@@ -87,7 +87,7 @@ export class DepartmentRisksComponent extends AppComponentBase {
                     this._departmentRisksServiceProxy.delete(departmentRisk.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

@@ -95,7 +95,7 @@ export class AddRoleModalComponent extends AppComponentBase {
         this._organizationUnitService
             .addRolesToOrganizationUnit(input)
             .subscribe(() => {
-                this.notify.success(this.l('SuccessfullyAdded'));
+                this.message.success(this.l('SuccessfullyAdded'));
                 this.rolesAdded.emit({
                     roleIds: input.roleIds,
                     ouId: input.organizationUnitId

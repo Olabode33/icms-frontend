@@ -95,7 +95,7 @@ export class AddMemberModalComponent extends AppComponentBase {
         this._organizationUnitService
             .addUsersToOrganizationUnit(input)
             .subscribe(() => {
-                this.notify.success(this.l('SuccessfullyAdded'));
+                this.message.success(this.l('SuccessfullyAdded'));
                 this.membersAdded.emit({
                     userIds: input.userIds,
                     ouId: input.organizationUnitId

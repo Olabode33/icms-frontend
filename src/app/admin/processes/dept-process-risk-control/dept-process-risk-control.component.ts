@@ -1,5 +1,6 @@
+import { ProcessRiskDto, ProcessRiskControlDto, TestingTemplatesServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
@@ -7,6 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditProcessRiskModalComponent } from '../process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from '../process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
   selector: 'app-dept-process-risk-control',
@@ -14,6 +16,8 @@ import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemp
   styleUrls: ['./dept-process-risk-control.component.css']
 })
 export class DeptProcessRiskControlComponent extends AppComponentBase {
+
+    @Output() riskScoreUpdated = new EventEmitter<any>();
 
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
@@ -33,12 +37,26 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
 
+    _appConsts = AppConsts;
+
+    processResidualRiskPercent = 0;
+    processInherentRiskPercent = 0;
+    processResidualRiskScore = 0;
+    processInherentRiskScore = 0;
+    processResidualRiskRating = '';
+    processInherentRiskRating = '';
+
+    private _totalInherentRiskScore = 0;
+    private _totalResidualRiskScore = 0;
+    private _totalRiskCount = 0;
+
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private _processService: ProcessesServiceProxy,
         private _processRiskService: ProcessRisksServiceProxy,
         private _processRiskControlService: ProcessRiskControlsServiceProxy,
+        private _testingTemplateServiceProcess: TestingTemplatesServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -91,6 +109,26 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
             this.deptProcesses = Array.from(new Set(result. items.map((i) => {
                 return {process: i, isActive: false};
             })));
+            this.calculateScore();
+        });
+    }
+
+    calculateScore() {
+        this._totalInherentRiskScore = 0;
+        this._totalResidualRiskScore = 0;
+        this._totalRiskCount = 0;
+
+        this.deptProcesses.forEach((process, i, arr) => {
+            this._processRiskService.getRiskForProcess('', '', '', '', process.process.id, '', 0, 1000)
+                .subscribe(result => {
+                    this._totalInherentRiskScore += result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+                    this._totalResidualRiskScore += result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+                    this._totalRiskCount += result.items.length;
+
+                    if (Object.is(arr.length - 1, i)) {
+                        this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore, riskCount: this._totalRiskCount});
+                    }
+                });
         });
     }
 
@@ -104,6 +142,15 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
                 this.deptRisks = Array.from(new Set(result.items.map((i) => {
                     return {risk: i, isActive: false};
                 })));
+
+                this.processInherentRiskScore = result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+                this.processResidualRiskScore = result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+
+                this.processInherentRiskPercent = this.processInherentRiskScore / (result.items.length * 25);
+                this.processResidualRiskPercent = this.processResidualRiskScore / (result.items.length * 25);
+
+                this.processInherentRiskRating = this.getRiskRating(this.processInherentRiskPercent);
+                this.processResidualRiskRating = this.getRiskRating(this.processResidualRiskPercent);
             });
     }
 
@@ -153,18 +200,97 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
         this.getDepartmentProcesses();
     }
 
-    addRiskToUnit(): void {
-        this.createOrEditProcessRiskModal.show(null, this._organizationUnit.id);
+    addRiskToUnit(processId: number): void {
+        this.createOrEditProcessRiskModal.show(null, processId);
+    }
+
+    editProcessRisk(processRiskId: number, processId: number): void {
+        this.createOrEditProcessRiskModal.show(processRiskId, processId);
     }
 
 
-    addControlToRisk(riskId: number, riskDepartmentId?: number): void {
+    addControlToRisk(processRisk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(null, processRisk.processRisk.id, processRisk.processRisk.processId, processRisk);
+    }
 
-        this.createOrEditProcessRiskControlModal.show(null, riskId, this._organizationUnit.id);
+    editProcessRiskControl(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
     }
 
     review(testingTemplateId: number): void {
         this._router.navigate(['app/main/workingPaperNews/new', testingTemplateId, this._organizationUnit.id]);
+    }
+
+    removeProcessRisk(processRiskId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._processRiskService.delete(processRiskId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.message.success(this.l('Risk Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeProcessRiskControl(processRiskControlId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._processRiskControlService.delete(processRiskControlId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.message.success(this.l('Control Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeControlTestingTemplate(testingTemplateId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._testingTemplateServiceProcess.delete(testingTemplateId)
+                        .subscribe(() => {
+                            this.reload();
+                            this.message.success(this.l('Testing Template Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    getRiskRating(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return 'Low Risk';
+        }
+
+        if (riskPercent <= 0.6) {
+            return 'Medium Risk';
+        }
+
+        return 'High Risk';
+    }
+
+    getRiskRatingColor(riskPercent: number): string {
+        if (riskPercent <= 0.3) {
+            return '#2196F3';
+        }
+
+        if (riskPercent <= 0.6) {
+            return '#FFC107';
+        }
+
+        return 'red';
     }
 
 }

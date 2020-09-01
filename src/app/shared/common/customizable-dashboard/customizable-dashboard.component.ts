@@ -189,7 +189,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
       this.initializeUserDashboardFilters();
 
       this.busy = false;
-      this.notify.success(this.l('SavedSuccessfully'));
+      this.message.success(this.l('SavedSuccessfully'));
     });
   }
 
@@ -231,7 +231,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
 
   addNewPage(pageName: string): void {
     if (!pageName || pageName.trim() === '') {
-      this.notify.warn(this.l('PageNameCanNotBeEmpty'));
+      this.message.warn(this.l('PageNameCanNotBeEmpty'));
       return;
     }
 
@@ -255,7 +255,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
       });
 
       this.busy = false;
-      this.notify.success(this.l('SavedSuccessfully'));
+      this.message.success(this.l('SavedSuccessfully'));
 
       if (this.selectedPage.id === '') {
         this.selectPageTab(result.pageId);
@@ -290,7 +290,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
 
   renamePage(pageName: string): void {
     if (!pageName || pageName === '') {
-      this.notify.warn(this.l('PageNameCanNotBeEmpty'));
+      this.message.warn(this.l('PageNameCanNotBeEmpty'));
       return;
     }
 
@@ -309,7 +309,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
     ).subscribe(() => {
       let dashboardPage = this.userDashboard.pages.find(page => page.id === pageId);
       dashboardPage.name = pageName;
-      this.notify.success(this.l('Renamed'));
+      this.message.success(this.l('Renamed'));
       this.busy = false;
     });
 
@@ -336,7 +336,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
               this.activateFirstPage();
 
               this.busy = false;
-              this.notify.success(this.l('SuccessfullyRemoved'));
+              this.message.success(this.l('SuccessfullyRemoved'));
 
               if (this.userDashboard.pages.length === 0) {
                 window.location.reload();
@@ -389,7 +389,7 @@ export class CustomizableDashboardComponent extends AppComponentBase implements 
         this.initializeUserDashboardFilters();
 
         this.busy = false;
-        this.notify.success(this.l('SavedSuccessfully'));
+        this.message.success(this.l('SavedSuccessfully'));
         window.location.reload();
       });
   }

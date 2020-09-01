@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -11,6 +11,7 @@ import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
 import { WorkingPaperNewUserLookupTableModalComponent } from '@app/main/workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'viewProject',
@@ -27,9 +28,9 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     active = false;
     saving = false;
-    showGeneralInfoCard = true;
-    showWorkingPapersCard = true;
-    showExceptionsCard = true;
+    showGeneralInfoCard = false;
+    showWorkingPapersCard = false;
+    showExceptionsCard = false;
     loading = false;
     loadingWorkingPapers = false;
     loadingExceptions = false;
@@ -44,6 +45,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     exceptionsPercent = 0;
     taskStatusEnum = TaskStatus;
     statusEnum = Status;
+    selectedModule: ProjectOwner;
 
     item: GetProjectForViewDto;
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
@@ -101,6 +103,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     taskStatus = TaskStatus;
     frequencyEnum = Frequency;
+    projectOwnerEnum = ProjectOwner;
 
     constructor(
         injector: Injector,
@@ -263,10 +266,30 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.closeProject(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success("This project has been successfully closed.");
+                            this.message.success("This project has been successfully closed.");
                         });
                 }
             }
         );
     }
+
+    activateProject(): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    let item = new EntityDto();
+
+                    item.id = this.project.id;
+                    this._projectsServiceProxy.activate(item)
+                        .subscribe(() => {
+                            this.show(this.project.id);
+                            this.message.success('Successfully Activated');
+                        });
+                }
+            }
+        );
+    }
+
 }

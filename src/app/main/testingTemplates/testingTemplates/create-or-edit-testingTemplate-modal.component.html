@@ -60,6 +60,17 @@
                             <input type="number" min="0" id="TestingTemplate_DaysToComplete" class="form-control" [(ngModel)]="testingTemplate.daysToComplete" name="daysToComplete" required />
                         </div>
 
+                        <div class="form-group col-4">
+                            <label for="Project_Owner">Project Owner</label>
+                            <select type="text" id="Project_owner" class="form-control"
+                                [(ngModel)]="testingTemplate.projectOwner" name="owner">
+                                <option [value]="projectOwnerEnum.InternalAudit">Internal Audit</option>
+                                <option [value]="projectOwnerEnum.InternalControl">Internal Control</option>
+                                <option [value]="projectOwnerEnum.OperationRisk">Operational Risk</option>
+                                <option [value]="projectOwnerEnum.General">General</option>
+                            </select>
+                        </div>
+
 
                     </div>
                     <hr />
@@ -129,6 +140,26 @@
 
                                     </div>
                                 </div>
+
+                                <div class="form-group col-3">
+
+                                    <label for="Weight">Sub Question</label>
+                                    <div>
+                                    <input [(ngModel)]="changeState" type="checkbox" id="subQuestion" name="subQuestion" />
+                                   </div>
+                                </div>
+
+                                <div class="form-group col-5" *ngIf="changeState">
+
+                                    <label for="Weight">Questions</label>
+                                    <div>
+                                        <select name="selectedQuestion" id="selectedQuestion" [(ngModel)]="selectedQuestion" 
+                                        class="form-control custom-select" >
+                                     
+                                        <option *ngFor="let item of QuestionsDropdown" value="{{item.value}}">{{item.name}}</option>
+                                      </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <hr />
@@ -152,17 +183,21 @@
                                             Weight
                                         </th>
                                         <th>
+                                            Sub Question
+                                        </th>
+                                        <th>
                                             Exception Type
                                         </th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                     <tr *ngFor="let item of attributes">
                                         <td>{{item.name}}</td>
-                                        <td><input type="number" class="form-control" /></td>
+                                        <td>{{item.weight}}</td>
+                                        <td>  {{item.selectedQuestion}}</td>
                                         <td>{{item.exceptionTypeName}}</td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm btn-icon"
-                                                    (click)="removeItem(item)">
+                                                    (click)="removeItem(item.parentId)">
                                                 <i class="fa fa-stop"
                                                    [attr.aria-label]="l('Remove')"></i>
                                             </button>

@@ -277,10 +277,10 @@
                                         {{l('NoData')}}
                                     </div>
                                     <div class="primeng-paging-container">
-                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                        <p-paginator [rows]="4" #paginator
                                             (onPageChange)="getProjects($event)"
                                             [totalRecords]="primengTableHelper.totalRecordsCount"
-                                            [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                            [rowsPerPageOptions]="[4]">
                                         </p-paginator>
                                         <span class="total-records-count">
                                             {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}

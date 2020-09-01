@@ -3,12 +3,17 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { AppUiCustomizationService } from '@shared/common/ui/app-ui-customization.service';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/app/main/home', pathMatch: 'full' },
+    { path: '', redirectTo: '/igrcs', pathMatch: 'full' },
     {
         path: 'account',
         loadChildren: () => import('account/account.module').then(m => m.AccountModule), //Lazy load account module
         data: { preload: true }
-    }
+    },
+
+    {
+        path: 'igrcs',
+        loadChildren: () => import('app-home/app-home.module').then(m => m.AppHomeModule), //Lazy load player module
+    },
 ];
 
 @NgModule({
@@ -38,6 +43,12 @@ export class RootRoutingModule {
             }
 
             if (url.indexOf('/account/') >= 0) {
+                this.setAccountModuleBodyClassInternal();
+            } else {
+                this.setAppModuleBodyClassInternal();
+            }
+
+            if (url.indexOf('/igrcs/') >= 0) {
                 this.setAccountModuleBodyClassInternal();
             } else {
                 this.setAppModuleBodyClassInternal();

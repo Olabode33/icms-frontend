@@ -119,7 +119,7 @@ export class CreateOrEditWorkingPaperNewModalComponent extends AppComponentBase 
             this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

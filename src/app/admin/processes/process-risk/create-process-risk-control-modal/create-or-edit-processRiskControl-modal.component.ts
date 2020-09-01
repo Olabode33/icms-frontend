@@ -1,11 +1,12 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { DepartmentRiskControlsServiceProxy, CreateOrEditDepartmentRiskControlDto, CreateOrEditProcessRiskControlDto, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, CreateOrEditProcessRiskDto, CreateOrEditProcessDto, RisksServiceProxy, CreateOrEditRiskDto, Severity } from '@shared/service-proxies/service-proxies';
+import { DepartmentRiskControlsServiceProxy, CreateOrEditDepartmentRiskControlDto, CreateOrEditProcessRiskControlDto, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, CreateOrEditProcessRiskDto, CreateOrEditProcessDto, RisksServiceProxy, CreateOrEditRiskDto, Severity, ProcessRiskDto, GetProcessRiskForViewDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 import { CreateOrEditControlModalComponent } from '../../../../main/controls/controls/create-or-edit-control-modal.component';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-create-or-edit-process-risk-control',
@@ -24,6 +25,9 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     active = false;
     saving = false;
 
+    showProcessCard = false;
+    showRiskCard = false;
+
     departmentRiskControl: CreateOrEditProcessRiskControlDto = new CreateOrEditProcessRiskControlDto();
 
     departmentRiskCode = '';
@@ -37,6 +41,9 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     departmentRiskId: number;
     userName: string;
     organizationUnitDisplayName: string;
+
+    _appConsts = AppConsts;
+
     constructor(
         injector: Injector,
         private _departmentRiskControlsServiceProxy: ProcessRiskControlsServiceProxy,
@@ -47,9 +54,7 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
         super(injector);
     }
 
-    show(processRiskControlId?: number, processRiskId?: number, processId?: number, riskId?: number): void {
-
-        console.log(riskId);
+    show(processRiskControlId?: number, processRiskId?: number, processId?: number, processRisk?: GetProcessRiskForViewDto): void {
 
         this._processesServiceProxy.getProcessForEdit(processId).subscribe(result => {
             this.process = result.process;
@@ -62,15 +67,10 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
         });
 
 
-        this._risksServiceProxy.getRiskForEdit(riskId).subscribe(result => {
-            this.risk = result.risk;
-            //this.userName = result.userName;
-            //this.organizationUnitDisplayName = result.organizationUnitDisplayName;
-
-            //if (this.process.casade) {
-            //    this.organizationUnitDisplayName = result.organizationUnitDisplayName + " and all its sub-departments.";
-            //}
-        });
+        this.risk = new CreateOrEditRiskDto();
+        this.risk.name = processRisk.riskName;
+        this.risk.impact = processRisk.processRisk.impact;
+        this.risk.likelyhood = processRisk.processRisk.likelyhood;
 
 
         if (!processRiskControlId) {
@@ -101,7 +101,7 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
             this._departmentRiskControlsServiceProxy.createOrEdit(this.departmentRiskControl)
              .pipe(finalize(() => { this.saving = false; }))
              .subscribe(() => {
-                this.notify.success(this.l('SavedSuccessfully'));
+                this.message.success(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });
@@ -140,6 +140,8 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
     getNewControlId() {
         this.departmentRiskControl.controlId = this.departmentRiskControlControlLookupTableModal.id;
         this.controlCode = this.departmentRiskControlControlLookupTableModal.displayName;
+        this.departmentRiskControl.likelyhood = 0;
+        this.departmentRiskControl.impact = 0;
     }
 
 

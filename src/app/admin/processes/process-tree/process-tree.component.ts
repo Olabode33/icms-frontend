@@ -99,7 +99,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
                             return Observable.throw(error);
                         }))
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyMoved'));
+                            this.message.success(this.l('SuccessfullyMoved'));
                             this.reload();
                         });
                 } else {
@@ -170,15 +170,15 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
         const canManageOrganizationTree = this.isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree');
 
         let items = [
-            // {
-            //     label: this.l('View'),
-            //     disabled: !canManageOrganizationTree,
-            //     command: (event) => {
-            //         console.log(this.selectedOu);
-            //         this.view(this.selectedOu.data.id);
-            //         //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
-            //     }
-            // },
+            {
+                label: this.l('View'),
+                disabled: !canManageOrganizationTree,
+                command: (event) => {
+                    console.log(this.selectedOu);
+                    this.view(this.selectedOu.data.id);
+                    //this.viewDepartmentModal.show(null, this.selectedOu.data.id);
+                }
+            },
             // {
             //     label: this.l('Auditor'),
             //     disabled: !canManageOrganizationTree,
@@ -220,7 +220,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
                             if (isConfirmed) {
                                 this._processService.delete(this.selectedOu.data.id).subscribe(() => {
                                     this.deleteUnit(this.selectedOu.data.id);
-                                    this.notify.success(this.l('SuccessfullyDeleted'));
+                                    this.message.success(this.l('SuccessfullyDeleted'));
                                     this.selectedOu = null;
                                     this.reload();
                                 });
@@ -262,7 +262,7 @@ export class ProcessTreeComponent extends AppComponentBase implements OnInit {
     }
 
     view(id: number): void {
-        this._router.navigate(['app/main/departments/view', id]);
+        this._router.navigate(['app/main/process/view', id]);
     }
 
     auditor(id: number): void {

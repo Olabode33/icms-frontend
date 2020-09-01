@@ -46,6 +46,34 @@
                             </div>
                             <br />
 
+                            <div class="form-row">
+                                <div class="form-group col-10">
+                                    <label for="LikelihoodRange">Likelihood</label>
+                                    <input type="range" class="form-control-range" id="LikelihoodRange" class="custom-range" min="1" max="5" list="LikelihoodTickmarks">
+                                    
+                                    <datalist #LikelihoodTickmarks id="LikelihoodTickmarks">
+                                        <option value="1" label="Very Low"></option>
+                                        <option value="2" label="Low"></option>
+                                        <option value="3" label="Medium"></option>
+                                        <option value="4" label="High"></option>
+                                        <option value="5" label="Very High"></option>
+                                    </datalist>
+                                </div>
+                                <!-- <div class="col-lg-1"></div> -->
+                                <div class="form-group col-10">
+                                    <label for="ImpactRange">Impact</label>
+                                    <input type="range" class="form-control-range" id="ImpactRange" class="custom-range" min="1" max="5" list="ImpactTickmarks">
+        
+                                    <datalist id="ImpactTickmarks">
+                                        <option value="1" label="Very Low"></option>
+                                        <option value="2" label="Low"></option>
+                                        <option value="3" label="Medium"></option>
+                                        <option value="4" label="High"></option>
+                                        <option value="5" label="Very High"></option>
+                                    </datalist>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="DepartmentRisk_Comments">{{l("Comments")}}</label>
                                 <textarea type="text" id="DepartmentRisk_Comments" class="form-control" [(ngModel)]="departmentRisk.comments" name="Comments"></textarea>

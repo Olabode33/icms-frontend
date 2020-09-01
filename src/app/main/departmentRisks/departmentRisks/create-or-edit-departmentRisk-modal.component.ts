@@ -65,7 +65,7 @@ export class CreateOrEditDepartmentRiskModalComponent extends AppComponentBase {
             this._departmentRisksServiceProxy.createOrEdit(this.departmentRisk)
              .pipe(finalize(() => { this.saving = false;}))
              .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
              });

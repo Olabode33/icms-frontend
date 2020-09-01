@@ -96,7 +96,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         uploader.onSuccessItem = (item, response, status) => {
             const ajaxResponse = <IAjaxResponse>JSON.parse(response);
             if (ajaxResponse.success) {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 if (success) {
                     success(ajaxResponse.result);
                 }
@@ -124,7 +124,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         this._tenantSettingsService.clearLogo().subscribe(() => {
             this.appSession.tenant.logoFileType = null;
             this.appSession.tenant.logoId = null;
-            this.notify.info(this.l('ClearedSuccessfully'));
+            this.message.info(this.l('ClearedSuccessfully'));
         });
     }
 
@@ -137,13 +137,13 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
                 oldTenantCustomCss.remove();
             }
 
-            this.notify.info(this.l('ClearedSuccessfully'));
+            this.message.info(this.l('ClearedSuccessfully'));
         });
     }
 
     saveAll(): void {
         this._tenantSettingsService.updateAllSettings(this.settings).subscribe(() => {
-            this.notify.info(this.l('SavedSuccessfully'));
+            this.message.info(this.l('SavedSuccessfully'));
 
             if (abp.clock.provider.supportsMultipleTimezone && this.usingDefaultTimeZone && this.initialTimeZone !== this.settings.general.timezone) {
                 this.message.info(this.l('TimeZoneSettingChangedRefreshPageNotification')).then(() => {
@@ -157,7 +157,7 @@ export class TenantSettingsComponent extends AppComponentBase implements OnInit 
         const input = new SendTestEmailInput();
         input.emailAddress = this.testEmailAddress;
         this._tenantSettingsService.sendTestEmail(input).subscribe(result => {
-            this.notify.info(this.l('TestEmailSentSuccessfully'));
+            this.message.info(this.l('TestEmailSentSuccessfully'));
         });
     }
 }

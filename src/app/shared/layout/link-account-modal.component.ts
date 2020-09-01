@@ -42,7 +42,7 @@ export class LinkAccountModalComponent extends AppComponentBase {
         this._userLinkService.linkToUser(this.linkUser)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

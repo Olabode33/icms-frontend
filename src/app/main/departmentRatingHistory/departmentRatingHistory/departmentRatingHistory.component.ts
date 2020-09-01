@@ -86,7 +86,7 @@ export class DepartmentRatingHistoryComponent extends AppComponentBase {
                     this._departmentRatingHistoryServiceProxy.delete(departmentRating.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

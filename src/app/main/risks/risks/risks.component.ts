@@ -1,4 +1,4 @@
-﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
+﻿import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RisksServiceProxy, RiskDto , Severity } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
@@ -14,13 +14,14 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './risks.component.html',
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class RisksComponent extends AppComponentBase {
+export class RisksComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditRiskModal', { static: true }) createOrEditRiskModal: CreateOrEditRiskModalComponent;
     @ViewChild('viewRiskModalComponent', { static: true }) viewRiskModal: ViewRiskModalComponent;
@@ -37,6 +38,8 @@ export class RisksComponent extends AppComponentBase {
 
     _entityTypeFullName = 'ICMSDemo.Risks.Risk';
     entityHistoryEnabled = false;
+
+    _appConsts = AppConsts;
 
     constructor(
         injector: Injector,
@@ -105,7 +108,7 @@ export class RisksComponent extends AppComponentBase {
                     this._risksServiceProxy.delete(risk.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

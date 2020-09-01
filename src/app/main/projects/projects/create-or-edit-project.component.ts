@@ -1,12 +1,13 @@
-import { Component, ViewChild, Injector, Output, EventEmitter, OnInit} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ProjectsServiceProxy, CreateOrEditProjectDto } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, CreateOrEditProjectDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { ProjectOrganizationUnitLookupTableModalComponent } from './project-organizationUnit-lookup-table-modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'createOrEditProject',
@@ -16,7 +17,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 export class CreateOrEditProjectComponent extends AppComponentBase implements OnInit {
     active = false;
     saving = false;
-        @ViewChild('projectOrganizationUnitLookupTableModal', { static: true }) projectOrganizationUnitLookupTableModal: ProjectOrganizationUnitLookupTableModalComponent;
+    @ViewChild('projectOrganizationUnitLookupTableModal', { static: true }) projectOrganizationUnitLookupTableModal: ProjectOrganizationUnitLookupTableModalComponent;
     @ViewChild('projectOrganizationUnitLookupTableModal2', { static: true }) projectOrganizationUnitLookupTableModal2: ProjectOrganizationUnitLookupTableModalComponent;
 
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
@@ -24,11 +25,12 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
     organizationUnitDisplayName = '';
     organizationUnitDisplayName2 = '';
 
+    projectOwnerEnum = ProjectOwner;
 
     constructor(
         injector: Injector,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute,        
+        private _activatedRoute: ActivatedRoute,
         private _projectsServiceProxy: ProjectsServiceProxy
     ) {
         super(injector);
@@ -53,6 +55,7 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
             this.organizationUnitDisplayName = '';
             this.organizationUnitDisplayName2 = '';
             this.project.cascade = true;
+            this.getModule();
 
             this.active = true;
         } else {
@@ -65,19 +68,39 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
                 this.active = true;
             });
         }
-        
+
+    }
+
+    getModule(): void {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.project.projectOwner = ProjectOwner.InternalControl;
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.project.projectOwner = ProjectOwner.InternalAudit;
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.project.projectOwner = ProjectOwner.OperationRisk;
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.project.projectOwner = ProjectOwner.General;
+                break;
+            default:
+                this.project.projectOwner = ProjectOwner.General;
+                break;
+        }
     }
 
     save(): void {
-            this.saving = true;
+        this.saving = true;
 
-			
-            this._projectsServiceProxy.createOrEdit(this.project)
-             .pipe(finalize(() => { this.saving = false;}))
-             .subscribe(() => {
-                 this.notify.success(this.l('SavedSuccessfully'));
-                 this._router.navigate(['/app/main/projects/planning']);       
-             });
+
+        this._projectsServiceProxy.createOrEdit(this.project)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(() => {
+                this.message.success(this.l('SavedSuccessfully'));
+                this._router.navigate(['/app/main/projects/planning']);
+            });
     }
 
     //openSelectOrganizationUnitModal() {

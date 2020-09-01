@@ -66,7 +66,7 @@ export class CreateOrEditLanguageModalComponent extends AppComponentBase {
         this._languageService.createOrUpdateLanguage(input)
             .pipe(finalize(() => this.saving = false))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });

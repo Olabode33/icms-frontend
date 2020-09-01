@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
+import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, Frequency, ControlType, TestingTemplatesServiceProxy, ProcessRiskControlDto, ProcessRiskDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
@@ -14,6 +14,7 @@ import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-
 import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 import { Router } from '@angular/router';
+import { AppConsts } from '@shared/AppConsts';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     @Output() riskRemoved = new EventEmitter<any>();
     @Output() risksAdded = new EventEmitter<any>();
+    @Output() riskScoreUpdated = new EventEmitter<any>();
 
     @ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
     @ViewChild('dataTable', {static: true}) dataTable: Table;
@@ -43,11 +45,18 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
 
+    _appConsts = AppConsts;
+
+    private _totalInherentRiskScore = 0;
+    private _totalResidualRiskScore = 0;
+    private _totalRiskCount = 0;
+
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private  _departmentRiskService: ProcessRisksServiceProxy,
         private _departmentRiskControlService: ProcessRiskControlsServiceProxy,
+        private _testingTemplateServiceProcess: TestingTemplatesServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -76,6 +85,14 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
         this._isViewOnly = viewOnly;
     }
 
+    getInherentRiskScore(): number {
+        return this._totalInherentRiskScore;
+    }
+
+    getResidualRiskScore(): number {
+        return this._totalResidualRiskScore;
+    }
+
     ngOnInit(): void {
 
     }
@@ -88,6 +105,10 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
             this.deptRisks = Array.from(new Set(result.items.map((i) => {
                 return {risk: i, isActive: false};
             })));
+            this._totalInherentRiskScore = result.items.reduce((a, b) => a + b.inherentRiskScore, 0);
+            this._totalResidualRiskScore = result.items.reduce((a, b) => a + b.residualRiskScore, 0);
+            this._totalRiskCount = result.items.length;
+            this.riskScoreUpdated.emit({inherentRiskScore: this._totalInherentRiskScore, residualRiskScore: this._totalResidualRiskScore, riskCount: this._totalRiskCount});
             this.loadingRisk = false;
         });
     }
@@ -130,10 +151,16 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
         this.createOrEditProcessRiskModal.show(null, this._organizationUnit.id);
     }
 
+    editProcessRisk(processRiskId: number, processId: number): void {
+        this.createOrEditProcessRiskModal.show(processRiskId, processId);
+    }
 
-    addControlToRisk(processRiskControlId?: number, processRiskId?: number, processId?:  number, riskId?: number): void {
+    addControlToRisk(processRisk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(null, processRisk.processRisk.id, processRisk.processRisk.processId, processRisk);
+    }
 
-        this.createOrEditProcessRiskControlModal.show(null, processRiskId, processId, riskId);
+    editProcessRiskControl(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
+        this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
     }
 
 
@@ -146,7 +173,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._organizationUnitService
                         .removeUserFromOrganizationUnit(user.id, this.organizationUnit.id)
                         .subscribe(() => {
-                            this.notify.success(this.l('SuccessfullyRemoved'));
+                            this.message.success(this.l('SuccessfullyRemoved'));
                             this.riskRemoved.emit({
                                 userId: user.id,
                                 ouId: this.organizationUnit.id
@@ -213,7 +240,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskService.delete(riskId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -229,7 +256,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
                     this._departmentRiskControlService.delete(riskControlId)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -238,6 +265,54 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     review(testingTemplateId: number): void {
         this._router.navigate(['app/main/workingPaperNews/new', testingTemplateId, this._organizationUnit.id]);
+    }
+
+    removeProcessRisk(processRiskId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._departmentRiskService.delete(processRiskId)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.message.success(this.l('Risk Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeProcessRiskControl(processRiskControlId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._departmentRiskControlService.delete(processRiskControlId)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.message.success(this.l('Control Successfully Removed'));
+                        });
+                }
+            }
+        );
+    }
+
+    removeControlTestingTemplate(testingTemplateId: number): void {
+        this.message.confirm(
+            '',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._testingTemplateServiceProcess.delete(testingTemplateId)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.message.success(this.l('Testing Template Successfully Removed'));
+                        });
+                }
+            }
+        );
     }
 
 }

@@ -82,7 +82,7 @@ export class RatingsComponent extends AppComponentBase {
                     this._ratingsServiceProxy.delete(rating.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

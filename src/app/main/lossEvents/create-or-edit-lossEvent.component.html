@@ -1,0 +1,194 @@
+﻿<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+
+
+        <div class="kt-subheader kt-grid__item">
+            <div [class]="containerClass">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span *ngIf="active && lossEvent.id">{{"Edit Loss Event" }}</span>
+                        <span *ngIf="active && !lossEvent.id">{{l("New Loss Event")}}</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <div class="kt-subheader__breadcrumbs">
+                        <a [routerLink]="['/app/main/lossEvents']" class="kt-subheader__breadcrumbs-home"><i
+                                class="flaticon2-shelter"></i> {{l("LossEvent")}}</a>
+                        <span class="kt-subheader__breadcrumbs-separator"></span>
+                        <a class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+                            <span *ngIf="active && lossEvent.id">{{l("Edit")}}</span>
+                            <span *ngIf="active && !lossEvent.id">{{l("Create")}}</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button (click)="save()" class="btn btn-primary blue" [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                            <span>{{l("Save")}}</span>
+                        </button>
+                        <button *ngIf="!this.lossEvent.id" (click)="saveAndNew()"
+                            class="btn btn-primary blue mr-2" [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                            <span>{{l("Save And New")}}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body">
+
+                    <div class="row">
+                        <div class="form-group col-lg-8">
+                            <label for="LossEvent_LossType">{{l("LossType")}}</label>
+                            <select class="form-control" name="LossType" id="LossEvent_LossType" (change)="getAdditionalColumn()"
+                                [(ngModel)]="lossEvent.lossTypeId">
+                                <option *ngFor="let item of lossTypes" [value]="item.lossType.id">{{item.lossType.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_LossCategory">{{l("LossCategory")}}</label>
+                            <select class="form-control" name="LossCategory" id="LossEvent_LossCategory"
+                                [(ngModel)]="lossEvent.lossCategory">
+                                <option value="0">{{l('Actual')}}</option>
+                                <option value="1">{{l('Potential')}}</option>
+                                <option value="2">{{l('NearMisses')}}</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_DateDiscovered">{{l("DateDiscovered")}}</label>
+                            <input required class="form-control m-input" type="datetime" bsDatepicker
+                                datePickerMomentModifier [(date)]="lossEvent.dateDiscovered" id="LossEvent_DateDiscovered"
+                                name="LossEvent_DateDiscovered">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-8">
+                            <label for="LossEvent_Description">{{l("Description")}}</label>
+                            <textarea id="LossEvent_Description" class="form-control" rows="5"
+                                [(ngModel)]="lossEvent.description" name="Description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 m-form__group">
+                            <label for="UserName">Employee</label>
+                            <div class="input-group">
+                                <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text"
+                                    disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i
+                                            class="fa fa-search"></i> {{l("Pick")}}</button>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-danger btn-icon" type="button"
+                                        (click)="setEmployeeUserIdNull()"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control" name="lossEvent.employeeUserId" [(ngModel)]="lossEvent.employeeUserId"
+                            type="text" hidden>
+    
+                        <div class="form-group col-lg-4 m-form__group">
+                            <label for="OrganizationUnitDisplayName">Business Unit</label>
+                            <div class="input-group">
+                                <input class="form-control" id="OrganizationUnitDisplayName"
+                                    name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text"
+                                    disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary blue" (click)="openSelectOrganizationUnitModal()"
+                                        type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-danger btn-icon" type="button" (click)="setDepartmentIdNull()"><i
+                                            class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control" name="lossEvent.departmentId" [(ngModel)]="lossEvent.departmentId"
+                            type="text" hidden>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_DateOccured">{{l("DateOccured")}}</label>
+                            <input required class="form-control m-input" type="datetime" bsDatepicker
+                                datePickerMomentModifier [(date)]="lossEvent.dateOccured" id="LossEvent_DateOccured"
+                                name="LossEvent_DateOccured">
+                        </div>
+                        
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_Amount">{{l("Amount")}}</label>
+                            <input type="number" id="LossEvent_Amount" class="form-control" [(ngModel)]="lossEvent.amount"
+                                name="Amount" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="form-group col-lg-6" *ngFor="let column of lossTypeColumn">
+                                    <label for="CustomData{{column.lossType.id}}">{{column.lossType.columnName}}</label>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.Number" type="number" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.Date" type="date" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <input *ngIf="column.lossType.dataType === dataTypeEnum.String" type="text" id="CustomData{{column.lossType.id}}" class="form-control" [required]="column.lossType.required"
+                                        name="CustomData{{column.lossType.id}}" [(ngModel)]="column.value"/>
+                                    <select class="form-control custom-select" *ngIf="column.lossType.dataType === dataTypeEnum.Bool" id="CustomData{{column.lossType.id}}" 
+                                        class="form-control" [required]="column.lossType.required" [(ngModel)]="column.value">
+                                        <option [value]="true">Yes</option>
+                                        <option [value]="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="form-group">
+                        <label for="LossEvent_Status">{{l("Status")}}</label>
+                        <select class="form-control" name="Status" id="LossEvent_Status" [(ngModel)]="lossEvent.status">
+                            <option value="0">{{l('Open')}}</option>
+
+                            <option value="1">{{l('Resolved')}}</option>
+
+                            <option value="2">{{l('Closed')}}</option>
+
+
+                        </select>
+                    </div> -->
+
+                </div>
+                <div class="kt-portlet__foot">
+                    <div class="col-lg-12">
+                        <button (click)="save()" class="btn btn-primary blue float-right" [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                            <span>{{l("Save")}}</span>
+                        </button>
+                        <!-- <button *ngIf="!this.lossEvent.id" (click)="saveAndNew()"
+                            class="btn btn-primary blue float-right mr-2" [buttonBusy]="saving"
+                            [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                            <span>{{l("SaveAndNew")}}</span>
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <lossEventUserLookupTableModal #lossEventUserLookupTableModal (modalSave)="getNewEmployeeUserId()">
+    </lossEventUserLookupTableModal>
+    <lossEventOrganizationUnitLookupTableModal #lossEventOrganizationUnitLookupTableModal
+        (modalSave)="getNewDepartmentId()"></lossEventOrganizationUnitLookupTableModal>
+
+</div>

@@ -87,7 +87,7 @@ export class ExceptionTypesComponent extends AppComponentBase {
                     this._exceptionTypesServiceProxy.delete(exceptionType.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

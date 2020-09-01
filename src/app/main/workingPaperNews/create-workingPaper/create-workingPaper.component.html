@@ -247,16 +247,17 @@
                                             <th>Response</th>
                                         </tr>
                                         <tr *ngFor="let x of attributes">
+                                            
                                             <td>{{x.name}}</td>
                                             <td>{{x.weight}}</td>
                                             <td>
                                                 <div class="kt-radio-inline">
                                                     <label class="kt-radio">
-                                                        <input type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="true" > Yes
+                                                        <input (click)="AddQuestion(x.id)" type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="true" > Yes
                                                         <span></span>
                                                     </label>
                                                     <label class="kt-radio">
-                                                        <input type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="false"> No
+                                                        <input (click)="RemoveQuestion(x.id)"  type="radio" [name]="x.id" [(ngModel)]="x.value" [value]="false"> No
                                                         <span></span>
                                                     </label>
                                                 </div>
@@ -266,8 +267,11 @@
                                           
                                                 </select> -->
                                             </td>
+                                        
                                         </tr>
                                     </table>
+                                    <br>
+
                                     <div class="form-group">
                                         <label for="WorkingPaperNew_Comment">{{l("Comment")}}</label>
                                         <textarea type="text" id="WorkingPaperNew_Comment" class="form-control" rows="5" [(ngModel)]="workingPaperNew.comment" name="Comment"></textarea>

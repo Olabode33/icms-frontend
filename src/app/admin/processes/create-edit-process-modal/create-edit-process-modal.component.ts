@@ -75,7 +75,7 @@ export class CreateEditProcessModalComponent extends AppComponentBase  {
         this._processesServiceProxy.createOrEdit(this.process)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.unitCreated.emit(null);
             });

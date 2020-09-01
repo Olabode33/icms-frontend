@@ -1,0 +1,48 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #exceptionIncidentForm="ngForm" novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Possible Loss Event</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Loss Type</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeName" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Trigger Name</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeTrigger.name" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Source</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeTrigger.dataSource" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" disabled readonly>System Downtime: Application not responding</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Date Checked</label>
+                        <input type="text" class="form-control" [value]="today | momentFormat: 'LLL'" disabled readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Notify</label>
+                        <input type="text" class="form-control" [value]="trigger.notifyUserName" disabled readonly />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-danger" (click)="close()">
+                        <i class="fa fa-times"></i>Reject</button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-primary" (click)="save()">
+                        <i class="fa fa-check"></i>Send for Verification</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

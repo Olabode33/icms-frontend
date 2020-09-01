@@ -84,7 +84,7 @@ export class CreateEditionModalComponent extends AppComponentBase {
         this._editionService.createEdition(input)
             .pipe(finalize(() => this.saving = false))
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.message.info(this.l('SavedSuccessfully'));
                 this.close();
                 this.modalSave.emit(null);
             });
