@@ -54,7 +54,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     depts: ListResultDtoOfOrganizationUnitDto = new ListResultDtoOfOrganizationUnitDto();
 
-    showGeneralInfoCard = true;
+    showGeneralInfoCard = false;
     showSamplingCard = true;
     comments: string;
     sampleDescription: string;
@@ -144,7 +144,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.workingPaperNew.testingTemplateId = testingTemplateId;
             this.workingPaperNew.organizationUnitId = departmentId;
             this.getTemplateDetails();
-            //this.getDeptDetails(departmentId);
+            this.getDeptDetails(departmentId);
 
             this.active = true;
             this.loading = false;
@@ -273,13 +273,13 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     //    });
     //}
 
-    //getDeptDetails(departId): void {
-    //    this._ouService.getOrganizationUnits().subscribe(result => {
-    //        this.depts = result;
-    //        let ou = this.depts.items.find(x => x.id === departId);
-    //        this.organizationUnitDisplayName = ou ? ou.displayName : '';
-    //    });
-    //}
+    getDeptDetails(departId): void {
+       this._ouService.getOrganizationUnits().subscribe(result => {
+           this.depts = result;
+           let ou = this.depts.items.find(x => x.id === departId);
+           this.organizationUnitDisplayName = ou ? ou.displayName : '';
+       });
+    }
 
 
     addResult(): void {

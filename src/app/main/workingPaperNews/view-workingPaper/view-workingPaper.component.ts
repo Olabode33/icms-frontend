@@ -37,7 +37,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     fakeTestingTemplateCode = 'TT-1';
 
     loading = false;
-    showGeneralInfoCard = true;
+    showGeneralInfoCard = false;
     showSamplingCard = true;
     showAuditInfoCard = true;
     showProcessCard = true;
