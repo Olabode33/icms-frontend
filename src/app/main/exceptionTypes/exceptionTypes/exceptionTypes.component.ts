@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExceptionTypesServiceProxy, ExceptionTypeDto , Severity } from '@shared/service-proxies/service-proxies';
+import { ExceptionTypesServiceProxy, ExceptionTypeDto , Severity, ExceptionRemediationTypeEnum } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -34,7 +34,7 @@ export class ExceptionTypesComponent extends AppComponentBase {
 
     severity = Severity;
 
-
+    remediationTypeEnum = ExceptionRemediationTypeEnum;
 
     constructor(
         injector: Injector,

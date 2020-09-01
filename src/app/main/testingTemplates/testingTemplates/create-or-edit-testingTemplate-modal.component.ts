@@ -1,4 +1,4 @@
-import { Component, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner, NameValueDto } from '@shared/service-proxies/service-proxies';
@@ -7,17 +7,19 @@ import * as moment from 'moment';
 //import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplate-departmentRiskControl-lookup-table-modal.component';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/exceptionIncident-exceptionType-lookup-table-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'createOrEditTestingTemplateModal',
     templateUrl: './create-or-edit-testingTemplate-modal.component.html'
 })
-export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase {
-    state: boolean = false;
+export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase implements OnInit {
+    state = false;
 
     changeState: boolean;
 
-    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+    //@ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     //    @ViewChild('testingTemplateDepartmentRiskControlLookupTableModal', { static: true }) testingTemplateDepartmentRiskControlLookupTableModal: TestingTemplateDepartmentRiskControlLookupTableModalComponent;
     @ViewChild('exceptionIncidentExceptionTypeLookupTableModal', { static: true }) exceptionIncidentExceptionTypeLookupTableModal: ExceptionIncidentExceptionTypeLookupTableModalComponent;
 
@@ -43,13 +45,20 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
 
     constructor(
         injector: Injector,
+        private _activatedRoute: ActivatedRoute,
+        private _location: Location,
         private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
     ) {
         super(injector);
         _testingTemplatesServiceProxy.getTestAttributesForTemplate().subscribe(result => {
-            console.log("RES", result)
+            //console.log("RES", result)
             this.QuestionsDropdown = result;
         });
+    }
+
+    ngOnInit(): void {
+        this.show(this._activatedRoute.snapshot.queryParams['id']);
+        //this.getAllLossType();
     }
 
     show(departmentRiskControlId?: number): void {
@@ -62,10 +71,9 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             this.getModule();
 
             this.active = true;
-            this.modal.show();
-        }
-        else {
-            this.notify.warn("Please select a risk to attach the template to.");
+            //this.modal.show();
+        } else {
+            this.notify.warn('Please select a risk to attach the template to.');
             return;
         }
     }
@@ -94,13 +102,13 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         this.saving = true;
 
         if (this.attributes.length == 0) {
-            this.notify.error("Include at least one attribute to test.");
+            this.notify.error('Include at least one attribute to test.');
             return;
         }
 
 
         if (this.availableWeight != 0) {
-            this.notify.error("Please ensure the sum of the weight across all attributes is equal to 0.");
+            this.notify.error('Please ensure the sum of the weight across all attributes is equal to 0.');
             return;
         }
 
@@ -121,7 +129,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             .subscribe(() => {
                 this.notify.success(this.l('SavedSuccessfully'));
                 this.close();
-                this.modalSave.emit(null);
+                //this.modalSave.emit(null);
             });
     }
 
@@ -137,7 +145,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     //   //  this.attributes.splice(line, 1);
 
     //     for(let i = 0; i < this.attributes.length; ++i){
-    //         if (this.attributes[i].parentId === Id) 
+    //         if (this.attributes[i].parentId === Id)
     //         {
     //           var position = this.attributes.indexOf(this.attributes[i].parentId);
     //             this.attributes.splice(position, 1);
@@ -151,7 +159,12 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
 
     close(): void {
         this.active = false;
-        this.modal.hide();
+        this.goBack();
+        //this.modal.hide();
+    }
+
+    goBack(): void {
+        this._location.back();
     }
 
 

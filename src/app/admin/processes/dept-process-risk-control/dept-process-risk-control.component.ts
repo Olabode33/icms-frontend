@@ -21,7 +21,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
 
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
-    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
     private _isViewOnly = false;
@@ -193,7 +193,8 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     }
 
     createTestingTemplate(id: number): void {
-        this.createOrEditTestingTemplateModal.show(id);
+        this._router.navigate(['/app/main/testingTemplates/createOrEdit'], { queryParams: { id: id } });
+        //this.createOrEditTestingTemplateModal.show(id);
     }
 
     reload(): void {

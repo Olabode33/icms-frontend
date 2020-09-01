@@ -29497,12 +29497,18 @@ export enum Severity {
     High = 2,
 }
 
+export enum ExceptionRemediationTypeEnum {
+    Remediable = 0,
+    NonRemediable = 1,
+}
+
 export class ExceptionTypeDto implements IExceptionTypeDto {
     code!: string | undefined;
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
+    remediation!: ExceptionRemediationTypeEnum;
     id!: number;
 
     constructor(data?: IExceptionTypeDto) {
@@ -29521,6 +29527,7 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
+            this.remediation = data["remediation"];
             this.id = data["id"];
         }
     }
@@ -29539,6 +29546,7 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
+        data["remediation"] = this.remediation;
         data["id"] = this.id;
         return data; 
     }
@@ -29550,6 +29558,7 @@ export interface IExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
+    remediation: ExceptionRemediationTypeEnum;
     id: number;
 }
 
@@ -29642,6 +29651,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
+    remediation!: ExceptionRemediationTypeEnum;
     otherColumns!: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations!: number[] | undefined;
     id!: number | undefined;
@@ -29661,6 +29671,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
+            this.remediation = data["remediation"];
             if (Array.isArray(data["otherColumns"])) {
                 this.otherColumns = [] as any;
                 for (let item of data["otherColumns"])
@@ -29688,6 +29699,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
+        data["remediation"] = this.remediation;
         if (Array.isArray(this.otherColumns)) {
             data["otherColumns"] = [];
             for (let item of this.otherColumns)
@@ -29708,6 +29720,7 @@ export interface ICreateOrEditExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
+    remediation: ExceptionRemediationTypeEnum;
     otherColumns: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations: number[] | undefined;
     id: number | undefined;
