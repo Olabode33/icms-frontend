@@ -1,4 +1,4 @@
-import { ExceptionRemediationTypeEnum } from './../../../../shared/service-proxies/service-proxies';
+
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class CreateOrEditExceptionTypeModalComponent extends AppComponentBase {
 
     exceptionType: CreateOrEditExceptionTypeDto = new CreateOrEditExceptionTypeDto();
 
-    exceptionRemediationTypeEnum = ExceptionRemediationTypeEnum;
+    //exceptionRemediationTypeEnum = ExceptionRemediationTypeEnum;
 
     constructor(
         injector: Injector,

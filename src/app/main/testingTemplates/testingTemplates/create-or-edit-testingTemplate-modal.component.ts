@@ -1,7 +1,7 @@
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner, NameValueDto } from '@shared/service-proxies/service-proxies';
+import { TestingTemplatesServiceProxy, CreateOrEditTestingTemplateDto, CreateorEditTestTemplateDetailsDto, ProjectOwner, NameValueDto, ListResultDtoOfOrganizationUnitDto, ProcessesServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 //import { TestingTemplateDepartmentRiskControlLookupTableModalComponent } from './testingTemplate-departmentRiskControl-lookup-table-modal.component';
@@ -10,6 +10,14 @@ import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { ProcessRisksComponent } from '@app/admin/processes/process-risk/process-risks.component';
+import { ProcessTreeComponent } from '@app/admin/processes/process-tree/process-tree.component';
+import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
+import { TreeNode, MenuItem } from 'primeng/api';
+import { EntityTypeHistoryModalComponent } from '@app/shared/common/entityHistory/entity-type-history-modal.component';
+import { ArrayToTreeConverterService } from '@shared/utils/array-to-tree-converter.service';
+import { TreeDataHelperService } from '@shared/utils/tree-data-helper.service';
+
 
 @Component({
     selector: 'createOrEditTestingTemplateModal',
@@ -20,11 +28,13 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     state = false;
 
     changeState: boolean;
-
+// @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
+    
     //@ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     //    @ViewChild('testingTemplateDepartmentRiskControlLookupTableModal', { static: true }) testingTemplateDepartmentRiskControlLookupTableModal: TestingTemplateDepartmentRiskControlLookupTableModalComponent;
     @ViewChild('exceptionIncidentExceptionTypeLookupTableModal', { static: true }) exceptionIncidentExceptionTypeLookupTableModal: ExceptionIncidentExceptionTypeLookupTableModalComponent;
-
+    @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
+  
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
@@ -36,6 +46,8 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     availableWeight = 100;
     weight = 100;
     selectedQuestion = '';
+    TestingTemplateID = 0;
+    totalUnitCount = 0;
 
     testingTemplate: CreateOrEditTestingTemplateDto = new CreateOrEditTestingTemplateDto();
 
@@ -44,11 +56,22 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     departmentRiskControlId: number;
 
     projectOwnerEnum = ProjectOwner;
-
+   
+    treeData: any;
+    selectedOu: TreeNode;
+    ouContextMenuItems: MenuItem[];
+    canManageOrganizationUnits = false;
+    _entityTypeFullName = 'Abp.Organizations.OrganizationUnit';
+    
+    //@ViewChild('ouControls', { static: true }) ouControls: OrganizationUnitControlsComponent;
+    organizationUnit: IBasicOrganizationUnitInfo = null;
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
         private _location: Location,
+        private _processService: ProcessesServiceProxy,
+        private _treeDataHelperService: TreeDataHelperService,
+        private _arrayToTreeConverterService: ArrayToTreeConverterService,
         private _testingTemplatesServiceProxy: TestingTemplatesServiceProxy
     ) {
         super(injector);
@@ -58,9 +81,12 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         });
     }
 
+
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
-        //this.getAllLossType();
+        this.ouContextMenuItems = this.getContextMenuItems();
+        this.TestingTemplateID =this._activatedRoute.snapshot.queryParams['id'];
+        this.getTreeDataFromServer();
     }
 
     show(departmentRiskControlId?: number): void {
@@ -82,7 +108,8 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     }
 
     getModule(): void {
-        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) 
+        {
             case AppConsts.ModuleKeyValueInternalControl:
                 this.testingTemplate.projectOwner = ProjectOwner.InternalControl;
                 break;
@@ -100,6 +127,154 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
                 break;
         }
     }
+    // private isEntityHistoryEnabled(): boolean 
+    // {
+    //     let customSettings = (abp as any).custom;
+    //     return customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+    // }
+
+
+    private getTreeDataFromServer(): void 
+    {
+        let self = this;
+        this._testingTemplatesServiceProxy.getTemplateQuestions(2).subscribe((result: ListResultDtoOfOrganizationUnitDto) => {
+            this.totalUnitCount = result.items.length;
+            this.treeData = this._arrayToTreeConverterService.createTree(result.items,
+                'parentId',
+                'id',
+                null,
+                'children',
+                [
+                    {
+                        target: 'label',
+                        targetFunction(item) {
+                            return item.displayName;
+                        }
+                    }, {
+                        target: 'expandedIcon',
+                        value: 'fa fa-door-open m--font-warning'
+                    },
+                    {
+                        target: 'collapsedIcon',
+                        value: 'fa fa-door-closed m--font-warning'
+                    },
+                    {
+                        target: 'selectable',
+                        value: true
+                    },
+                    {
+                        target: 'riskCount',
+                        targetFunction(item) {
+                            return item.memberCount;
+                        }
+                    },
+                    {
+                        target: 'controlCount',
+                        targetFunction(item) {
+                            return item.roleCount;
+                        }
+                    }
+                ]);
+        });
+    }
+
+
+    AddQuestion(parentId?: number, displayName?: string): void {
+        //this.createEditQuestionModal.show(null, parentId, displayName);
+    }
+
+    
+    private getContextMenuItems(): any[] {
+
+        const canManageOrganizationTree = this.isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree');
+        let items = [
+           
+            {
+                label: this.l('Edit Question'),
+                disabled: !canManageOrganizationTree,
+                command: (event) => {
+                   // this.createEditQuestionModal.show(this.selectedOu.data.id, null, this.selectedOu.data.displayName);
+                }
+            },
+            {
+                label: this.l('Add Question'),
+                disabled: !canManageOrganizationTree,
+                command: () => {
+                    this.AddQuestion(this.selectedOu.data.id, this.selectedOu.data.displayName);
+                }
+            },
+           
+            {
+                label: this.l('Delete'),
+                disabled: !canManageOrganizationTree,
+                command: () => {
+                    this.message.confirm(
+                        this.l('OrganizationUnitDeleteWarningMessage', this.selectedOu.data.displayName),
+                        this.l('AreYouSure'),
+                        isConfirmed => {
+                            if (isConfirmed) {
+                                this._processService.delete(this.selectedOu.data.id).subscribe(() => {
+                                    // this.deleteUnit(this.selectedOu.data.id);
+                                    this.message.success(this.l('SuccessfullyDeleted'));
+                                    this.selectedOu = null;
+                                    this.reload();
+                                });
+                            }
+                        }
+                    );
+                }
+            }
+        ];
+
+        // if (this.isEntityHistoryEnabled()) {
+        //     items.push({
+        //         label: this.l('History'),
+        //         disabled: false,
+        //         command: (event) => {
+        //             this.entityTypeHistoryModal.show({
+        //                 entityId: this.selectedOu.data.id.toString(),
+        //                 entityTypeFullName: this._entityTypeFullName,
+        //                 entityTypeDescription: this.selectedOu.data.displayName
+        //             });
+        //         }
+        //     });
+        // }
+
+        return items;
+    }
+
+    reload(): void {
+        this.getTreeDataFromServer();
+    }
+    
+    // deleteUnit(id) {
+    //     let node = this._treeDataHelperService.findNode(this.treeData, { data: { id: id } });
+    //     if (!node) {
+    //         return;
+    //     }
+
+    //     if (!node.data.parentId) {
+    //         _.remove(this.treeData, {
+    //             data: {
+    //                 id: id
+    //             }
+    //         });
+    //     }
+
+    //     let parentNode = this._treeDataHelperService.findNode(this.treeData, { data: { id: node.data.parentId } });
+    //     if (!parentNode) 
+    //     {
+    //         return;
+    //     }
+
+    //     _.remove(parentNode.children, {
+    //         data: {
+    //             id: id
+    //         }
+    //     });
+    // }
+
+    
 
     save(): void {
         this.saving = true;
@@ -142,23 +317,6 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         this.testingTemplate.departmentRiskControlId = null;
         this.departmentRiskControlCode = '';
     }
-
-
-    // removeItem(Id: number): void {
-    //   //  this.attributes.splice(line, 1);
-
-    //     for(let i = 0; i < this.attributes.length; ++i){
-    //         if (this.attributes[i].parentId === Id)
-    //         {
-    //           var position = this.attributes.indexOf(this.attributes[i].parentId);
-    //             this.attributes.splice(position, 1);
-    //         }
-    //     }
-
-
-    //   }
-
-
 
     close(): void {
         this.active = false;

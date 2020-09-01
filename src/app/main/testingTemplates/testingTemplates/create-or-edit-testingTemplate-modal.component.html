@@ -122,6 +122,44 @@
                             </div>
                         </tab>
                         <tab heading="Test Attributes">
+                           
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p-tree [value]="treeData"
+                                    selectionMode="single"
+                                    [(selection)]="selectedOu"
+                                    (onNodeSelect)="nodeSelect($event)"
+                                    (onNodeDrop)="nodeDrop($event)"
+                                    [contextMenu]="ouContextMenu"></p-tree>
+                                <p-contextMenu #ouContextMenu [model]="ouContextMenuItems" appendTo="body" baseZIndex="99999">
+            
+                                </p-contextMenu>
+                                </div>
+                                <!-- <div class="col-lg-7">
+                                    <div class="kt-portlet">
+                                        <div class="kt-portlet__head">
+                                            <div class="kt-portlet__head-label">
+                                                <h3 class="kt-portlet__head-title">
+                                                    <span *ngIf="organizationUnit">{{organizationUnit.displayName}}</span>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__body">
+                                            <tabset class="tab-container" >
+                                                <tab heading="Risks" [active]="true">
+                                                    <app-process-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" ></app-process-risks>
+                                                </tab>
+                                            </tabset>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            
+
+
+
+
+
                             <div class="form-group">
                                 <label for="AttributeQuestion">Add Attribute Question</label>
                                 <div>
@@ -237,6 +275,6 @@
     </div>
 
     <exceptionIncidentExceptionTypeLookupTableModal #exceptionIncidentExceptionTypeLookupTableModal (modalSave)="getNewExceptionTypeId()"></exceptionIncidentExceptionTypeLookupTableModal>
-
-</div>
+    <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+   </div>
 

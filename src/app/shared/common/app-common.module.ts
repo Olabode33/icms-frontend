@@ -60,6 +60,9 @@ import { CreateOrEditRiskModalComponent } from '../../main/risks/risks/create-or
 import { CreateOrEditControlModalComponent } from '../../main/controls/controls/create-or-edit-control-modal.component';
 import { ProcessRisksComponent } from '@app/admin/processes/process-risk/process-risks.component';
 import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
+//import { CreateEditQuestionModal } from '@app/main/testingTemplates/testingTemplates/create-or-edit-questions-modal.component';
+import { TreeModule } from 'primeng/tree';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 
 @NgModule({
@@ -70,6 +73,8 @@ import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-s
         ModalModule.forRoot(),
         UtilsModule,
         AbpModule,
+        TreeModule,
+        ContextMenuModule,
         CommonModule,
         TableModule,
         PaginatorModule,
@@ -83,6 +88,7 @@ import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-s
         FullCalendarModule,
     ],
     declarations: [
+       // CreateEditQuestionModal,
         TimeZoneComboComponent,
         CommonLookupModalComponent,
         EntityTypeHistoryModalComponent,
@@ -126,6 +132,7 @@ import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-s
         LossEventSampleModalComponent
     ],
     exports: [
+        //CreateEditQuestionModal,
         LossEventSampleModalComponent,
         ProcessRisksComponent,
         CreateOrEditProcessRiskModalComponent,
