@@ -78,6 +78,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     maxCount = 0;
 
+    _appConsts = AppConsts;
+
     constructor(
         injector: Injector,
         private _changeDetector: ChangeDetectorRef,

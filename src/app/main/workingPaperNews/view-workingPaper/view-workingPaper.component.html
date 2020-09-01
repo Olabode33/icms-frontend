@@ -126,10 +126,20 @@
                                                     <td style="width: 80%;">{{testingTemplate.risk.description}}.</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 20%;">Severity:</td>
-                                                    <td style="width: 80%;">
-                                                        <span class="kt-badge kt-badge--inline kt-badge--danger">
-                                                            {{severityEnum[testingTemplate.risk.severity]}}
+                                                    <td style="width: 20%;">Likelihood:</td>
+                                                    <td style="width: 30%;">
+                                                        <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.likelyhood)"
+                                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                                data-placement="top">
+                                                            {{l('Impact_' + testingTemplate.risk.likelyhood)}}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 20%;">Impact:</td>
+                                                    <td style="width: 30%;">
+                                                        <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.impact)"
+                                                                class="kt-badge kt-badge--danger kt-badge--inline"
+                                                                data-placement="top">
+                                                            {{l('Impact_' + testingTemplate.risk.impact)}}
                                                         </span>
                                                     </td>
                                                 </tr>

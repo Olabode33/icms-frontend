@@ -6,6 +6,7 @@ import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPa
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     selector: 'app-view-workingPaper',
@@ -55,6 +56,8 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     firstSample = true;
     lastSample = false;
     loadingSamples = false;
+
+    _appConsts = AppConsts;
 
     constructor(
         injector: Injector,
