@@ -8,7 +8,7 @@ import { IOrganizationUnitOnEdit } from '@app/admin/organization-units/create-or
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-create-edit-questions-modal',
+  selector: 'app-create-edit-process-modal',
   templateUrl: './create-edit-process-modal.component.html',
   styleUrls: ['./create-edit-process-modal.component.css']
 })

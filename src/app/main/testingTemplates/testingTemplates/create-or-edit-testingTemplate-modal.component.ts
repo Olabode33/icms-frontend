@@ -28,13 +28,13 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     state = false;
 
     changeState: boolean;
-// @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
-    
+    // @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
+
     //@ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     //    @ViewChild('testingTemplateDepartmentRiskControlLookupTableModal', { static: true }) testingTemplateDepartmentRiskControlLookupTableModal: TestingTemplateDepartmentRiskControlLookupTableModalComponent;
     @ViewChild('exceptionIncidentExceptionTypeLookupTableModal', { static: true }) exceptionIncidentExceptionTypeLookupTableModal: ExceptionIncidentExceptionTypeLookupTableModalComponent;
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
-  
+
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
@@ -45,7 +45,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     exceptionTypeId: number;
     availableWeight = 100;
     weight = 100;
-    selectedQuestion = '';
+    selectedQuestion: number;
     TestingTemplateID = 0;
     totalUnitCount = 0;
 
@@ -56,15 +56,19 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     departmentRiskControlId: number;
 
     projectOwnerEnum = ProjectOwner;
-   
+
     treeData: any;
     selectedOu: TreeNode;
     ouContextMenuItems: MenuItem[];
     canManageOrganizationUnits = false;
     _entityTypeFullName = 'Abp.Organizations.OrganizationUnit';
-    
+
     //@ViewChild('ouControls', { static: true }) ouControls: OrganizationUnitControlsComponent;
     organizationUnit: IBasicOrganizationUnitInfo = null;
+
+    showAttributeQuestionForm = false;
+    savingQuestions = false;
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,
@@ -85,7 +89,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
         this.ouContextMenuItems = this.getContextMenuItems();
-        this.TestingTemplateID =this._activatedRoute.snapshot.queryParams['id'];
+        this.TestingTemplateID = this._activatedRoute.snapshot.queryParams['id'];
         this.getTreeDataFromServer();
     }
 
@@ -108,8 +112,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     }
 
     getModule(): void {
-        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) 
-        {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
             case AppConsts.ModuleKeyValueInternalControl:
                 this.testingTemplate.projectOwner = ProjectOwner.InternalControl;
                 break;
@@ -127,68 +130,68 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
                 break;
         }
     }
-    // private isEntityHistoryEnabled(): boolean 
+    // private isEntityHistoryEnabled(): boolean
     // {
     //     let customSettings = (abp as any).custom;
     //     return customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
     // }
 
 
-    private getTreeDataFromServer(): void 
-    {
+    private getTreeDataFromServer(): void {
         let self = this;
-        this._testingTemplatesServiceProxy.getTemplateQuestions(2).subscribe((result: ListResultDtoOfOrganizationUnitDto) => {
-            this.totalUnitCount = result.items.length;
-            this.treeData = this._arrayToTreeConverterService.createTree(result.items,
-                'parentId',
-                'id',
-                null,
-                'children',
-                [
-                    {
-                        target: 'label',
-                        targetFunction(item) {
-                            return item.displayName;
+        if (this.testingTemplate.id) {
+            this._testingTemplatesServiceProxy.getTemplateQuestions(this.testingTemplate.id).subscribe((result: ListResultDtoOfOrganizationUnitDto) => {
+                this.totalUnitCount = result.items.length;
+                this.treeData = this._arrayToTreeConverterService.createTree(result.items,
+                    'parentId',
+                    'id',
+                    null,
+                    'children',
+                    [
+                        {
+                            target: 'label',
+                            targetFunction(item) {
+                                return item.displayName;
+                            }
+                        }, {
+                            target: 'expandedIcon',
+                            value: 'fa fa-door-open m--font-warning'
+                        },
+                        {
+                            target: 'collapsedIcon',
+                            value: 'fa fa-door-closed m--font-warning'
+                        },
+                        {
+                            target: 'selectable',
+                            value: true
+                        },
+                        {
+                            target: 'riskCount',
+                            targetFunction(item) {
+                                return item.memberCount;
+                            }
+                        },
+                        {
+                            target: 'controlCount',
+                            targetFunction(item) {
+                                return item.roleCount;
+                            }
                         }
-                    }, {
-                        target: 'expandedIcon',
-                        value: 'fa fa-door-open m--font-warning'
-                    },
-                    {
-                        target: 'collapsedIcon',
-                        value: 'fa fa-door-closed m--font-warning'
-                    },
-                    {
-                        target: 'selectable',
-                        value: true
-                    },
-                    {
-                        target: 'riskCount',
-                        targetFunction(item) {
-                            return item.memberCount;
-                        }
-                    },
-                    {
-                        target: 'controlCount',
-                        targetFunction(item) {
-                            return item.roleCount;
-                        }
-                    }
-                ]);
-        });
+                    ]);
+            });
+        }
     }
 
 
     AddQuestion(parentId?: number, displayName?: string): void {
-        //this.createEditQuestionModal.show(null, parentId, displayName);
+        this.showAttributeQuestionForm = true;
+        this.selectedQuestion = parentId;
     }
 
-    
     private getContextMenuItems(): any[] {
 
         const canManageOrganizationTree = this.isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree');
         let items = [
-           
             {
                 label: this.l('Edit Question'),
                 disabled: !canManageOrganizationTree,
@@ -197,15 +200,14 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
                 }
             },
             {
-                label: this.l('Add Question'),
+                label: this.l('Add Sub Question'),
                 disabled: !canManageOrganizationTree,
                 command: () => {
                     this.AddQuestion(this.selectedOu.data.id, this.selectedOu.data.displayName);
                 }
             },
-           
             {
-                label: this.l('Delete'),
+                label: this.l('Remove'),
                 disabled: !canManageOrganizationTree,
                 command: () => {
                     this.message.confirm(
@@ -246,7 +248,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     reload(): void {
         this.getTreeDataFromServer();
     }
-    
+
     // deleteUnit(id) {
     //     let node = this._treeDataHelperService.findNode(this.treeData, { data: { id: id } });
     //     if (!node) {
@@ -262,7 +264,7 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     //     }
 
     //     let parentNode = this._treeDataHelperService.findNode(this.treeData, { data: { id: node.data.parentId } });
-    //     if (!parentNode) 
+    //     if (!parentNode)
     //     {
     //         return;
     //     }
@@ -274,15 +276,14 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
     //     });
     // }
 
-    
 
     save(): void {
         this.saving = true;
 
-        if (this.attributes.length == 0) {
-            this.message.error('Include at least one attribute to test.');
-            return;
-        }
+        // if (this.attributes.length == 0) {
+        //     this.message.error('Include at least one attribute to test.');
+        //     return;
+        // }
 
 
         if (this.availableWeight != 0) {
@@ -290,16 +291,16 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
             return;
         }
 
-        this.testingTemplate.attributes = [];
+        // this.testingTemplate.attributes = [];
 
-        this.attributes.forEach(x => {
-            var item = new CreateorEditTestTemplateDetailsDto();
+        // this.attributes.forEach(x => {
+        //     var item = new CreateorEditTestTemplateDetailsDto();
 
-            item.testAttribute = x.name;
-            item.weight = x.weight;
-            item.parentId = x.parentId;
-            this.testingTemplate.attributes.push(item);
-        })
+        //     item.testAttribute = x.name;
+        //     item.weight = x.weight;
+        //     item.parentId = x.parentId;
+        //     this.testingTemplate.attributes.push(item);
+        // });
 
 
         this._testingTemplatesServiceProxy.createOrEdit(this.testingTemplate)
@@ -358,20 +359,23 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         }
 
         //find the question text using the value
-        let obj = this.QuestionsDropdown.find(o => o.value === this.selectedQuestion);
+        //let obj = this.QuestionsDropdown.find(o => o.value === this.selectedQuestion);
 
         var item = {
             name: this.attributeQuestion,
             weight: this.weight,
-            selectedQuestion: obj == null ? null : obj.name,
+            //selectedQuestion: obj == null ? null : obj.name,
             parentId: this.selectedQuestion == null ? null : this.selectedQuestion
         };
 
-        this.attributes.push(item);
+        //this.attributes.push(item);
         this.attributeQuestion = '';
-        this.selectedQuestion = '';
+        this.selectedQuestion = null;
         this.availableWeight -= this.weight;
         this.weight = this.availableWeight;
+
+        this.saveQuestion(item);
+
     }
 
 
@@ -392,6 +396,45 @@ export class CreateOrEditTestingTemplateModalComponent extends AppComponentBase 
         this.availableWeight += this.attributes[index].weight;
         this.attributes.splice(index, 1);
 
+    }
+
+    showNewQuestionForm(): void {
+        this.showAttributeQuestionForm = true;
+    }
+
+    saveAndContinue(): void {
+        this.saving = true;
+        this._testingTemplatesServiceProxy.createAndGetId(this.testingTemplate)
+            .pipe(finalize(() => { this.saving = false; }))
+            .subscribe(result => {
+                this.testingTemplate.id = result;
+                this.message.success(this.l('SavedSuccessfully'));
+                //this.close();
+                //this.modalSave.emit(null);
+            });
+    }
+
+    saveQuestion(item: any): void {
+        this.savingQuestions = true;
+
+        let res = this.testingTemplate;
+        let templateContent = new CreateorEditTestTemplateDetailsDto();
+        templateContent.parentId = item.parentId;
+        templateContent.testAttribute = item.name;
+        templateContent.testingTemplateId = this.testingTemplate.id;
+        templateContent.weight = item.weight;
+
+        res.templateContent = templateContent;
+
+        this._testingTemplatesServiceProxy.createOrEditTemplate(res)
+        .pipe(finalize(() => { this.savingQuestions = false; }))
+            .subscribe(() => {
+                this.getTreeDataFromServer();
+                this.message.success(this.l('SavedSuccessfully'));
+                this.showAttributeQuestionForm = false;
+                //this.close();
+                //this.modalSave.emit(null);
+            });
     }
 
 }

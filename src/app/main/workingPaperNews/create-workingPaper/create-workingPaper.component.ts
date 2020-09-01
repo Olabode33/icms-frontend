@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { id } from '@swimlane/ngx-charts/release/utils';
 
 @Component({
     selector: 'app-create-workingPaper',
@@ -30,11 +31,6 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 // changeState = () => {
 //   this.state = !this.state;
 // }
-
-
-
-  
-
 
     active = false;
     saving = false;
@@ -79,6 +75,8 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     maxCount = 0;
 
     _appConsts = AppConsts;
+
+    loadingQuestions = false;
 
     constructor(
         injector: Injector,
@@ -202,48 +200,42 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
 
 
-    AddQuestion = (Id:number) => 
-    {
+    AddQuestion = (Id: number) => {
+        console.log('Fetching children Qs for: ' + Id);
+        //this.loadingQuestions = true;
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
-            .pipe(finalize(() => { this.saving = false; }))
+            .pipe(finalize(() => { this.loadingQuestions = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;
-                
-                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id );              
-                if(res.length > 0)
-                {
-                    this.testingTemplate.attributes.filter(o=>o.parentId ==Id ).forEach(x => {
-                        
-                        let item = 
-                        {
+
+                let res = this.testingTemplate.attributes.filter(o => o.parentId == Id );
+                if (res.length > 0) {
+                    this.testingTemplate.attributes.filter(o => o.parentId == Id ).forEach(x => {
+
+                        let item = {
                             id: x.testingAttrributeId,
                             name: x.attributeText,
                             weight: x.weight,
-                            parentId:x.parentId,
+                            parentId: x.parentId,
                             value: null ,
                             comment: ''
                         };
                      //   alert(x.testingAttrributeId)
-                        if(this.attributes.some(code => code.id === x.testingAttrributeId) == false)
-                        {
-                           
+                        if (this.attributes.some(code => code.id === x.testingAttrributeId) == false) {
                             this.attributes.push(item);
                         }
-                       
                     });
-                    console.log("FULL RES",this.attributes)
+                    console.log('FULL RES', this.attributes);
                 }
-               
-                
             });
     }
 
 
     getTemplateDetails(): void {
-//alert("test")
+        this.loadingQuestions = true;
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
-            .pipe(finalize(() => { this.saving = false; }))
+            .pipe(finalize(() => { this.loadingQuestions = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;

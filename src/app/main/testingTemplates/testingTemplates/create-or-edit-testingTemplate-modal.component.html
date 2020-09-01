@@ -10,7 +10,7 @@
                 </div>
                 <div class="kt-subheader__toolbar">
                     <div class="kt-subheader__wrapper">
-                        <button (click)="save()" class="btn btn-primary blue" [buttonBusy]="saving"
+                        <button (click)="save()" class="btn btn-primary blue" [buttonBusy]="saving" *ngIf="testingTemplate.id"
                             [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
                             <span>{{l("Save")}}</span>
                         </button>
@@ -72,8 +72,14 @@
 
 
                     </div>
+
+                    <button *ngIf="!testingTemplate.id" [disabled]="saving" type="button" class="btn btn-primary" (click)="saveAndContinue()"
+                        [disabled]="!testingTemplateForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" style="width: fit-content;">
+                        Save and continue
+                    </button>
+
                     <hr />
-                    <tabset>
+                    <tabset *ngIf="testingTemplate.id">
                         <tab heading="Sample Selection">
                             <div class="form-row">
                                 <div class="form-group col-4">
@@ -122,88 +128,57 @@
                             </div>
                         </tab>
                         <tab heading="Test Attributes">
-                           
+
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <p-tree [value]="treeData"
-                                    selectionMode="single"
-                                    [(selection)]="selectedOu"
-                                    (onNodeSelect)="nodeSelect($event)"
-                                    (onNodeDrop)="nodeDrop($event)"
-                                    [contextMenu]="ouContextMenu"></p-tree>
-                                <p-contextMenu #ouContextMenu [model]="ouContextMenuItems" appendTo="body" baseZIndex="99999">
-            
-                                </p-contextMenu>
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary pull-right" (click)="showNewQuestionForm()">New Question</button>
                                 </div>
-                                <!-- <div class="col-lg-7">
-                                    <div class="kt-portlet">
-                                        <div class="kt-portlet__head">
-                                            <div class="kt-portlet__head-label">
-                                                <h3 class="kt-portlet__head-title">
-                                                    <span *ngIf="organizationUnit">{{organizationUnit.displayName}}</span>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                        <div class="kt-portlet__body">
-                                            <tabset class="tab-container" >
-                                                <tab heading="Risks" [active]="true">
-                                                    <app-process-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" ></app-process-risks>
-                                                </tab>
-                                            </tabset>
+                            </div>
+                            <div *ngIf="showAttributeQuestionForm">
+                                <div class="form-group">
+                                    <label for="AttributeQuestion">Question</label>
+                                    <div>
+                                        <input type="text" id="AttributeQuestion" class="form-control" [(ngModel)]="attributeQuestion" name="AttributeQuestion" />
+    
+                                    </div>
+                                </div>
+    
+                                <div class="form-row">
+                                    <div class="form-group col-4">
+    
+                                        <label for="Weight">Weight</label>
+                                        <div>
+                                            <input type="number" id="Weight" min="0" max="availableWeight" class="form-control" [(ngModel)]="weight" name="Weight" />
+    
                                         </div>
                                     </div>
-                                </div> -->
-                            </div>
-                            
-
-
-
-
-
-                            <div class="form-group">
-                                <label for="AttributeQuestion">Add Attribute Question</label>
+    
+                                    <!-- <div class="form-group col-3">
+    
+                                        <label for="Weight">Sub Question</label>
+                                        <div>
+                                        <input [(ngModel)]="changeState" type="checkbox" id="subQuestion" name="subQuestion" />
+                                       </div>
+                                    </div>
+    
+                                    <div class="form-group col-5" *ngIf="changeState">
+    
+                                        <label for="Weight">Questions</label>
+                                        <div>
+                                            <select name="selectedQuestion" id="selectedQuestion" [(ngModel)]="selectedQuestion" 
+                                            class="form-control custom-select" >
+                                         
+                                            <option *ngFor="let item of QuestionsDropdown" value="{{item.value}}">{{item.name}}</option>
+                                          </select>
+                                        </div>
+                                    </div> -->
+                                </div>
+    
+                                <hr />
                                 <div>
-                                    <input type="text" id="AttributeQuestion" class="form-control" [(ngModel)]="attributeQuestion" name="AttributeQuestion" />
-
+                                    <button class="btn btn-success green" [disabled]="savingQuestions" (click)="addAttribute()" type="button"><i class="fa fa-plus"></i> Save</button>
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-4">
-
-                                    <label for="Weight">Weight</label>
-                                    <div>
-                                        <input type="number" id="Weight" min="0" max="availableWeight" class="form-control" [(ngModel)]="weight" name="Weight" />
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-3">
-
-                                    <label for="Weight">Sub Question</label>
-                                    <div>
-                                    <input [(ngModel)]="changeState" type="checkbox" id="subQuestion" name="subQuestion" />
-                                   </div>
-                                </div>
-
-                                <div class="form-group col-5" *ngIf="changeState">
-
-                                    <label for="Weight">Questions</label>
-                                    <div>
-                                        <select name="selectedQuestion" id="selectedQuestion" [(ngModel)]="selectedQuestion" 
-                                        class="form-control custom-select" >
-                                     
-                                        <option *ngFor="let item of QuestionsDropdown" value="{{item.value}}">{{item.name}}</option>
-                                      </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr />
-                            <div>
-                                <button class="btn btn-success green" (click)="addAttribute()" type="button"><i class="fa fa-plus"></i> Add</button>
-                            </div>
-
                             <br />
                             <hr />
 
@@ -211,7 +186,37 @@
                             <label>   Selected attributes for testing:</label>
 
                             <div>
-                                <table class="table table-striped">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p-tree [value]="treeData"
+                                            selectionMode="single"
+                                            [(selection)]="selectedOu"
+                                            (onNodeSelect)="nodeSelect($event)"
+                                            (onNodeDrop)="nodeDrop($event)"
+                                            [contextMenu]="ouContextMenu"></p-tree>
+                                        <p-contextMenu #ouContextMenu [model]="ouContextMenuItems" appendTo="body" baseZIndex="99999">
+                                        </p-contextMenu>
+                                    </div>
+                                    <!-- <div class="col-lg-7">
+                                        <div class="kt-portlet">
+                                            <div class="kt-portlet__head">
+                                                <div class="kt-portlet__head-label">
+                                                    <h3 class="kt-portlet__head-title">
+                                                        <span *ngIf="organizationUnit">{{organizationUnit.displayName}}</span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="kt-portlet__body">
+                                                <tabset class="tab-container" >
+                                                    <tab heading="Risks" [active]="true">
+                                                        <app-process-risks #ouRisks (risksAdded)="ouTree.risksAdded($event)" ></app-process-risks>
+                                                    </tab>
+                                                </tabset>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <!-- <table class="table table-striped">
                                     <tr>
                                         <th>
                                             Attribute Question(s)
@@ -240,7 +245,7 @@
                                             </button>
                                         </td>
                                     </tr>
-                                </table>
+                                </table> -->
                             </div>
                         </tab>
 
@@ -266,7 +271,7 @@
                 <div class="kt-portlet__foot">
                     <div class="col-lg-12">
                         <button [disabled]="saving" type="button" class="btn btn-default" (click)="goBack()">{{l("Cancel")}}</button>
-                        <button type="submit" class="btn btn-primary blue" [disabled]="!testingTemplateForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                        <button *ngIf="testingTemplate.id" type="submit" class="btn btn-primary blue" [disabled]="!testingTemplateForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
                     </div>
                 </div>
                 </form>
