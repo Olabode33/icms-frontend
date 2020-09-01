@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
 import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
 import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
@@ -35,6 +36,7 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
             {
                 path: '',
                 children: [
+                    { path: 'workingPaperReviewComments/workingPaperReviewComments', component: WorkingPaperReviewCommentsComponent, data: { permission: 'Pages.WorkingPaperReviewComments' }  },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },

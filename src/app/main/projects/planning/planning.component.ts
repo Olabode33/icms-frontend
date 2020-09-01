@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectsServiceProxy, ProjectDto, EntityDto } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, ProjectDto, EntityDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -44,7 +44,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     organizationUnitDisplayNameFilter = '';
     organizationUnitDisplayName2Filter = '';
     viewCommencedProjectFilter: boolean;
-
+    projectOwner: ProjectOwner;
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
 
@@ -109,7 +109,8 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
             this.viewCommencedProjectFilter,
-            '', //this.primengTableHelper.getSorting(this.dataTable),
+            this.projectOwner,'',
+            //this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {

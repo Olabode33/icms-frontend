@@ -1,6 +1,6 @@
 import { Component, Injector, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectsServiceProxy, ProjectDto, EntityDto } from '@shared/service-proxies/service-proxies';
+import { ProjectsServiceProxy, ProjectDto, EntityDto, ProjectOwner } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -42,7 +42,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     titleFilter = '';
     organizationUnitDisplayNameFilter = '';
     organizationUnitDisplayName2Filter = '';
-
+    projectOwner: ProjectOwner;
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
 
@@ -92,7 +92,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.titleFilter,
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
-            !this.viewAllProjectFilter,
+            !this.viewAllProjectFilter, this.projectOwner,
             '',
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)

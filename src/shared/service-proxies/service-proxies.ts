@@ -10206,6 +10206,1462 @@ export class LibraryRisksServiceProxy {
 }
 
 @Injectable()
+export class LossEventsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param lossTypeFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, lossTypeFilter: number | undefined, statusFilter: number | undefined, userNameFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossEventForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&"; 
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&"; 
+        if (lossTypeFilter === null)
+            throw new Error("The parameter 'lossTypeFilter' cannot be null.");
+        else if (lossTypeFilter !== undefined)
+            url_ += "LossTypeFilter=" + encodeURIComponent("" + lossTypeFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossEventForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossEventForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossEventForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossEventForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossEventForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossEventForView(id: number | undefined): Observable<GetLossEventForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetLossEventForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossEventForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossEventForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossEventForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossEventForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossEventForView(response: HttpResponseBase): Observable<GetLossEventForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossEventForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossEventForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossEventForEdit(id: number | undefined): Observable<GetLossEventForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetLossEventForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossEventForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossEventForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossEventForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossEventForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossEventForEdit(response: HttpResponseBase): Observable<GetLossEventForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossEventForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossEventForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossEventDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxAmountFilter (optional) 
+     * @param minAmountFilter (optional) 
+     * @param lossTypeFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param organizationUnitDisplayNameFilter (optional) 
+     * @return Success
+     */
+    getLossEventsToExcel(filter: string | undefined, maxAmountFilter: number | undefined, minAmountFilter: number | undefined, lossTypeFilter: number | undefined, statusFilter: number | undefined, userNameFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetLossEventsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxAmountFilter === null)
+            throw new Error("The parameter 'maxAmountFilter' cannot be null.");
+        else if (maxAmountFilter !== undefined)
+            url_ += "MaxAmountFilter=" + encodeURIComponent("" + maxAmountFilter) + "&"; 
+        if (minAmountFilter === null)
+            throw new Error("The parameter 'minAmountFilter' cannot be null.");
+        else if (minAmountFilter !== undefined)
+            url_ += "MinAmountFilter=" + encodeURIComponent("" + minAmountFilter) + "&"; 
+        if (lossTypeFilter === null)
+            throw new Error("The parameter 'lossTypeFilter' cannot be null.");
+        else if (lossTypeFilter !== undefined)
+            url_ += "LossTypeFilter=" + encodeURIComponent("" + lossTypeFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (organizationUnitDisplayNameFilter === null)
+            throw new Error("The parameter 'organizationUnitDisplayNameFilter' cannot be null.");
+        else if (organizationUnitDisplayNameFilter !== undefined)
+            url_ += "OrganizationUnitDisplayNameFilter=" + encodeURIComponent("" + organizationUnitDisplayNameFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossEventsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossEventsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossEventsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfLossEventUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfLossEventUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfLossEventUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfLossEventUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfLossEventUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfLossEventUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllOrganizationUnitForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfLossEventOrganizationUnitLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEvents/GetAllOrganizationUnitForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllOrganizationUnitForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllOrganizationUnitForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfLossEventOrganizationUnitLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfLossEventOrganizationUnitLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllOrganizationUnitForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfLossEventOrganizationUnitLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfLossEventOrganizationUnitLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfLossEventOrganizationUnitLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class LossEventTasksServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossEventTaskForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossEventTaskForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossEventTaskForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossEventTaskForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossEventTaskForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossEventTaskForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossEventTaskForEdit(id: number | undefined): Observable<GetLossEventTaskForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/GetLossEventTaskForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossEventTaskForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossEventTaskForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossEventTaskForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossEventTaskForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossEventTaskForEdit(response: HttpResponseBase): Observable<GetLossEventTaskForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossEventTaskForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossEventTaskForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossEventTaskDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossEventTasks/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LossTypeColumnsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossTypeColumnForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossTypeColumnForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossTypeColumnForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossTypeColumnForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossTypeColumnForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossTypeColumnForViewDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getColumnsForLossType(input: LossEventTypeEnums): Observable<LossTypeColumnDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetColumnsForLossType?";
+        if (input === undefined || input === null)
+            throw new Error("The parameter 'input' must be defined and cannot be null.");
+        else
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetColumnsForLossType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetColumnsForLossType(<any>response_);
+                } catch (e) {
+                    return <Observable<LossTypeColumnDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LossTypeColumnDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetColumnsForLossType(response: HttpResponseBase): Observable<LossTypeColumnDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LossTypeColumnDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LossTypeColumnDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossTypeColumnForEdit(id: number | undefined): Observable<GetLossTypeColumnForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/GetLossTypeColumnForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossTypeColumnForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossTypeColumnForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossTypeColumnForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossTypeColumnForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossTypeColumnForEdit(response: HttpResponseBase): Observable<GetLossTypeColumnForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossTypeColumnForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossTypeColumnForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossTypeColumnDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypeColumns/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LossTypesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetLossTypeForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetLossTypeForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetLossTypeForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetLossTypeForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetLossTypeForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetLossTypeForViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getColumnsForLossType(input: number | undefined): Observable<LossTypeColumnDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/GetColumnsForLossType?";
+        if (input === null)
+            throw new Error("The parameter 'input' cannot be null.");
+        else if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetColumnsForLossType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetColumnsForLossType(<any>response_);
+                } catch (e) {
+                    return <Observable<LossTypeColumnDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LossTypeColumnDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetColumnsForLossType(response: HttpResponseBase): Observable<LossTypeColumnDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(LossTypeColumnDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LossTypeColumnDto[]>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLossTypeColumnForEdit(id: number | undefined): Observable<CreateOrEditLossTypeDto> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/GetLossTypeColumnForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossTypeColumnForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossTypeColumnForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditLossTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditLossTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossTypeColumnForEdit(response: HttpResponseBase): Observable<CreateOrEditLossTypeDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreateOrEditLossTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditLossTypeDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditLossTypeDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getLossTrigerForNotificationDemo(): Observable<GetLossTypeTriggerForView> {
+        let url_ = this.baseUrl + "/api/services/app/LossTypes/GetLossTrigerForNotificationDemo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLossTrigerForNotificationDemo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLossTrigerForNotificationDemo(<any>response_);
+                } catch (e) {
+                    return <Observable<GetLossTypeTriggerForView>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetLossTypeTriggerForView>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLossTrigerForNotificationDemo(response: HttpResponseBase): Observable<GetLossTypeTriggerForView> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetLossTypeTriggerForView.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetLossTypeTriggerForView>(<any>null);
+    }
+}
+
+@Injectable()
 export class NotificationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -13570,6 +15026,62 @@ export class ProcessRisksServiceProxy {
     }
 
     /**
+     * @param body (optional) 
+     * @return Success
+     */
+    calculateResidualRiskScore(body: ProcessRiskDto | undefined): Observable<ResidualRiskScoreComponents> {
+        let url_ = this.baseUrl + "/api/services/app/ProcessRisks/CalculateResidualRiskScore";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCalculateResidualRiskScore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCalculateResidualRiskScore(<any>response_);
+                } catch (e) {
+                    return <Observable<ResidualRiskScoreComponents>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ResidualRiskScoreComponents>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCalculateResidualRiskScore(response: HttpResponseBase): Observable<ResidualRiskScoreComponents> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ResidualRiskScoreComponents.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ResidualRiskScoreComponents>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -14768,12 +16280,13 @@ export class ProjectsServiceProxy {
      * @param organizationUnitDisplayNameFilter (optional) 
      * @param organizationUnitDisplayName2Filter (optional) 
      * @param commencedFilter (optional) 
+     * @param projectOwner (optional) 
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, commencedFilter: boolean | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
+    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, maxBudgetedStartDateFilter: moment.Moment | undefined, minBudgetedStartDateFilter: moment.Moment | undefined, maxBudgetedEndDateFilter: moment.Moment | undefined, minBudgetedEndDateFilter: moment.Moment | undefined, titleFilter: string | undefined, organizationUnitDisplayNameFilter: string | undefined, organizationUnitDisplayName2Filter: string | undefined, commencedFilter: boolean | undefined, projectOwner: ProjectOwner | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetProjectForViewDto> {
         let url_ = this.baseUrl + "/api/services/app/Projects/GetAll?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -14827,6 +16340,10 @@ export class ProjectsServiceProxy {
             throw new Error("The parameter 'commencedFilter' cannot be null.");
         else if (commencedFilter !== undefined)
             url_ += "CommencedFilter=" + encodeURIComponent("" + commencedFilter) + "&"; 
+        if (projectOwner === null)
+            throw new Error("The parameter 'projectOwner' cannot be null.");
+        else if (projectOwner !== undefined)
+            url_ += "ProjectOwner=" + encodeURIComponent("" + projectOwner) + "&"; 
         if (sorting === null)
             throw new Error("The parameter 'sorting' cannot be null.");
         else if (sorting !== undefined)
@@ -18413,6 +19930,61 @@ export class TestingTemplatesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getTestAttributesForTemplate(): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetTestAttributesForTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTestAttributesForTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTestAttributesForTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTestAttributesForTemplate(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -20005,6 +21577,58 @@ export class UserServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    demoNotification(input: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/User/DemoNotification?";
+        if (input === null)
+            throw new Error("The parameter 'input' cannot be null.");
+        else if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDemoNotification(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDemoNotification(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDemoNotification(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -21258,6 +22882,517 @@ export class WorkingPaperNewsServiceProxy {
             }));
         }
         return _observableOf<CreateOrEditTestingAttributeDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class WorkingPaperReviewCommentsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param priorityFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param maxExpectedCompletionDateFilter (optional) 
+     * @param minExpectedCompletionDateFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param workingPaperCodeFilter (optional) 
+     * @param userName2Filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, priorityFilter: string | undefined, statusFilter: number | undefined, maxExpectedCompletionDateFilter: moment.Moment | undefined, minExpectedCompletionDateFilter: moment.Moment | undefined, userNameFilter: string | undefined, workingPaperCodeFilter: string | undefined, userName2Filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (priorityFilter === null)
+            throw new Error("The parameter 'priorityFilter' cannot be null.");
+        else if (priorityFilter !== undefined)
+            url_ += "PriorityFilter=" + encodeURIComponent("" + priorityFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (maxExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'maxExpectedCompletionDateFilter' cannot be null.");
+        else if (maxExpectedCompletionDateFilter !== undefined)
+            url_ += "MaxExpectedCompletionDateFilter=" + encodeURIComponent(maxExpectedCompletionDateFilter ? "" + maxExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (minExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'minExpectedCompletionDateFilter' cannot be null.");
+        else if (minExpectedCompletionDateFilter !== undefined)
+            url_ += "MinExpectedCompletionDateFilter=" + encodeURIComponent(minExpectedCompletionDateFilter ? "" + minExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (workingPaperCodeFilter === null)
+            throw new Error("The parameter 'workingPaperCodeFilter' cannot be null.");
+        else if (workingPaperCodeFilter !== undefined)
+            url_ += "WorkingPaperCodeFilter=" + encodeURIComponent("" + workingPaperCodeFilter) + "&"; 
+        if (userName2Filter === null)
+            throw new Error("The parameter 'userName2Filter' cannot be null.");
+        else if (userName2Filter !== undefined)
+            url_ += "UserName2Filter=" + encodeURIComponent("" + userName2Filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWorkingPaperReviewCommentForEdit(id: number | undefined): Observable<GetWorkingPaperReviewCommentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetWorkingPaperReviewCommentForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkingPaperReviewCommentForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkingPaperReviewCommentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWorkingPaperReviewCommentForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWorkingPaperReviewCommentForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkingPaperReviewCommentForEdit(response: HttpResponseBase): Observable<GetWorkingPaperReviewCommentForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetWorkingPaperReviewCommentForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWorkingPaperReviewCommentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditWorkingPaperReviewCommentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param priorityFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param maxExpectedCompletionDateFilter (optional) 
+     * @param minExpectedCompletionDateFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param workingPaperCodeFilter (optional) 
+     * @param userName2Filter (optional) 
+     * @return Success
+     */
+    getWorkingPaperReviewCommentsToExcel(filter: string | undefined, priorityFilter: string | undefined, statusFilter: number | undefined, maxExpectedCompletionDateFilter: moment.Moment | undefined, minExpectedCompletionDateFilter: moment.Moment | undefined, userNameFilter: string | undefined, workingPaperCodeFilter: string | undefined, userName2Filter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetWorkingPaperReviewCommentsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (priorityFilter === null)
+            throw new Error("The parameter 'priorityFilter' cannot be null.");
+        else if (priorityFilter !== undefined)
+            url_ += "PriorityFilter=" + encodeURIComponent("" + priorityFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (maxExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'maxExpectedCompletionDateFilter' cannot be null.");
+        else if (maxExpectedCompletionDateFilter !== undefined)
+            url_ += "MaxExpectedCompletionDateFilter=" + encodeURIComponent(maxExpectedCompletionDateFilter ? "" + maxExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (minExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'minExpectedCompletionDateFilter' cannot be null.");
+        else if (minExpectedCompletionDateFilter !== undefined)
+            url_ += "MinExpectedCompletionDateFilter=" + encodeURIComponent(minExpectedCompletionDateFilter ? "" + minExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (workingPaperCodeFilter === null)
+            throw new Error("The parameter 'workingPaperCodeFilter' cannot be null.");
+        else if (workingPaperCodeFilter !== undefined)
+            url_ += "WorkingPaperCodeFilter=" + encodeURIComponent("" + workingPaperCodeFilter) + "&"; 
+        if (userName2Filter === null)
+            throw new Error("The parameter 'userName2Filter' cannot be null.");
+        else if (userName2Filter !== undefined)
+            url_ += "UserName2Filter=" + encodeURIComponent("" + userName2Filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkingPaperReviewCommentsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkingPaperReviewCommentsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkingPaperReviewCommentsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWorkingPaperForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAllWorkingPaperForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWorkingPaperForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWorkingPaperForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWorkingPaperForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>(<any>null);
     }
 }
 
@@ -23011,6 +25146,9 @@ export class ControlDto implements IControlDto {
     description!: string | undefined;
     controlType!: ControlType;
     frequency!: Frequency;
+    controlPoint!: string | undefined;
+    controlObjective!: string | undefined;
+    controlOwnerId!: number | undefined;
     id!: number;
 
     constructor(data?: IControlDto) {
@@ -23029,6 +25167,9 @@ export class ControlDto implements IControlDto {
             this.description = data["description"];
             this.controlType = data["controlType"];
             this.frequency = data["frequency"];
+            this.controlPoint = data["controlPoint"];
+            this.controlObjective = data["controlObjective"];
+            this.controlOwnerId = data["controlOwnerId"];
             this.id = data["id"];
         }
     }
@@ -23047,6 +25188,9 @@ export class ControlDto implements IControlDto {
         data["description"] = this.description;
         data["controlType"] = this.controlType;
         data["frequency"] = this.frequency;
+        data["controlPoint"] = this.controlPoint;
+        data["controlObjective"] = this.controlObjective;
+        data["controlOwnerId"] = this.controlOwnerId;
         data["id"] = this.id;
         return data; 
     }
@@ -23058,11 +25202,15 @@ export interface IControlDto {
     description: string | undefined;
     controlType: ControlType;
     frequency: Frequency;
+    controlPoint: string | undefined;
+    controlObjective: string | undefined;
+    controlOwnerId: number | undefined;
     id: number;
 }
 
 export class GetControlForViewDto implements IGetControlForViewDto {
     control!: ControlDto;
+    controlOwnerName!: string | undefined;
 
     constructor(data?: IGetControlForViewDto) {
         if (data) {
@@ -23076,6 +25224,7 @@ export class GetControlForViewDto implements IGetControlForViewDto {
     init(data?: any) {
         if (data) {
             this.control = data["control"] ? ControlDto.fromJS(data["control"]) : <any>undefined;
+            this.controlOwnerName = data["controlOwnerName"];
         }
     }
 
@@ -23089,12 +25238,14 @@ export class GetControlForViewDto implements IGetControlForViewDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        data["controlOwnerName"] = this.controlOwnerName;
         return data; 
     }
 }
 
 export interface IGetControlForViewDto {
     control: ControlDto;
+    controlOwnerName: string | undefined;
 }
 
 export class PagedResultDtoOfGetControlForViewDto implements IPagedResultDtoOfGetControlForViewDto {
@@ -23150,6 +25301,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
     description!: string | undefined;
     controlType!: ControlType;
     frequency!: Frequency;
+    controlPoint!: string | undefined;
+    controlObjective!: string | undefined;
+    controlOwnerId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditControlDto) {
@@ -23167,6 +25321,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
             this.description = data["description"];
             this.controlType = data["controlType"];
             this.frequency = data["frequency"];
+            this.controlPoint = data["controlPoint"];
+            this.controlObjective = data["controlObjective"];
+            this.controlOwnerId = data["controlOwnerId"];
             this.id = data["id"];
         }
     }
@@ -23184,6 +25341,9 @@ export class CreateOrEditControlDto implements ICreateOrEditControlDto {
         data["description"] = this.description;
         data["controlType"] = this.controlType;
         data["frequency"] = this.frequency;
+        data["controlPoint"] = this.controlPoint;
+        data["controlObjective"] = this.controlObjective;
+        data["controlOwnerId"] = this.controlOwnerId;
         data["id"] = this.id;
         return data; 
     }
@@ -23194,11 +25354,15 @@ export interface ICreateOrEditControlDto {
     description: string | undefined;
     controlType: ControlType;
     frequency: Frequency;
+    controlPoint: string | undefined;
+    controlObjective: string | undefined;
+    controlOwnerId: number | undefined;
     id: number | undefined;
 }
 
 export class GetControlForEditOutput implements IGetControlForEditOutput {
     control!: CreateOrEditControlDto;
+    controlOwnerName!: string | undefined;
 
     constructor(data?: IGetControlForEditOutput) {
         if (data) {
@@ -23212,6 +25376,7 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
     init(data?: any) {
         if (data) {
             this.control = data["control"] ? CreateOrEditControlDto.fromJS(data["control"]) : <any>undefined;
+            this.controlOwnerName = data["controlOwnerName"];
         }
     }
 
@@ -23225,12 +25390,14 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["control"] = this.control ? this.control.toJSON() : <any>undefined;
+        data["controlOwnerName"] = this.controlOwnerName;
         return data; 
     }
 }
 
 export interface IGetControlForEditOutput {
     control: CreateOrEditControlDto;
+    controlOwnerName: string | undefined;
 }
 
 export class Widget implements IWidget {
@@ -24957,6 +27124,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
     cascade!: boolean;
     inherited!: boolean;
     deptCode!: string | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IDepartmentRiskDto) {
@@ -24977,6 +27146,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
             this.cascade = data["cascade"];
             this.inherited = data["inherited"];
             this.deptCode = data["deptCode"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -24997,6 +27168,8 @@ export class DepartmentRiskDto implements IDepartmentRiskDto {
         data["cascade"] = this.cascade;
         data["inherited"] = this.inherited;
         data["deptCode"] = this.deptCode;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -25010,6 +27183,8 @@ export interface IDepartmentRiskDto {
     cascade: boolean;
     inherited: boolean;
     deptCode: string | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -25114,6 +27289,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
     departmentId!: number | undefined;
     riskId!: number | undefined;
     cascade!: boolean;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditDepartmentRiskDto) {
@@ -25131,6 +27308,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
             this.departmentId = data["departmentId"];
             this.riskId = data["riskId"];
             this.cascade = data["cascade"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -25148,6 +27327,8 @@ export class CreateOrEditDepartmentRiskDto implements ICreateOrEditDepartmentRis
         data["departmentId"] = this.departmentId;
         data["riskId"] = this.riskId;
         data["cascade"] = this.cascade;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -25158,6 +27339,8 @@ export interface ICreateOrEditDepartmentRiskDto {
     departmentId: number | undefined;
     riskId: number | undefined;
     cascade: boolean;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -26611,6 +28794,8 @@ export enum Status {
     Open = 0,
     Resolved = 1,
     Closed = 2,
+    Draft = 3,
+    Submitted = 4,
 }
 
 export class ExceptionIncidentDto implements IExceptionIncidentDto {
@@ -30639,6 +32824,1290 @@ export interface IGetLibraryRiskForEditOutput {
     libraryRisk: CreateOrEditLibraryRiskDto;
 }
 
+export enum LossCategoryEnums {
+    Actual = 0,
+    Potential = 1,
+    NearMisses = 2,
+}
+
+export class LossEventDto implements ILossEventDto {
+    amount!: number;
+    dateOccured!: moment.Moment;
+    dateDiscovered!: moment.Moment;
+    lossTypeId!: number;
+    status!: Status;
+    lossCategory!: LossCategoryEnums;
+    extensionData!: string | undefined;
+    employeeUserId!: number | undefined;
+    departmentId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILossEventDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.amount = data["amount"];
+            this.dateOccured = data["dateOccured"] ? moment(data["dateOccured"].toString()) : <any>undefined;
+            this.dateDiscovered = data["dateDiscovered"] ? moment(data["dateDiscovered"].toString()) : <any>undefined;
+            this.lossTypeId = data["lossTypeId"];
+            this.status = data["status"];
+            this.lossCategory = data["lossCategory"];
+            this.extensionData = data["extensionData"];
+            this.employeeUserId = data["employeeUserId"];
+            this.departmentId = data["departmentId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossEventDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossEventDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["amount"] = this.amount;
+        data["dateOccured"] = this.dateOccured ? this.dateOccured.toISOString() : <any>undefined;
+        data["dateDiscovered"] = this.dateDiscovered ? this.dateDiscovered.toISOString() : <any>undefined;
+        data["lossTypeId"] = this.lossTypeId;
+        data["status"] = this.status;
+        data["lossCategory"] = this.lossCategory;
+        data["extensionData"] = this.extensionData;
+        data["employeeUserId"] = this.employeeUserId;
+        data["departmentId"] = this.departmentId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossEventDto {
+    amount: number;
+    dateOccured: moment.Moment;
+    dateDiscovered: moment.Moment;
+    lossTypeId: number;
+    status: Status;
+    lossCategory: LossCategoryEnums;
+    extensionData: string | undefined;
+    employeeUserId: number | undefined;
+    departmentId: number | undefined;
+    id: number;
+}
+
+export class GetLossEventForViewDto implements IGetLossEventForViewDto {
+    lossEvent!: LossEventDto;
+    userName!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    lossTypeName!: string | undefined;
+
+    constructor(data?: IGetLossEventForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEvent = data["lossEvent"] ? LossEventDto.fromJS(data["lossEvent"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.lossTypeName = data["lossTypeName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossEventForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEvent"] = this.lossEvent ? this.lossEvent.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["lossTypeName"] = this.lossTypeName;
+        return data; 
+    }
+}
+
+export interface IGetLossEventForViewDto {
+    lossEvent: LossEventDto;
+    userName: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    lossTypeName: string | undefined;
+}
+
+export class PagedResultDtoOfGetLossEventForViewDto implements IPagedResultDtoOfGetLossEventForViewDto {
+    totalCount!: number;
+    items!: GetLossEventForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossEventForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossEventForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossEventForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossEventForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossEventForViewDto {
+    totalCount: number;
+    items: GetLossEventForViewDto[] | undefined;
+}
+
+export class CreateOrEditLossEventDto implements ICreateOrEditLossEventDto {
+    amount!: number;
+    description!: string | undefined;
+    dateOccured!: moment.Moment;
+    dateDiscovered!: moment.Moment;
+    lossTypeId!: number;
+    status!: Status;
+    lossCategory!: LossCategoryEnums;
+    extensionData!: string | undefined;
+    employeeUserId!: number | undefined;
+    departmentId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLossEventDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.amount = data["amount"];
+            this.description = data["description"];
+            this.dateOccured = data["dateOccured"] ? moment(data["dateOccured"].toString()) : <any>undefined;
+            this.dateDiscovered = data["dateDiscovered"] ? moment(data["dateDiscovered"].toString()) : <any>undefined;
+            this.lossTypeId = data["lossTypeId"];
+            this.status = data["status"];
+            this.lossCategory = data["lossCategory"];
+            this.extensionData = data["extensionData"];
+            this.employeeUserId = data["employeeUserId"];
+            this.departmentId = data["departmentId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossEventDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossEventDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["amount"] = this.amount;
+        data["description"] = this.description;
+        data["dateOccured"] = this.dateOccured ? this.dateOccured.toISOString() : <any>undefined;
+        data["dateDiscovered"] = this.dateDiscovered ? this.dateDiscovered.toISOString() : <any>undefined;
+        data["lossTypeId"] = this.lossTypeId;
+        data["status"] = this.status;
+        data["lossCategory"] = this.lossCategory;
+        data["extensionData"] = this.extensionData;
+        data["employeeUserId"] = this.employeeUserId;
+        data["departmentId"] = this.departmentId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossEventDto {
+    amount: number;
+    description: string | undefined;
+    dateOccured: moment.Moment;
+    dateDiscovered: moment.Moment;
+    lossTypeId: number;
+    status: Status;
+    lossCategory: LossCategoryEnums;
+    extensionData: string | undefined;
+    employeeUserId: number | undefined;
+    departmentId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetLossEventForEditOutput implements IGetLossEventForEditOutput {
+    lossEvent!: CreateOrEditLossEventDto;
+    userName!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
+    lossEventTypeName!: string | undefined;
+
+    constructor(data?: IGetLossEventForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEvent = data["lossEvent"] ? CreateOrEditLossEventDto.fromJS(data["lossEvent"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
+            this.lossEventTypeName = data["lossEventTypeName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossEventForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEvent"] = this.lossEvent ? this.lossEvent.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
+        data["lossEventTypeName"] = this.lossEventTypeName;
+        return data; 
+    }
+}
+
+export interface IGetLossEventForEditOutput {
+    lossEvent: CreateOrEditLossEventDto;
+    userName: string | undefined;
+    organizationUnitDisplayName: string | undefined;
+    lossEventTypeName: string | undefined;
+}
+
+export class LossEventUserLookupTableDto implements ILossEventUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILossEventUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LossEventUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossEventUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILossEventUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfLossEventUserLookupTableDto implements IPagedResultDtoOfLossEventUserLookupTableDto {
+    totalCount!: number;
+    items!: LossEventUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfLossEventUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(LossEventUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfLossEventUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfLossEventUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfLossEventUserLookupTableDto {
+    totalCount: number;
+    items: LossEventUserLookupTableDto[] | undefined;
+}
+
+export class LossEventOrganizationUnitLookupTableDto implements ILossEventOrganizationUnitLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: ILossEventOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): LossEventOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossEventOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface ILossEventOrganizationUnitLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfLossEventOrganizationUnitLookupTableDto implements IPagedResultDtoOfLossEventOrganizationUnitLookupTableDto {
+    totalCount!: number;
+    items!: LossEventOrganizationUnitLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfLossEventOrganizationUnitLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(LossEventOrganizationUnitLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfLossEventOrganizationUnitLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfLossEventOrganizationUnitLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfLossEventOrganizationUnitLookupTableDto {
+    totalCount: number;
+    items: LossEventOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export class LossEventTaskDto implements ILossEventTaskDto {
+    title!: string | undefined;
+    description!: string | undefined;
+    lossTypeId!: number | undefined;
+    lossTypeTriggerId!: number | undefined;
+    status!: Status;
+    assignedTo!: number | undefined;
+    dateAssigned!: moment.Moment;
+    id!: number;
+
+    constructor(data?: ILossEventTaskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.description = data["description"];
+            this.lossTypeId = data["lossTypeId"];
+            this.lossTypeTriggerId = data["lossTypeTriggerId"];
+            this.status = data["status"];
+            this.assignedTo = data["assignedTo"];
+            this.dateAssigned = data["dateAssigned"] ? moment(data["dateAssigned"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossEventTaskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossEventTaskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["lossTypeId"] = this.lossTypeId;
+        data["lossTypeTriggerId"] = this.lossTypeTriggerId;
+        data["status"] = this.status;
+        data["assignedTo"] = this.assignedTo;
+        data["dateAssigned"] = this.dateAssigned ? this.dateAssigned.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossEventTaskDto {
+    title: string | undefined;
+    description: string | undefined;
+    lossTypeId: number | undefined;
+    lossTypeTriggerId: number | undefined;
+    status: Status;
+    assignedTo: number | undefined;
+    dateAssigned: moment.Moment;
+    id: number;
+}
+
+export class GetLossEventTaskForViewDto implements IGetLossEventTaskForViewDto {
+    lossEventTask!: LossEventTaskDto;
+    lossTypeName!: string | undefined;
+
+    constructor(data?: IGetLossEventTaskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEventTask = data["lossEventTask"] ? LossEventTaskDto.fromJS(data["lossEventTask"]) : <any>undefined;
+            this.lossTypeName = data["lossTypeName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossEventTaskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventTaskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEventTask"] = this.lossEventTask ? this.lossEventTask.toJSON() : <any>undefined;
+        data["lossTypeName"] = this.lossTypeName;
+        return data; 
+    }
+}
+
+export interface IGetLossEventTaskForViewDto {
+    lossEventTask: LossEventTaskDto;
+    lossTypeName: string | undefined;
+}
+
+export class PagedResultDtoOfGetLossEventTaskForViewDto implements IPagedResultDtoOfGetLossEventTaskForViewDto {
+    totalCount!: number;
+    items!: GetLossEventTaskForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossEventTaskForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossEventTaskForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossEventTaskForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossEventTaskForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossEventTaskForViewDto {
+    totalCount: number;
+    items: GetLossEventTaskForViewDto[] | undefined;
+}
+
+export class CreateOrEditLossEventTaskDto implements ICreateOrEditLossEventTaskDto {
+    title!: string | undefined;
+    description!: string | undefined;
+    lossTypeId!: number | undefined;
+    lossTypeTriggerId!: number | undefined;
+    status!: Status;
+    assignedTo!: number | undefined;
+    dateAssigned!: moment.Moment;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLossEventTaskDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.description = data["description"];
+            this.lossTypeId = data["lossTypeId"];
+            this.lossTypeTriggerId = data["lossTypeTriggerId"];
+            this.status = data["status"];
+            this.assignedTo = data["assignedTo"];
+            this.dateAssigned = data["dateAssigned"] ? moment(data["dateAssigned"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossEventTaskDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossEventTaskDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["lossTypeId"] = this.lossTypeId;
+        data["lossTypeTriggerId"] = this.lossTypeTriggerId;
+        data["status"] = this.status;
+        data["assignedTo"] = this.assignedTo;
+        data["dateAssigned"] = this.dateAssigned ? this.dateAssigned.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossEventTaskDto {
+    title: string | undefined;
+    description: string | undefined;
+    lossTypeId: number | undefined;
+    lossTypeTriggerId: number | undefined;
+    status: Status;
+    assignedTo: number | undefined;
+    dateAssigned: moment.Moment;
+    id: number | undefined;
+}
+
+export class GetLossEventTaskForEditOutput implements IGetLossEventTaskForEditOutput {
+    lossEventTask!: CreateOrEditLossEventTaskDto;
+
+    constructor(data?: IGetLossEventTaskForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossEventTask = data["lossEventTask"] ? CreateOrEditLossEventTaskDto.fromJS(data["lossEventTask"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossEventTaskForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossEventTaskForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossEventTask"] = this.lossEventTask ? this.lossEventTask.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossEventTaskForEditOutput {
+    lossEventTask: CreateOrEditLossEventTaskDto;
+}
+
+export class LossTypeColumnDto implements ILossTypeColumnDto {
+    columnName!: string | undefined;
+    dataType!: DataTypes;
+    required!: boolean;
+    lossTypeId!: number;
+    minimum!: number | undefined;
+    maximum!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILossTypeColumnDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.columnName = data["columnName"];
+            this.dataType = data["dataType"];
+            this.required = data["required"];
+            this.lossTypeId = data["lossTypeId"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossTypeColumnDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossTypeColumnDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["columnName"] = this.columnName;
+        data["dataType"] = this.dataType;
+        data["required"] = this.required;
+        data["lossTypeId"] = this.lossTypeId;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossTypeColumnDto {
+    columnName: string | undefined;
+    dataType: DataTypes;
+    required: boolean;
+    lossTypeId: number;
+    minimum: number | undefined;
+    maximum: number | undefined;
+    id: number;
+}
+
+export class GetLossTypeColumnForViewDto implements IGetLossTypeColumnForViewDto {
+    lossTypeColumn!: LossTypeColumnDto;
+
+    constructor(data?: IGetLossTypeColumnForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeColumn = data["lossTypeColumn"] ? LossTypeColumnDto.fromJS(data["lossTypeColumn"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeColumnForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeColumnForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeColumn"] = this.lossTypeColumn ? this.lossTypeColumn.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeColumnForViewDto {
+    lossTypeColumn: LossTypeColumnDto;
+}
+
+export class PagedResultDtoOfGetLossTypeColumnForViewDto implements IPagedResultDtoOfGetLossTypeColumnForViewDto {
+    totalCount!: number;
+    items!: GetLossTypeColumnForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossTypeColumnForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossTypeColumnForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossTypeColumnForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossTypeColumnForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossTypeColumnForViewDto {
+    totalCount: number;
+    items: GetLossTypeColumnForViewDto[] | undefined;
+}
+
+export enum LossEventTypeEnums {
+    InternalFraud = 0,
+    ExternalFraud = 1,
+    EmploymentPracticesWorkplaceSafety = 2,
+    ClientsProductsBusinessPractice = 3,
+    DamagePhysicalAssets = 4,
+    BusinessDisruptionSystemsFailures = 5,
+    ExecutionDeliveryProcessManagement = 6,
+}
+
+export class CreateOrEditLossTypeColumnDto implements ICreateOrEditLossTypeColumnDto {
+    columnName!: string | undefined;
+    dataType!: DataTypes;
+    required!: boolean;
+    lossType!: LossEventTypeEnums;
+    minimum!: number | undefined;
+    maximum!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditLossTypeColumnDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.columnName = data["columnName"];
+            this.dataType = data["dataType"];
+            this.required = data["required"];
+            this.lossType = data["lossType"];
+            this.minimum = data["minimum"];
+            this.maximum = data["maximum"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossTypeColumnDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossTypeColumnDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["columnName"] = this.columnName;
+        data["dataType"] = this.dataType;
+        data["required"] = this.required;
+        data["lossType"] = this.lossType;
+        data["minimum"] = this.minimum;
+        data["maximum"] = this.maximum;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossTypeColumnDto {
+    columnName: string | undefined;
+    dataType: DataTypes;
+    required: boolean;
+    lossType: LossEventTypeEnums;
+    minimum: number | undefined;
+    maximum: number | undefined;
+    id: number | undefined;
+}
+
+export class GetLossTypeColumnForEditOutput implements IGetLossTypeColumnForEditOutput {
+    lossTypeColumn!: CreateOrEditLossTypeColumnDto;
+
+    constructor(data?: IGetLossTypeColumnForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeColumn = data["lossTypeColumn"] ? CreateOrEditLossTypeColumnDto.fromJS(data["lossTypeColumn"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeColumnForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeColumnForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeColumn"] = this.lossTypeColumn ? this.lossTypeColumn.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeColumnForEditOutput {
+    lossTypeColumn: CreateOrEditLossTypeColumnDto;
+}
+
+export class LossTypeDto implements ILossTypeDto {
+    tenantId!: number | undefined;
+    name!: string | undefined;
+    description!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ILossTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossTypeDto {
+    tenantId: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    id: number | undefined;
+}
+
+export class GetLossTypeForViewDto implements IGetLossTypeForViewDto {
+    lossType!: LossTypeDto;
+
+    constructor(data?: IGetLossTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossType = data["lossType"] ? LossTypeDto.fromJS(data["lossType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossType"] = this.lossType ? this.lossType.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeForViewDto {
+    lossType: LossTypeDto;
+}
+
+export class PagedResultDtoOfGetLossTypeForViewDto implements IPagedResultDtoOfGetLossTypeForViewDto {
+    totalCount!: number;
+    items!: GetLossTypeForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetLossTypeForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetLossTypeForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetLossTypeForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetLossTypeForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetLossTypeForViewDto {
+    totalCount: number;
+    items: GetLossTypeForViewDto[] | undefined;
+}
+
+export class LossTypeTriggerDto implements ILossTypeTriggerDto {
+    tenantId!: number | undefined;
+    name!: string | undefined;
+    description!: string | undefined;
+    frequency!: Frequency;
+    staff!: string | undefined;
+    role!: string | undefined;
+    dataSource!: string | undefined;
+    lossTypeId!: number;
+    notifyUserId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ILossTypeTriggerDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.name = data["name"];
+            this.description = data["description"];
+            this.frequency = data["frequency"];
+            this.staff = data["staff"];
+            this.role = data["role"];
+            this.dataSource = data["dataSource"];
+            this.lossTypeId = data["lossTypeId"];
+            this.notifyUserId = data["notifyUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LossTypeTriggerDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LossTypeTriggerDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["frequency"] = this.frequency;
+        data["staff"] = this.staff;
+        data["role"] = this.role;
+        data["dataSource"] = this.dataSource;
+        data["lossTypeId"] = this.lossTypeId;
+        data["notifyUserId"] = this.notifyUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ILossTypeTriggerDto {
+    tenantId: number | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    frequency: Frequency;
+    staff: string | undefined;
+    role: string | undefined;
+    dataSource: string | undefined;
+    lossTypeId: number;
+    notifyUserId: number | undefined;
+    id: number;
+}
+
+export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
+    lossTypeTrigger!: LossTypeTriggerDto;
+    notifyUserName!: string | undefined;
+    lossTypeName!: string | undefined;
+
+    constructor(data?: IGetLossTypeTriggerForView) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossTypeTrigger = data["lossTypeTrigger"] ? LossTypeTriggerDto.fromJS(data["lossTypeTrigger"]) : <any>undefined;
+            this.notifyUserName = data["notifyUserName"];
+            this.lossTypeName = data["lossTypeName"];
+        }
+    }
+
+    static fromJS(data: any): GetLossTypeTriggerForView {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetLossTypeTriggerForView();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossTypeTrigger"] = this.lossTypeTrigger ? this.lossTypeTrigger.toJSON() : <any>undefined;
+        data["notifyUserName"] = this.notifyUserName;
+        data["lossTypeName"] = this.lossTypeName;
+        return data; 
+    }
+}
+
+export interface IGetLossTypeTriggerForView {
+    lossTypeTrigger: LossTypeTriggerDto;
+    notifyUserName: string | undefined;
+    lossTypeName: string | undefined;
+}
+
+export class CreateOrEditLossTypeDto implements ICreateOrEditLossTypeDto {
+    lossType!: LossTypeDto;
+    lossTypeColumns!: LossTypeColumnDto[] | undefined;
+    lossTypeTriggers!: GetLossTypeTriggerForView[] | undefined;
+
+    constructor(data?: ICreateOrEditLossTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lossType = data["lossType"] ? LossTypeDto.fromJS(data["lossType"]) : <any>undefined;
+            if (Array.isArray(data["lossTypeColumns"])) {
+                this.lossTypeColumns = [] as any;
+                for (let item of data["lossTypeColumns"])
+                    this.lossTypeColumns!.push(LossTypeColumnDto.fromJS(item));
+            }
+            if (Array.isArray(data["lossTypeTriggers"])) {
+                this.lossTypeTriggers = [] as any;
+                for (let item of data["lossTypeTriggers"])
+                    this.lossTypeTriggers!.push(GetLossTypeTriggerForView.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditLossTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditLossTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lossType"] = this.lossType ? this.lossType.toJSON() : <any>undefined;
+        if (Array.isArray(this.lossTypeColumns)) {
+            data["lossTypeColumns"] = [];
+            for (let item of this.lossTypeColumns)
+                data["lossTypeColumns"].push(item.toJSON());
+        }
+        if (Array.isArray(this.lossTypeTriggers)) {
+            data["lossTypeTriggers"] = [];
+            for (let item of this.lossTypeTriggers)
+                data["lossTypeTriggers"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ICreateOrEditLossTypeDto {
+    lossType: LossTypeDto;
+    lossTypeColumns: LossTypeColumnDto[] | undefined;
+    lossTypeTriggers: GetLossTypeTriggerForView[] | undefined;
+}
+
 export enum UserNotificationState {
     Unread = 0,
     Read = 1,
@@ -32867,6 +36336,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
     processRiskId!: number | undefined;
     processId!: number | undefined;
     controlId!: number | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IProcessRiskControlDto) {
@@ -32887,6 +36358,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
             this.processRiskId = data["processRiskId"];
             this.processId = data["processId"];
             this.controlId = data["controlId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -32907,6 +36380,8 @@ export class ProcessRiskControlDto implements IProcessRiskControlDto {
         data["processRiskId"] = this.processRiskId;
         data["processId"] = this.processId;
         data["controlId"] = this.controlId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -32920,7 +36395,16 @@ export interface IProcessRiskControlDto {
     processRiskId: number | undefined;
     processId: number | undefined;
     controlId: number | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
+}
+
+export enum ProjectOwner {
+    InternalAudit = 0,
+    InternalControl = 1,
+    OperationRisk = 2,
+    General = 3,
 }
 
 export class TestingTemplateDto implements ITestingTemplateDto {
@@ -32932,6 +36416,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
     daysToComplete!: number;
     departmentRiskControlId!: number | undefined;
     isActive!: boolean;
+    projectOwner!: ProjectOwner;
     id!: number;
 
     constructor(data?: ITestingTemplateDto) {
@@ -32953,6 +36438,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
             this.daysToComplete = data["daysToComplete"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
             this.isActive = data["isActive"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -32974,6 +36460,7 @@ export class TestingTemplateDto implements ITestingTemplateDto {
         data["daysToComplete"] = this.daysToComplete;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
         data["isActive"] = this.isActive;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -32988,6 +36475,7 @@ export interface ITestingTemplateDto {
     daysToComplete: number;
     departmentRiskControlId: number | undefined;
     isActive: boolean;
+    projectOwner: ProjectOwner;
     id: number;
 }
 
@@ -32996,6 +36484,8 @@ export class RiskDto implements IRiskDto {
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IRiskDto) {
@@ -33013,6 +36503,8 @@ export class RiskDto implements IRiskDto {
             this.name = data["name"];
             this.description = data["description"];
             this.severity = data["severity"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33030,6 +36522,8 @@ export class RiskDto implements IRiskDto {
         data["name"] = this.name;
         data["description"] = this.description;
         data["severity"] = this.severity;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33040,6 +36534,8 @@ export interface IRiskDto {
     name: string | undefined;
     description: string | undefined;
     severity: Severity;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -33052,6 +36548,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
     sequence!: number;
     workingPaperId!: string | undefined;
     sampleIdentifier!: string | undefined;
+    parentId!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingAttributeDto) {
         if (data) {
@@ -33072,6 +36569,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
             this.sequence = data["sequence"];
             this.workingPaperId = data["workingPaperId"];
             this.sampleIdentifier = data["sampleIdentifier"];
+            this.parentId = data["parentId"];
         }
     }
 
@@ -33092,6 +36590,7 @@ export class CreateOrEditTestingAttributeDto implements ICreateOrEditTestingAttr
         data["sequence"] = this.sequence;
         data["workingPaperId"] = this.workingPaperId;
         data["sampleIdentifier"] = this.sampleIdentifier;
+        data["parentId"] = this.parentId;
         return data; 
     }
 }
@@ -33105,6 +36604,7 @@ export interface ICreateOrEditTestingAttributeDto {
     sequence: number;
     workingPaperId: string | undefined;
     sampleIdentifier: string | undefined;
+    parentId: number | undefined;
 }
 
 export class GetTestingTemplateForViewDto implements IGetTestingTemplateForViewDto {
@@ -33403,6 +36903,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
     processRiskId!: number | undefined;
     processId!: number | undefined;
     controlId!: number | undefined;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProcessRiskControlDto) {
@@ -33423,6 +36925,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
             this.processRiskId = data["processRiskId"];
             this.processId = data["processId"];
             this.controlId = data["controlId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33443,6 +36947,8 @@ export class CreateOrEditProcessRiskControlDto implements ICreateOrEditProcessRi
         data["processRiskId"] = this.processRiskId;
         data["processId"] = this.processId;
         data["controlId"] = this.controlId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33456,6 +36962,8 @@ export interface ICreateOrEditProcessRiskControlDto {
     processRiskId: number | undefined;
     processId: number | undefined;
     controlId: number | undefined;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -33777,6 +37285,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
     cascade!: boolean;
     processId!: number;
     riskId!: number;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number;
 
     constructor(data?: IProcessRiskDto) {
@@ -33795,6 +37305,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
             this.cascade = data["cascade"];
             this.processId = data["processId"];
             this.riskId = data["riskId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -33813,6 +37325,8 @@ export class ProcessRiskDto implements IProcessRiskDto {
         data["cascade"] = this.cascade;
         data["processId"] = this.processId;
         data["riskId"] = this.riskId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -33824,6 +37338,8 @@ export interface IProcessRiskDto {
     cascade: boolean;
     processId: number;
     riskId: number;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number;
 }
 
@@ -33834,6 +37350,9 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
     inherited!: boolean;
     severity!: string | undefined;
     processCode!: string | undefined;
+    inherentRiskScore!: number;
+    residualRiskScore!: number;
+    overControlled!: boolean;
 
     constructor(data?: IGetProcessRiskForViewDto) {
         if (data) {
@@ -33852,6 +37371,9 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
             this.inherited = data["inherited"];
             this.severity = data["severity"];
             this.processCode = data["processCode"];
+            this.inherentRiskScore = data["inherentRiskScore"];
+            this.residualRiskScore = data["residualRiskScore"];
+            this.overControlled = data["overControlled"];
         }
     }
 
@@ -33870,6 +37392,9 @@ export class GetProcessRiskForViewDto implements IGetProcessRiskForViewDto {
         data["inherited"] = this.inherited;
         data["severity"] = this.severity;
         data["processCode"] = this.processCode;
+        data["inherentRiskScore"] = this.inherentRiskScore;
+        data["residualRiskScore"] = this.residualRiskScore;
+        data["overControlled"] = this.overControlled;
         return data; 
     }
 }
@@ -33881,6 +37406,9 @@ export interface IGetProcessRiskForViewDto {
     inherited: boolean;
     severity: string | undefined;
     processCode: string | undefined;
+    inherentRiskScore: number;
+    residualRiskScore: number;
+    overControlled: boolean;
 }
 
 export class PagedResultDtoOfGetProcessRiskForViewDto implements IPagedResultDtoOfGetProcessRiskForViewDto {
@@ -33975,12 +37503,54 @@ export interface IListResultDtoOfGetProcessRiskForViewDto {
     items: GetProcessRiskForViewDto[] | undefined;
 }
 
+export class ResidualRiskScoreComponents implements IResidualRiskScoreComponents {
+    residualRiskScore!: number;
+    overControlled!: boolean;
+
+    constructor(data?: IResidualRiskScoreComponents) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.residualRiskScore = data["residualRiskScore"];
+            this.overControlled = data["overControlled"];
+        }
+    }
+
+    static fromJS(data: any): ResidualRiskScoreComponents {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResidualRiskScoreComponents();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["residualRiskScore"] = this.residualRiskScore;
+        data["overControlled"] = this.overControlled;
+        return data; 
+    }
+}
+
+export interface IResidualRiskScoreComponents {
+    residualRiskScore: number;
+    overControlled: boolean;
+}
+
 export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
     code!: string | undefined;
     comments!: string | undefined;
     cascade!: boolean;
     processId!: number;
     riskId!: number;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProcessRiskDto) {
@@ -33999,6 +37569,8 @@ export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
             this.cascade = data["cascade"];
             this.processId = data["processId"];
             this.riskId = data["riskId"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -34017,6 +37589,8 @@ export class CreateOrEditProcessRiskDto implements ICreateOrEditProcessRiskDto {
         data["cascade"] = this.cascade;
         data["processId"] = this.processId;
         data["riskId"] = this.riskId;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -34028,6 +37602,8 @@ export interface ICreateOrEditProcessRiskDto {
     cascade: boolean;
     processId: number;
     riskId: number;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -34652,6 +38228,7 @@ export class ProjectDto implements IProjectDto {
     controlUnitId!: number | undefined;
     scopeId!: number | undefined;
     commenced!: boolean;
+    projectOwner!: ProjectOwner;
     id!: number;
 
     constructor(data?: IProjectDto) {
@@ -34680,6 +38257,7 @@ export class ProjectDto implements IProjectDto {
             this.controlUnitId = data["controlUnitId"];
             this.scopeId = data["scopeId"];
             this.commenced = data["commenced"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -34708,6 +38286,7 @@ export class ProjectDto implements IProjectDto {
         data["controlUnitId"] = this.controlUnitId;
         data["scopeId"] = this.scopeId;
         data["commenced"] = this.commenced;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -34729,6 +38308,7 @@ export interface IProjectDto {
     controlUnitId: number | undefined;
     scopeId: number | undefined;
     commenced: boolean;
+    projectOwner: ProjectOwner;
     id: number;
 }
 
@@ -34839,6 +38419,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
     title!: string | undefined;
     controlUnitId!: number | undefined;
     scopeId!: number | undefined;
+    projectOwner!: ProjectOwner;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditProjectDto) {
@@ -34866,6 +38447,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
             this.title = data["title"];
             this.controlUnitId = data["controlUnitId"];
             this.scopeId = data["scopeId"];
+            this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
     }
@@ -34893,6 +38475,7 @@ export class CreateOrEditProjectDto implements ICreateOrEditProjectDto {
         data["title"] = this.title;
         data["controlUnitId"] = this.controlUnitId;
         data["scopeId"] = this.scopeId;
+        data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
     }
@@ -34913,6 +38496,7 @@ export interface ICreateOrEditProjectDto {
     title: string | undefined;
     controlUnitId: number | undefined;
     scopeId: number | undefined;
+    projectOwner: ProjectOwner;
     id: number | undefined;
 }
 
@@ -35424,6 +39008,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
+    likelyhood!: number | undefined;
+    impact!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditRiskDto) {
@@ -35440,6 +39026,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
             this.name = data["name"];
             this.description = data["description"];
             this.severity = data["severity"];
+            this.likelyhood = data["likelyhood"];
+            this.impact = data["impact"];
             this.id = data["id"];
         }
     }
@@ -35456,6 +39044,8 @@ export class CreateOrEditRiskDto implements ICreateOrEditRiskDto {
         data["name"] = this.name;
         data["description"] = this.description;
         data["severity"] = this.severity;
+        data["likelyhood"] = this.likelyhood;
+        data["impact"] = this.impact;
         data["id"] = this.id;
         return data; 
     }
@@ -35465,6 +39055,8 @@ export interface ICreateOrEditRiskDto {
     name: string | undefined;
     description: string | undefined;
     severity: Severity;
+    likelyhood: number | undefined;
+    impact: number | undefined;
     id: number | undefined;
 }
 
@@ -38328,6 +41920,7 @@ export interface IPagedResultDtoOfGetTestingTemplateForViewDto {
 export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemplateDetailsDto {
     testAttribute!: string | undefined;
     weight!: number;
+    parentId!: number | undefined;
 
     constructor(data?: ICreateorEditTestTemplateDetailsDto) {
         if (data) {
@@ -38342,6 +41935,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
         if (data) {
             this.testAttribute = data["testAttribute"];
             this.weight = data["weight"];
+            this.parentId = data["parentId"];
         }
     }
 
@@ -38356,6 +41950,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
         data = typeof data === 'object' ? data : {};
         data["testAttribute"] = this.testAttribute;
         data["weight"] = this.weight;
+        data["parentId"] = this.parentId;
         return data; 
     }
 }
@@ -38363,6 +41958,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 export interface ICreateorEditTestTemplateDetailsDto {
     testAttribute: string | undefined;
     weight: number;
+    parentId: number | undefined;
 }
 
 export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTemplateDto {
@@ -38373,6 +41969,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
     exceptionTypeId!: number | undefined;
     departmentRiskControlId!: number | undefined;
     sampleSize!: number | undefined;
+    projectOwner!: ProjectOwner;
     attributes!: CreateorEditTestTemplateDetailsDto[] | undefined;
     id!: number | undefined;
 
@@ -38394,6 +41991,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
             this.exceptionTypeId = data["exceptionTypeId"];
             this.departmentRiskControlId = data["departmentRiskControlId"];
             this.sampleSize = data["sampleSize"];
+            this.projectOwner = data["projectOwner"];
             if (Array.isArray(data["attributes"])) {
                 this.attributes = [] as any;
                 for (let item of data["attributes"])
@@ -38419,6 +42017,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["departmentRiskControlId"] = this.departmentRiskControlId;
         data["sampleSize"] = this.sampleSize;
+        data["projectOwner"] = this.projectOwner;
         if (Array.isArray(this.attributes)) {
             data["attributes"] = [];
             for (let item of this.attributes)
@@ -38437,6 +42036,7 @@ export interface ICreateOrEditTestingTemplateDto {
     exceptionTypeId: number | undefined;
     departmentRiskControlId: number | undefined;
     sampleSize: number | undefined;
+    projectOwner: ProjectOwner;
     attributes: CreateorEditTestTemplateDetailsDto[] | undefined;
     id: number | undefined;
 }
@@ -40399,6 +43999,126 @@ export interface ICreateOrEditWorkingPaperNewDto {
     id: string | undefined;
 }
 
+export class WorkingPaperReviewCommentDto implements IWorkingPaperReviewCommentDto {
+    title!: string | undefined;
+    priority!: string | undefined;
+    status!: Status;
+    severity!: Severity;
+    expectedCompletionDate!: moment.Moment;
+    assigneeUserId!: number | undefined;
+    workingPaperId!: string | undefined;
+    assignerUserId!: number | undefined;
+    creationTime!: moment.Moment;
+    id!: number;
+
+    constructor(data?: IWorkingPaperReviewCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.priority = data["priority"];
+            this.status = data["status"];
+            this.severity = data["severity"];
+            this.expectedCompletionDate = data["expectedCompletionDate"] ? moment(data["expectedCompletionDate"].toString()) : <any>undefined;
+            this.assigneeUserId = data["assigneeUserId"];
+            this.workingPaperId = data["workingPaperId"];
+            this.assignerUserId = data["assignerUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["priority"] = this.priority;
+        data["status"] = this.status;
+        data["severity"] = this.severity;
+        data["expectedCompletionDate"] = this.expectedCompletionDate ? this.expectedCompletionDate.toISOString() : <any>undefined;
+        data["assigneeUserId"] = this.assigneeUserId;
+        data["workingPaperId"] = this.workingPaperId;
+        data["assignerUserId"] = this.assignerUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentDto {
+    title: string | undefined;
+    priority: string | undefined;
+    status: Status;
+    severity: Severity;
+    expectedCompletionDate: moment.Moment;
+    assigneeUserId: number | undefined;
+    workingPaperId: string | undefined;
+    assignerUserId: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
+}
+
+export class GetWorkingPaperReviewCommentForViewDto implements IGetWorkingPaperReviewCommentForViewDto {
+    workingPaperReviewComment!: WorkingPaperReviewCommentDto;
+    userName!: string | undefined;
+    workingPaperCode!: string | undefined;
+    userName2!: string | undefined;
+
+    constructor(data?: IGetWorkingPaperReviewCommentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.workingPaperReviewComment = data["workingPaperReviewComment"] ? WorkingPaperReviewCommentDto.fromJS(data["workingPaperReviewComment"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.workingPaperCode = data["workingPaperCode"];
+            this.userName2 = data["userName2"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkingPaperReviewCommentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkingPaperReviewCommentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workingPaperReviewComment"] = this.workingPaperReviewComment ? this.workingPaperReviewComment.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["workingPaperCode"] = this.workingPaperCode;
+        data["userName2"] = this.userName2;
+        return data; 
+    }
+}
+
+export interface IGetWorkingPaperReviewCommentForViewDto {
+    workingPaperReviewComment: WorkingPaperReviewCommentDto;
+    userName: string | undefined;
+    workingPaperCode: string | undefined;
+    userName2: string | undefined;
+}
+
 export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEditOutput {
     workingPaperNew!: CreateOrEditWorkingPaperNewDto;
     testingTemplate!: GetTestingTemplateForViewDto;
@@ -40409,6 +44129,7 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
     completedBy!: string | undefined;
     reviewedBy!: string | undefined;
     assignedTo!: string | undefined;
+    reviewComments!: GetWorkingPaperReviewCommentForViewDto[] | undefined;
 
     constructor(data?: IGetWorkingPaperNewForEditOutput) {
         if (data) {
@@ -40434,6 +44155,11 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
             this.completedBy = data["completedBy"];
             this.reviewedBy = data["reviewedBy"];
             this.assignedTo = data["assignedTo"];
+            if (Array.isArray(data["reviewComments"])) {
+                this.reviewComments = [] as any;
+                for (let item of data["reviewComments"])
+                    this.reviewComments!.push(GetWorkingPaperReviewCommentForViewDto.fromJS(item));
+            }
         }
     }
 
@@ -40459,6 +44185,11 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
         data["completedBy"] = this.completedBy;
         data["reviewedBy"] = this.reviewedBy;
         data["assignedTo"] = this.assignedTo;
+        if (Array.isArray(this.reviewComments)) {
+            data["reviewComments"] = [];
+            for (let item of this.reviewComments)
+                data["reviewComments"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -40473,6 +44204,7 @@ export interface IGetWorkingPaperNewForEditOutput {
     completedBy: string | undefined;
     reviewedBy: string | undefined;
     assignedTo: string | undefined;
+    reviewComments: GetWorkingPaperReviewCommentForViewDto[] | undefined;
 }
 
 export class AssignWorkingPaperNewDto implements IAssignWorkingPaperNewDto {
@@ -40777,6 +44509,350 @@ export class PagedResultDtoOfWorkingPaperNewUserLookupTableDto implements IPaged
 export interface IPagedResultDtoOfWorkingPaperNewUserLookupTableDto {
     totalCount: number;
     items: WorkingPaperNewUserLookupTableDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto implements IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+    totalCount!: number;
+    items!: GetWorkingPaperReviewCommentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWorkingPaperReviewCommentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+    totalCount: number;
+    items: GetWorkingPaperReviewCommentForViewDto[] | undefined;
+}
+
+export class CreateOrEditWorkingPaperReviewCommentDto implements ICreateOrEditWorkingPaperReviewCommentDto {
+    title!: string | undefined;
+    comments!: string | undefined;
+    response!: string | undefined;
+    status!: Status;
+    severity!: Severity;
+    expectedCompletionDate!: moment.Moment;
+    assigneeUserId!: number | undefined;
+    workingPaperId!: string | undefined;
+    assignerUserId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditWorkingPaperReviewCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.comments = data["comments"];
+            this.response = data["response"];
+            this.status = data["status"];
+            this.severity = data["severity"];
+            this.expectedCompletionDate = data["expectedCompletionDate"] ? moment(data["expectedCompletionDate"].toString()) : <any>undefined;
+            this.assigneeUserId = data["assigneeUserId"];
+            this.workingPaperId = data["workingPaperId"];
+            this.assignerUserId = data["assignerUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWorkingPaperReviewCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWorkingPaperReviewCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["comments"] = this.comments;
+        data["response"] = this.response;
+        data["status"] = this.status;
+        data["severity"] = this.severity;
+        data["expectedCompletionDate"] = this.expectedCompletionDate ? this.expectedCompletionDate.toISOString() : <any>undefined;
+        data["assigneeUserId"] = this.assigneeUserId;
+        data["workingPaperId"] = this.workingPaperId;
+        data["assignerUserId"] = this.assignerUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWorkingPaperReviewCommentDto {
+    title: string | undefined;
+    comments: string | undefined;
+    response: string | undefined;
+    status: Status;
+    severity: Severity;
+    expectedCompletionDate: moment.Moment;
+    assigneeUserId: number | undefined;
+    workingPaperId: string | undefined;
+    assignerUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetWorkingPaperReviewCommentForEditOutput implements IGetWorkingPaperReviewCommentForEditOutput {
+    workingPaperReviewComment!: CreateOrEditWorkingPaperReviewCommentDto;
+    userName!: string | undefined;
+    workingPaperCode!: string | undefined;
+    userName2!: string | undefined;
+
+    constructor(data?: IGetWorkingPaperReviewCommentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.workingPaperReviewComment = data["workingPaperReviewComment"] ? CreateOrEditWorkingPaperReviewCommentDto.fromJS(data["workingPaperReviewComment"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.workingPaperCode = data["workingPaperCode"];
+            this.userName2 = data["userName2"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkingPaperReviewCommentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkingPaperReviewCommentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workingPaperReviewComment"] = this.workingPaperReviewComment ? this.workingPaperReviewComment.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["workingPaperCode"] = this.workingPaperCode;
+        data["userName2"] = this.userName2;
+        return data; 
+    }
+}
+
+export interface IGetWorkingPaperReviewCommentForEditOutput {
+    workingPaperReviewComment: CreateOrEditWorkingPaperReviewCommentDto;
+    userName: string | undefined;
+    workingPaperCode: string | undefined;
+    userName2: string | undefined;
+}
+
+export class WorkingPaperReviewCommentUserLookupTableDto implements IWorkingPaperReviewCommentUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IWorkingPaperReviewCommentUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto implements IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+    totalCount!: number;
+    items!: WorkingPaperReviewCommentUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WorkingPaperReviewCommentUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+    totalCount: number;
+    items: WorkingPaperReviewCommentUserLookupTableDto[] | undefined;
+}
+
+export class WorkingPaperReviewCommentWorkingPaperLookupTableDto implements IWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWorkingPaperReviewCommentWorkingPaperLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentWorkingPaperLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentWorkingPaperLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto implements IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    totalCount!: number;
+    items!: WorkingPaperReviewCommentWorkingPaperLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WorkingPaperReviewCommentWorkingPaperLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    totalCount: number;
+    items: WorkingPaperReviewCommentWorkingPaperLookupTableDto[] | undefined;
 }
 
 export class ListResultDtoOfGetExceptionIncidentForViewDto implements IListResultDtoOfGetExceptionIncidentForViewDto {

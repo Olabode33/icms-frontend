@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injector, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -6,6 +6,7 @@ import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPa
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditWorkingPaperReviewCommentModalComponent } from '../../workingPaperReviewComments/workingPaperReviewComments/create-or-edit-workingPaperReviewComment-modal.component';
 
 @Component({
     selector: 'app-view-workingPaper',
@@ -23,6 +24,8 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
 
     workingPaperNew: CreateOrEditWorkingPaperNewDto = new CreateOrEditWorkingPaperNewDto();
     testingTemplate: GetTestingTemplateForViewDto = new GetTestingTemplateForViewDto();
+    @ViewChild('createOrEditWorkingPaperReviewCommentModal', { static: true }) createOrEditWorkingPaperReviewCommentModal: CreateOrEditWorkingPaperReviewCommentModalComponent;
+
 
     sampleId = 1;
     completionDate: Date;
@@ -31,7 +34,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     completedBy = '';
     reviewedBy = '';
     assignedTo = '';
-
+    reviewComments = [];
 
     fakeTestingTemplateId = 6;
     fakeTestingTemplateCode = 'TT-1';
@@ -125,7 +128,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                 this.completedBy = '';
                 this.reviewedBy = '';
                 this.assignedTo = '';
-
+                this.reviewComments = result.reviewComments;
                 this.reviewedBy = result.reviewedBy;
                 this.completedBy = result.completedBy;
                 this.assignedTo = result.assignedTo;
@@ -143,7 +146,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
                         }
                     });
                     this.sortSampleResponses();
-                    console.log(this.sampleResponses);
+              
                     this.displaySample();
                 }
                // console.log(this.currentSample);
@@ -167,6 +170,15 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
 
     goBack(): void {
         this._location.back();
+    }
+
+
+    createWorkingPaperReviewComment(): void {
+        this.createOrEditWorkingPaperReviewCommentModal.show(null, this.workingPaperNew.id, this.workingPaperNew.completedUserId);
+    }
+
+    openReviewComment(id: any): void {
+        this.createOrEditWorkingPaperReviewCommentModal.show(id,null, null);
     }
 
     getTemplateDetails(): void {

@@ -1,0 +1,64 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #workingPaperReviewCommentForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{l("Review Comment")}}</span>
+           
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+				<div class="modal-body">
+
+
+
+
+					<div class="form-group">
+						<label for="WorkingPaperReviewComment_Title">{{l("Title")}}</label>
+						<input type="text" id="WorkingPaperReviewComment_Title" class="form-control" [(ngModel)]="workingPaperReviewComment.title" name="Title" />
+					</div>
+
+					<div class="form-group">
+						<label for="WorkingPaperReviewComment_Comments">{{l("Comments")}}</label>
+						<textarea type="text" id="WorkingPaperReviewComment_Comments" class="form-control" [(ngModel)]="workingPaperReviewComment.comments" name="Comments" rows="10"></textarea>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-lg-6">
+							<label for="WorkingPaperReviewComment_Severity">{{l("Severity")}}</label>
+							<select class="form-control" name="Severity" id="WorkingPaperReviewComment_Severity" [(ngModel)]="workingPaperReviewComment.severity">
+								<option value="0">{{l('Low')}}</option>
+
+								<option value="1">{{l('Medium')}}</option>
+
+								<option value="2">{{l('High')}}</option>
+
+
+							</select>
+						</div>
+
+						<div class="form-group col-lg-6">
+							<label for="WorkingPaperReviewComment_ExpectedCompletionDate">{{l("ExpectedCompletionDate")}}</label>
+							<input required class="form-control m-input" type="datetime" bsDatepicker datePickerMomentModifier [(date)]="workingPaperReviewComment.expectedCompletionDate" id="WorkingPaperReviewComment_ExpectedCompletionDate" name="WorkingPaperReviewComment_ExpectedCompletionDate">
+						</div>
+					</div>
+
+
+
+
+				</div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!workingPaperReviewCommentForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<workingPaperReviewCommentUserLookupTableModal #workingPaperReviewCommentUserLookupTableModal (modalSave)="getNewAssigneeUserId()"></workingPaperReviewCommentUserLookupTableModal>
+		 <workingPaperReviewCommentWorkingPaperLookupTableModal #workingPaperReviewCommentWorkingPaperLookupTableModal (modalSave)="getNewWorkingPaperId()"></workingPaperReviewCommentWorkingPaperLookupTableModal>
+		 <workingPaperReviewCommentUserLookupTableModal #workingPaperReviewCommentUserLookupTableModal2 (modalSave)="getNewAssignerUserId()"></workingPaperReviewCommentUserLookupTableModal>
+		 
+</div>

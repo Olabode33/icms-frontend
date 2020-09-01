@@ -42,6 +42,8 @@ export class AppNavigationService {
 
            
 
+            
+            new AppMenuItem('WorkingPaperReviewComments', 'Pages.WorkingPaperReviewComments', 'flaticon-more', '/app/main/workingPaperReviewComments/workingPaperReviewComments'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
 
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [    
