@@ -115,7 +115,7 @@
                                 <div class="kt-portlet__head  kt-portlet__head--noborder">
                                     <div class="kt-portlet__head-label">
                                         <h3 class="kt-portlet__head-title">
-                                            Loss Event Summary by Category
+                                            Loss Event Summary by Type
                                             <small></small>
                                         </h3>
                                     </div>
@@ -124,14 +124,20 @@
                                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
                                         role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="kt-portlet__body kt-portlet__body--fit-y" style="height: 300px;">
-                                    <ngx-charts-advanced-pie-chart
-                                        class="chart-container"
-                                        [scheme]="colorScheme"
-                                        [results]="fakeLossEventByCategory"
-                                        [animations]="animations"
-                                    >
-                                    </ngx-charts-advanced-pie-chart>
+                                <div class="kt-portlet__body kt-portlet__body--fit-y">
+                                    <div class="pr-4"  style="height: 300px;">
+                                        <ngx-charts-pie-chart
+                                            class="chart-container"
+                                            [results]="fakeLossEventByType"
+                                            [animations]="animations"
+                                            [legend]="true"
+                                            legendTitle="Loss Event Types"
+                                            [doughnut]="true"
+                                            [labels]="true"
+                                            [scheme]="pieColorScheme"
+                                        >
+                                        </ngx-charts-pie-chart>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +147,7 @@
                                 <div class="kt-portlet__head  kt-portlet__head--noborder">
                                     <div class="kt-portlet__head-label">
                                         <h3 class="kt-portlet__head-title">
-                                            Loss Event Summary by Type
+                                            Loss Event Summary by Business Unit
                                             <small></small>
                                         </h3>
                                     </div>
@@ -168,6 +174,45 @@
                                             [noBarWhenZero]="false"
                                         >
                                         </ngx-charts-bar-horizontal>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="kt-portlet kt-portlet--height-fluid">
+                                <div class="kt-portlet__head  kt-portlet__head--noborder">
+                                    <div class="kt-portlet__head-label">
+                                        <h3 class="kt-portlet__head-title">
+                                            Trend of Loss Events
+                                            <small></small>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div *ngIf="loadingExceptions" class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" 
+                                        role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="kt-portlet__body" >
+                                    <div class="pr-5" style="height: 400px;">
+                                        <ngx-charts-area-chart-stacked
+                                            class="chart-container"
+                                            [scheme]="colorScheme"
+                                            [results]="fakeLossEventTrend"
+                                            [animations]="animations"
+                                            [legend]="true"
+                                            legendTitle="Loss Type Category"
+                                            legendPosition="right"
+                                            [xAxis]="true"
+                                            [yAxis]="true"
+                                            [showXAxisLabel]="showXAxisLabel"
+                                            [showYAxisLabel]="showYAxisLabel"
+                                            xAxisLabel="Date Discovered"
+                                            yAxisLabel="Count"
+                                        >
+                                        </ngx-charts-area-chart-stacked>
                                     </div>
                                 </div>
                             </div>

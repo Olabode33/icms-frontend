@@ -55,6 +55,9 @@ export class OpRiskDashboardComponent extends AppComponentBase implements OnInit
     colorScheme = {
         domain: ['#f44336', '#4CAF50', '#FFC107', '#7aa3e5', '#a8385d', '#aae3f5']
     };
+    pieColorScheme = {
+        domain: ['#022e64', '#0D47A1', '#1565C0', '#0288D1', '#1E88E5', '#03A9F4', '#42A5F5']
+    };
     barColorScheme = {
         domain: ['#022e64']
     };
@@ -107,31 +110,135 @@ export class OpRiskDashboardComponent extends AppComponentBase implements OnInit
     fakeLossEventByType = [
         {
           'name': 'Internal Fraud',
-          'value': 10
+          'value': 102
         },
         {
             'name': 'External Fraud',
-            'value': 7
+            'value': 71
         },
         {
             'name': 'Employment Practices and Workplace Safety',
-            'value': 6
+            'value': 64
         },
         {
             'name': 'Clients, Products, and Business Practice',
-            'value': 2
+            'value': 29
         },
         {
             'name': 'Damage to Physical Assets',
-            'value': 2
+            'value': 25
         },
         {
             'name': 'Business Disruption and Systems Failures',
-            'value': 1
+            'value': 19
         },
         {
             'name': 'Execution, Delivery, and Process Management',
-            'value': 1
+            'value': 15
+        }
+    ];
+
+    fakeLossEventByBusinessUnit = [
+        {
+          'name': 'Branch Operations',
+          'value': 102
+        },
+        {
+            'name': 'Internal Controls',
+            'value': 71
+        },
+        {
+            'name': 'Internal Audit',
+            'value': 64
+        },
+        {
+            'name': 'Finance',
+            'value': 29
+        },
+        {
+            'name': 'Treasury',
+            'value': 25
+        },
+        {
+            'name': 'Information Technology',
+            'value': 19
+        }
+    ];
+    fakeLossEventTrend = [
+        {
+            'name': 'Actual',
+            'series': [
+              {
+                'value': 37,
+                'name': '2020-08-29T16:49:42.248Z'
+              },
+              {
+                'value': 20,
+                'name': '2020-08-30T14:29:00.273Z'
+              },
+              {
+                'value': 63,
+                'name': '2020-08-31T17:55:19.618Z'
+              },
+              {
+                'value': 27,
+                'name': '2020-09-01T08:15:45.226Z'
+              },
+              {
+                'value': 62,
+                'name': '2020-09-02T07:06:35.555Z'
+              }
+            ]
+        },
+        {
+            'name': 'Potential',
+            'series': [
+              {
+                'value': 79,
+                'name': '2020-08-29T16:49:42.248Z'
+              },
+              {
+                'value': 24,
+                'name': '2020-08-30T14:29:00.273Z'
+              },
+              {
+                'value': 34,
+                'name': '2020-08-31T17:55:19.618Z'
+              },
+              {
+                'value': 52,
+                'name': '2020-09-01T08:15:45.226Z'
+              },
+              {
+                'value': 23,
+                'name': '2020-09-02T07:06:35.555Z'
+              }
+            ]
+        },
+        {
+            'name': 'Near Misses',
+            'series': [
+              {
+                'value': 48,
+                'name': '2020-08-29T16:49:42.248Z'
+              },
+              {
+                'value': 24,
+                'name': '2020-08-30T14:29:00.273Z'
+              },
+              {
+                'value': 44,
+                'name': '2020-08-31T17:55:19.618Z'
+              },
+              {
+                'value': 12,
+                'name': '2020-09-01T08:15:45.226Z'
+              },
+              {
+                'value': 93,
+                'name': '2020-09-02T07:06:35.555Z'
+              }
+            ]
         }
     ];
 

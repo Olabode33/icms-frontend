@@ -28283,6 +28283,8 @@ export enum Status {
     Open = 0,
     Resolved = 1,
     Closed = 2,
+    Draft = 3,
+    Submitted = 4,
 }
 
 export class ExceptionIncidentDto implements IExceptionIncidentDto {
@@ -33494,6 +33496,7 @@ export interface ILossTypeTriggerDto {
 export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
     lossTypeTrigger!: LossTypeTriggerDto;
     notifyUserName!: string | undefined;
+    lossTypeName!: string | undefined;
 
     constructor(data?: IGetLossTypeTriggerForView) {
         if (data) {
@@ -33508,6 +33511,7 @@ export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
         if (data) {
             this.lossTypeTrigger = data["lossTypeTrigger"] ? LossTypeTriggerDto.fromJS(data["lossTypeTrigger"]) : <any>undefined;
             this.notifyUserName = data["notifyUserName"];
+            this.lossTypeName = data["lossTypeName"];
         }
     }
 
@@ -33522,6 +33526,7 @@ export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
         data = typeof data === 'object' ? data : {};
         data["lossTypeTrigger"] = this.lossTypeTrigger ? this.lossTypeTrigger.toJSON() : <any>undefined;
         data["notifyUserName"] = this.notifyUserName;
+        data["lossTypeName"] = this.lossTypeName;
         return data; 
     }
 }
@@ -33529,6 +33534,7 @@ export class GetLossTypeTriggerForView implements IGetLossTypeTriggerForView {
 export interface IGetLossTypeTriggerForView {
     lossTypeTrigger: LossTypeTriggerDto;
     notifyUserName: string | undefined;
+    lossTypeName: string | undefined;
 }
 
 export class CreateOrEditLossTypeDto implements ICreateOrEditLossTypeDto {

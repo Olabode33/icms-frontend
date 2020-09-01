@@ -30,7 +30,7 @@
                         <button *ngIf="!this.lossEvent.id" (click)="saveAndNew()"
                             class="btn btn-primary blue mr-2" [buttonBusy]="saving"
                             [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
-                            <span>{{l("SaveAndNew")}}</span>
+                            <span>{{l("Save And New")}}</span>
                         </button>
                     </div>
                 </div>
@@ -49,6 +49,26 @@
                                 [(ngModel)]="lossEvent.lossTypeId">
                                 <option *ngFor="let item of lossTypes" [value]="item.lossType.id">{{item.lossType.name}}</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_LossCategory">{{l("LossCategory")}}</label>
+                            <select class="form-control" name="LossCategory" id="LossEvent_LossCategory"
+                                [(ngModel)]="lossEvent.lossCategory">
+                                <option value="0">{{l('Actual')}}</option>
+                                <option value="1">{{l('Potential')}}</option>
+                                <option value="2">{{l('NearMisses')}}</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="form-group col-lg-4">
+                            <label for="LossEvent_DateDiscovered">{{l("DateDiscovered")}}</label>
+                            <input required class="form-control m-input" type="datetime" bsDatepicker
+                                datePickerMomentModifier [(date)]="lossEvent.dateDiscovered" id="LossEvent_DateDiscovered"
+                                name="LossEvent_DateDiscovered">
                         </div>
                     </div>
 
@@ -106,16 +126,7 @@
                                 datePickerMomentModifier [(date)]="lossEvent.dateOccured" id="LossEvent_DateOccured"
                                 name="LossEvent_DateOccured">
                         </div>
-    
-                        <div class="form-group col-lg-4">
-                            <label for="LossEvent_DateDiscovered">{{l("DateDiscovered")}}</label>
-                            <input required class="form-control m-input" type="datetime" bsDatepicker
-                                datePickerMomentModifier [(date)]="lossEvent.dateDiscovered" id="LossEvent_DateDiscovered"
-                                name="LossEvent_DateDiscovered">
-                        </div>
-                    </div>
-
-                    <div class="row">
+                        
                         <div class="form-group col-lg-4">
                             <label for="LossEvent_Amount">{{l("Amount")}}</label>
                             <input type="number" id="LossEvent_Amount" class="form-control" [(ngModel)]="lossEvent.amount"
@@ -158,20 +169,6 @@
                         </select>
                     </div> -->
 
-                    <div class="form-group col-lg-4">
-                        <label for="LossEvent_LossCategory">{{l("LossCategory")}}</label>
-                        <select class="form-control" name="LossCategory" id="LossEvent_LossCategory"
-                            [(ngModel)]="lossEvent.lossCategory">
-                            <option value="0">{{l('Actual')}}</option>
-
-                            <option value="1">{{l('Potential')}}</option>
-
-                            <option value="2">{{l('NearMisses')}}</option>
-
-
-                        </select>
-                    </div>
-
                 </div>
                 <div class="kt-portlet__foot">
                     <div class="col-lg-12">
@@ -179,11 +176,11 @@
                             [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
                             <span>{{l("Save")}}</span>
                         </button>
-                        <button *ngIf="!this.lossEvent.id" (click)="saveAndNew()"
+                        <!-- <button *ngIf="!this.lossEvent.id" (click)="saveAndNew()"
                             class="btn btn-primary blue float-right mr-2" [buttonBusy]="saving"
                             [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
                             <span>{{l("SaveAndNew")}}</span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

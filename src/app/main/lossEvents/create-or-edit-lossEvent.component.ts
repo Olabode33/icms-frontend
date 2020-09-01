@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status, LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes, LossTypesServiceProxy, GetLossTypeForViewDto, LossEventTasksServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LossEventsServiceProxy, CreateOrEditLossEventDto, Status, LossTypeColumnsServiceProxy, LossTypeColumnDto, DataTypes, LossTypesServiceProxy, GetLossTypeForViewDto, LossEventTasksServiceProxy, LossCategoryEnums } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { LossEventUserLookupTableModalComponent } from './lossEvent-user-lookup-table-modal.component';
@@ -65,9 +65,10 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
             this.lossEvent.id = null;
             this.lossEvent.dateOccured = moment().startOf('day');
             this.lossEvent.dateDiscovered = result.lossEventTask.dateAssigned;
-            this.lossEvent.status = Status.Open;
+            this.lossEvent.status = Status.Submitted;
             this.lossEvent.lossTypeId = result.lossEventTask.lossTypeId;
             this.lossEvent.description = 'Triggered by: ' + result.lossEventTask.title + '\r' + result.lossEventTask.description;
+            this.lossEvent.lossCategory = LossCategoryEnums.Actual;
             this.userName = '';
             this.organizationUnitDisplayName = '';
 
@@ -84,7 +85,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
             this.lossEvent.id = lossEventId;
             this.lossEvent.dateOccured = moment().startOf('day');
             this.lossEvent.dateDiscovered = moment().startOf('day');
-            this.lossEvent.status = Status.Open;
+            this.lossEvent.status = Status.Submitted;
             this.userName = '';
             this.organizationUnitDisplayName = '';
 

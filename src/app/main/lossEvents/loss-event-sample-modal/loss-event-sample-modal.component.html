@@ -12,6 +12,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <label>Loss Type</label>
+                        <input type="text" class="form-control" [value]="trigger.lossTypeName" disabled readonly />
+                    </div>
+                    <div class="form-group">
                         <label>Trigger Name</label>
                         <input type="text" class="form-control" [value]="trigger.lossTypeTrigger.name" disabled readonly />
                     </div>
@@ -33,7 +37,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-primary" (click)="save()">Send for Verification</button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-danger" (click)="close()">
+                        <i class="fa fa-times"></i>Reject</button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-primary" (click)="save()">
+                        <i class="fa fa-check"></i>Send for Verification</button>
                 </div>
             </form>
         </div>
