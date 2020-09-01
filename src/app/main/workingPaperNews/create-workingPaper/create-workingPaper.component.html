@@ -123,15 +123,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Likelihood:</td>
-                                                    <td style="width: 30%;">
+                                                    <td style="width: 80%;">
                                                         <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.likelyhood)"
                                                                 class="kt-badge kt-badge--danger kt-badge--inline"
-                                                                data-placement="top">
+                                                                data-placement="top" style="margin-right: 30%;">
                                                             {{l('Impact_' + testingTemplate.risk.likelyhood)}}
                                                         </span>
-                                                    </td>
-                                                    <td style="width: 20%;">Impact:</td>
-                                                    <td style="width: 30%;">
+                                                        <span style="margin-right: 10%;">Impact:</span>
                                                         <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.impact)"
                                                                 class="kt-badge kt-badge--danger kt-badge--inline"
                                                                 data-placement="top">
