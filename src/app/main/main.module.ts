@@ -21,7 +21,7 @@ import { DepartmentRatingRatingLookupTableModalComponent } from './departmentRat
 import { RatingsComponent } from './ratings/ratings/ratings.component';
 import { ViewRatingModalComponent } from './ratings/ratings/view-rating-modal.component';
 import { CreateOrEditRatingModalComponent } from './ratings/ratings/create-or-edit-rating-modal.component';
-
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { ProjectsComponent } from './projects/projects/projects.component';
 import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
@@ -107,6 +107,8 @@ import { LossEventsComponent } from './lossEvents/lossEvents.component';
 import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
 import { CreateOrEditLossTypeColumnModalComponent } from './lossEvents/lossTypeColumns/create-or-edit-lossTypeColumn-modal.component';
 import { LossEventSampleModalComponent } from './lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
+//import { CreateEditQuestionModal } from './testingTemplates/testingTemplates/create-or-edit-questions-modal.component';
+import { TreeModule } from 'primeng/tree';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -117,9 +119,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PaginatorModule,
         EditorModule,
         InputMaskModule, TableModule,
-
         CommonModule,
         FormsModule,
+        ContextMenuModule,
         ModalModule,
         TabsModule,
         TooltipModule,
@@ -133,6 +135,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+       // CreateEditQuestionModal,
         CreateOrEditLossTypeColumnModalComponent,
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
