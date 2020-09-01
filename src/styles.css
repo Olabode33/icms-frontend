@@ -625,5 +625,9 @@ body{margin-top:20px;
         align-items: stretch;
     }
 
+    .kt-portlet .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-title span {
+        color: var(--primary-color);
+    }
+
     
 }

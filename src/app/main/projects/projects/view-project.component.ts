@@ -28,9 +28,9 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     active = false;
     saving = false;
-    showGeneralInfoCard = true;
-    showWorkingPapersCard = true;
-    showExceptionsCard = true;
+    showGeneralInfoCard = false;
+    showWorkingPapersCard = false;
+    showExceptionsCard = false;
     loading = false;
     loadingWorkingPapers = false;
     loadingExceptions = false;
