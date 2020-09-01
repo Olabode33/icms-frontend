@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -43,7 +43,7 @@ export class AppNavigationService {
            
 
             
-            new AppMenuItem('WorkingPaperReviewComments', 'Pages.WorkingPaperReviewComments', 'flaticon-more', '/app/main/workingPaperReviewComments/workingPaperReviewComments'),
+          //  new AppMenuItem('WorkingPaperReviewComments', 'Pages.WorkingPaperReviewComments', 'flaticon-more', '/app/main/workingPaperReviewComments/workingPaperReviewComments'),
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
 
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [    
