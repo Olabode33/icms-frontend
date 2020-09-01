@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
 import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
 import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
 import { DepartmentRatingHistoryComponent } from './departmentRatingHistory/departmentRatingHistory/departmentRatingHistory.component';
@@ -44,10 +45,7 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
             {
                 path: '',
                 children: [
-                    { path: 'lossEvents/columns', component: LossTypeColumnsComponent, /*data: { permission: 'Pages.Projects' } */ },
-                    { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
-                    { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
-                    { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'workingPaperReviewComments/workingPaperReviewComments', component: WorkingPaperReviewCommentsComponent, data: { permission: 'Pages.WorkingPaperReviewComments' }  },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
                     { path: 'projects/planning', component: PlanningComponent, data: { permission: 'Pages.Projects' }  },
@@ -70,7 +68,6 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
                     { path: 'departmentRisks/departmentRisks', component: DepartmentRisksComponent, data: { permission: 'Pages.DepartmentRisks' }  },
                     { path: 'departments/departments', component: DepartmentsComponent, data: { permission: 'Pages.Departments' }  },
                     { path: 'departments/view/:departmentId', component: ViewOrganizationUnitComponent, data: { permission: 'Pages.Departments' }  },
-                    { path: 'process/view/:processId', component: ViewProcessComponent, data: { permission: 'Pages.Departments' }  },
                     { path: 'auditor/view/:departmentId', component: ViewAuditorComponent, data: { permission: 'Pages.Departments' }  },
                     { path: 'dataLists/dataLists', component: DataListsComponent, data: { permission: 'Pages.DataLists' }  },
                     { path: 'exceptionTypes/exceptionTypes', component: ExceptionTypesComponent, data: { permission: 'Pages.ExceptionTypes' }  },
@@ -79,9 +76,6 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.HomePage'} },
-                    { path: 'home/oprisk', component: OpRiskHomeComponent, data: { permission: 'Pages.HomePage'} },
-                    { path: 'dashboard/oprisk', component: OpRiskDashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]
             }

@@ -18,7 +18,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import listPlugin from '@fullcalendar/list';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './planning.component.html',
@@ -45,7 +44,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     organizationUnitDisplayNameFilter = '';
     organizationUnitDisplayName2Filter = '';
     viewCommencedProjectFilter: boolean;
-
+    projectOwner: ProjectOwner;
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
 
@@ -65,7 +64,6 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
         day:      'Day',
         list:     'List'
     };
-    projectOwner: ProjectOwner;
 
     constructor(
         injector: Injector,
@@ -80,29 +78,8 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getModule();
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
-        this.getProjects({ first: 0, sortField: undefined, rows: 4 });
-    }
-
-    getModule(): void {
-        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
-            case AppConsts.ModuleKeyValueInternalControl:
-                this.projectOwner = ProjectOwner.InternalControl;
-                break;
-            case AppConsts.ModuleKeyValueInternalAudit:
-                this.projectOwner = ProjectOwner.InternalAudit;
-                break;
-            case AppConsts.ModuleKeyValueOpRisk:
-                this.projectOwner = ProjectOwner.OperationRisk;
-                break;
-            case AppConsts.ModuleKeyValueGeneral:
-                this.projectOwner = ProjectOwner.General;
-                break;
-            default:
-                this.projectOwner = undefined;
-                break;
-        }
+        this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 
     private setIsEntityHistoryEnabled(): boolean {
@@ -132,8 +109,8 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
             this.viewCommencedProjectFilter,
-            this.projectOwner,
-            '', //this.primengTableHelper.getSorting(this.dataTable),
+            this.projectOwner,'',
+            //this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
@@ -178,7 +155,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.delete(project.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.message.success(this.l('SuccessfullyDeleted'));
+                            this.notify.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -198,7 +175,7 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.message.success('Successfully Activated');
+                            this.notify.success('Successfully Activated');
                         });
                 }
             }

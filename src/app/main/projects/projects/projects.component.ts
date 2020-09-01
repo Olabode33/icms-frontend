@@ -17,7 +17,6 @@ import * as moment from 'moment';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './projects.component.html',
@@ -43,13 +42,12 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
     titleFilter = '';
     organizationUnitDisplayNameFilter = '';
     organizationUnitDisplayName2Filter = '';
-
+    projectOwner: ProjectOwner;
     _entityTypeFullName = 'ICMSDemo.Projects.Project';
     entityHistoryEnabled = false;
 
     viewAllProjectFilter = false;
     commencedFilter: boolean;
-    projectOwner: ProjectOwner;
 
     constructor(
         injector: Injector,
@@ -65,33 +63,12 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
-        this.getModule();
         this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
         return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
-    }
-
-    getModule(): void {
-        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
-            case AppConsts.ModuleKeyValueInternalControl:
-                this.projectOwner = ProjectOwner.InternalControl;
-                break;
-            case AppConsts.ModuleKeyValueInternalAudit:
-                this.projectOwner = ProjectOwner.InternalAudit;
-                break;
-            case AppConsts.ModuleKeyValueOpRisk:
-                this.projectOwner = ProjectOwner.OperationRisk;
-                break;
-            case AppConsts.ModuleKeyValueGeneral:
-                this.projectOwner = ProjectOwner.General;
-                break;
-            default:
-                this.projectOwner = undefined;
-                break;
-        }
     }
 
     getProjects(event?: LazyLoadEvent) {
@@ -115,8 +92,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.titleFilter,
             this.organizationUnitDisplayNameFilter,
             this.organizationUnitDisplayName2Filter,
-            !this.viewAllProjectFilter,
-            this.projectOwner,
+            !this.viewAllProjectFilter, this.projectOwner,
             '',
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
@@ -145,7 +121,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.delete(project.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.message.success(this.l('SuccessfullyDeleted'));
+                            this.notify.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }
@@ -165,7 +141,7 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
                     this._projectsServiceProxy.activate(item)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.message.success('Successfully Activated');
+                            this.notify.success('Successfully Activated');
                         });
                 }
             }

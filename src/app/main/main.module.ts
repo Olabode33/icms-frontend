@@ -1,9 +1,12 @@
-﻿import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
-import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
+import { CreateOrEditWorkingPaperReviewCommentModalComponent } from './workingPaperReviewComments/workingPaperReviewComments/create-or-edit-workingPaperReviewComment-modal.component';
+import { WorkingPaperReviewCommentUserLookupTableModalComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComment-user-lookup-table-modal.component';
+import { WorkingPaperReviewCommentWorkingPaperLookupTableModalComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComment-workingPaper-lookup-table-modal.component';
+
 import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
 import { ViewLibraryControlModalComponent } from './libraryControls/libraryControls/view-libraryControl-modal.component';
 import { CreateOrEditLibraryControlModalComponent } from './libraryControls/libraryControls/create-or-edit-libraryControl-modal.component';
@@ -109,6 +112,8 @@ import { CreateOrEditLossTypeColumnModalComponent } from './lossEvents/lossTypeC
 import { LossEventSampleModalComponent } from './lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
 //import { CreateEditQuestionModal } from './testingTemplates/testingTemplates/create-or-edit-questions-modal.component';
 import { TreeModule } from 'primeng/tree';
+import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
+import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -135,7 +140,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-       // CreateEditQuestionModal,
+        // CreateEditQuestionModal,
         CreateOrEditLossTypeColumnModalComponent,
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
@@ -147,6 +152,16 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         OpRiskHomeComponent,
         ViewProcessComponent,
         LandingPageComponent,
+        LibraryControlsComponent,
+        ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
+        LibraryRisksComponent,
+        ViewLibraryRiskModalComponent, CreateOrEditLibraryRiskModalComponent,
+        WorkingPaperReviewCommentsComponent,
+
+        CreateOrEditWorkingPaperReviewCommentModalComponent,
+        WorkingPaperReviewCommentUserLookupTableModalComponent,
+        WorkingPaperReviewCommentWorkingPaperLookupTableModalComponent,
+        WorkingPaperReviewCommentUserLookupTableModalComponent,
         LibraryControlsComponent,
         ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
         LibraryRisksComponent,

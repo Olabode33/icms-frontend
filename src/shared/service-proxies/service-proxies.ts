@@ -19930,118 +19930,6 @@ export class TestingTemplatesServiceProxy {
     }
 
     /**
-     * @param id (optional) 
-     * @return Success
-     */
-    getQuestionsForEdit(id: number | undefined): Observable<GetTestingTemplateForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetQuestionsForEdit?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetQuestionsForEdit(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetQuestionsForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetTestingTemplateForEditOutput>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<GetTestingTemplateForEditOutput>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetQuestionsForEdit(response: HttpResponseBase): Observable<GetTestingTemplateForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = GetTestingTemplateForEditOutput.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<GetTestingTemplateForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param testingTemplateId (optional) 
-     * @return Success
-     */
-    getTemplateQuestions(testingTemplateId: number | undefined): Observable<ListResultDtoOfOrganizationUnitDto> {
-        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetTemplateQuestions?";
-        if (testingTemplateId === null)
-            throw new Error("The parameter 'testingTemplateId' cannot be null.");
-        else if (testingTemplateId !== undefined)
-            url_ += "testingTemplateId=" + encodeURIComponent("" + testingTemplateId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetTemplateQuestions(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetTemplateQuestions(<any>response_);
-                } catch (e) {
-                    return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetTemplateQuestions(response: HttpResponseBase): Observable<ListResultDtoOfOrganizationUnitDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = ListResultDtoOfOrganizationUnitDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ListResultDtoOfOrganizationUnitDto>(<any>null);
-    }
-
-    /**
      * @return Success
      */
     getTestAttributesForTemplate(): Observable<NameValueDto[]> {
@@ -20150,114 +20038,6 @@ export class TestingTemplatesServiceProxy {
             }));
         }
         return _observableOf<GetTestingTemplateForEditOutput>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    createOrEditTemplate(body: CreateOrEditTestingTemplateDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/CreateOrEditTemplate";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateOrEditTemplate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrEditTemplate(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateOrEditTemplate(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    createAndGetId(body: CreateOrEditTestingTemplateDto | undefined): Observable<number> {
-        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/CreateAndGetId";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json", 
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateAndGetId(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateAndGetId(<any>response_);
-                } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<number>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateAndGetId(response: HttpResponseBase): Observable<number> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<number>(<any>null);
     }
 
     /**
@@ -23102,6 +22882,517 @@ export class WorkingPaperNewsServiceProxy {
             }));
         }
         return _observableOf<CreateOrEditTestingAttributeDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class WorkingPaperReviewCommentsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param priorityFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param maxExpectedCompletionDateFilter (optional) 
+     * @param minExpectedCompletionDateFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param workingPaperCodeFilter (optional) 
+     * @param userName2Filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, priorityFilter: string | undefined, statusFilter: number | undefined, maxExpectedCompletionDateFilter: moment.Moment | undefined, minExpectedCompletionDateFilter: moment.Moment | undefined, userNameFilter: string | undefined, workingPaperCodeFilter: string | undefined, userName2Filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (priorityFilter === null)
+            throw new Error("The parameter 'priorityFilter' cannot be null.");
+        else if (priorityFilter !== undefined)
+            url_ += "PriorityFilter=" + encodeURIComponent("" + priorityFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (maxExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'maxExpectedCompletionDateFilter' cannot be null.");
+        else if (maxExpectedCompletionDateFilter !== undefined)
+            url_ += "MaxExpectedCompletionDateFilter=" + encodeURIComponent(maxExpectedCompletionDateFilter ? "" + maxExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (minExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'minExpectedCompletionDateFilter' cannot be null.");
+        else if (minExpectedCompletionDateFilter !== undefined)
+            url_ += "MinExpectedCompletionDateFilter=" + encodeURIComponent(minExpectedCompletionDateFilter ? "" + minExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (workingPaperCodeFilter === null)
+            throw new Error("The parameter 'workingPaperCodeFilter' cannot be null.");
+        else if (workingPaperCodeFilter !== undefined)
+            url_ += "WorkingPaperCodeFilter=" + encodeURIComponent("" + workingPaperCodeFilter) + "&"; 
+        if (userName2Filter === null)
+            throw new Error("The parameter 'userName2Filter' cannot be null.");
+        else if (userName2Filter !== undefined)
+            url_ += "UserName2Filter=" + encodeURIComponent("" + userName2Filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWorkingPaperReviewCommentForEdit(id: number | undefined): Observable<GetWorkingPaperReviewCommentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetWorkingPaperReviewCommentForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkingPaperReviewCommentForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkingPaperReviewCommentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetWorkingPaperReviewCommentForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetWorkingPaperReviewCommentForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkingPaperReviewCommentForEdit(response: HttpResponseBase): Observable<GetWorkingPaperReviewCommentForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetWorkingPaperReviewCommentForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetWorkingPaperReviewCommentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditWorkingPaperReviewCommentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param priorityFilter (optional) 
+     * @param statusFilter (optional) 
+     * @param maxExpectedCompletionDateFilter (optional) 
+     * @param minExpectedCompletionDateFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param workingPaperCodeFilter (optional) 
+     * @param userName2Filter (optional) 
+     * @return Success
+     */
+    getWorkingPaperReviewCommentsToExcel(filter: string | undefined, priorityFilter: string | undefined, statusFilter: number | undefined, maxExpectedCompletionDateFilter: moment.Moment | undefined, minExpectedCompletionDateFilter: moment.Moment | undefined, userNameFilter: string | undefined, workingPaperCodeFilter: string | undefined, userName2Filter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetWorkingPaperReviewCommentsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (priorityFilter === null)
+            throw new Error("The parameter 'priorityFilter' cannot be null.");
+        else if (priorityFilter !== undefined)
+            url_ += "PriorityFilter=" + encodeURIComponent("" + priorityFilter) + "&"; 
+        if (statusFilter === null)
+            throw new Error("The parameter 'statusFilter' cannot be null.");
+        else if (statusFilter !== undefined)
+            url_ += "StatusFilter=" + encodeURIComponent("" + statusFilter) + "&"; 
+        if (maxExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'maxExpectedCompletionDateFilter' cannot be null.");
+        else if (maxExpectedCompletionDateFilter !== undefined)
+            url_ += "MaxExpectedCompletionDateFilter=" + encodeURIComponent(maxExpectedCompletionDateFilter ? "" + maxExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (minExpectedCompletionDateFilter === null)
+            throw new Error("The parameter 'minExpectedCompletionDateFilter' cannot be null.");
+        else if (minExpectedCompletionDateFilter !== undefined)
+            url_ += "MinExpectedCompletionDateFilter=" + encodeURIComponent(minExpectedCompletionDateFilter ? "" + minExpectedCompletionDateFilter.toJSON() : "") + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (workingPaperCodeFilter === null)
+            throw new Error("The parameter 'workingPaperCodeFilter' cannot be null.");
+        else if (workingPaperCodeFilter !== undefined)
+            url_ += "WorkingPaperCodeFilter=" + encodeURIComponent("" + workingPaperCodeFilter) + "&"; 
+        if (userName2Filter === null)
+            throw new Error("The parameter 'userName2Filter' cannot be null.");
+        else if (userName2Filter !== undefined)
+            url_ += "UserName2Filter=" + encodeURIComponent("" + userName2Filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkingPaperReviewCommentsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkingPaperReviewCommentsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkingPaperReviewCommentsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllWorkingPaperForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkingPaperReviewComments/GetAllWorkingPaperForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWorkingPaperForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWorkingPaperForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllWorkingPaperForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto>(<any>null);
     }
 }
 
@@ -27289,9 +27580,6 @@ export class DepartmentDto implements IDepartmentDto {
     roleCount!: number;
     departmentCode!: string | undefined;
     departmentId!: number | undefined;
-    testAttribute!: string | undefined;
-    weight!: number;
-    testingTemplateId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -27324,9 +27612,6 @@ export class DepartmentDto implements IDepartmentDto {
             this.roleCount = data["roleCount"];
             this.departmentCode = data["departmentCode"];
             this.departmentId = data["departmentId"];
-            this.testAttribute = data["testAttribute"];
-            this.weight = data["weight"];
-            this.testingTemplateId = data["testingTemplateId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -27359,9 +27644,6 @@ export class DepartmentDto implements IDepartmentDto {
         data["roleCount"] = this.roleCount;
         data["departmentCode"] = this.departmentCode;
         data["departmentId"] = this.departmentId;
-        data["testAttribute"] = this.testAttribute;
-        data["weight"] = this.weight;
-        data["testingTemplateId"] = this.testingTemplateId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -27387,9 +27669,6 @@ export interface IDepartmentDto {
     roleCount: number;
     departmentCode: string | undefined;
     departmentId: number | undefined;
-    testAttribute: string | undefined;
-    weight: number;
-    testingTemplateId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;
@@ -29729,18 +30008,12 @@ export enum Severity {
     High = 2,
 }
 
-export enum ExceptionRemediationTypeEnum {
-    Remediable = 0,
-    NonRemediable = 1,
-}
-
 export class ExceptionTypeDto implements IExceptionTypeDto {
     code!: string | undefined;
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
-    remediation!: ExceptionRemediationTypeEnum;
     id!: number;
 
     constructor(data?: IExceptionTypeDto) {
@@ -29759,7 +30032,6 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
-            this.remediation = data["remediation"];
             this.id = data["id"];
         }
     }
@@ -29778,7 +30050,6 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
-        data["remediation"] = this.remediation;
         data["id"] = this.id;
         return data; 
     }
@@ -29790,7 +30061,6 @@ export interface IExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
-    remediation: ExceptionRemediationTypeEnum;
     id: number;
 }
 
@@ -29883,7 +30153,6 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
-    remediation!: ExceptionRemediationTypeEnum;
     otherColumns!: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations!: number[] | undefined;
     id!: number | undefined;
@@ -29903,7 +30172,6 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
-            this.remediation = data["remediation"];
             if (Array.isArray(data["otherColumns"])) {
                 this.otherColumns = [] as any;
                 for (let item of data["otherColumns"])
@@ -29931,7 +30199,6 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
-        data["remediation"] = this.remediation;
         if (Array.isArray(this.otherColumns)) {
             data["otherColumns"] = [];
             for (let item of this.otherColumns)
@@ -29952,7 +30219,6 @@ export interface ICreateOrEditExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
-    remediation: ExceptionRemediationTypeEnum;
     otherColumns: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations: number[] | undefined;
     id: number | undefined;
@@ -34307,9 +34573,6 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
     roleCount!: number;
     departmentCode!: string | undefined;
     departmentId!: number | undefined;
-    testAttribute!: string | undefined;
-    weight!: number;
-    testingTemplateId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -34334,9 +34597,6 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
             this.roleCount = data["roleCount"];
             this.departmentCode = data["departmentCode"];
             this.departmentId = data["departmentId"];
-            this.testAttribute = data["testAttribute"];
-            this.weight = data["weight"];
-            this.testingTemplateId = data["testingTemplateId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -34361,9 +34621,6 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
         data["roleCount"] = this.roleCount;
         data["departmentCode"] = this.departmentCode;
         data["departmentId"] = this.departmentId;
-        data["testAttribute"] = this.testAttribute;
-        data["weight"] = this.weight;
-        data["testingTemplateId"] = this.testingTemplateId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -34381,9 +34638,6 @@ export interface IOrganizationUnitDto {
     roleCount: number;
     departmentCode: string | undefined;
     departmentId: number | undefined;
-    testAttribute: string | undefined;
-    weight: number;
-    testingTemplateId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;
@@ -41664,9 +41918,7 @@ export interface IPagedResultDtoOfGetTestingTemplateForViewDto {
 }
 
 export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemplateDetailsDto {
-    testingTemplateId!: number;
     testAttribute!: string | undefined;
-    id!: number | undefined;
     weight!: number;
     parentId!: number | undefined;
 
@@ -41681,9 +41933,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 
     init(data?: any) {
         if (data) {
-            this.testingTemplateId = data["testingTemplateId"];
             this.testAttribute = data["testAttribute"];
-            this.id = data["id"];
             this.weight = data["weight"];
             this.parentId = data["parentId"];
         }
@@ -41698,9 +41948,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["testingTemplateId"] = this.testingTemplateId;
         data["testAttribute"] = this.testAttribute;
-        data["id"] = this.id;
         data["weight"] = this.weight;
         data["parentId"] = this.parentId;
         return data; 
@@ -41708,9 +41956,7 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 }
 
 export interface ICreateorEditTestTemplateDetailsDto {
-    testingTemplateId: number;
     testAttribute: string | undefined;
-    id: number | undefined;
     weight: number;
     parentId: number | undefined;
 }
@@ -41725,7 +41971,6 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
     sampleSize!: number | undefined;
     projectOwner!: ProjectOwner;
     attributes!: CreateorEditTestTemplateDetailsDto[] | undefined;
-    templateContent!: CreateorEditTestTemplateDetailsDto;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingTemplateDto) {
@@ -41752,7 +41997,6 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
                 for (let item of data["attributes"])
                     this.attributes!.push(CreateorEditTestTemplateDetailsDto.fromJS(item));
             }
-            this.templateContent = data["templateContent"] ? CreateorEditTestTemplateDetailsDto.fromJS(data["templateContent"]) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -41779,7 +42023,6 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
             for (let item of this.attributes)
                 data["attributes"].push(item.toJSON());
         }
-        data["templateContent"] = this.templateContent ? this.templateContent.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -41795,15 +42038,12 @@ export interface ICreateOrEditTestingTemplateDto {
     sampleSize: number | undefined;
     projectOwner: ProjectOwner;
     attributes: CreateorEditTestTemplateDetailsDto[] | undefined;
-    templateContent: CreateorEditTestTemplateDetailsDto;
     id: number | undefined;
 }
 
 export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEditOutput {
     testingTemplate!: CreateOrEditTestingTemplateDto;
     departmentRiskControlCode!: string | undefined;
-    userName!: string | undefined;
-    organizationUnitDisplayName!: string | undefined;
 
     constructor(data?: IGetTestingTemplateForEditOutput) {
         if (data) {
@@ -41818,8 +42058,6 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
         if (data) {
             this.testingTemplate = data["testingTemplate"] ? CreateOrEditTestingTemplateDto.fromJS(data["testingTemplate"]) : <any>undefined;
             this.departmentRiskControlCode = data["departmentRiskControlCode"];
-            this.userName = data["userName"];
-            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
         }
     }
 
@@ -41834,8 +42072,6 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
         data = typeof data === 'object' ? data : {};
         data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
         data["departmentRiskControlCode"] = this.departmentRiskControlCode;
-        data["userName"] = this.userName;
-        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         return data; 
     }
 }
@@ -41843,8 +42079,6 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
 export interface IGetTestingTemplateForEditOutput {
     testingTemplate: CreateOrEditTestingTemplateDto;
     departmentRiskControlCode: string | undefined;
-    userName: string | undefined;
-    organizationUnitDisplayName: string | undefined;
 }
 
 export class TestingTemplateDepartmentRiskControlLookupTableDto implements ITestingTemplateDepartmentRiskControlLookupTableDto {
@@ -43765,6 +43999,126 @@ export interface ICreateOrEditWorkingPaperNewDto {
     id: string | undefined;
 }
 
+export class WorkingPaperReviewCommentDto implements IWorkingPaperReviewCommentDto {
+    title!: string | undefined;
+    priority!: string | undefined;
+    status!: Status;
+    severity!: Severity;
+    expectedCompletionDate!: moment.Moment;
+    assigneeUserId!: number | undefined;
+    workingPaperId!: string | undefined;
+    assignerUserId!: number | undefined;
+    creationTime!: moment.Moment;
+    id!: number;
+
+    constructor(data?: IWorkingPaperReviewCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.priority = data["priority"];
+            this.status = data["status"];
+            this.severity = data["severity"];
+            this.expectedCompletionDate = data["expectedCompletionDate"] ? moment(data["expectedCompletionDate"].toString()) : <any>undefined;
+            this.assigneeUserId = data["assigneeUserId"];
+            this.workingPaperId = data["workingPaperId"];
+            this.assignerUserId = data["assignerUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["priority"] = this.priority;
+        data["status"] = this.status;
+        data["severity"] = this.severity;
+        data["expectedCompletionDate"] = this.expectedCompletionDate ? this.expectedCompletionDate.toISOString() : <any>undefined;
+        data["assigneeUserId"] = this.assigneeUserId;
+        data["workingPaperId"] = this.workingPaperId;
+        data["assignerUserId"] = this.assignerUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentDto {
+    title: string | undefined;
+    priority: string | undefined;
+    status: Status;
+    severity: Severity;
+    expectedCompletionDate: moment.Moment;
+    assigneeUserId: number | undefined;
+    workingPaperId: string | undefined;
+    assignerUserId: number | undefined;
+    creationTime: moment.Moment;
+    id: number;
+}
+
+export class GetWorkingPaperReviewCommentForViewDto implements IGetWorkingPaperReviewCommentForViewDto {
+    workingPaperReviewComment!: WorkingPaperReviewCommentDto;
+    userName!: string | undefined;
+    workingPaperCode!: string | undefined;
+    userName2!: string | undefined;
+
+    constructor(data?: IGetWorkingPaperReviewCommentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.workingPaperReviewComment = data["workingPaperReviewComment"] ? WorkingPaperReviewCommentDto.fromJS(data["workingPaperReviewComment"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.workingPaperCode = data["workingPaperCode"];
+            this.userName2 = data["userName2"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkingPaperReviewCommentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkingPaperReviewCommentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workingPaperReviewComment"] = this.workingPaperReviewComment ? this.workingPaperReviewComment.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["workingPaperCode"] = this.workingPaperCode;
+        data["userName2"] = this.userName2;
+        return data; 
+    }
+}
+
+export interface IGetWorkingPaperReviewCommentForViewDto {
+    workingPaperReviewComment: WorkingPaperReviewCommentDto;
+    userName: string | undefined;
+    workingPaperCode: string | undefined;
+    userName2: string | undefined;
+}
+
 export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEditOutput {
     workingPaperNew!: CreateOrEditWorkingPaperNewDto;
     testingTemplate!: GetTestingTemplateForViewDto;
@@ -43775,6 +44129,7 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
     completedBy!: string | undefined;
     reviewedBy!: string | undefined;
     assignedTo!: string | undefined;
+    reviewComments!: GetWorkingPaperReviewCommentForViewDto[] | undefined;
 
     constructor(data?: IGetWorkingPaperNewForEditOutput) {
         if (data) {
@@ -43800,6 +44155,11 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
             this.completedBy = data["completedBy"];
             this.reviewedBy = data["reviewedBy"];
             this.assignedTo = data["assignedTo"];
+            if (Array.isArray(data["reviewComments"])) {
+                this.reviewComments = [] as any;
+                for (let item of data["reviewComments"])
+                    this.reviewComments!.push(GetWorkingPaperReviewCommentForViewDto.fromJS(item));
+            }
         }
     }
 
@@ -43825,6 +44185,11 @@ export class GetWorkingPaperNewForEditOutput implements IGetWorkingPaperNewForEd
         data["completedBy"] = this.completedBy;
         data["reviewedBy"] = this.reviewedBy;
         data["assignedTo"] = this.assignedTo;
+        if (Array.isArray(this.reviewComments)) {
+            data["reviewComments"] = [];
+            for (let item of this.reviewComments)
+                data["reviewComments"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -43839,6 +44204,7 @@ export interface IGetWorkingPaperNewForEditOutput {
     completedBy: string | undefined;
     reviewedBy: string | undefined;
     assignedTo: string | undefined;
+    reviewComments: GetWorkingPaperReviewCommentForViewDto[] | undefined;
 }
 
 export class AssignWorkingPaperNewDto implements IAssignWorkingPaperNewDto {
@@ -44143,6 +44509,350 @@ export class PagedResultDtoOfWorkingPaperNewUserLookupTableDto implements IPaged
 export interface IPagedResultDtoOfWorkingPaperNewUserLookupTableDto {
     totalCount: number;
     items: WorkingPaperNewUserLookupTableDto[] | undefined;
+}
+
+export class PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto implements IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+    totalCount!: number;
+    items!: GetWorkingPaperReviewCommentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetWorkingPaperReviewCommentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetWorkingPaperReviewCommentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetWorkingPaperReviewCommentForViewDto {
+    totalCount: number;
+    items: GetWorkingPaperReviewCommentForViewDto[] | undefined;
+}
+
+export class CreateOrEditWorkingPaperReviewCommentDto implements ICreateOrEditWorkingPaperReviewCommentDto {
+    title!: string | undefined;
+    comments!: string | undefined;
+    response!: string | undefined;
+    status!: Status;
+    severity!: Severity;
+    expectedCompletionDate!: moment.Moment;
+    assigneeUserId!: number | undefined;
+    workingPaperId!: string | undefined;
+    assignerUserId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditWorkingPaperReviewCommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.title = data["title"];
+            this.comments = data["comments"];
+            this.response = data["response"];
+            this.status = data["status"];
+            this.severity = data["severity"];
+            this.expectedCompletionDate = data["expectedCompletionDate"] ? moment(data["expectedCompletionDate"].toString()) : <any>undefined;
+            this.assigneeUserId = data["assigneeUserId"];
+            this.workingPaperId = data["workingPaperId"];
+            this.assignerUserId = data["assignerUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditWorkingPaperReviewCommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditWorkingPaperReviewCommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["comments"] = this.comments;
+        data["response"] = this.response;
+        data["status"] = this.status;
+        data["severity"] = this.severity;
+        data["expectedCompletionDate"] = this.expectedCompletionDate ? this.expectedCompletionDate.toISOString() : <any>undefined;
+        data["assigneeUserId"] = this.assigneeUserId;
+        data["workingPaperId"] = this.workingPaperId;
+        data["assignerUserId"] = this.assignerUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditWorkingPaperReviewCommentDto {
+    title: string | undefined;
+    comments: string | undefined;
+    response: string | undefined;
+    status: Status;
+    severity: Severity;
+    expectedCompletionDate: moment.Moment;
+    assigneeUserId: number | undefined;
+    workingPaperId: string | undefined;
+    assignerUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetWorkingPaperReviewCommentForEditOutput implements IGetWorkingPaperReviewCommentForEditOutput {
+    workingPaperReviewComment!: CreateOrEditWorkingPaperReviewCommentDto;
+    userName!: string | undefined;
+    workingPaperCode!: string | undefined;
+    userName2!: string | undefined;
+
+    constructor(data?: IGetWorkingPaperReviewCommentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.workingPaperReviewComment = data["workingPaperReviewComment"] ? CreateOrEditWorkingPaperReviewCommentDto.fromJS(data["workingPaperReviewComment"]) : <any>undefined;
+            this.userName = data["userName"];
+            this.workingPaperCode = data["workingPaperCode"];
+            this.userName2 = data["userName2"];
+        }
+    }
+
+    static fromJS(data: any): GetWorkingPaperReviewCommentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetWorkingPaperReviewCommentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workingPaperReviewComment"] = this.workingPaperReviewComment ? this.workingPaperReviewComment.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        data["workingPaperCode"] = this.workingPaperCode;
+        data["userName2"] = this.userName2;
+        return data; 
+    }
+}
+
+export interface IGetWorkingPaperReviewCommentForEditOutput {
+    workingPaperReviewComment: CreateOrEditWorkingPaperReviewCommentDto;
+    userName: string | undefined;
+    workingPaperCode: string | undefined;
+    userName2: string | undefined;
+}
+
+export class WorkingPaperReviewCommentUserLookupTableDto implements IWorkingPaperReviewCommentUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IWorkingPaperReviewCommentUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto implements IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+    totalCount!: number;
+    items!: WorkingPaperReviewCommentUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WorkingPaperReviewCommentUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWorkingPaperReviewCommentUserLookupTableDto {
+    totalCount: number;
+    items: WorkingPaperReviewCommentUserLookupTableDto[] | undefined;
+}
+
+export class WorkingPaperReviewCommentWorkingPaperLookupTableDto implements IWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    id!: string | undefined;
+    displayName!: string | undefined;
+
+    constructor(data?: IWorkingPaperReviewCommentWorkingPaperLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): WorkingPaperReviewCommentWorkingPaperLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkingPaperReviewCommentWorkingPaperLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    id: string | undefined;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto implements IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    totalCount!: number;
+    items!: WorkingPaperReviewCommentWorkingPaperLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(WorkingPaperReviewCommentWorkingPaperLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfWorkingPaperReviewCommentWorkingPaperLookupTableDto {
+    totalCount: number;
+    items: WorkingPaperReviewCommentWorkingPaperLookupTableDto[] | undefined;
 }
 
 export class ListResultDtoOfGetExceptionIncidentForViewDto implements IListResultDtoOfGetExceptionIncidentForViewDto {

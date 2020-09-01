@@ -6,10 +6,7 @@ import { ZeroRefreshTokenService } from '@account/auth/zero-refresh-token.servic
 
 @NgModule({
     providers: [
-        ApiServiceProxies.LossEventTasksServiceProxy,
-        ApiServiceProxies.LossTypesServiceProxy,
-        ApiServiceProxies.LossTypeColumnsServiceProxy,
-        ApiServiceProxies.LossEventsServiceProxy,
+        ApiServiceProxies.WorkingPaperReviewCommentsServiceProxy,        
         ApiServiceProxies.LibraryControlsServiceProxy,
         ApiServiceProxies.LibraryRisksServiceProxy,
         ApiServiceProxies.DepartmentRatingHistoryServiceProxy,
