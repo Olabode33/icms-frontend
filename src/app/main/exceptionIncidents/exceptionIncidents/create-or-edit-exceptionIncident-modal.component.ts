@@ -1,7 +1,7 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto, CreateOrEditExceptionIncidentColumnDto } from '@shared/service-proxies/service-proxies';
+import { ExceptionIncidentsServiceProxy, CreateOrEditExceptionIncidentDto, CreateOrEditExceptionIncidentColumnDto, Status } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { ExceptionIncidentExceptionTypeLookupTableModalComponent } from './exceptionIncident-exceptionType-lookup-table-modal.component';
@@ -34,6 +34,8 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
     testingTemplateCode = '';
     organizationUnitDisplayName = '';
     additionalColumns = [];
+
+    statusEnum = Status;
 
 
     changeReviewDepartment = true;
@@ -97,6 +99,7 @@ export class CreateOrEditExceptionIncidentModalComponent extends AppComponentBas
 
         this.changeReviewDepartment = false;
         this.active = true;
+        console.log(this.exceptionIncident);
         this.modal.show();
     }
 

@@ -179,29 +179,25 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this._location.back();
     }
 
-    RemoveQuestion = (Id:number) => 
-    {
+    RemoveQuestion = (Id: number) => {
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;
-                
-                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id ); 
-                if(res.length > 0)
-                {
-                   
-                    for(let i = 0; i < res.length; ++i){
-                        if (res[i].parentId === Id) 
-                        {
-                          var position = this.attributes.indexOf(res[i].testingAttrributeId);
+
+                let res = this.testingTemplate.attributes.filter(o => o.parentId == Id );
+                if (res.length > 0) {
+                    for (let i = 0; i < res.length; ++i) {
+                        if (res[i].parentId === Id) {
+                          let position = this.attributes.indexOf(res[i].testingAttrributeId);
                             this.attributes.splice(position, 1);
                         }
                     }
 
                 }
-                
-            });
+        });
+        this.createExceptionIncident();
     }
 
 
