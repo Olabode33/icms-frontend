@@ -7,7 +7,7 @@ import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditProcessRiskModalComponent } from '../process-risk/create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from '../process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
-import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+//import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { AppConsts } from '@shared/AppConsts';
 
 @Component({

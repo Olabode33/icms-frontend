@@ -4,7 +4,7 @@ import { TestingTemplatesServiceProxy, TestingTemplateDto , Frequency } from '@s
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateOrEditTestingTemplateModalComponent } from './create-or-edit-testingTemplate-modal.component';
+//import { CreateOrEditTestingTemplateModalComponent } from './create-or-edit-testingTemplate-modal.component';
 import { ViewTestingTemplateModalComponent } from './view-testingTemplate-modal.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Table } from 'primeng/components/table/table';
@@ -22,7 +22,7 @@ import * as moment from 'moment';
 })
 export class TestingTemplatesComponent extends AppComponentBase {
 
-    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
     @ViewChild('viewTestingTemplateModalComponent', { static: true }) viewTestingTemplateModal: ViewTestingTemplateModalComponent;
     @ViewChild('entityTypeHistoryModal', { static: true }) entityTypeHistoryModal: EntityTypeHistoryModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -88,7 +88,8 @@ export class TestingTemplatesComponent extends AppComponentBase {
     }
 
     createTestingTemplate(): void {
-        this.createOrEditTestingTemplateModal.show();
+        //this._router.navigate(['/app/main/testingTemplates/createOrEdit'], { queryParams: { id: id } });
+        //this.createOrEditTestingTemplateModal.show();
     }
 
     showHistory(testingTemplate: TestingTemplateDto): void {

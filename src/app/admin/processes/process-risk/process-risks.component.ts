@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
 import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
 //import { OrganizationUnitControlsComponent } from './organization-unit-controls.component';
-import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+//import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
 import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
