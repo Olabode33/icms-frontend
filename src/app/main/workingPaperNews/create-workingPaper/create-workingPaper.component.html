@@ -71,29 +71,31 @@
                             <div class="card">
                                 <div class="card-header" id="headingOne4" (click)="showProcessCard = !showProcessCard; showRiskCard = false; showControlsCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showProcessCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
-                                        <i class="flaticon-tabs"></i> Process
+                                        <span class="kt-font-info">   <i class="flaticon-tabs"></i> Process</span>
                                     </div>
                                 </div>
                                 <div id="collapseOne4" class="collapse" [ngClass]="{'show': showProcessCard}" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table table-bordered">
                                                 <tr>
-                                                    <td style="width: 20%;">Name:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.ouDisplayName}}</td>
+                                                    <th style="width: 15%;">Name:</th>
+                                                    <td style="width: 35%;">{{testingTemplate.ouDisplayName}}</td>
+                                                    <th style="width: 15%;">Owner (Department):</th>
+                                                    <td style="width: 35%;">{{testingTemplate.processOwner}} ({{testingTemplate.processDepartment}})</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 20%;">Description:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.processDescription}}</td>
+                                                    <th>Description:</th>
+                                                    <td colspan="3">{{testingTemplate.processDescription}}</td>
                                                 </tr>
-                                                <tr>
+                                                <!--<tr>
                                                     <td style="width: 20%;">Owner:</td>
                                                     <td style="width: 80%;">{{testingTemplate.processOwner}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 20%;">Department:</td>
                                                     <td style="width: 80%;">{{testingTemplate.processDepartment}}</td>
-                                                </tr>
+                                                </tr>-->
                                             </table>
                                         </div>
                                     </div>
@@ -102,34 +104,32 @@
                             <div class="card">
                                 <div class="card-header" id="headingOne4" (click)="showRiskCard = !showRiskCard; showProcessCard = false; showControlsCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showRiskCard}" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
-                                        <i class="flaticon-warning"></i> Risk
+                                        <span class="kt-font-danger"> <i class="flaticon-warning"></i> Risk</span>
                                     </div>
                                 </div>
                                 <div id="collapseOne4" class="collapse" [ngClass]="{'show': showRiskCard}" aria-labelledby="headingOne" data-parent="#accordionExample4" style="">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table table-bordered">
                                                 <tr>
-                                                    <td style="width: 20%;">Code:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.risk.code}}</td>
+                                                    <th style="width: 15%;">Name (Code):</th>
+                                                    <td colspan="3">{{testingTemplate.risk.name}} ({{testingTemplate.risk.code}})</td>
+                                                </tr>
+                                  
+                                                <tr>
+                                                    <th>Description:</th>
+                                                    <td colspan="3">{{testingTemplate.risk.description}}.</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 20%;">Name:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.risk.name}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Description:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.risk.description}}.</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Likelihood:</td>
-                                                    <td style="width: 80%;">
+                                                    <th style="width: 20%;">Likelihood:</th>
+                                                    <td>
                                                         <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.likelyhood)"
                                                                 class="kt-badge kt-badge--danger kt-badge--inline"
                                                                 data-placement="top" style="margin-right: 30%;">
                                                             {{l('Impact_' + testingTemplate.risk.likelyhood)}}
                                                         </span>
-                                                        <span style="margin-right: 10%;">Impact:</span>
+                                                    <th>Impact:</th>
+                                                    <td>
                                                         <span [style.background]="_appConsts.getLikelihoodStatusColor(testingTemplate.risk.impact)"
                                                                 class="kt-badge kt-badge--danger kt-badge--inline"
                                                                 data-placement="top">
@@ -145,41 +145,37 @@
                             <div class="card">
                                 <div class="card-header" id="headingTwo4" (click)="showControlsCard = !showControlsCard; showProcessCard = false; showRiskCard = false;">
                                     <div class="card-title" [ngClass]="{'collapsed': !showControlsCard}" data-toggle="collapse" data-target="#collapseTwo4" aria-expanded="false" aria-controls="collapseTwo4">
-                                        <i class="flaticon2-dashboard"></i> Control
+                                        <span class="kt-font-success">  <i class="flaticon2-dashboard"></i> Control</span>
                                     </div>
                                 </div>
                                 <div id="collapseTwo4" class="collapse" [ngClass]="{'show': showControlsCard}" aria-labelledby="headingTwo1" data-parent="#accordionExample4">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table table-bordered">
                                                 <tr>
-                                                    <td style="width: 20%;">Code:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.control.code}}</td>
+                                                    <th style="width: 15%;">Name (Code):</th>
+                                                    <td colspan="3">{{testingTemplate.control.name}} ({{testingTemplate.control.code}})</td>
+                                                </tr>
+                           
+                                                <tr>
+                                                    <th>Description:</th>
+                                                    <td colspan="3">{{testingTemplate.control.description}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 20%;">Name:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.control.name}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Description:</td>
-                                                    <td style="width: 80%;">{{testingTemplate.control.description}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Control Type:</td>
-                                                    <td style="width: 80%;">
+                                                    <th>Control Type:</th>
+                                                    <td style="width: 35%">
                                                         <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-primary">
                                                             {{l(controlTypeEnum[testingTemplate.control.controlType])}}
                                                         </span>
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 20%;">Frequency:</td>
-                                                    <td style="width: 80%;">
+                                                    <th style="width: 15%;">Frequency:</th>
+                                                    <td style="width: 35%;">
                                                         <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--unified-success">
                                                             {{frequency[testingTemplate.control.frequency]}}
                                                         </span>
                                                     </td>
                                                 </tr>
+                   
                                             </table>
                                         </div>
                                     </div>

@@ -45,6 +45,15 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
             {
                 path: '',
                 children: [
+
+                    { path: 'home/oprisk', component: OpRiskHomeComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'dashboard/oprisk', component: OpRiskDashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'process/view/:processId', component: ViewProcessComponent, data: { permission: 'Pages.Departments' }  },
+                    { path: 'lossEvents/columns', component: LossTypeColumnsComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
+                    { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'workingPaperReviewComments/workingPaperReviewComments', component: WorkingPaperReviewCommentsComponent, data: { permission: 'Pages.WorkingPaperReviewComments' }  },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
