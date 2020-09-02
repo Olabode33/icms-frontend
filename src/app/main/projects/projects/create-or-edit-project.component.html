@@ -50,7 +50,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-6">
-                            <label for="Project_reviewType">Review Type</label>
+                            <label for="Project_reviewType">Review Scope</label>
                             <select type="text" id="Project_reviewType" class="form-control"
                                 [(ngModel)]="project.reviewType" name="reviewType">
                                 <option value=0>Business Unit</option>
@@ -70,6 +70,14 @@
                     </div>
 
                     <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="Project_reviewType2">Review Type</label>
+                            <select type="text" id="Project_reviewType2" class="form-control" name="reviewType2">
+                                <option value=0>Internal Policies</option>
+                                <option value=1>Compliance Framework</option>
+                                <option value=1>Regulation Standards</option>
+                            </select>
+                        </div>
                         <div class="form-group col-6">
                             <label for="Project_Owner">Project Owner</label>
                             <select type="text" id="Project_owner" class="form-control"
@@ -156,6 +164,9 @@
                                         id="Project_EndDate" name="Project_EndDate">
                                 </div>
                             </div>
+                        </tab>
+                        <tab heading="List of Requirements">
+                            <button type="button" class="btn btn-primary">Add</button>
                         </tab>
                     </tabset>
                 </div>
