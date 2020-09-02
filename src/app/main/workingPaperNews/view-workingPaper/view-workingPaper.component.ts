@@ -327,4 +327,10 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
             return null;
         }
     }
+
+    reloadPage(): void {
+        if (this.workingPaperNew.id) {
+            this.show(this.workingPaperNew.id);
+        }
+    }
 }
