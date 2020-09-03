@@ -16,7 +16,7 @@
                     <tabset>
                         <tab heading="General">
                             <div class="form-group m-form__group">
-                                <label for="OrganizationUnitDisplayName">Select the Business Unit under review</label>
+                                <label for="OrganizationUnitDisplayName">Business Unit under review</label>
                                 <div class="input-group">
                                     <input class="form-control" id="OrganizationUnitDisplayName" name="organizationUnitDisplayName" [(ngModel)]="organizationUnitDisplayName" type="text" disabled>
                                     <div class="input-group-append" *ngIf="!exceptionIncident.id && changeReviewDepartment ">
@@ -31,7 +31,7 @@
 
 
                             <div class="form-group m-form__group">
-                                <label for="ExceptionTypeName">Select the exception type</label>
+                                <label for="ExceptionTypeName">Exception type</label>
                                 <div class="input-group">
                                     <input class="form-control" id="ExceptionTypeName" name="exceptionTypeName" [(ngModel)]="exceptionTypeName" type="text" disabled>
                                     <div class="input-group-append" *ngIf="!exceptionIncident.id">
@@ -44,7 +44,7 @@
                             <input class="form-control" name="exceptionIncident.exceptionTypeId" [(ngModel)]="exceptionIncident.exceptionTypeId" type="text" hidden>
 
                             <div class="form-group m-form__group">
-                                <label for="UserName">Select the staff that caused this exception</label>
+                                <label for="UserName">Staff that caused this exception</label>
                                 <div class="input-group">
                                     <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>
                                     <div class="input-group-append" *ngIf="!exceptionIncident.id">
@@ -125,7 +125,7 @@
                             </div>
                         </tab>
 
-                        <tab heading="Resolution" [hidden]="!exceptionIncident.id">
+                        <tab heading="Resolution" *ngIf="exceptionIncident.id">
                             <div *ngIf="exceptionIncident.id" class="form-group">
                                 <label for="ExceptionIncident_ClosureComments">Comments</label>
                                 <textarea *ngIf="exceptionIncident.status ==0" type="text" id="ExceptionIncident_ClosureComments" class="form-control" [(ngModel)]="exceptionIncident.resolutionComments" name="resolutionComments"></textarea>
@@ -134,7 +134,7 @@
 
                             <div class="form-group" *ngIf="exceptionIncident.status ==1">
                                 <label for="ExceptionIncident_RaisedByClosureComments">{{l("RaisedByClosureComments")}}</label>
-                                <textarea type="text" id="ExceptionIncident_RaisedByClosureComments" class="form-control" [(ngModel)]="exceptionIncident.raisedByClosureComments" name="RaisedByClosureComments"></textarea>
+                                <textarea type="text" id="ExceptionIncident_RaisedByClosureComments" class="form-control" [(ngModel)]="exceptionIncident.resolutionComments" name="RaisedByClosureComments"></textarea>
                             </div>
                         </tab>
                     </tabset>

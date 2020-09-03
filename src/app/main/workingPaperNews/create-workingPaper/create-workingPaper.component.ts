@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { id } from '@swimlane/ngx-charts/release/utils';
 
 @Component({
     selector: 'app-create-workingPaper',
@@ -31,11 +32,6 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 //   this.state = !this.state;
 // }
 
-
-
-  
-
-
     active = false;
     saving = false;
     loading = false;
@@ -54,7 +50,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
     depts: ListResultDtoOfOrganizationUnitDto = new ListResultDtoOfOrganizationUnitDto();
 
-    showGeneralInfoCard = true;
+    showGeneralInfoCard = false;
     showSamplingCard = true;
     comments: string;
     sampleDescription: string;
@@ -77,6 +73,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     documentId: any;
 
     maxCount = 0;
+
+    _appConsts = AppConsts;
+
+    loadingQuestions = false;
 
     constructor(
         injector: Injector,
@@ -144,7 +144,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
             this.workingPaperNew.testingTemplateId = testingTemplateId;
             this.workingPaperNew.organizationUnitId = departmentId;
             this.getTemplateDetails();
-            //this.getDeptDetails(departmentId);
+            this.getDeptDetails(departmentId);
 
             this.active = true;
             this.loading = false;
@@ -177,75 +177,65 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
         this._location.back();
     }
 
-    RemoveQuestion = (Id:number) => 
-    {
+    RemoveQuestion = (Id: number) => {
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
             .pipe(finalize(() => { this.saving = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;
-                
-                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id ); 
-                if(res.length > 0)
-                {
-                   
-                    for(let i = 0; i < res.length; ++i){
-                        if (res[i].parentId === Id) 
-                        {
-                          var position = this.attributes.indexOf(res[i].testingAttrributeId);
+
+                let res = this.testingTemplate.attributes.filter(o => o.parentId == Id );
+                if (res.length > 0) {
+                    for (let i = 0; i < res.length; ++i) {
+                        if (res[i].parentId === Id) {
+                          let position = this.attributes.indexOf(res[i].testingAttrributeId);
                             this.attributes.splice(position, 1);
                         }
                     }
 
                 }
-                
-            });
+        });
+        this.createExceptionIncident();
     }
 
 
 
-    AddQuestion = (Id:number) => 
-    {
+    AddQuestion = (Id: number) => {
+        console.log('Fetching children Qs for: ' + Id);
+        //this.loadingQuestions = true;
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
-            .pipe(finalize(() => { this.saving = false; }))
+            .pipe(finalize(() => { this.loadingQuestions = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;
-                
-                var res =this.testingTemplate.attributes.filter(o=>o.parentId ==Id );              
-                if(res.length > 0)
-                {
-                    this.testingTemplate.attributes.filter(o=>o.parentId ==Id ).forEach(x => {
-                        
-                        let item = 
-                        {
+
+                let res = this.testingTemplate.attributes.filter(o => o.parentId == Id );
+                if (res.length > 0) {
+                    this.testingTemplate.attributes.filter(o => o.parentId == Id ).forEach(x => {
+
+                        let item = {
                             id: x.testingAttrributeId,
                             name: x.attributeText,
                             weight: x.weight,
-                            parentId:x.parentId,
+                            parentId: x.parentId,
                             value: null ,
                             comment: ''
                         };
                      //   alert(x.testingAttrributeId)
-                        if(this.attributes.some(code => code.id === x.testingAttrributeId) == false)
-                        {
-                           
+                        if (this.attributes.some(code => code.id === x.testingAttrributeId) == false) {
                             this.attributes.push(item);
                         }
-                       
                     });
-                    console.log("FULL RES",this.attributes)
+                    console.log('FULL RES', this.attributes);
                 }
-               
-                
             });
     }
 
 
     getTemplateDetails(): void {
-//alert("test")
+        this.loadingQuestions = true;
         this._testingTemplatesServiceProxy.getTestingTemplateForView(this.workingPaperNew.testingTemplateId)
-            .pipe(finalize(() => { this.saving = false; }))
+            .pipe(finalize(() => { this.loadingQuestions = false; }))
             .subscribe(result => {
                 this.testingTemplate = result;
                 this.testingTemplateCode = result.testingTemplate.code;
@@ -273,13 +263,13 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
     //    });
     //}
 
-    //getDeptDetails(departId): void {
-    //    this._ouService.getOrganizationUnits().subscribe(result => {
-    //        this.depts = result;
-    //        let ou = this.depts.items.find(x => x.id === departId);
-    //        this.organizationUnitDisplayName = ou ? ou.displayName : '';
-    //    });
-    //}
+    getDeptDetails(departId): void {
+       this._ouService.getOrganizationUnits().subscribe(result => {
+           this.depts = result;
+           let ou = this.depts.items.find(x => x.id === departId);
+           this.organizationUnitDisplayName = ou ? ou.displayName : '';
+       });
+    }
 
 
     addResult(): void {
@@ -293,7 +283,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
 
 
         if (test) {
-            this.notify.warn('Please complete all questions before you move on to the next sample.');
+            this.message.warn('Please complete all questions before you move on to the next sample.');
             return;
         }
 
@@ -330,10 +320,10 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                 this.attributes.push(item);
             });
             this.sampleId++;
-            this.notify.info('Result for sample saved successfully!.');
+            this.message.info('Result for sample saved successfully!.');
         } else {
 
-            this.notify.info('Result for sample saved successfully!.');
+            this.message.info('Result for sample saved successfully!.');
           //  this.save(TaskStatus.PendingReview);
         }
         this.maxCount++;
@@ -399,7 +389,7 @@ export class CreateWorkingPaperComponent extends AppComponentBase implements OnI
                     this._workingPaperNewsServiceProxy.createOrEdit(this.workingPaperNew)
                         .pipe(finalize(() => { this.saving = false; this.loading = false; }))
                         .subscribe(() => {
-                            this.notify.success(this.l('SavedSuccessfully'));
+                            this.message.success(this.l('SavedSuccessfully'));
                             this.goBack();
                         });
                 }

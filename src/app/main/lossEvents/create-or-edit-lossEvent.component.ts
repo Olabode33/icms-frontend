@@ -65,7 +65,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
             this.lossEvent.id = null;
             this.lossEvent.dateOccured = moment().startOf('day');
             this.lossEvent.dateDiscovered = result.lossEventTask.dateAssigned;
-            this.lossEvent.status = Status.Submitted;
+            //this.lossEvent.status = Status.Submitted;
             this.lossEvent.lossTypeId = result.lossEventTask.lossTypeId;
             this.lossEvent.description = 'Triggered by: ' + result.lossEventTask.title + '\r' + result.lossEventTask.description;
             this.lossEvent.lossCategory = LossCategoryEnums.Actual;
@@ -85,7 +85,7 @@ export class CreateOrEditLossEventComponent extends AppComponentBase implements 
             this.lossEvent.id = lossEventId;
             this.lossEvent.dateOccured = moment().startOf('day');
             this.lossEvent.dateDiscovered = moment().startOf('day');
-            this.lossEvent.status = Status.Submitted;
+           // this.lossEvent.status = Status.Submitted;
             this.userName = '';
             this.organizationUnitDisplayName = '';
 

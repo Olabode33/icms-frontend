@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExceptionTypesServiceProxy, ExceptionTypeDto , Severity } from '@shared/service-proxies/service-proxies';
+//import { ExceptionTypesServiceProxy, ExceptionTypeDto , Severity, ExceptionRemediationTypeEnum } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -32,13 +32,13 @@ export class ExceptionTypesComponent extends AppComponentBase {
     nameFilter = '';
     severityFilter = -1;
 
-    severity = Severity;
+    // severity = Severity;
 
-
+    // remediationTypeEnum = ExceptionRemediationTypeEnum;
 
     constructor(
         injector: Injector,
-        private _exceptionTypesServiceProxy: ExceptionTypesServiceProxy,
+       // private _exceptionTypesServiceProxy: ExceptionTypesServiceProxy,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
@@ -55,19 +55,19 @@ export class ExceptionTypesComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._exceptionTypesServiceProxy.getAll(
-            this.filterText,
-            this.codeFilter,
-            this.nameFilter,
-            this.severityFilter,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getSkipCount(this.paginator, event),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event)
-        ).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            this.primengTableHelper.hideLoadingIndicator();
-        });
+        // this._exceptionTypesServiceProxy.getAll(
+        //     this.filterText,
+        //     this.codeFilter,
+        //     this.nameFilter,
+        //     this.severityFilter,
+        //     this.primengTableHelper.getSorting(this.dataTable),
+        //     this.primengTableHelper.getSkipCount(this.paginator, event),
+        //     this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        // ).subscribe(result => {
+        //     this.primengTableHelper.totalRecordsCount = result.totalCount;
+        //     this.primengTableHelper.records = result.items;
+        //     this.primengTableHelper.hideLoadingIndicator();
+        // });
     }
 
     reloadPage(): void {
@@ -78,31 +78,31 @@ export class ExceptionTypesComponent extends AppComponentBase {
         this.createOrEditExceptionTypeModal.show();
     }
 
-    deleteExceptionType(exceptionType: ExceptionTypeDto): void {
-        this.message.confirm(
-            '',
-            this.l('AreYouSure'),
-            (isConfirmed) => {
-                if (isConfirmed) {
-                    this._exceptionTypesServiceProxy.delete(exceptionType.id)
-                        .subscribe(() => {
-                            this.reloadPage();
-                            this.message.success(this.l('SuccessfullyDeleted'));
-                        });
-                }
-            }
-        );
-    }
+    // deleteExceptionType(exceptionType: ExceptionTypeDto): void {
+    //     this.message.confirm(
+    //         '',
+    //         this.l('AreYouSure'),
+    //         (isConfirmed) => {
+    //             if (isConfirmed) {
+    //                 this._exceptionTypesServiceProxy.delete(exceptionType.id)
+    //                     .subscribe(() => {
+    //                         this.reloadPage();
+    //                         this.message.success(this.l('SuccessfullyDeleted'));
+    //                     });
+    //             }
+    //         }
+    //     );
+    // }
 
-    exportToExcel(): void {
-        this._exceptionTypesServiceProxy.getExceptionTypesToExcel(
-        this.filterText,
-            this.codeFilter,
-            this.nameFilter,
-            this.severityFilter,
-        )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
-    }
+    // exportToExcel(): void {
+    //     this._exceptionTypesServiceProxy.getExceptionTypesToExcel(
+    //     this.filterText,
+    //         this.codeFilter,
+    //         this.nameFilter,
+    //         this.severityFilter,
+    //     )
+    //     .subscribe(result => {
+    //         this._fileDownloadService.downloadTempFile(result);
+    //      });
+    // }
 }

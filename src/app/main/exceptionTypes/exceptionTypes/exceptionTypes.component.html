@@ -113,6 +113,10 @@
                                         {{l('TargetRemediation')}} (Days)
                                         <p-sortIcon field="exceptionType.targetRemediation"></p-sortIcon>
                                     </th>
+                                    <th style="width: 150px" pSortableColumn="remediation">
+                                        {{l('Remediation')}}
+                                        <p-sortIcon field="exceptionType.remediation"></p-sortIcon>
+                                    </th>
 
                                 </tr>
                             </ng-template>                           
@@ -162,6 +166,11 @@
                                     <td style="width:150px">
 											<span class="ui-column-title"> {{l('TargetRemediation')}}</span>
 											{{record.exceptionType.targetRemediation}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Remediation')}}</span>
+                                            <span *ngIf="record.exceptionType.remediation === remediationTypeEnum.Remediable">Remediable</span>
+                                            <span *ngIf="record.exceptionType.remediation === remediationTypeEnum.NonRemediable">Non-remediable</span>
 										</td>
 
                                 </tr>

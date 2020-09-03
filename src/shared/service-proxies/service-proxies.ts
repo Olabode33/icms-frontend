@@ -20943,6 +20943,118 @@ export class TestingTemplatesServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getQuestionsForEdit(id: number | undefined): Observable<GetTestingTemplateForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetQuestionsForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetQuestionsForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetQuestionsForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetTestingTemplateForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetTestingTemplateForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetQuestionsForEdit(response: HttpResponseBase): Observable<GetTestingTemplateForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetTestingTemplateForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetTestingTemplateForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param testingTemplateId (optional) 
+     * @return Success
+     */
+    getTemplateQuestions(testingTemplateId: number | undefined): Observable<ListResultDtoOfOrganizationUnitDto> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetTemplateQuestions?";
+        if (testingTemplateId === null)
+            throw new Error("The parameter 'testingTemplateId' cannot be null.");
+        else if (testingTemplateId !== undefined)
+            url_ += "testingTemplateId=" + encodeURIComponent("" + testingTemplateId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTemplateQuestions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTemplateQuestions(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfOrganizationUnitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTemplateQuestions(response: HttpResponseBase): Observable<ListResultDtoOfOrganizationUnitDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ListResultDtoOfOrganizationUnitDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfOrganizationUnitDto>(<any>null);
+    }
+
+    /**
      * @return Success
      */
     getTestAttributesForTemplate(): Observable<NameValueDto[]> {
@@ -21051,6 +21163,114 @@ export class TestingTemplatesServiceProxy {
             }));
         }
         return _observableOf<GetTestingTemplateForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEditTemplate(body: CreateOrEditTestingTemplateDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/CreateOrEditTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEditTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEditTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEditTemplate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createAndGetId(body: CreateOrEditTestingTemplateDto | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/CreateAndGetId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAndGetId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAndGetId(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAndGetId(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
     }
 
     /**
@@ -28925,6 +29145,9 @@ export class DepartmentDto implements IDepartmentDto {
     roleCount!: number;
     departmentCode!: string | undefined;
     departmentId!: number | undefined;
+    testAttribute!: string | undefined;
+    weight!: number;
+    testingTemplateId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -28957,6 +29180,9 @@ export class DepartmentDto implements IDepartmentDto {
             this.roleCount = data["roleCount"];
             this.departmentCode = data["departmentCode"];
             this.departmentId = data["departmentId"];
+            this.testAttribute = data["testAttribute"];
+            this.weight = data["weight"];
+            this.testingTemplateId = data["testingTemplateId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -28989,6 +29215,9 @@ export class DepartmentDto implements IDepartmentDto {
         data["roleCount"] = this.roleCount;
         data["departmentCode"] = this.departmentCode;
         data["departmentId"] = this.departmentId;
+        data["testAttribute"] = this.testAttribute;
+        data["weight"] = this.weight;
+        data["testingTemplateId"] = this.testingTemplateId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -29014,6 +29243,9 @@ export interface IDepartmentDto {
     roleCount: number;
     departmentCode: string | undefined;
     departmentId: number | undefined;
+    testAttribute: string | undefined;
+    weight: number;
+    testingTemplateId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;
@@ -31353,12 +31585,18 @@ export enum Severity {
     High = 2,
 }
 
+export enum ExceptionRemediationTypeEnum {
+    Remediable = 0,
+    NonRemediable = 1,
+}
+
 export class ExceptionTypeDto implements IExceptionTypeDto {
     code!: string | undefined;
     name!: string | undefined;
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
+    remediation!: ExceptionRemediationTypeEnum;
     id!: number;
 
     constructor(data?: IExceptionTypeDto) {
@@ -31377,6 +31615,7 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
+            this.remediation = data["remediation"];
             this.id = data["id"];
         }
     }
@@ -31395,6 +31634,7 @@ export class ExceptionTypeDto implements IExceptionTypeDto {
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
+        data["remediation"] = this.remediation;
         data["id"] = this.id;
         return data; 
     }
@@ -31406,6 +31646,7 @@ export interface IExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
+    remediation: ExceptionRemediationTypeEnum;
     id: number;
 }
 
@@ -31498,6 +31739,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
     description!: string | undefined;
     severity!: Severity;
     targetRemediation!: number | undefined;
+    remediation!: ExceptionRemediationTypeEnum;
     otherColumns!: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations!: number[] | undefined;
     id!: number | undefined;
@@ -31517,6 +31759,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
             this.description = data["description"];
             this.severity = data["severity"];
             this.targetRemediation = data["targetRemediation"];
+            this.remediation = data["remediation"];
             if (Array.isArray(data["otherColumns"])) {
                 this.otherColumns = [] as any;
                 for (let item of data["otherColumns"])
@@ -31544,6 +31787,7 @@ export class CreateOrEditExceptionTypeDto implements ICreateOrEditExceptionTypeD
         data["description"] = this.description;
         data["severity"] = this.severity;
         data["targetRemediation"] = this.targetRemediation;
+        data["remediation"] = this.remediation;
         if (Array.isArray(this.otherColumns)) {
             data["otherColumns"] = [];
             for (let item of this.otherColumns)
@@ -31564,6 +31808,7 @@ export interface ICreateOrEditExceptionTypeDto {
     description: string | undefined;
     severity: Severity;
     targetRemediation: number | undefined;
+    remediation: ExceptionRemediationTypeEnum;
     otherColumns: CreateOrEditExceptionTypeColumnDto[] | undefined;
     escalations: number[] | undefined;
     id: number | undefined;
@@ -36366,6 +36611,9 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
     roleCount!: number;
     departmentCode!: string | undefined;
     departmentId!: number | undefined;
+    testAttribute!: string | undefined;
+    weight!: number;
+    testingTemplateId!: number | undefined;
     lastModificationTime!: moment.Moment | undefined;
     lastModifierUserId!: number | undefined;
     creationTime!: moment.Moment;
@@ -36390,6 +36638,9 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
             this.roleCount = data["roleCount"];
             this.departmentCode = data["departmentCode"];
             this.departmentId = data["departmentId"];
+            this.testAttribute = data["testAttribute"];
+            this.weight = data["weight"];
+            this.testingTemplateId = data["testingTemplateId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -36414,6 +36665,9 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
         data["roleCount"] = this.roleCount;
         data["departmentCode"] = this.departmentCode;
         data["departmentId"] = this.departmentId;
+        data["testAttribute"] = this.testAttribute;
+        data["weight"] = this.weight;
+        data["testingTemplateId"] = this.testingTemplateId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -36431,6 +36685,9 @@ export interface IOrganizationUnitDto {
     roleCount: number;
     departmentCode: string | undefined;
     departmentId: number | undefined;
+    testAttribute: string | undefined;
+    weight: number;
+    testingTemplateId: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment;
@@ -43711,7 +43968,9 @@ export interface IPagedResultDtoOfGetTestingTemplateForViewDto {
 }
 
 export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemplateDetailsDto {
+    testingTemplateId!: number;
     testAttribute!: string | undefined;
+    id!: number | undefined;
     weight!: number;
     parentId!: number | undefined;
 
@@ -43726,7 +43985,9 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 
     init(data?: any) {
         if (data) {
+            this.testingTemplateId = data["testingTemplateId"];
             this.testAttribute = data["testAttribute"];
+            this.id = data["id"];
             this.weight = data["weight"];
             this.parentId = data["parentId"];
         }
@@ -43741,7 +44002,9 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["testingTemplateId"] = this.testingTemplateId;
         data["testAttribute"] = this.testAttribute;
+        data["id"] = this.id;
         data["weight"] = this.weight;
         data["parentId"] = this.parentId;
         return data; 
@@ -43749,7 +44012,9 @@ export class CreateorEditTestTemplateDetailsDto implements ICreateorEditTestTemp
 }
 
 export interface ICreateorEditTestTemplateDetailsDto {
+    testingTemplateId: number;
     testAttribute: string | undefined;
+    id: number | undefined;
     weight: number;
     parentId: number | undefined;
 }
@@ -43764,6 +44029,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
     sampleSize!: number | undefined;
     projectOwner!: ProjectOwner;
     attributes!: CreateorEditTestTemplateDetailsDto[] | undefined;
+    templateContent!: CreateorEditTestTemplateDetailsDto;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditTestingTemplateDto) {
@@ -43790,6 +44056,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
                 for (let item of data["attributes"])
                     this.attributes!.push(CreateorEditTestTemplateDetailsDto.fromJS(item));
             }
+            this.templateContent = data["templateContent"] ? CreateorEditTestTemplateDetailsDto.fromJS(data["templateContent"]) : <any>undefined;
             this.id = data["id"];
         }
     }
@@ -43816,6 +44083,7 @@ export class CreateOrEditTestingTemplateDto implements ICreateOrEditTestingTempl
             for (let item of this.attributes)
                 data["attributes"].push(item.toJSON());
         }
+        data["templateContent"] = this.templateContent ? this.templateContent.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
     }
@@ -43831,12 +44099,15 @@ export interface ICreateOrEditTestingTemplateDto {
     sampleSize: number | undefined;
     projectOwner: ProjectOwner;
     attributes: CreateorEditTestTemplateDetailsDto[] | undefined;
+    templateContent: CreateorEditTestTemplateDetailsDto;
     id: number | undefined;
 }
 
 export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEditOutput {
     testingTemplate!: CreateOrEditTestingTemplateDto;
     departmentRiskControlCode!: string | undefined;
+    userName!: string | undefined;
+    organizationUnitDisplayName!: string | undefined;
 
     constructor(data?: IGetTestingTemplateForEditOutput) {
         if (data) {
@@ -43851,6 +44122,8 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
         if (data) {
             this.testingTemplate = data["testingTemplate"] ? CreateOrEditTestingTemplateDto.fromJS(data["testingTemplate"]) : <any>undefined;
             this.departmentRiskControlCode = data["departmentRiskControlCode"];
+            this.userName = data["userName"];
+            this.organizationUnitDisplayName = data["organizationUnitDisplayName"];
         }
     }
 
@@ -43865,6 +44138,8 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
         data = typeof data === 'object' ? data : {};
         data["testingTemplate"] = this.testingTemplate ? this.testingTemplate.toJSON() : <any>undefined;
         data["departmentRiskControlCode"] = this.departmentRiskControlCode;
+        data["userName"] = this.userName;
+        data["organizationUnitDisplayName"] = this.organizationUnitDisplayName;
         return data; 
     }
 }
@@ -43872,6 +44147,8 @@ export class GetTestingTemplateForEditOutput implements IGetTestingTemplateForEd
 export interface IGetTestingTemplateForEditOutput {
     testingTemplate: CreateOrEditTestingTemplateDto;
     departmentRiskControlCode: string | undefined;
+    userName: string | undefined;
+    organizationUnitDisplayName: string | undefined;
 }
 
 export class TestingTemplateDepartmentRiskControlLookupTableDto implements ITestingTemplateDepartmentRiskControlLookupTableDto {

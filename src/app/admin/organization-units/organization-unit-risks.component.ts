@@ -12,7 +12,8 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
 import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
 import { OrganizationUnitControlsComponent } from './organization-unit-controls.component';
-import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+import { Router } from '@angular/router';
+//import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     @ViewChild('createOrEditDepartmentRiskModal', { static: true }) createOrEditDepartmentRiskModal: CreateOrEditDepartmentRiskModalComponent;
     @ViewChild('createOrEditDepartmentRiskControlModal', { static: true }) createOrEditDepartmentRiskControlModal: CreateOrEditDepartmentRiskControlModalComponent;
-    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
@@ -44,6 +45,7 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
         private  _departmentRiskService: DepartmentRisksServiceProxy,
+        private _router: Router,
         private _departmentRiskControlService: DepartmentRiskControlsServiceProxy
     ) {
         super(injector);
@@ -174,7 +176,8 @@ export class OrganizationUnitRisksComponent extends AppComponentBase implements 
 
     //Risk Control Codes ......
     createTestingTemplate(id: number): void {
-        this.createOrEditTestingTemplateModal.show(id);
+        this._router.navigate(['/app/main/testingTemplates/createOrEdit'], { queryParams: { id: id } });
+        //this.createOrEditTestingTemplateModal.show(id);
     }
 
     getOrganizationUnitRiskControl(riskId) {

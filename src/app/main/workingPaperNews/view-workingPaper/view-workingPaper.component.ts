@@ -6,6 +6,7 @@ import { CreateOrEditWorkingPaperNewDto, GetTestingTemplateForViewDto, WorkingPa
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
+import { AppConsts } from '@shared/AppConsts';
 import { CreateOrEditWorkingPaperReviewCommentModalComponent } from '../../workingPaperReviewComments/workingPaperReviewComments/create-or-edit-workingPaperReviewComment-modal.component';
 
 @Component({
@@ -40,7 +41,7 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     fakeTestingTemplateCode = 'TT-1';
 
     loading = false;
-    showGeneralInfoCard = true;
+    showGeneralInfoCard = false;
     showSamplingCard = true;
     showAuditInfoCard = true;
     showProcessCard = true;
@@ -58,6 +59,8 @@ export class ViewWorkingPaperComponent extends AppComponentBase implements OnIni
     firstSample = true;
     lastSample = false;
     loadingSamples = false;
+
+    _appConsts = AppConsts;
 
     constructor(
         injector: Injector,

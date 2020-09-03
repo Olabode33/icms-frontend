@@ -21,7 +21,7 @@
 
                     <div class="form-group">
                         <label for="ExceptionType_Description">{{l("Description")}}</label>
-                        <textarea id="ExceptionType_Description" rows="10" class="form-control" [(ngModel)]="exceptionType.description" name="Description"></textarea>
+                        <textarea id="ExceptionType_Description" rows="5" class="form-control" [(ngModel)]="exceptionType.description" name="Description"></textarea>
                     </div>
 
                     <div class="form-row">
@@ -39,6 +39,16 @@
                         <div class="form-group col-6">
                             <label for="ExceptionType_TargetRemediation">{{l("TargetRemediation")}} (In days)</label>
                             <input type="number" id="ExceptionType_TargetRemediation" class="form-control" [(ngModel)]="exceptionType.targetRemediation" name="TargetRemediation" min="1" max="365" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="ExceptionType_Remediation">{{l("Remediation")}}</label>
+                            <select class="form-control" name="ExceptionType_Remediation" id="ExceptionType_Remediation" [(ngModel)]="exceptionType.remediation">
+                                <option [value]="exceptionRemediationTypeEnum.Remediable">Remediable</option>
+                                <option [value]="exceptionRemediationTypeEnum.NonRemediable">Non-Remediable</option>
+                            </select>
                         </div>
                     </div>
                     <br />

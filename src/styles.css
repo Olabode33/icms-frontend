@@ -629,5 +629,13 @@ body{margin-top:20px;
         color: var(--primary-color);
     }
 
+    .kt-portlet {
+        border: 1px solid var(--primary-color);;
+    }
+
+    .kt-portlet .kt-portlet__head {
+        border-bottom: 1px solid var(--primary-color) !important;
+    }
+
     
 }

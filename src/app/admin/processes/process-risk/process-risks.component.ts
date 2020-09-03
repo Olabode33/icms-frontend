@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditDepartmentRiskModalComponent } from '@app/main/departmentRisks/departmentRisks/create-or-edit-departmentRisk-modal.component';
 import { CreateOrEditDepartmentRiskControlModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/create-or-edit-departmentRiskControl-modal.component';
 //import { OrganizationUnitControlsComponent } from './organization-unit-controls.component';
-import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+//import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
 import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-modal/create-or-edit-processRisk-modal.component';
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
@@ -32,7 +32,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
-    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
@@ -215,7 +215,8 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     //Risk Control Codes ......
     createTestingTemplate(id: number): void {
-        this.createOrEditTestingTemplateModal.show(id);
+        this._router.navigate(['/app/main/testingTemplates/createOrEdit'], { queryParams: { id: id } });
+        //this.createOrEditTestingTemplateModal.show(id);
     }
 
     getOrganizationUnitRiskControl(riskId) {

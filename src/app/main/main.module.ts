@@ -35,7 +35,7 @@ import { DepartmentRatingRatingLookupTableModalComponent } from './departmentRat
 import { RatingsComponent } from './ratings/ratings/ratings.component';
 import { ViewRatingModalComponent } from './ratings/ratings/view-rating-modal.component';
 import { CreateOrEditRatingModalComponent } from './ratings/ratings/create-or-edit-rating-modal.component';
-
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { ProjectsComponent } from './projects/projects/projects.component';
 import { ViewProjectComponent } from './projects/projects/view-project.component';
 import { CreateOrEditProjectComponent } from './projects/projects/create-or-edit-project.component';
@@ -111,6 +111,20 @@ import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPa
 import { PlanningComponent } from './projects/planning/planning.component';
 import { CreateOrEditExceptionIncidentComponent } from './exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { OpRiskHomeComponent } from './opRisk/home/home.component';
+import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
+import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
+import { LossEventOrganizationUnitLookupTableModalComponent } from './lossEvents/lossEvent-organizationUnit-lookup-table-modal.component';
+import { LossEventUserLookupTableModalComponent } from './lossEvents/lossEvent-user-lookup-table-modal.component';
+import { LossEventsComponent } from './lossEvents/lossEvents.component';
+import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
+import { CreateOrEditLossTypeColumnModalComponent } from './lossEvents/lossTypeColumns/create-or-edit-lossTypeColumn-modal.component';
+import { LossEventSampleModalComponent } from './lossEvents/loss-event-sample-modal/loss-event-sample-modal.component';
+//import { CreateEditQuestionModal } from './testingTemplates/testingTemplates/create-or-edit-questions-modal.component';
+import { TreeModule } from 'primeng/tree';
+import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
+import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -121,9 +135,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PaginatorModule,
         EditorModule,
         InputMaskModule, TableModule,
-
         CommonModule,
         FormsModule,
+        ContextMenuModule,
         ModalModule,
         TabsModule,
         TooltipModule,
@@ -137,27 +151,16 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-		KeyRiskIndicatorsComponent,
-
-		ViewKeyRiskIndicatorComponent,
-		CreateOrEditKeyRiskIndicatorComponent,
-    KeyRiskIndicatorExceptionTypeLookupTableModalComponent,
-    KeyRiskIndicatorUserLookupTableModalComponent,
-		BusinessObjectivesComponent,
-
-		ViewBusinessObjectiveModalComponent,
-		CreateOrEditBusinessObjectiveModalComponent,
-    BusinessObjectiveUserLookupTableModalComponent,
 		WorkingPaperReviewCommentsComponent,
 
-		CreateOrEditWorkingPaperReviewCommentModalComponent,
-    WorkingPaperReviewCommentUserLookupTableModalComponent,
-    WorkingPaperReviewCommentWorkingPaperLookupTableModalComponent,
-    WorkingPaperReviewCommentUserLookupTableModalComponent,
-		LibraryControlsComponent,
-		ViewLibraryControlModalComponent,		CreateOrEditLibraryControlModalComponent,
-		LibraryRisksComponent,
-		ViewLibraryRiskModalComponent,		CreateOrEditLibraryRiskModalComponent,
+        CreateOrEditWorkingPaperReviewCommentModalComponent,
+        WorkingPaperReviewCommentUserLookupTableModalComponent,
+        WorkingPaperReviewCommentWorkingPaperLookupTableModalComponent,
+        WorkingPaperReviewCommentUserLookupTableModalComponent,
+        LibraryControlsComponent,
+        ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
+        LibraryRisksComponent,
+        ViewLibraryRiskModalComponent, CreateOrEditLibraryRiskModalComponent,
         PlanningComponent,
         DepartmentRatingHistoryComponent,
         ViewDepartmentRatingModalComponent, CreateOrEditDepartmentRatingModalComponent,

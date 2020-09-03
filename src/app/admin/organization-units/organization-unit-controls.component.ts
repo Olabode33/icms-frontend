@@ -9,7 +9,8 @@ import { IBasicOrganizationUnitInfo } from './basic-organization-unit-info';
 import { IUserWithOrganizationUnit } from './user-with-organization-unit';
 import { IUsersWithOrganizationUnit } from './users-with-organization-unit';
 import { finalize } from 'rxjs/operators';
-import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
+import { Router } from '@angular/router';
+//import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
     @Output() controlsAdded = new EventEmitter<any>();
 
 
-    @ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
 
     //@ViewChild('addMemberModal', {static: true}) addMemberModal: AddMemberModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -34,6 +35,7 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
     constructor(
         injector: Injector,
         private _organizationUnitService: OrganizationUnitServiceProxy,
+        private _router: Router,
         private _departmentRiskControlService: DepartmentRiskControlsServiceProxy
     ) {
         super(injector);
@@ -76,7 +78,7 @@ export class OrganizationUnitControlsComponent extends AppComponentBase implemen
     }
 
     createTestingTemplate(id: number): void {
-        this.createOrEditTestingTemplateModal.show(id);
+        this._router.navigate(['/app/main/testingTemplates/createOrEdit'], { queryParams: { id: id } });
     }
 
     getOrganizationUnitRisks(event?: LazyLoadEvent) {
