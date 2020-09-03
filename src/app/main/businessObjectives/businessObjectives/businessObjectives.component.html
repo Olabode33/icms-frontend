@@ -1,4 +1,4 @@
-﻿<div [@routerTransition]>
+<div [@routerTransition]>
   <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
   
   
@@ -107,14 +107,20 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.BusinessObjectives.Edit', 'Pages.BusinessObjectives.Delete')">{{l('Actions')}}</th>
-                                    <th style="width: 150px" pSortableColumn="userFk.name">
-                                        {{l('Name')}}
-                                        <p-sortIcon field="userName"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="name">
+                                    <th style="width: 250px" pSortableColumn="name">
                                         {{l('Name')}}
                                         <p-sortIcon field="businessObjective.name"></p-sortIcon>
                                     </th>
+
+                                    <th style="width: 150px" pSortableColumn="objectiveType">
+                                        {{l('ObjectiveType')}}
+                                        <p-sortIcon field="businessObjective.objectiveType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 250px" pSortableColumn="userFk.name">
+                                      Owner
+                                        <p-sortIcon field="userName"></p-sortIcon>
+                                    </th>
+
                                     <th style="width: 150px" pSortableColumn="startDate">
                                         {{l('StartDate')}}
                                         <p-sortIcon field="businessObjective.startDate"></p-sortIcon>
@@ -123,10 +129,6 @@
                                         {{l('EndDate')}}
                                         <p-sortIcon field="businessObjective.endDate"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="objectiveType">
-                                        {{l('ObjectiveType')}}
-                                        <p-sortIcon field="businessObjective.objectiveType"></p-sortIcon>
-                                    </th>
 
                                 </tr>
                             </ng-template>                           
@@ -134,52 +136,55 @@
                                 <tr>
                                     <td style="width: 130px"
                                         [hidden]="!isGrantedAny('Pages.BusinessObjectives.Edit', 'Pages.BusinessObjectives.Delete')">
-                                       <div class="btn-group dropdown" dropdown container="body">
+                                        <div class="btn-group dropdown" dropdown container="body">
                                             <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
-												<ul class="dropdown-menu"  *dropdownMenu>
-												<li>
-													<a href="javascript:;" 
-														(click)="viewBusinessObjectiveModal.show(record)">{{l('View')}}</a>
-												</li>
-												<li>
-                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.BusinessObjectives.Edit')" 
-														(click)="createOrEditBusinessObjectiveModal.show(record.businessObjective.id)">{{l('Edit')}}</a>												
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <!--<li>
+                    <a href="javascript:;"
+                        (click)="viewBusinessObjectiveModal.show(record)">{{l('View')}}</a>
+                </li>-->
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.BusinessObjectives.Edit')"
+                                                       (click)="createOrEditBusinessObjectiveModal.show(record.businessObjective.id)">{{l('Edit')}}</a>
                                                 </li>
-												<li>
-											        <a  href="javascript:;" *ngIf="permission.isGranted('Pages.BusinessObjectives.Delete')"
-														(click)="deleteBusinessObjective(record.businessObjective)">{{l('Delete')}}</a>
-												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="permission.isGranted('Pages.BusinessObjectives.Delete')"
+                                                       (click)="deleteBusinessObjective(record.businessObjective)">{{l('Delete')}}</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
+
+                                    <td style="width:250px">
+                                        <span class="ui-column-title"> {{l('Name')}}</span>
+                                        {{record.businessObjective.name}}
+                                    </td>
                                     <td style="width:150px">
-												<span class="ui-column-title"> {{l('Name')}}</span>
-												{{record.userName}}
-											</td>
+                                        <span class="ui-column-title"> {{l('ObjectiveType')}}</span>
+                                        {{record.businessObjective.objectiveType}}
+                                    </td>
+
+                                    <td style="width:250px">
+                                        <span class="ui-column-title"> {{l('Owner')}}</span>
+                                        {{record.userName}}
+                                    </td>
                                     <td style="width:150px">
-											<span class="ui-column-title"> {{l('Name')}}</span>
-											{{record.businessObjective.name}}
-										</td>
-                                    <td style="width:150px">
-										<span class="ui-column-title"> {{l('StartDate')}}</span>
+                                        <span class="ui-column-title"> {{l('StartDate')}}</span>
                                         <span *ngIf="record.businessObjective.startDate">
-											{{record.businessObjective.startDate | momentFormat:'L'}}
+                                            {{record.businessObjective.startDate | momentFormat:'L'}}
                                         </span>
                                         <span *ngIf="!record.businessObjective.startDate">-</span>
                                     </td>
                                     <td style="width:150px">
-										<span class="ui-column-title"> {{l('EndDate')}}</span>
+                                        <span class="ui-column-title"> {{l('EndDate')}}</span>
                                         <span *ngIf="record.businessObjective.endDate">
-											{{record.businessObjective.endDate | momentFormat:'L'}}
+                                            {{record.businessObjective.endDate | momentFormat:'L'}}
                                         </span>
                                         <span *ngIf="!record.businessObjective.endDate">-</span>
                                     </td>
-                                    <td style="width:150px">
-											<span class="ui-column-title"> {{l('ObjectiveType')}}</span>
-											{{record.businessObjective.objectiveType}}
-										</td>
+
 
                                 </tr>
                             </ng-template>

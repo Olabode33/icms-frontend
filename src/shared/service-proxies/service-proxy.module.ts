@@ -1,4 +1,4 @@
-﻿import { AbpHttpInterceptor, RefreshTokenService } from '@abp/abpHttpInterceptor';
+import { AbpHttpInterceptor, RefreshTokenService } from '@abp/abpHttpInterceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import * as ApiServiceProxies from './service-proxies';
@@ -7,6 +7,7 @@ import { ZeroRefreshTokenService } from '@account/auth/zero-refresh-token.servic
 @NgModule({
     providers: [ApiServiceProxies.LossEventsServiceProxy,
         ApiServiceProxies.LossEventTasksServiceProxy,
+        ApiServiceProxies.LossTypesServiceProxy,
         ApiServiceProxies.KeyRiskIndicatorsServiceProxy,
         ApiServiceProxies.BusinessObjectivesServiceProxy, 
         ApiServiceProxies.WorkingPaperReviewCommentsServiceProxy,        

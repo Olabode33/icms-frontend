@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
@@ -151,6 +151,24 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        KeyRiskIndicatorsComponent,
+
+
+
+        CreateOrEditLossTypeColumnModalComponent,
+        LossTypeColumnsComponent,
+        CreateOrEditLossEventComponent,
+        LossEventOrganizationUnitLookupTableModalComponent,
+        LossEventsComponent, LossEventUserLookupTableModalComponent,
+        ViewLossEventComponent,
+        OpRiskDashboardComponent,
+        OpRiskHomeComponent,
+     //   LossEventSampleModalComponent,
+        BusinessObjectivesComponent,
+        BusinessObjectiveUserLookupTableModalComponent, CreateOrEditBusinessObjectiveModalComponent, ViewBusinessObjectiveModalComponent,
+        CreateOrEditKeyRiskIndicatorComponent, KeyRiskIndicatorExceptionTypeLookupTableModalComponent, KeyRiskIndicatorsComponent, KeyRiskIndicatorUserLookupTableModalComponent, 
+        ViewKeyRiskIndicatorComponent,
+
 		WorkingPaperReviewCommentsComponent,
 
         CreateOrEditWorkingPaperReviewCommentModalComponent,

@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Injector, Output, EventEmitter, OnInit} from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, OnInit} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { KeyRiskIndicatorsServiceProxy, CreateOrEditKeyRiskIndicatorDto } from '@shared/service-proxies/service-proxies';
@@ -20,12 +20,13 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
     saving = false;
         @ViewChild('keyRiskIndicatorExceptionTypeLookupTableModal', { static: true }) keyRiskIndicatorExceptionTypeLookupTableModal: KeyRiskIndicatorExceptionTypeLookupTableModalComponent;
     @ViewChild('keyRiskIndicatorUserLookupTableModal', { static: true }) keyRiskIndicatorUserLookupTableModal: KeyRiskIndicatorUserLookupTableModalComponent;
+    @ViewChild('keyRiskIndicatorUserLookupTableModal2', { static: true }) keyRiskIndicatorUserLookupTableModal2: KeyRiskIndicatorUserLookupTableModalComponent;
 
     keyRiskIndicator: CreateOrEditKeyRiskIndicatorDto = new CreateOrEditKeyRiskIndicatorDto();
 
     exceptionTypeCode = '';
     userName = '';
-
+    staffs = [];
 
 
     constructor(
@@ -98,6 +99,13 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
     }
 
 
+    openEscalationUserModal() {
+        this.keyRiskIndicatorUserLookupTableModal2.show();
+    }
+
+
+
+
     setExceptionTypeIdNull() {
         this.keyRiskIndicator.exceptionTypeId = null;
         this.exceptionTypeCode = '';
@@ -115,7 +123,22 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
     getNewUserId() {
         this.keyRiskIndicator.userId = this.keyRiskIndicatorUserLookupTableModal.id;
         this.userName = this.keyRiskIndicatorUserLookupTableModal.displayName;
+
+
+        const staff = {
+            id: this.keyRiskIndicatorUserLookupTableModal.id,
+            name: this.keyRiskIndicatorUserLookupTableModal.displayName
+        }
+        this.staffs.push(staff);
     }
 
+    addToArray() {
+
+        const staff = {
+            id: this.keyRiskIndicatorUserLookupTableModal2.id,
+            name: this.keyRiskIndicatorUserLookupTableModal2.displayName
+        }
+        this.staffs.push(staff);
+    }
 
 }

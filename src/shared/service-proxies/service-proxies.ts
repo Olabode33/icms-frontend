@@ -33433,6 +33433,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
     lowLevel!: number;
     exceptionTypeId!: number | undefined;
     userId!: number | undefined;
+    dataInputMethod!: string | undefined;
     id!: number;
 
     constructor(data?: IKeyRiskIndicatorDto) {
@@ -33451,6 +33452,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
             this.lowLevel = data["lowLevel"];
             this.exceptionTypeId = data["exceptionTypeId"];
             this.userId = data["userId"];
+            this.dataInputMethod = data["dataInputMethod"];
             this.id = data["id"];
         }
     }
@@ -33469,6 +33471,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
         data["lowLevel"] = this.lowLevel;
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["userId"] = this.userId;
+        data["dataInputMethod"] = this.dataInputMethod;
         data["id"] = this.id;
         return data; 
     }
@@ -33480,6 +33483,7 @@ export interface IKeyRiskIndicatorDto {
     lowLevel: number;
     exceptionTypeId: number | undefined;
     userId: number | undefined;
+    dataInputMethod: string | undefined;
     id: number;
 }
 
@@ -33579,6 +33583,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
     name!: string | undefined;
     description!: string | undefined;
     nature!: string | undefined;
+    dataInputMethod!: string | undefined;
     lowLevel!: number;
     lowActionType!: string | undefined;
     mediumLevel!: number;
@@ -33603,6 +33608,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
             this.name = data["name"];
             this.description = data["description"];
             this.nature = data["nature"];
+            this.dataInputMethod = data["dataInputMethod"];
             this.lowLevel = data["lowLevel"];
             this.lowActionType = data["lowActionType"];
             this.mediumLevel = data["mediumLevel"];
@@ -33627,6 +33633,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
         data["name"] = this.name;
         data["description"] = this.description;
         data["nature"] = this.nature;
+        data["dataInputMethod"] = this.dataInputMethod;
         data["lowLevel"] = this.lowLevel;
         data["lowActionType"] = this.lowActionType;
         data["mediumLevel"] = this.mediumLevel;
@@ -33644,6 +33651,7 @@ export interface ICreateOrEditKeyRiskIndicatorDto {
     name: string | undefined;
     description: string | undefined;
     nature: string | undefined;
+    dataInputMethod: string | undefined;
     lowLevel: number;
     lowActionType: string | undefined;
     mediumLevel: number;

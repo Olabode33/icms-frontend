@@ -1,4 +1,4 @@
-﻿import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 
 import { Injectable } from '@angular/core';
@@ -106,10 +106,44 @@ export class AppNavigationService {
         ]);
     }
 
-           
+    getOpRiskMenu(): AppMenu {
+        return new AppMenu('MainMenu', 'MainMenu', [
+            new AppMenuItem('BusinessObjectives', 'Pages.BusinessObjectives', 'flaticon-more', '/app/main/businessObjectives/businessObjectives'),
+            new AppMenuItem('KeyRiskIndicators', 'Pages.KeyRiskIndicators', 'flaticon-more', '/app/main/keyRiskIndicators/keyRiskIndicators'),
+            new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
 
-            
-          //  new AppMenuItem('WorkingPaperReviewComments', 'Pages.WorkingPaperReviewComments', 'flaticon-more', '/app/main/workingPaperReviewComments/workingPaperReviewComments'),
+                new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [
+                    new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),
+                    new AppMenuItem('Internal Rating', 'Pages.Ratings', 'fa fa-balance-scale', '/app/main/ratings/ratings'),
+                    new AppMenuItem('Department Rating', 'Pages.Ratings', 'fa fa-cubes', '/app/main/departmentRatingList/departmentRatingList'),
+                ]),
+                new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
+                    new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
+                    new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
+                    new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
+                    new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
+                ]),
+                new AppMenuItem('Library', '', 'fa fa-book', '', [
+                    new AppMenuItem('Risks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
+                    new AppMenuItem('Controls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),
+                ]),
+                new AppMenuItem('Roles', 'Pages.Administration.Roles', 'flaticon-suitcase', '/app/admin/roles'),
+                new AppMenuItem('Users', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                new AppMenuItem('Languages', 'Pages.Administration.Languages', 'flaticon-tabs', '/app/admin/languages'),
+                new AppMenuItem('DataLists', 'Pages.DataLists', 'flaticon-more', '/app/main/dataLists/dataLists'),
+                new AppMenuItem('AuditLogs', 'Pages.Administration.AuditLogs', 'flaticon-folder-1', '/app/admin/auditLogs'),
+                new AppMenuItem('Maintenance', 'Pages.Administration.Host.Maintenance', 'flaticon-lock', '/app/admin/maintenance'),
+                //       new AppMenuItem('Subscription', 'Pages.Administration.Tenant.SubscriptionManagement', 'flaticon-refresh', '/app/admin/subscription-management'),
+                //      new AppMenuItem('VisualSettings', 'Pages.Administration.UiCustomization', 'flaticon-medical', '/app/admin/ui-customization'),
+                new AppMenuItem('Settings', 'Pages.Administration.Host.Settings', 'flaticon-settings', '/app/admin/hostSettings'),
+                new AppMenuItem('Settings', 'Pages.Administration.Tenant.Settings', 'flaticon-settings', '/app/admin/tenantSettings')
+            ])
+
+        ]);
+    }
+
+    getGeneralMenu(): AppMenu {
+        return new AppMenu('MainMenu', 'MainMenu', [
              new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
 
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [    
@@ -138,9 +172,8 @@ export class AppNavigationService {
                 new AppMenuItem('Settings', 'Pages.Administration.Host.Settings', 'flaticon-settings', '/app/admin/hostSettings'),
                 new AppMenuItem('Settings', 'Pages.Administration.Tenant.Settings', 'flaticon-settings', '/app/admin/tenantSettings')
             ])
-            //  new AppMenuItem('DemoUiComponents', 'Pages.DemoUiComponents', 'flaticon-shapes', '/app/admin/demo-ui-components')
-        ]);
-    }
+])
+                 }
 
 
     // getMenu(): AppMenu {
