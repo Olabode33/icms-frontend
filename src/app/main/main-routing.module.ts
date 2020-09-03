@@ -1,5 +1,9 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { KeyRiskIndicatorsComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicators.component';
+import { CreateOrEditKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/create-or-edit-keyRiskIndicator.component';
+import { ViewKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/view-keyRiskIndicator.component';
+import { BusinessObjectivesComponent } from './businessObjectives/businessObjectives/businessObjectives.component';
 import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
 import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
 import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
@@ -36,6 +40,10 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
             {
                 path: '',
                 children: [
+                    { path: 'keyRiskIndicators/keyRiskIndicators', component: KeyRiskIndicatorsComponent, data: { permission: 'Pages.KeyRiskIndicators' }  },
+                    { path: 'keyRiskIndicators/keyRiskIndicators/createOrEdit', component: CreateOrEditKeyRiskIndicatorComponent, data: { permission: 'Pages.KeyRiskIndicators.Create' }  },
+                    { path: 'keyRiskIndicators/keyRiskIndicators/view', component: ViewKeyRiskIndicatorComponent, data: { permission: 'Pages.KeyRiskIndicators' }  },
+                    { path: 'businessObjectives/businessObjectives', component: BusinessObjectivesComponent, data: { permission: 'Pages.BusinessObjectives' }  },
                     { path: 'workingPaperReviewComments/workingPaperReviewComments', component: WorkingPaperReviewCommentsComponent, data: { permission: 'Pages.WorkingPaperReviewComments' }  },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
