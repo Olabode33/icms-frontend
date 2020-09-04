@@ -1,0 +1,58 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #controlTestingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                       Create Control Testing
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">                     
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="Process_Name"> {{l("Name")}}</label>
+                                <input type="text" id="name" class="form-control" [(ngModel)]="controlTesting.name"
+                                       name="Name" />
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                <label for="Weight">Testing Template</label>
+                                    <select name="selectedQuestion" id="selectedQuestion" [(ngModel)]="controlTesting.testingTemplateId" 
+                                    class="form-control custom-select" >
+
+                                    <option *ngFor="let item of QuestionsDropdown" value="{{item.value}}">{{item.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-6">
+                                <label for="Process_Name">End Date</label>
+                                <input type="text" id="ProcessDepartments" readonly bsDatepicker class="form-control"  [(ngModel)]="controlTesting.endDate" 
+                                name="Name" />
+                                 </div>
+                                        
+                            </div>
+
+                          
+
+                          
+                        </div>
+                    </div>
+                   
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!controlTestingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <departmentRiskControlDepartmentRiskLookupTableModal #departmentRiskControlDepartmentRiskLookupTableModal (modalSave)="getNewDepartmentRiskId()"></departmentRiskControlDepartmentRiskLookupTableModal> -->
+    <departmentRiskControlControlLookupTableModal #departmentRiskControlControlLookupTableModal (modalSave)="getNewControlId()"></departmentRiskControlControlLookupTableModal>
+    <createOrEditControlModal #createOrEditControlModal (modalSave)="getNewControlId()"></createOrEditControlModal>
+</div>

@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner, RcsaProgramAssessmentServiceProxy, GetRcsaProgramAssessmentForViewDto, VerificationStatusEnum } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner, RcsaProgramAssessmentServiceProxy, GetRcsaProgramAssessmentForViewDto, VerificationStatusEnum, ControlTestingsServiceProxy, GetControlTestingForViewDto, ControlTestingDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -34,6 +34,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     showExceptionsCard = false;
     showAssessmentCard = false;
     showControlTestingCard = false;
+    controlTesting = false;
     loading = false;
     loadingWorkingPapers = false;
     loadingExceptions = false;
@@ -47,6 +48,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     completedTaskCount = 0;
     completedTaskPercent = 0;
     exceptionsCount = 0;
+    controltestCount = 0;
     exceptionsPercent = 0;
     assessmentCount = 0;
     taskStatusEnum = TaskStatus;
@@ -54,11 +56,13 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     selectedModule: ProjectOwner;
 
     item: GetProjectForViewDto;
+    controlRes: ControlTestingDto[] = new Array(); // ControlTestingDto = new ControlTestingDto();
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
     selectedWorkingPaper: GetWorkingPaperNewForViewDto = new GetWorkingPaperNewForViewDto();
     exceptions: GetExceptionIncidentForViewDto[] = new Array();
     assessments: GetRcsaProgramAssessmentForViewDto[] = new Array();
 
+    controlTests: GetControlTestingForViewDto[] = new Array();
     organizationUnitDisplayName = '';
     organizationUnitDisplayName2 = '';
 
@@ -91,10 +95,15 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         domain: ['#1bc5bd']
     };
 
-
+    nameFilter = '';
+    maxTestingTemplateIdFilter: number;
+    maxTestingTemplateIdFilterEmpty: number;
+    minTestingTemplateIdFilter: number;
+    minTestingTemplateIdFilterEmpty: number;
     advancedFiltersAreShown = false;
     filterText = '';
     codeFilter = '';
+    endDateFilter: moment.Moment;
     maxTaskDateFilter: moment.Moment;
     minTaskDateFilter: moment.Moment;
     maxDueDateFilter: moment.Moment;
@@ -120,6 +129,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
         private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy,
         private _rcsaAssessmentServiceProxy: RcsaProgramAssessmentServiceProxy,
+        private _controlTestingsServiceProxy: ControlTestingsServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -135,7 +145,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         this.loading = true;
         this.projectId = projectId;
         this._projectsServiceProxy.getProjectForEdit(projectId).subscribe(result => {
-           // console.log(result);
+            // console.log(result);
             this.project = result.project;
 
             this.organizationUnitDisplayName = result.organizationUnitDisplayName;
@@ -160,6 +170,8 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         this.getWorkingPaperNews({ first: 0, sortField: undefined, rows: 10 });
         this.getException({ first: 0, sortField: undefined, rows: 10 });
         this.getAssessment({ first: 0, sortField: undefined, rows: 10 });
+        this.getControlTestings({ first: 0, sortField: undefined, rows: 10 });
+        //  this.getControlTestings();
     }
 
     valueFormatting(value: number): string {
@@ -196,7 +208,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         ).subscribe(result => {
             this.primengTableHelper.totalRecordsCount = result.totalCount;
             this.primengTableHelper.records = result.items;
-           // console.log(result.items);
+            // console.log(result.items);
             this.loadingWorkingPapers = false;
         });
     }
@@ -233,6 +245,22 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         ).subscribe(result => {
             this.assessments = result.items;
             //this.exceptionsCount = result.totalCount;
+        });
+    }
+
+    getControlTestings(event?: LazyLoadEvent): void {
+        this._controlTestingsServiceProxy.getAll(
+            this.filterText,
+            this.nameFilter,
+            this.maxTestingTemplateIdFilter == null ? this.maxTestingTemplateIdFilterEmpty : this.maxTestingTemplateIdFilter,
+            this.minTestingTemplateIdFilter == null ? this.minTestingTemplateIdFilterEmpty : this.minTestingTemplateIdFilter,
+            this.endDateFilter,
+            '',
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        ).subscribe(result => {
+            this.controlTests = result.items;
+            this.controltestCount = result.totalCount;
         });
     }
 
