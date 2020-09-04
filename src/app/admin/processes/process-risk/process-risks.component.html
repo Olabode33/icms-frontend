@@ -139,6 +139,13 @@
                                         (click)="removeProcessRiskControl(control.control.processRiskControl.id)">
                                         <i class="fa fa-times"></i> Remove Control
                                     </button>
+
+                                    <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
+                                    (click)="createControlTesting(control.control.processRiskControl, risk.risk)">
+                                    <i class="fa fa-plus"></i> Add Control Testing
+                                </button>
+
+
                                     <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="activeRcsaProgram"
                                         (click)="createTestingTemplate(control.control.processRiskControl.id)">
                                         <i class="fa fa-plus"></i> Add Testing Template
@@ -355,3 +362,6 @@
 </app-create-or-edit-process-risk>
 <app-create-or-edit-process-risk-control #createOrEditProcessRiskControlModal (modalSave)="reloadPage()">
 </app-create-or-edit-process-risk-control>
+
+<app-create-control-testing #createControlTestingModal (modalSave)="reloadPage()">
+</app-create-control-testing>

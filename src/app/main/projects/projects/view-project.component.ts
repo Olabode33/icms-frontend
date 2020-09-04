@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner, ControlTestingsServiceProxy, GetControlTestingForViewDto, ControlTestingDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -31,6 +31,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     showGeneralInfoCard = false;
     showWorkingPapersCard = false;
     showExceptionsCard = false;
+    controlTesting = false;
     loading = false;
     loadingWorkingPapers = false;
     loadingExceptions = false;
@@ -42,16 +43,18 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     completedTaskCount = 0;
     completedTaskPercent = 0;
     exceptionsCount = 0;
+    controltestCount = 0;
     exceptionsPercent = 0;
     taskStatusEnum = TaskStatus;
     statusEnum = Status;
     selectedModule: ProjectOwner;
 
     item: GetProjectForViewDto;
+    controlRes: ControlTestingDto[] = new Array(); // ControlTestingDto = new ControlTestingDto();
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
     selectedWorkingPaper: GetWorkingPaperNewForViewDto = new GetWorkingPaperNewForViewDto();
     exceptions: GetExceptionIncidentForViewDto[] = new Array();
-
+    controlTests: GetControlTestingForViewDto[] = new Array();
     organizationUnitDisplayName = '';
     organizationUnitDisplayName2 = '';
 
@@ -84,10 +87,15 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         domain: ['#1bc5bd']
     };
 
-
+        nameFilter = '';
+        maxTestingTemplateIdFilter : number;
+		maxTestingTemplateIdFilterEmpty : number;
+		minTestingTemplateIdFilter : number;
+		minTestingTemplateIdFilterEmpty : number;
     advancedFiltersAreShown = false;
     filterText = '';
     codeFilter = '';
+    endDateFilter: moment.Moment;
     maxTaskDateFilter: moment.Moment;
     minTaskDateFilter: moment.Moment;
     maxDueDateFilter: moment.Moment;
@@ -111,6 +119,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         private _projectsServiceProxy: ProjectsServiceProxy,
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
         private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy,
+        private _controlTestingsServiceProxy: ControlTestingsServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -150,6 +159,8 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         });
         this.getWorkingPaperNews({ first: 0, sortField: undefined, rows: 10 });
         this.getException({ first: 0, sortField: undefined, rows: 10 });
+        this.getControlTestings({ first: 0, sortField: undefined, rows: 10 });
+      //  this.getControlTestings();
     }
 
     valueFormatting(value: number): string {
@@ -212,6 +223,29 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
             this.exceptions = result.items;
             this.exceptionsCount = result.totalCount;
         });
+    }
+
+    getControlTestings(event?: LazyLoadEvent): void {
+        this._controlTestingsServiceProxy.getAll(
+            this.filterText,
+            this.nameFilter,
+            this.maxTestingTemplateIdFilter == null ? this.maxTestingTemplateIdFilterEmpty: this.maxTestingTemplateIdFilter,
+            this.minTestingTemplateIdFilter == null ? this.minTestingTemplateIdFilterEmpty: this.minTestingTemplateIdFilter,
+            this.endDateFilter,
+            '',
+            this.primengTableHelper.getSkipCount(this.paginator, event),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event)
+        ).subscribe(result => {
+            console.log("RESULT", result.items)
+            this.controlTests = result.items;
+
+           
+            this.controltestCount = result.totalCount;
+           console.log("RESULT2", this.controlTests)
+           
+        });
+
+       
     }
 
     reloadPage(): void {

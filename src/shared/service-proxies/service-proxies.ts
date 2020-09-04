@@ -2568,6 +2568,401 @@ export class ControlsServiceProxy {
 }
 
 @Injectable()
+export class ControlTestingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param maxTestingTemplateIdFilter (optional) 
+     * @param minTestingTemplateIdFilter (optional) 
+     * @param endDateFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, nameFilter: string | undefined, maxTestingTemplateIdFilter: number | undefined, minTestingTemplateIdFilter: number | undefined, endDateFilter: moment.Moment | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetControlTestingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&"; 
+        if (maxTestingTemplateIdFilter === null)
+            throw new Error("The parameter 'maxTestingTemplateIdFilter' cannot be null.");
+        else if (maxTestingTemplateIdFilter !== undefined)
+            url_ += "MaxTestingTemplateIdFilter=" + encodeURIComponent("" + maxTestingTemplateIdFilter) + "&"; 
+        if (minTestingTemplateIdFilter === null)
+            throw new Error("The parameter 'minTestingTemplateIdFilter' cannot be null.");
+        else if (minTestingTemplateIdFilter !== undefined)
+            url_ += "MinTestingTemplateIdFilter=" + encodeURIComponent("" + minTestingTemplateIdFilter) + "&"; 
+        if (endDateFilter === null)
+            throw new Error("The parameter 'endDateFilter' cannot be null.");
+        else if (endDateFilter !== undefined)
+            url_ += "EndDateFilter=" + encodeURIComponent(endDateFilter ? "" + endDateFilter.toJSON() : "") + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetControlTestingForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetControlTestingForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetControlTestingForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetControlTestingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetControlTestingForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getControlTestingForView(id: number | undefined): Observable<GetControlTestingForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/GetControlTestingForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetControlTestingForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetControlTestingForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetControlTestingForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetControlTestingForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetControlTestingForView(response: HttpResponseBase): Observable<GetControlTestingForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetControlTestingForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetControlTestingForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getControlTestingForEdit(id: number | undefined): Observable<GetControlTestingForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/GetControlTestingForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetControlTestingForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetControlTestingForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetControlTestingForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetControlTestingForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetControlTestingForEdit(response: HttpResponseBase): Observable<GetControlTestingForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetControlTestingForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetControlTestingForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditControlTestingDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param nameFilter (optional) 
+     * @param maxTestingTemplateIdFilter (optional) 
+     * @param minTestingTemplateIdFilter (optional) 
+     * @param endDateFilter (optional) 
+     * @return Success
+     */
+    getControlTestingsToExcel(filter: string | undefined, nameFilter: string | undefined, maxTestingTemplateIdFilter: number | undefined, minTestingTemplateIdFilter: number | undefined, endDateFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/ControlTestings/GetControlTestingsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (nameFilter === null)
+            throw new Error("The parameter 'nameFilter' cannot be null.");
+        else if (nameFilter !== undefined)
+            url_ += "NameFilter=" + encodeURIComponent("" + nameFilter) + "&"; 
+        if (maxTestingTemplateIdFilter === null)
+            throw new Error("The parameter 'maxTestingTemplateIdFilter' cannot be null.");
+        else if (maxTestingTemplateIdFilter !== undefined)
+            url_ += "MaxTestingTemplateIdFilter=" + encodeURIComponent("" + maxTestingTemplateIdFilter) + "&"; 
+        if (minTestingTemplateIdFilter === null)
+            throw new Error("The parameter 'minTestingTemplateIdFilter' cannot be null.");
+        else if (minTestingTemplateIdFilter !== undefined)
+            url_ += "MinTestingTemplateIdFilter=" + encodeURIComponent("" + minTestingTemplateIdFilter) + "&"; 
+        if (endDateFilter === null)
+            throw new Error("The parameter 'endDateFilter' cannot be null.");
+        else if (endDateFilter !== undefined)
+            url_ += "EndDateFilter=" + encodeURIComponent("" + endDateFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetControlTestingsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetControlTestingsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetControlTestingsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class DashboardCustomizationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -21233,6 +21628,61 @@ export class TestingTemplatesServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllTestingTemplate(): Observable<NameValueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/TestingTemplates/GetAllTestingTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllTestingTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllTestingTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<NameValueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NameValueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllTestingTemplate(response: HttpResponseBase): Observable<NameValueDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(NameValueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NameValueDto[]>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -27086,6 +27536,242 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
 export interface IGetControlForEditOutput {
     control: CreateOrEditControlDto;
     controlOwnerName: string | undefined;
+}
+
+export class ControlTestingDto implements IControlTestingDto {
+    name!: string | undefined;
+    testingTemplateId!: number | undefined;
+    endDate!: moment.Moment | undefined;
+    id!: number;
+
+    constructor(data?: IControlTestingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.testingTemplateId = data["testingTemplateId"];
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ControlTestingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ControlTestingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["testingTemplateId"] = this.testingTemplateId;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IControlTestingDto {
+    name: string | undefined;
+    testingTemplateId: number | undefined;
+    endDate: moment.Moment | undefined;
+    id: number;
+}
+
+export class GetControlTestingForViewDto implements IGetControlTestingForViewDto {
+    controlTesting!: ControlTestingDto;
+    name!: string | undefined;
+    testingTemplateId!: number | undefined;
+    id!: number | undefined;
+    endDate!: moment.Moment | undefined;
+
+    constructor(data?: IGetControlTestingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.controlTesting = data["controlTesting"] ? ControlTestingDto.fromJS(data["controlTesting"]) : <any>undefined;
+            this.name = data["name"];
+            this.testingTemplateId = data["testingTemplateId"];
+            this.id = data["id"];
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetControlTestingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetControlTestingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["controlTesting"] = this.controlTesting ? this.controlTesting.toJSON() : <any>undefined;
+        data["name"] = this.name;
+        data["testingTemplateId"] = this.testingTemplateId;
+        data["id"] = this.id;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetControlTestingForViewDto {
+    controlTesting: ControlTestingDto;
+    name: string | undefined;
+    testingTemplateId: number | undefined;
+    id: number | undefined;
+    endDate: moment.Moment | undefined;
+}
+
+export class PagedResultDtoOfGetControlTestingForViewDto implements IPagedResultDtoOfGetControlTestingForViewDto {
+    totalCount!: number;
+    items!: GetControlTestingForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetControlTestingForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetControlTestingForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetControlTestingForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetControlTestingForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetControlTestingForViewDto {
+    totalCount: number;
+    items: GetControlTestingForViewDto[] | undefined;
+}
+
+export class CreateOrEditControlTestingDto implements ICreateOrEditControlTestingDto {
+    name!: string | undefined;
+    testingTemplateId!: number | undefined;
+    endDate!: string | undefined;
+    processRiskControlId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditControlTestingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.testingTemplateId = data["testingTemplateId"];
+            this.endDate = data["endDate"];
+            this.processRiskControlId = data["processRiskControlId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditControlTestingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditControlTestingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["testingTemplateId"] = this.testingTemplateId;
+        data["endDate"] = this.endDate;
+        data["processRiskControlId"] = this.processRiskControlId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditControlTestingDto {
+    name: string | undefined;
+    testingTemplateId: number | undefined;
+    endDate: string | undefined;
+    processRiskControlId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetControlTestingForEditOutput implements IGetControlTestingForEditOutput {
+    controlTesting!: CreateOrEditControlTestingDto;
+
+    constructor(data?: IGetControlTestingForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.controlTesting = data["controlTesting"] ? CreateOrEditControlTestingDto.fromJS(data["controlTesting"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetControlTestingForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetControlTestingForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["controlTesting"] = this.controlTesting ? this.controlTesting.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IGetControlTestingForEditOutput {
+    controlTesting: CreateOrEditControlTestingDto;
 }
 
 export class Widget implements IWidget {

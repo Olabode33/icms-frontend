@@ -451,6 +451,90 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="kt-portlet kt-portlet--mobile">
+                        <div class="kt-portlet__head hoverable"
+                            (click)="controlTesting = !controlTesting;">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    <span class="kt-font-primary">
+                                        <i class="fa fa-layer-group"></i>
+                                        Control Testing
+                                    </span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingExceptions" class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                        <div [hidden]="!controlTesting" class="kt-portlet__body  ">
+
+                            <div class="row align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container col-12"
+                                     [busyIf]="primengTableHelper.isLoading">
+                                     <div class="table-responsive">
+                                        <table
+                                            class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                            <thead>
+                                                <tr class="text-left" style="background: red">
+                                                    <th style="min-width: 250px; background: red" class="pl-2">
+                                                        <span class="text-dark-75">Name</span></th>
+                                                    <th style="min-width: 100px; background: red">End Date</th>    
+                                                    <th style="min-width: 100px; background: red"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let control of controlTests">
+                                                    <td class="pl-0 py-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <!-- <div class="symbol symbol-50 symbol-light mr-4">
+                                                                <i class="fa fa-2x fa-exclamation-triangle kt-font-danger"></i>
+                                                            </div> -->
+                                                            <div>
+                                                                <a href="javascript:void(0);"
+                                                                    class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                    {{ control.name }}
+                                                                </a>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                            {{ control.endDate | momentFormat:'LL'}}
+                                                        </span>
+                                                    </td>
+                                                   
+                                                    <td class="pr-0 text-right">
+                                                       
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="primeng-no-data" *ngIf="controlTests.length == 0">
+                                        {{l('NoData')}}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                     #exceptionsPaginator
+                                                     (onPageChange)="getControlTestings($event)"
+                                                     [totalRecords]="primengTableHelper.totalRecordsCount"
+                                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', controltestCount)}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="kt-portlet kt-portlet--mobile bg-border-success">

@@ -15,6 +15,7 @@ import { CreateOrEditProcessRiskModalComponent } from './create-process-risk-mod
 import { CreateOrEditProcessRiskControlModalComponent } from './create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 import { Router } from '@angular/router';
 import { AppConsts } from '@shared/AppConsts';
+import { CreateControlTestingModalComponent } from './create-process-risk-control-modal/create-control-testing-modal.component';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit, A
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
     //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
-
+    @ViewChild('createControlTestingModal', { static: true }) createControlTestingModal: CreateControlTestingModalComponent;
+   
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
     private _isViewOnly = false;
@@ -42,7 +44,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit, A
 
     loadingRisk = false;
     loadingControls = false;
-    activeRcsaProgram = false;
+    activeRcsaProgram = true;
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
 
@@ -172,6 +174,9 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit, A
         this.createOrEditProcessRiskControlModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
     }
 
+    createControlTesting(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
+        this.createControlTestingModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
+    }
 
     removeMember(user: OrganizationUnitUserListDto): void {
         this.message.confirm(
