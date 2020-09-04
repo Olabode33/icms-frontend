@@ -1,4 +1,4 @@
-import { ProcessRiskDto, ProcessRiskControlDto, TestingTemplatesServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { ProcessRiskDto, ProcessRiskControlDto, TestingTemplatesServiceProxy, RcsaProgramAssessmentServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
 import { Component, OnInit, Injector, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -58,6 +58,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
         private _processRiskService: ProcessRisksServiceProxy,
         private _processRiskControlService: ProcessRiskControlsServiceProxy,
         private _testingTemplateServiceProcess: TestingTemplatesServiceProxy,
+        private _rcsaAssessmentServiceProcess: RcsaProgramAssessmentServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -106,7 +107,9 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
     }
 
     checkForActiveProgram(): void {
-
+        this._rcsaAssessmentServiceProcess.getActiveRcsaProgram().subscribe(result => {
+            this.activeRcsaProgram = result.active;
+        });
     }
 
     getDepartmentProcesses() {

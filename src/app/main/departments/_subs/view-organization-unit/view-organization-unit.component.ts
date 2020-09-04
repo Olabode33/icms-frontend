@@ -1,4 +1,4 @@
-import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto, GetWorkingPaperNewForViewDto, GetExceptionIncidentForViewDto, TaskStatus, Status, WorkingPaperNewsServiceProxy, ExceptionIncidentsServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
+import { GetDepartmentForEditOutput, CreateOrEditDepartmentDto, GetWorkingPaperNewForViewDto, GetExceptionIncidentForViewDto, TaskStatus, Status, WorkingPaperNewsServiceProxy, ExceptionIncidentsServiceProxy, RcsaProgramAssessmentServiceProxy, RcsaProgramAssessmentDto, VerificationStatusEnum } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -31,6 +31,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     organizationUnit: IBasicOrganizationUnitInfo = null;
 
     loadingScore = false;
+    activeRcsaProgram = false;
 
     _organizationUnitId = -1;
     department: CreateOrEditDepartmentDto = new CreateOrEditDepartmentDto();
@@ -44,6 +45,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
     workingPapers: GetWorkingPaperNewForViewDto[] = new Array();
     totalExceptions = 0;
     exceptions: GetExceptionIncidentForViewDto[] = new Array();
+    currentAssessment: RcsaProgramAssessmentDto = new RcsaProgramAssessmentDto();
 
     rating = '' ;
     ratingCode = '' ;
@@ -51,6 +53,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
 
     taskStatusEnum = TaskStatus;
     statusEnum = Status;
+    verificationStatusEnum = VerificationStatusEnum;
 
     colorScheme = {
         domain: ['#1bc5bd']
@@ -103,6 +106,7 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
+        private _rcsaAssessmentServiceProcess: RcsaProgramAssessmentServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -113,8 +117,16 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
             this._organizationUnitId = +params.get('departmentId');
             this.loadingScore = true;
             this.getDepartmentDetails();
+            this.checkForActiveRcsaProgram();
             this.getWorkingPapers({ first: 0, sortField: undefined, rows: 10 });
             this.getExceptions({ first: 0, sortField: undefined, rows: 10 });
+        });
+    }
+
+    checkForActiveRcsaProgram(): void {
+        this._rcsaAssessmentServiceProcess.getActiveRcsaProgram().subscribe(result => {
+            this.activeRcsaProgram = result.active;
+            this.currentAssessment.projectId = result.projectId;
         });
     }
 
@@ -249,6 +261,44 @@ export class ViewOrganizationUnitComponent extends AppComponentBase implements O
         }
 
         return 'red';
+    }
+
+    submitForReview(): void {
+        this.message.confirm(
+            'Submit for review',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this.currentAssessment.businessUnitId = this.organizationUnit.id;
+                    this.currentAssessment.changes = true;
+                    this.currentAssessment.verificationStatus = VerificationStatusEnum.Submitted;
+
+                    this._rcsaAssessmentServiceProcess.saveRcsaProgramAssessment(this.currentAssessment)
+                        .subscribe(() => {
+                            this.message.success('Successfully Submitted');
+                        });
+                }
+            }
+        );
+    }
+
+    submitForVerification(): void {
+        this.message.confirm(
+            'Submit for verification',
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this.currentAssessment.businessUnitId = this.organizationUnit.id;
+                    this.currentAssessment.changes = true;
+                    this.currentAssessment.verificationStatus = VerificationStatusEnum.Verified;
+
+                    this._rcsaAssessmentServiceProcess.saveRcsaProgramAssessment(this.currentAssessment)
+                        .subscribe(() => {
+                            this.message.success('Successfully Submitted');
+                        });
+                }
+            }
+        );
     }
 
 }

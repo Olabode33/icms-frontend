@@ -53,6 +53,7 @@
                                             <span *ngIf="!project.project.commenced" class="kt-badge kt-badge--danger kt-badge--inline ml-3">Not active</span>
                                         </a>
                                         <span class="">
+                                            {{ l(projectOwnerEnum[project.project.projectOwner]) }} - 
                                             {{project.organizationUnitDisplayName2}}
                                         </span>
                                     </div>

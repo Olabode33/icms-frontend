@@ -43,7 +43,7 @@
                     <div class="form-row">
                         <div class="form-group col-8 ">
                             <label for="Project_Description">{{l("Description")}}</label>
-                            <textarea type="text" id="Project_Description" class="form-control"
+                            <textarea type="text" id="Project_Description" class="form-control" rows="5"
                                 [(ngModel)]="project.description" name="Description"></textarea>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <select type="text" id="Project_reviewType" class="form-control"
                                 [(ngModel)]="project.reviewType" name="reviewType">
                                 <option value=0>Business Unit</option>
-                                <option value=1>Process</option>
+                                <option *ngIf="project.projectOwner !== projectOwnerEnum.OperationRisk" value=1>Process</option>
                             </select>
                         </div>
                         <div class="form-group col-6">
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab heading="List of Requirements">
+                        <tab *ngIf="project.projectOwner !== projectOwnerEnum.OperationRisk"  heading="List of Requirements">
                             <button type="button" class="btn btn-primary">Add</button>
                         </tab>
                     </tabset>

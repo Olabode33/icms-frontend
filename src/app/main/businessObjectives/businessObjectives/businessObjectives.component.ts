@@ -96,7 +96,7 @@ export class BusinessObjectivesComponent extends AppComponentBase {
                     this._businessObjectivesServiceProxy.delete(businessObjective.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

@@ -98,7 +98,7 @@ export class WorkingPaperReviewCommentsComponent extends AppComponentBase {
                     this._workingPaperReviewCommentsServiceProxy.delete(workingPaperReviewComment.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

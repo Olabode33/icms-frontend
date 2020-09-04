@@ -89,7 +89,7 @@ export class KeyRiskIndicatorsComponent extends AppComponentBase {
                     this._keyRiskIndicatorsServiceProxy.delete(keyRiskIndicator.id)
                         .subscribe(() => {
                             this.reloadPage();
-                            this.notify.success(this.l('SuccessfullyDeleted'));
+                            this.message.success(this.l('SuccessfullyDeleted'));
                         });
                 }
             }

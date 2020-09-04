@@ -71,7 +71,7 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         return this._keyRiskIndicatorsServiceProxy.createOrEdit(this.keyRiskIndicator)
          .pipe(finalize(() => { 
             this.saving = false;               
-            this.notify.info(this.l('SavedSuccessfully'));
+            this.message.info(this.l('SavedSuccessfully'));
          }));
     }
     

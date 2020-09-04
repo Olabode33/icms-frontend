@@ -1,4 +1,4 @@
-import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner } from './../../../../shared/service-proxies/service-proxies';
+import { AssignWorkingPaperNewDto, GetExceptionIncidentForViewDto, Status, EntityDto, ExceptionIncidentsServiceProxy, ProjectOwner, RcsaProgramAssessmentServiceProxy, GetRcsaProgramAssessmentForViewDto, VerificationStatusEnum } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector, Output, EventEmitter, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ProjectsServiceProxy, GetProjectForViewDto, ProjectDto, CreateOrEditProjectDto, TaskStatus, WorkingPaperNewsServiceProxy, Frequency, GetWorkingPaperNewForViewDto } from '@shared/service-proxies/service-proxies';
@@ -23,6 +23,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     @ViewChild('exceptionsPaginator', { static: true }) exceptionsPaginator: Paginator;
+    @ViewChild('assessmentPaginator', { static: true }) assessmentPaginator: Paginator;
     @ViewChild('workingPaperNewUserLookupTableModal', { static: true }) workingPaperNewUserLookupTableModal: WorkingPaperNewUserLookupTableModalComponent;
     @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
 
@@ -31,9 +32,13 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     showGeneralInfoCard = false;
     showWorkingPapersCard = false;
     showExceptionsCard = false;
+    showAssessmentCard = false;
+    showControlTestingCard = false;
     loading = false;
     loadingWorkingPapers = false;
     loadingExceptions = false;
+    loadingAssessments = false;
+    loadingControlTesting = false;
 
     openTaskCount = 0;
     openTaskPercent = 0;
@@ -43,6 +48,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     completedTaskPercent = 0;
     exceptionsCount = 0;
     exceptionsPercent = 0;
+    assessmentCount = 0;
     taskStatusEnum = TaskStatus;
     statusEnum = Status;
     selectedModule: ProjectOwner;
@@ -51,6 +57,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     project: CreateOrEditProjectDto = new CreateOrEditProjectDto();
     selectedWorkingPaper: GetWorkingPaperNewForViewDto = new GetWorkingPaperNewForViewDto();
     exceptions: GetExceptionIncidentForViewDto[] = new Array();
+    assessments: GetRcsaProgramAssessmentForViewDto[] = new Array();
 
     organizationUnitDisplayName = '';
     organizationUnitDisplayName2 = '';
@@ -104,6 +111,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     taskStatus = TaskStatus;
     frequencyEnum = Frequency;
     projectOwnerEnum = ProjectOwner;
+    verificationStatusEnum = VerificationStatusEnum;
 
     constructor(
         injector: Injector,
@@ -111,6 +119,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         private _projectsServiceProxy: ProjectsServiceProxy,
         private _workingPaperNewsServiceProxy: WorkingPaperNewsServiceProxy,
         private _exceptionIncidentsServiceProxy: ExceptionIncidentsServiceProxy,
+        private _rcsaAssessmentServiceProxy: RcsaProgramAssessmentServiceProxy,
         private _router: Router
     ) {
         super(injector);
@@ -150,6 +159,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         });
         this.getWorkingPaperNews({ first: 0, sortField: undefined, rows: 10 });
         this.getException({ first: 0, sortField: undefined, rows: 10 });
+        this.getAssessment({ first: 0, sortField: undefined, rows: 10 });
     }
 
     valueFormatting(value: number): string {
@@ -214,6 +224,18 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    getAssessment(event?: LazyLoadEvent): void {
+        this._rcsaAssessmentServiceProxy.getProgramAssessment(
+            this.projectId,
+            '',
+            this.primengTableHelper.getSkipCount(this.exceptionsPaginator, event),
+            this.primengTableHelper.getMaxResultCount(this.exceptionsPaginator, event)
+        ).subscribe(result => {
+            this.assessments = result.items;
+            //this.exceptionsCount = result.totalCount;
+        });
+    }
+
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }
@@ -224,6 +246,10 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     edit(id: number): void {
         this._router.navigate(['app/main/workingPaperNews/edit', id]);
+    }
+
+    viewOU(ouId: number): void {
+        this._router.navigate(['app/main/departments/view/', ouId]);
     }
 
     openAssignToUserModal(workingPaper: GetWorkingPaperNewForViewDto) {
