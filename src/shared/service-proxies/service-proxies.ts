@@ -17987,6 +17987,129 @@ export class ProjectsServiceProxy {
         }
         return _observableOf<PagedResultDtoOfProjectOrganizationUnitLookupTableDto>(<any>null);
     }
+
+    /**
+     * @param projectId (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getProgramAssessment(projectId: number | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetRcsaProgramAssessmentForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/GetProgramAssessment?";
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "ProjectId=" + encodeURIComponent("" + projectId) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProgramAssessment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProgramAssessment(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetRcsaProgramAssessmentForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetRcsaProgramAssessmentForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProgramAssessment(response: HttpResponseBase): Observable<PagedResultDtoOfGetRcsaProgramAssessmentForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetRcsaProgramAssessmentForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetRcsaProgramAssessmentForViewDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    saveRcsaProgramAssessment(body: RcsaProgramAssessmentDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Projects/SaveRcsaProgramAssessment";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSaveRcsaProgramAssessment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSaveRcsaProgramAssessment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSaveRcsaProgramAssessment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -40752,6 +40875,168 @@ export class PagedResultDtoOfProjectOrganizationUnitLookupTableDto implements IP
 export interface IPagedResultDtoOfProjectOrganizationUnitLookupTableDto {
     totalCount: number;
     items: ProjectOrganizationUnitLookupTableDto[] | undefined;
+}
+
+export enum VerificationStatusEnum {
+    Open = 0,
+    Submitted = 1,
+    Verified = 2,
+}
+
+export class RcsaProgramAssessmentDto implements IRcsaProgramAssessmentDto {
+    tenantId!: number;
+    projectId!: number;
+    businessUnitId!: number;
+    dateVerified!: moment.Moment;
+    verificationStatus!: VerificationStatusEnum;
+    verifiedByUserId!: number;
+    changes!: boolean;
+    id!: number;
+
+    constructor(data?: IRcsaProgramAssessmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.projectId = data["projectId"];
+            this.businessUnitId = data["businessUnitId"];
+            this.dateVerified = data["dateVerified"] ? moment(data["dateVerified"].toString()) : <any>undefined;
+            this.verificationStatus = data["verificationStatus"];
+            this.verifiedByUserId = data["verifiedByUserId"];
+            this.changes = data["changes"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RcsaProgramAssessmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RcsaProgramAssessmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["projectId"] = this.projectId;
+        data["businessUnitId"] = this.businessUnitId;
+        data["dateVerified"] = this.dateVerified ? this.dateVerified.toISOString() : <any>undefined;
+        data["verificationStatus"] = this.verificationStatus;
+        data["verifiedByUserId"] = this.verifiedByUserId;
+        data["changes"] = this.changes;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IRcsaProgramAssessmentDto {
+    tenantId: number;
+    projectId: number;
+    businessUnitId: number;
+    dateVerified: moment.Moment;
+    verificationStatus: VerificationStatusEnum;
+    verifiedByUserId: number;
+    changes: boolean;
+    id: number;
+}
+
+export class GetRcsaProgramAssessmentForViewDto implements IGetRcsaProgramAssessmentForViewDto {
+    assessment!: RcsaProgramAssessmentDto;
+    unitHead!: string | undefined;
+    verifiedByUserName!: string | undefined;
+
+    constructor(data?: IGetRcsaProgramAssessmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? RcsaProgramAssessmentDto.fromJS(data["assessment"]) : <any>undefined;
+            this.unitHead = data["unitHead"];
+            this.verifiedByUserName = data["verifiedByUserName"];
+        }
+    }
+
+    static fromJS(data: any): GetRcsaProgramAssessmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetRcsaProgramAssessmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["unitHead"] = this.unitHead;
+        data["verifiedByUserName"] = this.verifiedByUserName;
+        return data; 
+    }
+}
+
+export interface IGetRcsaProgramAssessmentForViewDto {
+    assessment: RcsaProgramAssessmentDto;
+    unitHead: string | undefined;
+    verifiedByUserName: string | undefined;
+}
+
+export class PagedResultDtoOfGetRcsaProgramAssessmentForViewDto implements IPagedResultDtoOfGetRcsaProgramAssessmentForViewDto {
+    totalCount!: number;
+    items!: GetRcsaProgramAssessmentForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetRcsaProgramAssessmentForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetRcsaProgramAssessmentForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetRcsaProgramAssessmentForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetRcsaProgramAssessmentForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetRcsaProgramAssessmentForViewDto {
+    totalCount: number;
+    items: GetRcsaProgramAssessmentForViewDto[] | undefined;
 }
 
 export class RatingDto implements IRatingDto {

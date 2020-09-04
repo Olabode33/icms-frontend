@@ -41,6 +41,7 @@ import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeC
 import { LossEventsComponent } from './lossEvents/lossEvents.component';
 import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
 import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
+import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 @NgModule({
     imports: [
@@ -69,6 +70,7 @@ import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'exceptionIncidents/exceptionIncidents/createOrEdit', component: CreateOrEditExceptionIncidentComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
+                    { path: 'testingTemplates/createOrEdit', component: CreateOrEditTestingTemplateModalComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'testingTemplates/:testingTemplateId', component: ViewTestingTemplateComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },
                     { path: 'departmentRisks/departmentRisks', component: DepartmentRisksComponent, data: { permission: 'Pages.DepartmentRisks' }  },

@@ -1,4 +1,4 @@
-import { Component, Injector, ViewChild } from '@angular/core';
+import { Component, Injector, ViewChild, AfterViewInit } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { OrganizationTreeComponent } from './organization-tree.component';
@@ -12,7 +12,9 @@ import { DeptProcessRiskControlComponent } from '../processes/dept-process-risk-
     templateUrl: './organization-units.component.html',
     animations: [appModuleAnimation()]
 })
-export class OrganizationUnitsComponent extends AppComponentBase {
+export class OrganizationUnitsComponent extends AppComponentBase implements AfterViewInit {
+
+    activeRcsaProgram = false;
 
     @ViewChild('ouMembers', {static: true}) ouMembers: OrganizationUnitMembersComponent;
     //@ViewChild('ouRisks', { static: true }) ouRisks: OrganizationUnitRisksComponent;
@@ -25,6 +27,14 @@ export class OrganizationUnitsComponent extends AppComponentBase {
         injector: Injector
     ) {
         super(injector);
+    }
+
+    ngAfterViewInit(): void {
+        this.checkForActiveRcsaProgram();
+    }
+
+    checkForActiveRcsaProgram(): void {
+
     }
 
     ouSelected(event: any): void {

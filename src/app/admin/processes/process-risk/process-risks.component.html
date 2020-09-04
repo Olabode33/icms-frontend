@@ -8,7 +8,7 @@
              class="btn btn-primary btn-sm my-3">
             <i class="fa fa-times"></i> Remove Process
         </button> -->
-        <button *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly"
+        <button *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit && !isViewOnly && activeRcsaProgram"
             (click)="addRiskToUnit()" class="btn btn-danger btn-sm float-right my-3">
             <i class="fa fa-plus"></i> Add Risk
         </button>
@@ -81,15 +81,15 @@
                         <div *ngIf="risk.isActive" class="px-2 pb-2">
                             <hr>
                             <div class="pb-2">
-                                <button type="button" class="btn btn-primary btn-sm"
+                                <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
                                     (click)="editProcessRisk(risk.risk.processRisk.id, risk.risk.processRisk.processId)">
                                     <i class="fa fa-edit"></i> Edit Risk
                                 </button>
-                                <button type="button" class="btn btn-primary btn-sm"
+                                <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
                                     (click)="removeProcessRisk(risk.risk.processRisk.id)">
                                     <i class="fa fa-times"></i> Remove Risk
                                 </button>
-                                <button type="button" class="btn btn-success btn-sm float-right"
+                                <button type="button" class="btn btn-success btn-sm float-right" *ngIf="activeRcsaProgram"
                                     (click)="addControlToRisk(risk.risk)">
                                     <i class="fa fa-plus"></i> Add Control
                                 </button>
@@ -131,15 +131,15 @@
                                 </div>
                                 <div *ngIf="control.isActive" class="mx-2">
                                     <hr>
-                                    <button type="button" class="btn btn-primary btn-sm" 
+                                    <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
                                         (click)="editProcessRiskControl(control.control.processRiskControl, risk.risk)">
                                         <i class="fa fa-edit"></i> Edit Control
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm" 
+                                    <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
                                         (click)="removeProcessRiskControl(control.control.processRiskControl.id)">
                                         <i class="fa fa-times"></i> Remove Control
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm pull-right" 
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="activeRcsaProgram"
                                         (click)="createTestingTemplate(control.control.processRiskControl.id)">
                                         <i class="fa fa-plus"></i> Add Testing Template
                                     </button>
@@ -153,11 +153,11 @@
                                                         {{ template.testingTemplate.title }}
                                                     </td>
                                                     <td style="width: 30%;">
-                                                        <button type="button" class="btn btn-primary btn-sm pull-right" 
+                                                        <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="activeRcsaProgram"
                                                             (click)="review(template.testingTemplate.id)">
                                                             Review
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-primary mr-2 btn-sm pull-right" 
+                                                        <button type="button" class="btn btn-outline-primary mr-2 btn-sm pull-right" *ngIf="activeRcsaProgram"
                                                             (click)="removeControlTestingTemplate(template.testingTemplate.id)">
                                                             <i class="fa fa-times"></i>
                                                         </button>

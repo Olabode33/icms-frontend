@@ -1,6 +1,6 @@
 import { ProcessRiskDto, ProcessRiskControlDto, TestingTemplatesServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
-import { Component, OnInit, Injector, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, OrganizationUnitServiceProxy, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, ProcessesServiceProxy, GetProcessForViewDto, OrganizationUnitDto, Frequency, ControlType } from '@shared/service-proxies/service-proxies';
 import { IBasicOrganizationUnitInfo } from '@app/admin/organization-units/basic-organization-unit-info';
@@ -15,7 +15,7 @@ import { AppConsts } from '@shared/AppConsts';
   templateUrl: './dept-process-risk-control.component.html',
   styleUrls: ['./dept-process-risk-control.component.css']
 })
-export class DeptProcessRiskControlComponent extends AppComponentBase {
+export class DeptProcessRiskControlComponent extends AppComponentBase implements AfterViewInit {
 
     @Output() riskScoreUpdated = new EventEmitter<any>();
 
@@ -33,6 +33,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
     loadingProcess = false;
     loadingRisk = false;
     loadingControls = false;
+    activeRcsaProgram = false;
 
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
@@ -98,6 +99,14 @@ export class DeptProcessRiskControlComponent extends AppComponentBase {
 
     set isViewOnly(viewOnly: boolean) {
         this._isViewOnly = viewOnly;
+    }
+
+    ngAfterViewInit(): void {
+        this.checkForActiveProgram();
+    }
+
+    checkForActiveProgram(): void {
+
     }
 
     getDepartmentProcesses() {

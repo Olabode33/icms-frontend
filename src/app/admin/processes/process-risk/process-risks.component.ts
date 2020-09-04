@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { OrganizationUnitServiceProxy, OrganizationUnitUserListDto, DepartmentRisksServiceProxy, GetDepartmentRiskForViewDto, DepartmentRiskControlsServiceProxy, GetDepartmentRiskControlForViewDto, ProcessRisksServiceProxy, ProcessRiskControlsServiceProxy, GetProcessRiskForViewDto, GetProcessRiskControlForViewDto, Frequency, ControlType, TestingTemplatesServiceProxy, ProcessRiskControlDto, ProcessRiskDto } from '@shared/service-proxies/service-proxies';
@@ -21,7 +21,7 @@ import { AppConsts } from '@shared/AppConsts';
     selector: 'app-process-risks',
     templateUrl: './process-risks.component.html'
 })
-export class ProcessRisksComponent extends AppComponentBase implements OnInit {
+export class ProcessRisksComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @Output() riskRemoved = new EventEmitter<any>();
     @Output() risksAdded = new EventEmitter<any>();
@@ -42,6 +42,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
 
     loadingRisk = false;
     loadingControls = false;
+    activeRcsaProgram = false;
     frequencyEnum = Frequency;
     controlTypeEnum = ControlType;
 
@@ -94,6 +95,14 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
+
+    }
+
+    ngAfterViewInit(): void {
+        this.checkForActiveProgram();
+    }
+
+    checkForActiveProgram(): void {
 
     }
 
