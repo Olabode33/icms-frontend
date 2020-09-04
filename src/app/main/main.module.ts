@@ -2,6 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
+import { KeyRiskIndicatorsComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicators.component';
+import { ViewKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/view-keyRiskIndicator.component';
+import { CreateOrEditKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/create-or-edit-keyRiskIndicator.component';
+import { KeyRiskIndicatorExceptionTypeLookupTableModalComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicator-exceptionType-lookup-table-modal.component';
+import { KeyRiskIndicatorUserLookupTableModalComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicator-user-lookup-table-modal.component';
+
+import { BusinessObjectivesComponent } from './businessObjectives/businessObjectives/businessObjectives.component';
+import { ViewBusinessObjectiveModalComponent } from './businessObjectives/businessObjectives/view-businessObjective-modal.component';
+import { CreateOrEditBusinessObjectiveModalComponent } from './businessObjectives/businessObjectives/create-or-edit-businessObjective-modal.component';
+import { BusinessObjectiveUserLookupTableModalComponent } from './businessObjectives/businessObjectives/businessObjective-user-lookup-table-modal.component';
+
 import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
 import { CreateOrEditWorkingPaperReviewCommentModalComponent } from './workingPaperReviewComments/workingPaperReviewComments/create-or-edit-workingPaperReviewComment-modal.component';
 import { WorkingPaperReviewCommentUserLookupTableModalComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComment-user-lookup-table-modal.component';
@@ -140,23 +151,25 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-        // CreateEditQuestionModal,
+        KeyRiskIndicatorsComponent,
+
+
+
         CreateOrEditLossTypeColumnModalComponent,
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
         LossEventOrganizationUnitLookupTableModalComponent,
-        LossEventUserLookupTableModalComponent,
-        LossEventsComponent,
+        LossEventsComponent, LossEventUserLookupTableModalComponent,
         ViewLossEventComponent,
         OpRiskDashboardComponent,
         OpRiskHomeComponent,
-        ViewProcessComponent,
-        LandingPageComponent,
-        LibraryControlsComponent,
-        ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
-        LibraryRisksComponent,
-        ViewLibraryRiskModalComponent, CreateOrEditLibraryRiskModalComponent,
-        WorkingPaperReviewCommentsComponent,
+     //   LossEventSampleModalComponent,
+        BusinessObjectivesComponent,
+        BusinessObjectiveUserLookupTableModalComponent, CreateOrEditBusinessObjectiveModalComponent, ViewBusinessObjectiveModalComponent,
+        CreateOrEditKeyRiskIndicatorComponent, KeyRiskIndicatorExceptionTypeLookupTableModalComponent, KeyRiskIndicatorsComponent, KeyRiskIndicatorUserLookupTableModalComponent, 
+        ViewKeyRiskIndicatorComponent,
+
+		WorkingPaperReviewCommentsComponent,
 
         CreateOrEditWorkingPaperReviewCommentModalComponent,
         WorkingPaperReviewCommentUserLookupTableModalComponent,

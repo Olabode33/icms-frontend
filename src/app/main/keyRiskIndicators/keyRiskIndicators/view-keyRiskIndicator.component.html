@@ -1,0 +1,57 @@
+﻿<div [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+  
+  
+                <div class="kt-subheader kt-grid__item">
+                  <div [class]="containerClass">
+                    <div class="kt-subheader__main">
+                        <h3 class="kt-subheader__title">
+            				<span>{{l("Entity_Name_Plural_Here")}} {{l("Details")}}</span>
+            			</h3>
+            			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            			<div class="kt-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/keyRiskIndicators/keyRiskIndicators']"
+            					class="kt-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("KeyRiskIndicator")}}</a>
+            				<span class="kt-subheader__breadcrumbs-separator"></span>
+            				<a 
+            					class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+            					<span>{{l("Details")}}</span>
+            				</a>
+            			</div>
+                    </div>
+                  </div>
+                </div>
+             
+    <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <div class="row align-items-center">
+                                     <div class="col-6 mb-3">
+                        <h6>{{l("Name")}} :</h6>
+                        {{ item.keyRiskIndicator.name }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Nature")}} :</h6>
+                        {{ item.keyRiskIndicator.nature }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("LowLevel")}} :</h6>
+                        {{ item.keyRiskIndicator.lowLevel }}
+                    </div>
+
+                                     <div class="col-6 mb-3">
+                        <h6>({{l("ExceptionType")}}) {{l("Code")}} :</h6>
+                        {{item.exceptionTypeCode}}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
+                        {{item.userName}}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

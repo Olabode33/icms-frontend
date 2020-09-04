@@ -1,0 +1,207 @@
+<div [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+  
+  
+                <div class="kt-subheader kt-grid__item">
+                  <div [class]="containerClass">
+                    <div class="kt-subheader__main">
+                        <h3 class="kt-subheader__title">
+            				<span *ngIf="active && keyRiskIndicator.id">{{"EditKeyRiskIndicator" }}</span>
+            				<span *ngIf="active && !keyRiskIndicator.id">{{l("CreateKeyRiskIndicator")}}</span>
+            			</h3>
+            			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            			<div class="kt-subheader__breadcrumbs">
+            				<a [routerLink]="['/app/main/keyRiskIndicators/keyRiskIndicators']"
+            					class="kt-subheader__breadcrumbs-home"><i
+            						class="flaticon2-shelter"></i>{{l("KeyRiskIndicator")}}</a>
+            				<span class="kt-subheader__breadcrumbs-separator"></span>
+            				<a 
+            					class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">
+            					<span *ngIf="active && keyRiskIndicator.id">{{l("Edit")}}</span>
+            					<span *ngIf="active && !keyRiskIndicator.id">{{l("Create")}}</span>
+            				</a>
+            			</div>
+                    </div>
+                  </div>
+                </div>
+            
+    
+    <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">              
+                
+
+
+                    <div class="form-row">
+                        <div class="form-group col-lg-8">
+                            <label for="KeyRiskIndicator_Name">{{l("Name")}} *</label>
+                            <input type="text" id="KeyRiskIndicator_Name" class="form-control" [(ngModel)]="keyRiskIndicator.name" name="Name" required />
+                        </div>
+
+                        <div class="form-group col-lg-4">
+                            <label for="KeyRiskIndicator_Nature">{{l("Nature")}}</label>
+                            <select type="text" id="KeyRiskIndicator_Nature" class="form-control" [(ngModel)]="keyRiskIndicator.nature" name="Nature">
+                                <option value="Leading">Leading</option>
+                                <option value="Lagging">Lagging</option>
+                                <option value="Current">Current</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-lg-8">
+                            <label for="KeyRiskIndicator_Description">{{l("Description")}}</label>
+                            <textarea type="text" id="KeyRiskIndicator_Description" class="form-control" [(ngModel)]="keyRiskIndicator.description" name="Description"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group m-form__group col-lg-6">
+                            <label for="UserName">{{l("Risk Owner")}}</label>
+                            <div class="input-group">
+                                <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                </div> <div class="input-group-prepend">
+                                    <button class="btn btn-danger btn-icon" type="button" (click)="setUserIdNull()"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control" name="keyRiskIndicator.userId" [(ngModel)]="keyRiskIndicator.userId" type="text" hidden>
+
+                    </div>
+                <tabset>
+                    <tab heading="Data Configuration">
+                        <div class="form-row">
+                            <div class="form-group col-lg-4">
+                                <label>How is the risk data obtained?</label>
+                                <div class="kt-radio-inline">
+                                    <label class="kt-radio">
+                                        <input type="radio" name="keyRiskIndicator.dataInputMethod" [(ngModel)]="keyRiskIndicator.dataInputMethod" checked value="Form Input"> Form Input
+                                        <span></span>
+                                    </label>
+                                    <label class="kt-radio">
+                                        <input type="radio" name="keyRiskIndicator.dataInputMethod" [(ngModel)]="keyRiskIndicator.dataInputMethod" value="Direct Connection"> Direct Connection
+                                        <span></span>
+                                    </label>
+                                    <label class="kt-radio">
+                                        <input type="radio" name="keyRiskIndicator.dataInputMethod"  [(ngModel)]="keyRiskIndicator.dataInputMethod"  value="Exceptions"> Exceptions
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-form__group col-lg-6" *ngIf="keyRiskIndicator.dataInputMethod == 'Exceptions'">
+                                <label for="ExceptionTypeCode">{{l("ExceptionType")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="ExceptionTypeCode" name="exceptionTypeCode" [(ngModel)]="exceptionTypeCode" type="text" disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectExceptionTypeModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div> <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button" (click)="setExceptionTypeIdNull()"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="form-control" name="keyRiskIndicator.exceptionTypeId" [(ngModel)]="keyRiskIndicator.exceptionTypeId" type="text" hidden>
+
+                        </div>
+                    </tab>
+                    <tab heading="Threshold Configuration">
+                        <div class="form-row kt-bg-success text-white">
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_LowLevel">{{l("LowLevel")}}</label>
+                                <input type="number" id="KeyRiskIndicator_LowLevel" class="form-control" [(ngModel)]="keyRiskIndicator.lowLevel" name="LowLevel" />
+                            </div>
+
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_LowActionType">Action</label>
+                                <select type="text" id="KeyRiskIndicator_LowActionType" class="form-control" [(ngModel)]="keyRiskIndicator.lowActionType" name="LowActionType">
+                                    <option value="No Action">No Action</option>
+                                    <option value="Action">Action</option>
+                                </select>
+                            </div>
+                        </div>
+                  
+                        <hr />
+
+                        <div class="form-row bg-warning text-white">
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_MediumLevel">{{l("MediumLevel")}}</label>
+                                <input type="number" id="KeyRiskIndicator_MediumLevel" class="form-control" [(ngModel)]="keyRiskIndicator.mediumLevel" name="MediumLevel" />
+                            </div>
+
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_MediumActionType">{{l("Action")}}</label>
+                                <select type="text" id="KeyRiskIndicator_MediumActionType" class="form-control" [(ngModel)]="keyRiskIndicator.mediumActionType" name="MediumActionType">
+                                    <option value="No Action">No Action</option>
+                                    <option value="Action">Action</option>
+                                </select>
+                            </div>
+                        </div>
+                 
+                        <hr />
+
+                        <div class="form-row bg-danger text-white">
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_HighLevel">{{l("HighLevel")}}</label>
+                                <input type="number" id="KeyRiskIndicator_HighLevel" class="form-control" [(ngModel)]="keyRiskIndicator.highLevel" name="HighLevel" />
+                            </div>
+
+                            <div class="form-group col-lg-4">
+                                <label for="KeyRiskIndicator_HighActionType">{{l("Action")}}</label>
+                                <select type="text" id="KeyRiskIndicator_HighActionType" class="form-control" [(ngModel)]="keyRiskIndicator.highActionType" name="HighActionType">
+                                    <option value="Action">Action</option>
+                                    <option value="Escalation">Escalation</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </tab>
+                    <tab heading="Escalation">
+
+                        <div class="form-row">
+                     <div class="table-responsive col-lg-6">
+                         <label for="UserName">Add staff to escalation list</label>
+                         <table class="table">
+                             <thead>
+                                 <tr>
+                                     <th>Staff</th>
+                                     <th> <button class="btn btn-outline-success" (click)="openEscalationUserModal()" type="button"><i class="fa fa-plus"></i> {{l("Add")}}</button></th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr *ngFor="let staff of staffs">
+                                     <td>{{staff.name}}</td>
+                                     <td><button type="button" class="btn btn-icon-sm"><i class="fa fa-trash"></i></button></td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                     </div>
+                    </tab>
+                </tabset>
+
+
+					
+
+					
+
+					
+            </div>
+              <div class="kt-portlet__foot">
+				<div class="col-lg-12">
+					<button (click)="save()" class="btn btn-primary blue float-right"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> 
+                        <span>{{l("Save")}}</span>
+                    </button>
+         
+				</div>
+		    </div>
+        </div>
+    </div>
+  </div>
+  <keyRiskIndicatorExceptionTypeLookupTableModal #keyRiskIndicatorExceptionTypeLookupTableModal (modalSave)="getNewExceptionTypeId()"></keyRiskIndicatorExceptionTypeLookupTableModal>
+		 <keyRiskIndicatorUserLookupTableModal #keyRiskIndicatorUserLookupTableModal (modalSave)="getNewUserId()"></keyRiskIndicatorUserLookupTableModal>
+		 <keyRiskIndicatorUserLookupTableModal #keyRiskIndicatorUserLookupTableModal2 (modalSave)="addToArray()"></keyRiskIndicatorUserLookupTableModal>
+		 
+</div>

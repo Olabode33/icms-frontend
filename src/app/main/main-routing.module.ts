@@ -1,5 +1,9 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { KeyRiskIndicatorsComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicators.component';
+import { CreateOrEditKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/create-or-edit-keyRiskIndicator.component';
+import { ViewKeyRiskIndicatorComponent } from './keyRiskIndicators/keyRiskIndicators/view-keyRiskIndicator.component';
+import { BusinessObjectivesComponent } from './businessObjectives/businessObjectives/businessObjectives.component';
 import { WorkingPaperReviewCommentsComponent } from './workingPaperReviewComments/workingPaperReviewComments/workingPaperReviewComments.component';
 import { LibraryControlsComponent } from './libraryControls/libraryControls/libraryControls.component';
 import { LibraryRisksComponent } from './libraryRisks/libraryRisks/libraryRisks.component';
@@ -29,15 +33,6 @@ import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-audi
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
-import { OpRiskHomeComponent } from './opRisk/home/home.component';
-import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
-import { LossEventsComponent } from './lossEvents/lossEvents.component';
-import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
-import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
-import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
-import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 
 @NgModule({
     imports: [
@@ -45,15 +40,10 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
             {
                 path: '',
                 children: [
-
-                    { path: 'home/oprisk', component: OpRiskHomeComponent, data: { permission: 'Pages.HomePage'} },
-                    { path: 'dashboard/oprisk', component: OpRiskDashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
-                    { path: 'process/view/:processId', component: ViewProcessComponent, data: { permission: 'Pages.Departments' }  },
-                    { path: 'lossEvents/columns', component: LossTypeColumnsComponent, /*data: { permission: 'Pages.Projects' } */ },
-                    { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
-                    { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
-                    { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'keyRiskIndicators/keyRiskIndicators', component: KeyRiskIndicatorsComponent, data: { permission: 'Pages.KeyRiskIndicators' }  },
+                    { path: 'keyRiskIndicators/keyRiskIndicators/createOrEdit', component: CreateOrEditKeyRiskIndicatorComponent, data: { permission: 'Pages.KeyRiskIndicators.Create' }  },
+                    { path: 'keyRiskIndicators/keyRiskIndicators/view', component: ViewKeyRiskIndicatorComponent, data: { permission: 'Pages.KeyRiskIndicators' }  },
+                    { path: 'businessObjectives/businessObjectives', component: BusinessObjectivesComponent, data: { permission: 'Pages.BusinessObjectives' }  },
                     { path: 'workingPaperReviewComments/workingPaperReviewComments', component: WorkingPaperReviewCommentsComponent, data: { permission: 'Pages.WorkingPaperReviewComments' }  },
                     { path: 'libraryControls/libraryControls', component: LibraryControlsComponent, data: { permission: 'Pages.LibraryControls' }  },
                     { path: 'libraryRisks/libraryRisks', component: LibraryRisksComponent, data: { permission: 'Pages.LibraryRisks' }  },
@@ -71,7 +61,6 @@ import { CreateOrEditTestingTemplateModalComponent } from './testingTemplates/te
                     { path: 'exceptionIncidents/exceptionIncidents', component: ExceptionIncidentsComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'exceptionIncidents/exceptionIncidents/createOrEdit', component: CreateOrEditExceptionIncidentComponent, data: { permission: 'Pages.ExceptionIncidents' }  },
                     { path: 'testingTemplates/testingTemplates', component: TestingTemplatesComponent, data: { permission: 'Pages.TestingTemplates' }  },
-                    { path: 'testingTemplates/createOrEdit', component: CreateOrEditTestingTemplateModalComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'testingTemplates/:testingTemplateId', component: ViewTestingTemplateComponent, data: { permission: 'Pages.TestingTemplates' }  },
                     { path: 'departmentRiskControls/departmentRiskControls', component: DepartmentRiskControlsComponent, data: { permission: 'Pages.DepartmentRiskControls' }  },
                     { path: 'departmentRisks/departmentRisks', component: DepartmentRisksComponent, data: { permission: 'Pages.DepartmentRisks' }  },

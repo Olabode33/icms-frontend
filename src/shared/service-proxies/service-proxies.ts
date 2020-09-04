@@ -1169,6 +1169,492 @@ export class AuditLogServiceProxy {
 }
 
 @Injectable()
+export class BusinessObjectivesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxStartDateFilter (optional) 
+     * @param minStartDateFilter (optional) 
+     * @param maxEndDateFilter (optional) 
+     * @param minEndDateFilter (optional) 
+     * @param objectiveTypeFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, objectiveTypeFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetBusinessObjectiveForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxStartDateFilter === null)
+            throw new Error("The parameter 'maxStartDateFilter' cannot be null.");
+        else if (maxStartDateFilter !== undefined)
+            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
+        if (minStartDateFilter === null)
+            throw new Error("The parameter 'minStartDateFilter' cannot be null.");
+        else if (minStartDateFilter !== undefined)
+            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
+        if (maxEndDateFilter === null)
+            throw new Error("The parameter 'maxEndDateFilter' cannot be null.");
+        else if (maxEndDateFilter !== undefined)
+            url_ += "MaxEndDateFilter=" + encodeURIComponent(maxEndDateFilter ? "" + maxEndDateFilter.toJSON() : "") + "&"; 
+        if (minEndDateFilter === null)
+            throw new Error("The parameter 'minEndDateFilter' cannot be null.");
+        else if (minEndDateFilter !== undefined)
+            url_ += "MinEndDateFilter=" + encodeURIComponent(minEndDateFilter ? "" + minEndDateFilter.toJSON() : "") + "&"; 
+        if (objectiveTypeFilter === null)
+            throw new Error("The parameter 'objectiveTypeFilter' cannot be null.");
+        else if (objectiveTypeFilter !== undefined)
+            url_ += "ObjectiveTypeFilter=" + encodeURIComponent("" + objectiveTypeFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetBusinessObjectiveForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetBusinessObjectiveForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetBusinessObjectiveForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetBusinessObjectiveForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetBusinessObjectiveForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getBusinessObjectiveForView(id: number | undefined): Observable<GetBusinessObjectiveForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/GetBusinessObjectiveForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBusinessObjectiveForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBusinessObjectiveForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBusinessObjectiveForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBusinessObjectiveForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBusinessObjectiveForView(response: HttpResponseBase): Observable<GetBusinessObjectiveForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBusinessObjectiveForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBusinessObjectiveForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getBusinessObjectiveForEdit(id: number | undefined): Observable<GetBusinessObjectiveForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/GetBusinessObjectiveForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBusinessObjectiveForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBusinessObjectiveForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBusinessObjectiveForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBusinessObjectiveForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBusinessObjectiveForEdit(response: HttpResponseBase): Observable<GetBusinessObjectiveForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBusinessObjectiveForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBusinessObjectiveForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditBusinessObjectiveDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param maxStartDateFilter (optional) 
+     * @param minStartDateFilter (optional) 
+     * @param maxEndDateFilter (optional) 
+     * @param minEndDateFilter (optional) 
+     * @param objectiveTypeFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @return Success
+     */
+    getBusinessObjectivesToExcel(filter: string | undefined, maxStartDateFilter: moment.Moment | undefined, minStartDateFilter: moment.Moment | undefined, maxEndDateFilter: moment.Moment | undefined, minEndDateFilter: moment.Moment | undefined, objectiveTypeFilter: string | undefined, userNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/GetBusinessObjectivesToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (maxStartDateFilter === null)
+            throw new Error("The parameter 'maxStartDateFilter' cannot be null.");
+        else if (maxStartDateFilter !== undefined)
+            url_ += "MaxStartDateFilter=" + encodeURIComponent(maxStartDateFilter ? "" + maxStartDateFilter.toJSON() : "") + "&"; 
+        if (minStartDateFilter === null)
+            throw new Error("The parameter 'minStartDateFilter' cannot be null.");
+        else if (minStartDateFilter !== undefined)
+            url_ += "MinStartDateFilter=" + encodeURIComponent(minStartDateFilter ? "" + minStartDateFilter.toJSON() : "") + "&"; 
+        if (maxEndDateFilter === null)
+            throw new Error("The parameter 'maxEndDateFilter' cannot be null.");
+        else if (maxEndDateFilter !== undefined)
+            url_ += "MaxEndDateFilter=" + encodeURIComponent(maxEndDateFilter ? "" + maxEndDateFilter.toJSON() : "") + "&"; 
+        if (minEndDateFilter === null)
+            throw new Error("The parameter 'minEndDateFilter' cannot be null.");
+        else if (minEndDateFilter !== undefined)
+            url_ += "MinEndDateFilter=" + encodeURIComponent(minEndDateFilter ? "" + minEndDateFilter.toJSON() : "") + "&"; 
+        if (objectiveTypeFilter === null)
+            throw new Error("The parameter 'objectiveTypeFilter' cannot be null.");
+        else if (objectiveTypeFilter !== undefined)
+            url_ += "ObjectiveTypeFilter=" + encodeURIComponent("" + objectiveTypeFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBusinessObjectivesToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBusinessObjectivesToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBusinessObjectivesToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfBusinessObjectiveUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/BusinessObjectives/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfBusinessObjectiveUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfBusinessObjectiveUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfBusinessObjectiveUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfBusinessObjectiveUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfBusinessObjectiveUserLookupTableDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class CachingServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -9056,6 +9542,533 @@ export class InvoiceServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class KeyRiskIndicatorsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param natureFilter (optional) 
+     * @param exceptionTypeCodeFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | undefined, natureFilter: string | undefined, exceptionTypeCodeFilter: string | undefined, userNameFilter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfGetKeyRiskIndicatorForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetAll?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (natureFilter === null)
+            throw new Error("The parameter 'natureFilter' cannot be null.");
+        else if (natureFilter !== undefined)
+            url_ += "NatureFilter=" + encodeURIComponent("" + natureFilter) + "&"; 
+        if (exceptionTypeCodeFilter === null)
+            throw new Error("The parameter 'exceptionTypeCodeFilter' cannot be null.");
+        else if (exceptionTypeCodeFilter !== undefined)
+            url_ += "ExceptionTypeCodeFilter=" + encodeURIComponent("" + exceptionTypeCodeFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfGetKeyRiskIndicatorForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfGetKeyRiskIndicatorForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfGetKeyRiskIndicatorForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfGetKeyRiskIndicatorForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfGetKeyRiskIndicatorForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getKeyRiskIndicatorForView(id: number | undefined): Observable<GetKeyRiskIndicatorForViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetKeyRiskIndicatorForView?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetKeyRiskIndicatorForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetKeyRiskIndicatorForView(<any>response_);
+                } catch (e) {
+                    return <Observable<GetKeyRiskIndicatorForViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetKeyRiskIndicatorForViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetKeyRiskIndicatorForView(response: HttpResponseBase): Observable<GetKeyRiskIndicatorForViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetKeyRiskIndicatorForViewDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetKeyRiskIndicatorForViewDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getKeyRiskIndicatorForEdit(id: number | undefined): Observable<GetKeyRiskIndicatorForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetKeyRiskIndicatorForEdit?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetKeyRiskIndicatorForEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetKeyRiskIndicatorForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetKeyRiskIndicatorForEditOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetKeyRiskIndicatorForEditOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetKeyRiskIndicatorForEdit(response: HttpResponseBase): Observable<GetKeyRiskIndicatorForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetKeyRiskIndicatorForEditOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetKeyRiskIndicatorForEditOutput>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createOrEdit(body: CreateOrEditKeyRiskIndicatorDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/CreateOrEdit";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrEdit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param natureFilter (optional) 
+     * @param exceptionTypeCodeFilter (optional) 
+     * @param userNameFilter (optional) 
+     * @return Success
+     */
+    getKeyRiskIndicatorsToExcel(filter: string | undefined, natureFilter: string | undefined, exceptionTypeCodeFilter: string | undefined, userNameFilter: string | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetKeyRiskIndicatorsToExcel?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (natureFilter === null)
+            throw new Error("The parameter 'natureFilter' cannot be null.");
+        else if (natureFilter !== undefined)
+            url_ += "NatureFilter=" + encodeURIComponent("" + natureFilter) + "&"; 
+        if (exceptionTypeCodeFilter === null)
+            throw new Error("The parameter 'exceptionTypeCodeFilter' cannot be null.");
+        else if (exceptionTypeCodeFilter !== undefined)
+            url_ += "ExceptionTypeCodeFilter=" + encodeURIComponent("" + exceptionTypeCodeFilter) + "&"; 
+        if (userNameFilter === null)
+            throw new Error("The parameter 'userNameFilter' cannot be null.");
+        else if (userNameFilter !== undefined)
+            url_ += "UserNameFilter=" + encodeURIComponent("" + userNameFilter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetKeyRiskIndicatorsToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetKeyRiskIndicatorsToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetKeyRiskIndicatorsToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FileDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllExceptionTypeForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetAllExceptionTypeForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllExceptionTypeForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllExceptionTypeForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllExceptionTypeForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllUserForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetAllUserForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllUserForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUserForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllUserForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>(<any>null);
     }
 }
 
@@ -24718,6 +25731,338 @@ export interface IEntityPropertyChangeDto {
     id: number;
 }
 
+export class BusinessObjectiveDto implements IBusinessObjectiveDto {
+    name!: string | undefined;
+    startDate!: moment.Moment;
+    endDate!: moment.Moment;
+    objectiveType!: string | undefined;
+    userId!: number | undefined;
+    id!: number;
+
+    constructor(data?: IBusinessObjectiveDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.objectiveType = data["objectiveType"];
+            this.userId = data["userId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): BusinessObjectiveDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessObjectiveDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["objectiveType"] = this.objectiveType;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IBusinessObjectiveDto {
+    name: string | undefined;
+    startDate: moment.Moment;
+    endDate: moment.Moment;
+    objectiveType: string | undefined;
+    userId: number | undefined;
+    id: number;
+}
+
+export class GetBusinessObjectiveForViewDto implements IGetBusinessObjectiveForViewDto {
+    businessObjective!: BusinessObjectiveDto;
+    userName!: string | undefined;
+
+    constructor(data?: IGetBusinessObjectiveForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.businessObjective = data["businessObjective"] ? BusinessObjectiveDto.fromJS(data["businessObjective"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetBusinessObjectiveForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBusinessObjectiveForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessObjective"] = this.businessObjective ? this.businessObjective.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetBusinessObjectiveForViewDto {
+    businessObjective: BusinessObjectiveDto;
+    userName: string | undefined;
+}
+
+export class PagedResultDtoOfGetBusinessObjectiveForViewDto implements IPagedResultDtoOfGetBusinessObjectiveForViewDto {
+    totalCount!: number;
+    items!: GetBusinessObjectiveForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetBusinessObjectiveForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetBusinessObjectiveForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetBusinessObjectiveForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetBusinessObjectiveForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetBusinessObjectiveForViewDto {
+    totalCount: number;
+    items: GetBusinessObjectiveForViewDto[] | undefined;
+}
+
+export class CreateOrEditBusinessObjectiveDto implements ICreateOrEditBusinessObjectiveDto {
+    name!: string | undefined;
+    description!: string | undefined;
+    startDate!: moment.Moment;
+    endDate!: moment.Moment;
+    objectiveType!: string | undefined;
+    userId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditBusinessObjectiveDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.description = data["description"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.objectiveType = data["objectiveType"];
+            this.userId = data["userId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditBusinessObjectiveDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditBusinessObjectiveDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["objectiveType"] = this.objectiveType;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditBusinessObjectiveDto {
+    name: string | undefined;
+    description: string | undefined;
+    startDate: moment.Moment;
+    endDate: moment.Moment;
+    objectiveType: string | undefined;
+    userId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetBusinessObjectiveForEditOutput implements IGetBusinessObjectiveForEditOutput {
+    businessObjective!: CreateOrEditBusinessObjectiveDto;
+    userName!: string | undefined;
+
+    constructor(data?: IGetBusinessObjectiveForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.businessObjective = data["businessObjective"] ? CreateOrEditBusinessObjectiveDto.fromJS(data["businessObjective"]) : <any>undefined;
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetBusinessObjectiveForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBusinessObjectiveForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessObjective"] = this.businessObjective ? this.businessObjective.toJSON() : <any>undefined;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetBusinessObjectiveForEditOutput {
+    businessObjective: CreateOrEditBusinessObjectiveDto;
+    userName: string | undefined;
+}
+
+export class BusinessObjectiveUserLookupTableDto implements IBusinessObjectiveUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IBusinessObjectiveUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): BusinessObjectiveUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessObjectiveUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IBusinessObjectiveUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfBusinessObjectiveUserLookupTableDto implements IPagedResultDtoOfBusinessObjectiveUserLookupTableDto {
+    totalCount!: number;
+    items!: BusinessObjectiveUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfBusinessObjectiveUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(BusinessObjectiveUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfBusinessObjectiveUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfBusinessObjectiveUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfBusinessObjectiveUserLookupTableDto {
+    totalCount: number;
+    items: BusinessObjectiveUserLookupTableDto[] | undefined;
+}
+
 export class CacheDto implements ICacheDto {
     name!: string | undefined;
 
@@ -32080,6 +33425,462 @@ export class CreateInvoiceDto implements ICreateInvoiceDto {
 
 export interface ICreateInvoiceDto {
     subscriptionPaymentId: number;
+}
+
+export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
+    name!: string | undefined;
+    nature!: string | undefined;
+    lowLevel!: number;
+    exceptionTypeId!: number | undefined;
+    userId!: number | undefined;
+    dataInputMethod!: string | undefined;
+    id!: number;
+
+    constructor(data?: IKeyRiskIndicatorDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.nature = data["nature"];
+            this.lowLevel = data["lowLevel"];
+            this.exceptionTypeId = data["exceptionTypeId"];
+            this.userId = data["userId"];
+            this.dataInputMethod = data["dataInputMethod"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): KeyRiskIndicatorDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeyRiskIndicatorDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["nature"] = this.nature;
+        data["lowLevel"] = this.lowLevel;
+        data["exceptionTypeId"] = this.exceptionTypeId;
+        data["userId"] = this.userId;
+        data["dataInputMethod"] = this.dataInputMethod;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IKeyRiskIndicatorDto {
+    name: string | undefined;
+    nature: string | undefined;
+    lowLevel: number;
+    exceptionTypeId: number | undefined;
+    userId: number | undefined;
+    dataInputMethod: string | undefined;
+    id: number;
+}
+
+export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForViewDto {
+    keyRiskIndicator!: KeyRiskIndicatorDto;
+    exceptionTypeCode!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetKeyRiskIndicatorForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.keyRiskIndicator = data["keyRiskIndicator"] ? KeyRiskIndicatorDto.fromJS(data["keyRiskIndicator"]) : <any>undefined;
+            this.exceptionTypeCode = data["exceptionTypeCode"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetKeyRiskIndicatorForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetKeyRiskIndicatorForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["keyRiskIndicator"] = this.keyRiskIndicator ? this.keyRiskIndicator.toJSON() : <any>undefined;
+        data["exceptionTypeCode"] = this.exceptionTypeCode;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetKeyRiskIndicatorForViewDto {
+    keyRiskIndicator: KeyRiskIndicatorDto;
+    exceptionTypeCode: string | undefined;
+    userName: string | undefined;
+}
+
+export class PagedResultDtoOfGetKeyRiskIndicatorForViewDto implements IPagedResultDtoOfGetKeyRiskIndicatorForViewDto {
+    totalCount!: number;
+    items!: GetKeyRiskIndicatorForViewDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfGetKeyRiskIndicatorForViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(GetKeyRiskIndicatorForViewDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfGetKeyRiskIndicatorForViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfGetKeyRiskIndicatorForViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfGetKeyRiskIndicatorForViewDto {
+    totalCount: number;
+    items: GetKeyRiskIndicatorForViewDto[] | undefined;
+}
+
+export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndicatorDto {
+    name!: string | undefined;
+    description!: string | undefined;
+    nature!: string | undefined;
+    dataInputMethod!: string | undefined;
+    lowLevel!: number;
+    lowActionType!: string | undefined;
+    mediumLevel!: number;
+    mediumActionType!: string | undefined;
+    highLevel!: number;
+    highActionType!: string | undefined;
+    exceptionTypeId!: number | undefined;
+    userId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditKeyRiskIndicatorDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.description = data["description"];
+            this.nature = data["nature"];
+            this.dataInputMethod = data["dataInputMethod"];
+            this.lowLevel = data["lowLevel"];
+            this.lowActionType = data["lowActionType"];
+            this.mediumLevel = data["mediumLevel"];
+            this.mediumActionType = data["mediumActionType"];
+            this.highLevel = data["highLevel"];
+            this.highActionType = data["highActionType"];
+            this.exceptionTypeId = data["exceptionTypeId"];
+            this.userId = data["userId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditKeyRiskIndicatorDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditKeyRiskIndicatorDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["nature"] = this.nature;
+        data["dataInputMethod"] = this.dataInputMethod;
+        data["lowLevel"] = this.lowLevel;
+        data["lowActionType"] = this.lowActionType;
+        data["mediumLevel"] = this.mediumLevel;
+        data["mediumActionType"] = this.mediumActionType;
+        data["highLevel"] = this.highLevel;
+        data["highActionType"] = this.highActionType;
+        data["exceptionTypeId"] = this.exceptionTypeId;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditKeyRiskIndicatorDto {
+    name: string | undefined;
+    description: string | undefined;
+    nature: string | undefined;
+    dataInputMethod: string | undefined;
+    lowLevel: number;
+    lowActionType: string | undefined;
+    mediumLevel: number;
+    mediumActionType: string | undefined;
+    highLevel: number;
+    highActionType: string | undefined;
+    exceptionTypeId: number | undefined;
+    userId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorForEditOutput {
+    keyRiskIndicator!: CreateOrEditKeyRiskIndicatorDto;
+    exceptionTypeCode!: string | undefined;
+    userName!: string | undefined;
+
+    constructor(data?: IGetKeyRiskIndicatorForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.keyRiskIndicator = data["keyRiskIndicator"] ? CreateOrEditKeyRiskIndicatorDto.fromJS(data["keyRiskIndicator"]) : <any>undefined;
+            this.exceptionTypeCode = data["exceptionTypeCode"];
+            this.userName = data["userName"];
+        }
+    }
+
+    static fromJS(data: any): GetKeyRiskIndicatorForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetKeyRiskIndicatorForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["keyRiskIndicator"] = this.keyRiskIndicator ? this.keyRiskIndicator.toJSON() : <any>undefined;
+        data["exceptionTypeCode"] = this.exceptionTypeCode;
+        data["userName"] = this.userName;
+        return data; 
+    }
+}
+
+export interface IGetKeyRiskIndicatorForEditOutput {
+    keyRiskIndicator: CreateOrEditKeyRiskIndicatorDto;
+    exceptionTypeCode: string | undefined;
+    userName: string | undefined;
+}
+
+export class KeyRiskIndicatorExceptionTypeLookupTableDto implements IKeyRiskIndicatorExceptionTypeLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IKeyRiskIndicatorExceptionTypeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): KeyRiskIndicatorExceptionTypeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeyRiskIndicatorExceptionTypeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IKeyRiskIndicatorExceptionTypeLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto implements IPagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto {
+    totalCount!: number;
+    items!: KeyRiskIndicatorExceptionTypeLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(KeyRiskIndicatorExceptionTypeLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfKeyRiskIndicatorExceptionTypeLookupTableDto {
+    totalCount: number;
+    items: KeyRiskIndicatorExceptionTypeLookupTableDto[] | undefined;
+}
+
+export class KeyRiskIndicatorUserLookupTableDto implements IKeyRiskIndicatorUserLookupTableDto {
+    id!: number;
+    displayName!: string | undefined;
+
+    constructor(data?: IKeyRiskIndicatorUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.displayName = data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): KeyRiskIndicatorUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeyRiskIndicatorUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+export interface IKeyRiskIndicatorUserLookupTableDto {
+    id: number;
+    displayName: string | undefined;
+}
+
+export class PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto implements IPagedResultDtoOfKeyRiskIndicatorUserLookupTableDto {
+    totalCount!: number;
+    items!: KeyRiskIndicatorUserLookupTableDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfKeyRiskIndicatorUserLookupTableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(KeyRiskIndicatorUserLookupTableDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfKeyRiskIndicatorUserLookupTableDto {
+    totalCount: number;
+    items: KeyRiskIndicatorUserLookupTableDto[] | undefined;
 }
 
 export class ApplicationLanguageListDto implements IApplicationLanguageListDto {
