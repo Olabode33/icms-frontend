@@ -33,6 +33,14 @@ import { ViewAuditorComponent } from './departments/_subs/view-auditor/view-audi
 import { CreateWorkingPaperComponent } from './workingPaperNews/create-workingPaper/create-workingPaper.component';
 import { PlanningComponent } from './projects/planning/planning.component';
 import { DepartmentRatingListComponent } from './departments/rating/departmentRatingList.component';
+import { OpRiskHomeComponent } from './opRisk/home/home.component';
+import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
+import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
+import { LossEventsComponent } from './lossEvents/lossEvents.component';
+import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
+import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
 
 @NgModule({
     imports: [
@@ -73,6 +81,14 @@ import { DepartmentRatingListComponent } from './departments/rating/departmentRa
                     { path: 'risks/risks', component: RisksComponent, data: { permission: 'Pages.Risks' }  },
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'workpaperdetail', component: WorkingpaperComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'home/oprisk', component: OpRiskHomeComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'dashboard/oprisk', component: OpRiskDashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'landing', component: LandingPageComponent, data: { permission: 'Pages.HomePage'} },
+                    { path: 'process/view/:processId', component: ViewProcessComponent, data: { permission: 'Pages.Departments' }  },
+                    { path: 'lossEvents/columns', component: LossTypeColumnsComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'lossEvents', component: LossEventsComponent, /*data: { permission: 'Pages.Projects' } */ },
+                    { path: 'lossEvents/createOrEdit', component: CreateOrEditLossEventComponent, data: { permission: 'Pages.Projects.Create' }  },
+                    { path: 'lossEvents/view', component: ViewLossEventComponent, /*data: { permission: 'Pages.Projects' } */ },
                     { path: 'home', component: HomeComponent, data: { permission: 'Pages.HomePage'} },
                     { path: '', redirectTo: 'home', pathMatch: 'full' }
                 ]

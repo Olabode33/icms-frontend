@@ -151,10 +151,16 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
+        LossEventUserLookupTableModalComponent,
+        LossEventsComponent,
+        ViewProcessComponent,
+        LandingPageComponent,
+        LibraryControlsComponent,
+        ViewLibraryControlModalComponent, CreateOrEditLibraryControlModalComponent,
+        LibraryRisksComponent,
+        ViewLibraryRiskModalComponent, CreateOrEditLibraryRiskModalComponent,
+        WorkingPaperReviewCommentsComponent,
         KeyRiskIndicatorsComponent,
-
-
-
         CreateOrEditLossTypeColumnModalComponent,
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
@@ -168,9 +174,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         BusinessObjectiveUserLookupTableModalComponent, CreateOrEditBusinessObjectiveModalComponent, ViewBusinessObjectiveModalComponent,
         CreateOrEditKeyRiskIndicatorComponent, KeyRiskIndicatorExceptionTypeLookupTableModalComponent, KeyRiskIndicatorsComponent, KeyRiskIndicatorUserLookupTableModalComponent, 
         ViewKeyRiskIndicatorComponent,
-
-		WorkingPaperReviewCommentsComponent,
-
+        WorkingPaperReviewCommentsComponent,
         CreateOrEditWorkingPaperReviewCommentModalComponent,
         WorkingPaperReviewCommentUserLookupTableModalComponent,
         WorkingPaperReviewCommentWorkingPaperLookupTableModalComponent,
