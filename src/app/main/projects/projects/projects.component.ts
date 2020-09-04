@@ -17,6 +17,7 @@ import * as moment from 'moment';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './projects.component.html',
@@ -64,12 +65,33 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
+        this.getModule();
         this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
         return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+    }
+
+    getModule(): void {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.projectOwner = ProjectOwner.InternalControl;
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.projectOwner = ProjectOwner.InternalAudit;
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.projectOwner = ProjectOwner.OperationRisk;
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.projectOwner = ProjectOwner.General;
+                break;
+            default:
+                this.projectOwner = ProjectOwner.General;
+                break;
+        }
     }
 
     getProjects(event?: LazyLoadEvent) {
@@ -98,7 +120,6 @@ export class ProjectsComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.getSkipCount(this.paginator, event),
             this.primengTableHelper.getMaxResultCount(this.paginator, event)
         ).subscribe(result => {
-     
             this.primengTableHelper.records = result.items.filter(x => x.project.commenced === true); // this.viewAllProjects ? result.items : result.items.filter(x => x.project.commenced === true);
             this.primengTableHelper.totalRecordsCount = this.primengTableHelper.records.length;
             this.primengTableHelper.hideLoadingIndicator();

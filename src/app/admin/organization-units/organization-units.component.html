@@ -28,11 +28,11 @@
                                 </h3>
                             </div>
                             <div class="kt-portlet__head-toolbar">
-                                <button (click)="submitForReview()" class="btn btn-primary" *ngIf="organizationUnit && activeRcsaProgram && assessment.verificationStatus == verificationStatusEnum.Submitted">
+                                <button (click)="submitForReview()" class="btn btn-primary" *ngIf="organizationUnit && activeRcsaProgram">
                                     <i class="fa fa-check"></i> {{"Submit" | localize}}
                                 </button>
                                 <button (click)="submitForVerification()"
-                                    class="btn btn-primary" *ngIf="organizationUnit && activeRcsaProgram && assessment.verificationStatus == verificationStatusEnum.Submitted">
+                                    class="btn btn-primary" *ngIf="organizationUnit && activeRcsaProgram">
                                     <i class="fa fa-check-double"></i> {{"Verify" | localize}}
                                 </button>
                             </div>
