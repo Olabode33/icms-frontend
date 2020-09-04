@@ -128,7 +128,7 @@ export class AppNavigationService {
                 new AppMenuItem('Configuration', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/lossEvents/columns'),
             ]),
             new AppMenuItem('Capital Modeling', 'Pages.TestingTemplates', 'flaticon2-chart', '/app/main/testingTemplates/testingTemplates'),
-            new AppMenuItem('BusinessObjectives', 'Pages.BusinessObjectives', 'flaticon-more', '/app/main/businessObjectives/businessObjectives'),
+            new AppMenuItem('BusinessObjectives', 'Pages.BusinessObjectives', 'flaticon-notes', '/app/main/businessObjectives/businessObjectives'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [
                     new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),
