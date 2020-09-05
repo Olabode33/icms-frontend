@@ -135,12 +135,12 @@ export class AppNavigationService {
                     new AppMenuItem('Internal Rating', 'Pages.Ratings', 'fa fa-balance-scale', '/app/main/ratings/ratings'),
                     new AppMenuItem('Department Rating', 'Pages.Ratings', 'fa fa-cubes', '/app/main/departmentRatingList/departmentRatingList'),
                 ]),
-                new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
-                    new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
-                    new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
-                    new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
-                    new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
-                ]),
+                // new AppMenuItem('Risk Management', '', 'flaticon2-dashboard', '', [
+                //     new AppMenuItem('Processes', 'Pages.Processes', 'flaticon-tabs', '/app/admin/processes'),
+                //     new AppMenuItem('Risks', 'Pages.Risks', 'flaticon-warning-sign', '/app/main/risks/risks'),
+                //     new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
+                //     new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
+                // ]),
                 new AppMenuItem('Library', '', 'fa fa-book', '', [
                     new AppMenuItem('Risks', 'Pages.LibraryRisks', 'flaticon-more', '/app/main/libraryRisks/libraryRisks'),
                     new AppMenuItem('Controls', 'Pages.LibraryControls', 'flaticon-more', '/app/main/libraryControls/libraryControls'),

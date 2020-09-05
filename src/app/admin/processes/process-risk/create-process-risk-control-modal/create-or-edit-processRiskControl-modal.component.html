@@ -129,11 +129,11 @@
                                         [(ngModel)]="departmentRiskControl.likelyhood">
                                     
                                     <datalist #LikelihoodTickmarks id="LikelihoodTickmarks">
-                                        <option value="0" label="0%" [style.color]="_appConsts.getLikelihoodStatusColor(5)"></option>
-                                        <option value="0.25" label="25%" [style.color]="_appConsts.getLikelihoodStatusColor(4)"></option>
-                                        <option value="0.50" label="50%" [style.color]="_appConsts.getLikelihoodStatusColor(3)"></option>
-                                        <option value="0.75" label="75%" [style.color]="_appConsts.getLikelihoodStatusColor(2)"></option>
-                                        <option value="1" label="100%" [style.color]="_appConsts.getLikelihoodStatusColor(1)"></option>
+                                        <option value="0" label="0%" title="The amount involved is less than 60,000" [style.color]="_appConsts.getLikelihoodStatusColor(5)"></option>
+                                        <option value="0.25" label="25%" title="The amount involved is less than 200,000" [style.color]="_appConsts.getLikelihoodStatusColor(4)"></option>
+                                        <option value="0.50" label="50%" title="The amount involved is less than 10,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(3)"></option>
+                                        <option value="0.75" label="75%" title="The amount involved is less than 50,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(2)"></option>
+                                        <option value="1" label="100%" title="The amount involved is greater than 50,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(1)"></option>
                                     </datalist>
                                 </div>
                                 <!-- <div class="col-lg-1"></div> -->
@@ -143,11 +143,11 @@
                                         [(ngModel)]="departmentRiskControl.impact">
         
                                     <datalist id="ImpactTickmarks">
-                                        <option value="0" label="0%" title="< 60,000" [style.color]="_appConsts.getLikelihoodStatusColor(5)"></option>
-                                        <option value="0.25" label="25%" title="< 200,000" [style.color]="_appConsts.getLikelihoodStatusColor(4)"></option>
-                                        <option value="0.50" label="50%" title="< 10,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(3)"></option>
-                                        <option value="0.75" label="75%" title="< 50,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(2)"></option>
-                                        <option value="1" label="100%" title="> 50,000" [style.color]="_appConsts.getLikelihoodStatusColor(1)"></option>
+                                        <option value="0" label="0%" title="The amount involved is less than 60,000" [style.color]="_appConsts.getLikelihoodStatusColor(5)"></option>
+                                        <option value="0.25" label="25%" title="The amount involved is less than 200,000" [style.color]="_appConsts.getLikelihoodStatusColor(4)"></option>
+                                        <option value="0.50" label="50%" title="The amount involved is less than 10,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(3)"></option>
+                                        <option value="0.75" label="75%" title="The amount involved is less than 50,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(2)"></option>
+                                        <option value="1" label="100%" title="The amount involved is greater than 50,000,000" [style.color]="_appConsts.getLikelihoodStatusColor(1)"></option>
                                     </datalist>
                                 </div>
                             </div>
