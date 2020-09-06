@@ -117,6 +117,12 @@ export class CreateOrEditProcessRiskModalComponent extends AppComponentBase {
         this.getRiskDetails(this.departmentRisk.riskId);
     }
 
+    saveNewRiskId(event: any) {
+        this.departmentRisk.riskId = event.value;
+        this.riskName = event.name;
+        this.getRiskDetails(this.departmentRisk.riskId);
+    }
+
     getRiskDetails(riskId: number) {
         this._riskServiceProxy.getRiskForEdit(riskId).subscribe(result => {
             this.departmentRisk.likelyhood = result.risk.likelyhood;

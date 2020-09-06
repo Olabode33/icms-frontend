@@ -2390,7 +2390,7 @@ export class ControlsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditControlDto | undefined): Observable<void> {
+    createOrEdit(body: CreateOrEditControlDto | undefined): Observable<NameValueDtoOfInt32> {
         let url_ = this.baseUrl + "/api/services/app/Controls/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2402,6 +2402,7 @@ export class ControlsServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -2412,14 +2413,14 @@ export class ControlsServiceProxy {
                 try {
                     return this.processCreateOrEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<NameValueDtoOfInt32>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<NameValueDtoOfInt32>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<NameValueDtoOfInt32> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2428,14 +2429,17 @@ export class ControlsServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NameValueDtoOfInt32.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<NameValueDtoOfInt32>(<any>null);
     }
 
     /**
@@ -19185,7 +19189,7 @@ export class RisksServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    createOrEdit(body: CreateOrEditRiskDto | undefined): Observable<void> {
+    createOrEdit(body: CreateOrEditRiskDto | undefined): Observable<NameValueDtoOfInt32> {
         let url_ = this.baseUrl + "/api/services/app/Risks/CreateOrEdit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -19197,6 +19201,7 @@ export class RisksServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json", 
+                "Accept": "text/plain"
             })
         };
 
@@ -19207,14 +19212,14 @@ export class RisksServiceProxy {
                 try {
                     return this.processCreateOrEdit(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<NameValueDtoOfInt32>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<NameValueDtoOfInt32>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateOrEdit(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrEdit(response: HttpResponseBase): Observable<NameValueDtoOfInt32> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19223,14 +19228,17 @@ export class RisksServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NameValueDtoOfInt32.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<NameValueDtoOfInt32>(<any>null);
     }
 
     /**
@@ -27651,6 +27659,46 @@ export class GetControlForEditOutput implements IGetControlForEditOutput {
 export interface IGetControlForEditOutput {
     control: CreateOrEditControlDto;
     controlOwnerName: string | undefined;
+}
+
+export class NameValueDtoOfInt32 implements INameValueDtoOfInt32 {
+    name!: string | undefined;
+    value!: number;
+
+    constructor(data?: INameValueDtoOfInt32) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): NameValueDtoOfInt32 {
+        data = typeof data === 'object' ? data : {};
+        let result = new NameValueDtoOfInt32();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface INameValueDtoOfInt32 {
+    name: string | undefined;
+    value: number;
 }
 
 export class ControlTestingDto implements IControlTestingDto {

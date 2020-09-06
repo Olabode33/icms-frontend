@@ -57,10 +57,10 @@ export class CreateOrEditControlModalComponent extends AppComponentBase {
             console.log(this.control);
             this._controlsServiceProxy.createOrEdit(this.control)
              .pipe(finalize(() => { this.saving = false; }))
-             .subscribe(() => {
+             .subscribe(result => {
                 this.message.info(this.l('SavedSuccessfully'));
                 this.close();
-                this.modalSave.emit(null);
+                this.modalSave.emit(result);
              });
     }
 

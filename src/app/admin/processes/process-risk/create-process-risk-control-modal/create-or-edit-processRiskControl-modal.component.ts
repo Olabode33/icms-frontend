@@ -144,6 +144,13 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
         this.departmentRiskControl.impact = 0;
     }
 
+    saveNewControlId(event: any) {
+        this.departmentRiskControl.controlId = event.value;
+        this.controlCode = event.name;
+        this.departmentRiskControl.likelyhood = 0;
+        this.departmentRiskControl.impact = 0;
+    }
+
 
     close(): void {
         this.active = false;
