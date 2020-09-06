@@ -113,11 +113,15 @@
 
                                 <div class="form-group col-md-12">
                                     <label for="TriggerDataSource">{{l("Data source")}}</label>
-                                    <input type="text" id="TriggerDataSource" class="form-control" [(ngModel)]="lossTypeTrigger.dataSource" name="TriggerDataSource" />
+                                    <select id="TriggerDataSource" class="form-control" [(ngModel)]="lossTypeTrigger.dataSource" name="TriggerDataSource">
+                                        <option value="">-- Select --</option>
+                                        <option value="Finnacle">Finnacle</option>
+                                        <option value="IT Logs">IT Logs</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="TriggerRole">Role</label>
+                                    <label for="TriggerRole">User</label>
                                     <div class="input-group">
                                         <input class="form-control" id="UserName" name="userName" [(ngModel)]="triggerUserName" type="text"
                                             disabled>
