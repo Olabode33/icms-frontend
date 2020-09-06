@@ -5153,7 +5153,7 @@ button.bg-warning:focus {
   background-color: #eea200 !important; }
 
 .bg-danger {
-  background-color: #fd397a !important; }
+  background-color: #f44336!important; }
 
 a.bg-danger:hover, a.bg-danger:focus,
 button.bg-danger:hover,
@@ -5228,7 +5228,7 @@ button.bg-dark:focus {
   border-color: #ffb822 !important; }
 
 .border-danger {
-  border-color: #fd397a !important; }
+  border-color: #f44336!important; }
 
 .border-light {
   border-color: #f8f9fa !important; }
@@ -7769,7 +7769,7 @@ a.text-warning:hover, a.text-warning:focus {
   color: #d59000 !important; }
 
 .text-danger {
-  color: #fd397a !important; }
+  color: #f44336!important; }
 
 a.text-danger:hover, a.text-danger:focus {
   color: #e7024e !important; }
@@ -16759,7 +16759,7 @@ strong {
   background-color: rgba(255, 184, 34, 0.1) !important; }
 
 .kt-font-danger {
-  color: #fd397a !important; }
+  color: #f44336!important; }
 
 .kt-font-hover-danger:hover {
   color: #ce0246; }
@@ -16768,10 +16768,10 @@ strong {
   color: #ffffff !important; }
 
 .kt-bg-danger {
-  background-color: #fd397a !important; }
+  background-color: #f44336!important; }
 
 .kt-bg-fill-danger {
-  background-color: #fd397a !important;
+  background-color: #f44336!important;
   color: #ffffff !important; }
   .kt-bg-fill-danger > i {
     color: #ffffff !important; }
@@ -27665,7 +27665,7 @@ body.swal2-height-auto {
   .kt-iconbox--warning.kt-iconbox--animate, .kt-iconbox--warning.kt-iconbox--animate-slow, .kt-iconbox--warning.kt-iconbox--animate-slower, .kt-iconbox--warning.kt-iconbox--animate-fast, .kt-iconbox--warning.kt-iconbox--animate-faster {
     background-color: rgba(255, 184, 34, 0.07) !important; }
   .kt-iconbox--danger .kt-iconbox__body .kt-iconbox__icon svg g [fill] {
-    fill: #fd397a !important; }
+    fill: #f44336!important; }
   .kt-iconbox--danger.kt-iconbox--animate, .kt-iconbox--danger.kt-iconbox--animate-slow, .kt-iconbox--danger.kt-iconbox--animate-slower, .kt-iconbox--danger.kt-iconbox--animate-fast, .kt-iconbox--danger.kt-iconbox--animate-faster {
     background-color: rgba(253, 57, 122, 0.07) !important; }
 
@@ -30280,7 +30280,7 @@ body.swal2-height-auto {
   .kt-svg-icon.kt-svg-icon--warning g [fill] {
     fill: #ffb822 !important; }
   .kt-svg-icon.kt-svg-icon--danger g [fill] {
-    fill: #fd397a !important; }
+    fill: #f44336!important; }
   .kt-svg-icon.kt-svg-icon--sm {
     height: 20px;
     width: 20px; }

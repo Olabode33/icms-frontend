@@ -175,7 +175,7 @@ export class ProcessRisksComponent extends AppComponentBase implements OnInit, A
     }
 
     createControlTesting(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
-        this.createControlTestingModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk);
+        this.createControlTestingModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk, this._organizationUnit.id);
     }
 
     removeMember(user: OrganizationUnitUserListDto): void {

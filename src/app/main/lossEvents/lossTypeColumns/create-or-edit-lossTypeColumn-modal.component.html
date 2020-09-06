@@ -111,7 +111,7 @@
                                     <textarea id="TriggerDesc" class="form-control" [(ngModel)]="lossTypeTrigger.description" name="TriggerDesc"></textarea>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <label for="TriggerDataSource">{{l("Data source")}}</label>
                                     <select id="TriggerDataSource" class="form-control" [(ngModel)]="lossTypeTrigger.dataSource" name="TriggerDataSource">
                                         <option value="">-- Select --</option>
@@ -119,9 +119,21 @@
                                         <option value="IT Logs">IT Logs</option>
                                     </select>
                                 </div>
+                                
+                                <div class="form-group col-md-6">
+                                    <label for="ExceptionType_Severity">Frequency</label>
+                                    <select class="form-control" name="DataType" id="DataType" [(ngModel)]="lossTypeTrigger.frequency">
+                                        <option [value]="frequencyEnum.Continuous">Continuous</option>
+                                        <option [value]="frequencyEnum.Daily">Daily</option>
+                                        <option [value]="frequencyEnum.Weekly">Weekly</option>
+                                        <option [value]="frequencyEnum.Monthly">Monthly</option>
+                                        <option [value]="frequencyEnum.Quarterly">Quarterly</option>
+                                        <option [value]="frequencyEnum.Yearly">Yearly</option>
+                                    </select>
+                                </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="TriggerRole">User</label>
+                                    <label for="TriggerRole">User to Notify</label>
                                     <div class="input-group">
                                         <input class="form-control" id="UserName" name="userName" [(ngModel)]="triggerUserName" type="text"
                                             disabled>
@@ -135,18 +147,6 @@
                                         </div>
                                     </div>
                                     <input class="form-control" name="lossEvent.employeeUserId" [(ngModel)]="lossTypeTrigger.notifyUserId" type="text" hidden>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="ExceptionType_Severity">Frequency</label>
-                                    <select class="form-control" name="DataType" id="DataType" [(ngModel)]="lossTypeTrigger.frequency">
-                                        <option [value]="frequencyEnum.Continuous">Continuous</option>
-                                        <option [value]="frequencyEnum.Daily">Daily</option>
-                                        <option [value]="frequencyEnum.Weekly">Weekly</option>
-                                        <option [value]="frequencyEnum.Monthly">Monthly</option>
-                                        <option [value]="frequencyEnum.Quarterly">Quarterly</option>
-                                        <option [value]="frequencyEnum.Yearly">Yearly</option>
-                                    </select>
                                 </div>
 
                             </div>

@@ -5,6 +5,9 @@
             <option *ngFor="let item of parentProcess" [value]="item.id">{{item.displayName}}</option>
         </select>
     </div>
+    <div class="col-6 pb-5">
+        <button (click)="exportToExcel()" class="btn btn-outline-success pull-right"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+    </div>
     <div class="col-12">
         <div>
             <div *ngIf="loadingProcess" class="progress">
@@ -215,6 +218,10 @@
                                                                     (click)="removeProcessRiskControl(control.control.processRiskControl.id)">
                                                                     <i class="fa fa-times"></i> Remove Control
                                                                 </button>
+                                                                <button type="button" class="btn btn-primary btn-sm" *ngIf="activeRcsaProgram"
+                                                                    (click)="createControlTesting(control.control.processRiskControl, risk.risk)">
+                                                                    <i class="fa fa-plus"></i> Add Control Testing
+                                                                </button>
                                                                 <button type="button" class="btn btn-primary btn-sm pull-right" *ngIf="activeRcsaProgram"
                                                                     (click)="createTestingTemplate(control.control.processRiskControl.id)">
                                                                     <i class="fa fa-plus"></i> Add Testing Template
@@ -272,3 +279,5 @@
 <app-create-or-edit-process-risk #createOrEditProcessRiskModal (modalSave)="reload()"></app-create-or-edit-process-risk>
 <app-create-or-edit-process-risk-control #createOrEditProcessRiskControlModal (modalSave)="reload()"></app-create-or-edit-process-risk-control>
 <!-- <createOrEditTestingTemplateModal #createOrEditTestingTemplateModal (modalSave)="reload()" ></createOrEditTestingTemplateModal> -->
+<app-create-control-testing #createControlTestingModal (modalSave)="reload()">
+</app-create-control-testing>

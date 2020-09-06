@@ -64,6 +64,8 @@ import { LossEventSampleModalComponent } from '@app/main/lossEvents/loss-event-s
 import { TreeModule } from 'primeng/tree';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { CreateControlTestingModalComponent } from '@app/admin/processes/process-risk/create-process-risk-control-modal/create-control-testing-modal.component';
+import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
+import { LossEventUserLookupTableModalComponent } from '@app/main/lossEvents/lossEvent-user-lookup-table-modal.component';
 
 
 @NgModule({
@@ -90,6 +92,7 @@ import { CreateControlTestingModalComponent } from '@app/admin/processes/process
     ],
     declarations: [
        // CreateEditQuestionModal,
+       LossEventUserLookupTableModalComponent,
        CreateControlTestingModalComponent,
         TimeZoneComboComponent,
         CommonLookupModalComponent,
@@ -135,6 +138,7 @@ import { CreateControlTestingModalComponent } from '@app/admin/processes/process
     ],
     exports: [
         //CreateEditQuestionModal,
+        LossEventUserLookupTableModalComponent,
         CreateControlTestingModalComponent,
         LossEventSampleModalComponent,
         ProcessRisksComponent,

@@ -44,7 +44,7 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
 
     _appConsts = AppConsts;
 
-    controlEffectiveness = 0;
+    controlEffectiveness = 0.6;
 
     constructor(
         injector: Injector,

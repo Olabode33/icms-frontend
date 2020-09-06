@@ -2,7 +2,7 @@
 import { Component, ViewChild, Injector, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ExceptionTypesServiceProxy, CreateOrEditExceptionTypeDto, CreateOrEditExceptionTypeColumnDto } from '@shared/service-proxies/service-proxies';
+import { ExceptionTypesServiceProxy, CreateOrEditExceptionTypeDto, CreateOrEditExceptionTypeColumnDto, ExceptionRemediationTypeEnum } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import * as moment from 'moment';
 import { DepartmentUserLookupTableModalComponent } from '@app/main/departments/departments/department-user-lookup-table-modal.component';
@@ -47,7 +47,7 @@ export class CreateOrEditExceptionTypeModalComponent extends AppComponentBase {
 
     exceptionType: CreateOrEditExceptionTypeDto = new CreateOrEditExceptionTypeDto();
 
-    //exceptionRemediationTypeEnum = ExceptionRemediationTypeEnum;
+    exceptionRemediationTypeEnum = ExceptionRemediationTypeEnum;
 
     constructor(
         injector: Injector,

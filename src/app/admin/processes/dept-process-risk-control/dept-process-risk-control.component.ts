@@ -9,6 +9,7 @@ import { CreateOrEditProcessRiskModalComponent } from '../process-risk/create-pr
 import { CreateOrEditProcessRiskControlModalComponent } from '../process-risk/create-process-risk-control-modal/create-or-edit-processRiskControl-modal.component';
 //import { CreateOrEditTestingTemplateModalComponent } from '@app/main/testingTemplates/testingTemplates/create-or-edit-testingTemplate-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { CreateControlTestingModalComponent } from '../process-risk/create-process-risk-control-modal/create-control-testing-modal.component';
 
 @Component({
   selector: 'app-dept-process-risk-control',
@@ -22,6 +23,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
     @ViewChild('createOrEditProcessRiskModal', { static: true }) createOrEditProcessRiskModal: CreateOrEditProcessRiskModalComponent;
     @ViewChild('createOrEditProcessRiskControlModal', { static: true }) createOrEditProcessRiskControlModal: CreateOrEditProcessRiskControlModalComponent;
     //@ViewChild('createOrEditTestingTemplateModal', { static: true }) createOrEditTestingTemplateModal: CreateOrEditTestingTemplateModalComponent;
+    @ViewChild('createControlTestingModal', { static: true }) createControlTestingModal: CreateControlTestingModalComponent;
 
     private _organizationUnit: IBasicOrganizationUnitInfo = null;
     private _isViewOnly = false;
@@ -82,8 +84,6 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
         if (ou) {
             //this.refreshRisks();
             this.getDepartmentProcesses();
-        } else {
-            this.getAllDepartmentProcesses();
         }
         this._isViewOnly = false;
     }
@@ -119,6 +119,7 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
 
     getDepartmentProcesses() {
         this.loadingProcess = true;
+        console.log('Department Process'  + this._organizationUnit.id);
         this._processService.getProcesses(this._organizationUnit.id)
             .pipe(finalize(() => this.loadingProcess = false ))
             .subscribe(result => {
@@ -334,6 +335,14 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
         }
 
         return 'red';
+    }
+
+    createControlTesting(processRiskControl: ProcessRiskControlDto, risk: GetProcessRiskForViewDto): void {
+        this.createControlTestingModal.show(processRiskControl.id, processRiskControl.processRiskId, processRiskControl.processId, risk, this._organizationUnit.id);
+    }
+
+    exportToExcel(): void {
+        //
     }
 
 }

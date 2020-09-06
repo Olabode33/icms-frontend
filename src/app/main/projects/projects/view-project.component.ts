@@ -245,11 +245,11 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
         this._rcsaAssessmentServiceProxy.getProgramAssessment(
             this.projectId,
             '',
-            this.primengTableHelper.getSkipCount(this.exceptionsPaginator, event),
-            this.primengTableHelper.getMaxResultCount(this.exceptionsPaginator, event)
+            this.primengTableHelper.getSkipCount(this.assessmentPaginator, event),
+            this.primengTableHelper.getMaxResultCount(this.assessmentPaginator, event)
         ).subscribe(result => {
             this.assessments = result.items;
-            //this.exceptionsCount = result.totalCount;
+            this.assessmentCount = result.totalCount;
         });
     }
 

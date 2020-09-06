@@ -9,6 +9,10 @@ import { KeyRiskIndicatorUserLookupTableModalComponent } from './keyRiskIndicato
 import { ActivatedRoute, Router } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {Observable} from "@node_modules/rxjs";
+import * as shape from 'd3-shape';
+import * as d3 from 'd3';
+import { DepartmentRiskRiskLookupTableModalComponent } from '@app/main/departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
+import { CreateOrEditRiskModalComponent } from '@app/main/risks/risks/create-or-edit-risk-modal.component';
 
 
 @Component({
@@ -21,15 +25,19 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         @ViewChild('keyRiskIndicatorExceptionTypeLookupTableModal', { static: true }) keyRiskIndicatorExceptionTypeLookupTableModal: KeyRiskIndicatorExceptionTypeLookupTableModalComponent;
     @ViewChild('keyRiskIndicatorUserLookupTableModal', { static: true }) keyRiskIndicatorUserLookupTableModal: KeyRiskIndicatorUserLookupTableModalComponent;
     @ViewChild('keyRiskIndicatorUserLookupTableModal2', { static: true }) keyRiskIndicatorUserLookupTableModal2: KeyRiskIndicatorUserLookupTableModalComponent;
+    @ViewChild('departmentRiskRiskLookupTableModal', { static: true }) departmentRiskRiskLookupTableModal: DepartmentRiskRiskLookupTableModalComponent;
+    @ViewChild('createOrEditRiskModal', { static: true }) createOrEditRiskModal: CreateOrEditRiskModalComponent;
 
     keyRiskIndicator: CreateOrEditKeyRiskIndicatorDto = new CreateOrEditKeyRiskIndicatorDto();
 
     exceptionTypeCode = '';
     userName = '';
+    riskName = '';
     staffs = [];
 
+    curve = shape.curveCatmullRom;
     colorScheme = {
-        domain: ['#022e64']
+        domain: ['#e57373']
     };
     lineChartData = [
         {
@@ -158,5 +166,35 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         }
         this.staffs.push(staff);
     }
+
+    openSelectRiskModal() {
+        this.departmentRiskRiskLookupTableModal.id = this.keyRiskIndicator.riskId;
+        this.departmentRiskRiskLookupTableModal.displayName = this.riskName;
+        this.departmentRiskRiskLookupTableModal.show();
+    }
+
+
+
+    setRiskIdNull() {
+        this.keyRiskIndicator.riskId = null;
+        this.riskName = '';
+    }
+
+    addNewRisk() {
+        this.createOrEditRiskModal.show();
+    }
+
+    getNewRiskId() {
+        this.keyRiskIndicator.riskId = this.departmentRiskRiskLookupTableModal.id;
+        this.riskName = this.departmentRiskRiskLookupTableModal.displayName;
+        //this.getRiskDetails(this.departmentRisk.riskId);
+    }
+
+    saveNewRiskId(event: any) {
+        this.keyRiskIndicator.riskId = event.value;
+        this.riskName = event.name;
+        //this.getRiskDetails(this.departmentRisk.riskId);
+    }
+
 
 }

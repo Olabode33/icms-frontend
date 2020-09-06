@@ -49,8 +49,9 @@
                                         <a href="javascript:void(0);"
                                             class="text-dark text-hover-primary font-size-h4 font-weight-bolder mb-1">
                                             {{project.project.title}}
-                                            <span *ngIf="project.project.commenced" class="kt-badge kt-badge--success kt-badge--inline ml-3">Active</span>
+                                            <span *ngIf="project.project.commenced && !project.project.closed" class="kt-badge kt-badge--success kt-badge--inline ml-3">Active</span>
                                             <span *ngIf="!project.project.commenced" class="kt-badge kt-badge--danger kt-badge--inline ml-3">Not active</span>
+                                            <span *ngIf="project.project.closed" class="kt-badge kt-badge--primary kt-badge--inline ml-3">Closed</span>
                                         </a>
                                         <span class="">
                                             {{ l(projectOwnerEnum[project.project.projectOwner]) }} - 

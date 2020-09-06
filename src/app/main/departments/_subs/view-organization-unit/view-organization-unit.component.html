@@ -59,9 +59,9 @@
                         <div class="kt-portlet__body">
                             <tabset>
                                 <tab heading="Processes">
-                                    <button (click)="submitForReview()" class="btn btn-primary" *ngIf="activeRcsaProgram && currentAssessment.verificationStatus !== verificationStatusEnum.Submitted">
+                                    <!-- <button (click)="submitForReview()" class="btn btn-primary" *ngIf="activeRcsaProgram && currentAssessment.verificationStatus !== verificationStatusEnum.Submitted">
                                         <i class="fa fa-check"></i> {{"Review" | localize}}
-                                    </button>
+                                    </button> -->
                                     <button (click)="submitForVerification()"
                                         class="btn btn-primary" *ngIf="activeRcsaProgram">
                                         <i class="fa fa-check-double"></i> {{"Verify" | localize}}

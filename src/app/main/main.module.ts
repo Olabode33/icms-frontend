@@ -116,7 +116,7 @@ import { OpRiskHomeComponent } from './opRisk/home/home.component';
 import { OpRiskDashboardComponent } from './opRisk/dashboard/dashboard.component';
 import { CreateOrEditLossEventComponent } from './lossEvents/create-or-edit-lossEvent.component';
 import { LossEventOrganizationUnitLookupTableModalComponent } from './lossEvents/lossEvent-organizationUnit-lookup-table-modal.component';
-import { LossEventUserLookupTableModalComponent } from './lossEvents/lossEvent-user-lookup-table-modal.component';
+//import { LossEventUserLookupTableModalComponent } from './lossEvents/lossEvent-user-lookup-table-modal.component';
 import { LossEventsComponent } from './lossEvents/lossEvents.component';
 import { ViewLossEventComponent } from './lossEvents/view-lossEvent.component';
 import { CreateOrEditLossTypeColumnModalComponent } from './lossEvents/lossTypeColumns/create-or-edit-lossTypeColumn-modal.component';
@@ -151,7 +151,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         PopoverModule.forRoot()
     ],
     declarations: [
-        LossEventUserLookupTableModalComponent,
+        //LossEventUserLookupTableModalComponent,
         LossEventsComponent,
         ViewProcessComponent,
         LandingPageComponent,
@@ -165,7 +165,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         LossTypeColumnsComponent,
         CreateOrEditLossEventComponent,
         LossEventOrganizationUnitLookupTableModalComponent,
-        LossEventsComponent, LossEventUserLookupTableModalComponent,
+        LossEventsComponent, //LossEventUserLookupTableModalComponent,
         ViewLossEventComponent,
         OpRiskDashboardComponent,
         OpRiskHomeComponent,

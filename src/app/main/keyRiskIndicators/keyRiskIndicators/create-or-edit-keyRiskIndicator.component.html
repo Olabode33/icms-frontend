@@ -59,6 +59,24 @@
 
                     <div class="form-row">
                         <div class="form-group m-form__group col-lg-6">
+                            <label for="RiskName">Select Risk</label>
+                            <div class="input-group">
+                                <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName"
+                                    type="text" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary blue" (click)="openSelectRiskModal()"
+                                        type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-hover-success" type="button"
+                                        (click)="addNewRisk()"><i class="fa fa-plus"></i> Add </button>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control" required name="departmentRisk.riskId"
+                            [(ngModel)]="keyRiskIndicator.riskId" type="text" hidden>
+
+                        <div class="form-group m-form__group col-lg-6">
                             <label for="UserName">{{l("Risk Owner")}}</label>
                             <div class="input-group">
                                 <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName"
@@ -104,6 +122,8 @@
                                     </div>
                                 </div>
 
+                                <div class="col-lg-8"></div>
+
                                 <div class="form-group m-form__group col-lg-6"
                                     *ngIf="keyRiskIndicator.dataInputMethod == 'Exceptions'">
                                     <label for="ExceptionTypeCode">{{l("ExceptionType")}}</label>
@@ -127,68 +147,82 @@
                             </div>
                         </tab>
                         <tab heading="Threshold Configuration">
-                            <div class="form-row kt-bg-success text-white">
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_LowLevel">{{l("LowLevel")}}</label>
-                                    <input type="number" id="KeyRiskIndicator_LowLevel" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.lowLevel" name="LowLevel" />
-                                </div>
 
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_LowActionType">Action</label>
-                                    <select type="text" id="KeyRiskIndicator_LowActionType" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.lowActionType" name="LowActionType">
-                                        <option value="No Action">No Action</option>
-                                        <option value="Action">Action</option>
-                                    </select>
+                            <div class="row">
+                                <div class="col-lg-4 ">
+                                    <div class="p-3 bg-border-success">
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_LowLevel">{{l("LowLevel")}}</label>
+                                            <input type="number" id="KeyRiskIndicator_LowLevel" class="form-control"
+                                                [(ngModel)]="keyRiskIndicator.lowLevel" name="LowLevel" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_LowActionType">Action</label>
+                                            <select type="text" id="KeyRiskIndicator_LowActionType" class="form-control"
+                                                [(ngModel)]="keyRiskIndicator.lowActionType" name="LowActionType">
+                                                <option value="No Action">No Action</option>
+                                                <option value="Action">Action</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class=" p-3 bg-border-warning">
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_MediumLevel">{{l("MediumLevel")}}</label>
+                                            <input type="number" id="KeyRiskIndicator_MediumLevel" class="form-control"
+                                                [(ngModel)]="keyRiskIndicator.mediumLevel" name="MediumLevel" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_MediumActionType">{{l("Action")}}</label>
+                                            <select type="text" id="KeyRiskIndicator_MediumActionType"
+                                                class="form-control" [(ngModel)]="keyRiskIndicator.mediumActionType"
+                                                name="MediumActionType">
+                                                <option value="No Action">No Action</option>
+                                                <option value="Action">Action</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="p-3 bg-border-danger">
+
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_HighLevel">{{l("HighLevel")}}</label>
+                                            <input type="number" id="KeyRiskIndicator_HighLevel" class="form-control"
+                                                [(ngModel)]="keyRiskIndicator.highLevel" name="HighLevel" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="KeyRiskIndicator_HighActionType">{{l("Action")}}</label>
+                                            <select type="text" id="KeyRiskIndicator_HighActionType"
+                                                class="form-control" [(ngModel)]="keyRiskIndicator.highActionType"
+                                                name="HighActionType">
+                                                <option value="Action">Action</option>
+                                                <option value="Escalation">Escalation</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <hr />
-
-                            <div class="form-row bg-warning text-white">
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_MediumLevel">{{l("MediumLevel")}}</label>
-                                    <input type="number" id="KeyRiskIndicator_MediumLevel" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.mediumLevel" name="MediumLevel" />
-                                </div>
-
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_MediumActionType">{{l("Action")}}</label>
-                                    <select type="text" id="KeyRiskIndicator_MediumActionType" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.mediumActionType" name="MediumActionType">
-                                        <option value="No Action">No Action</option>
-                                        <option value="Action">Action</option>
-                                    </select>
+                            <br><br>
+                            <div [hidden]="!keyRiskIndicator.exceptionTypeId" class="card bg-border-danger">
+                                <div class="card-header bg-danger text-white">Exception Trend</div>
+                                <div class="card-body px-5" style="width: 100%;">
+                                    <div class="kt-widget11__chart pt-5" style="height:300px; width: 100%">
+                                        <ngx-charts-area-chart [results]="lineChartData" [scheme]="colorScheme"
+                                            [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxis]="true"
+                                            [yAxis]="false" [autoScale]="false" [animations]="true" [curve]="curve"
+                                            [showGridLines]="false" [timeline]="false">
+                                        </ngx-charts-area-chart>
+                                    </div>
                                 </div>
                             </div>
 
-                            <hr />
 
-                            <div class="form-row bg-danger text-white">
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_HighLevel">{{l("HighLevel")}}</label>
-                                    <input type="number" id="KeyRiskIndicator_HighLevel" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.highLevel" name="HighLevel" />
-                                </div>
-
-                                <div class="form-group col-lg-4">
-                                    <label for="KeyRiskIndicator_HighActionType">{{l("Action")}}</label>
-                                    <select type="text" id="KeyRiskIndicator_HighActionType" class="form-control"
-                                        [(ngModel)]="keyRiskIndicator.highActionType" name="HighActionType">
-                                        <option value="Action">Action</option>
-                                        <option value="Escalation">Escalation</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="kt-widget11__chart pr-5 pt-5" style="height:300px; width: 100%">
-                                <ngx-charts-area-chart [results]="lineChartData" [scheme]="colorScheme"
-                                    [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxis]="true"
-                                    [yAxis]="false" [autoScale]="false" [animations]="true"
-                                    [showGridLines]="false" [timeline]="false">
-                                </ngx-charts-area-chart>
-                            </div>  
 
                         </tab>
                         <tab heading="Escalation">
@@ -237,5 +271,8 @@
     </keyRiskIndicatorUserLookupTableModal>
     <keyRiskIndicatorUserLookupTableModal #keyRiskIndicatorUserLookupTableModal2 (modalSave)="addToArray()">
     </keyRiskIndicatorUserLookupTableModal>
+    <createOrEditRiskModal #createOrEditRiskModal (modalSave)="saveNewRiskId($event)"></createOrEditRiskModal>
+    <departmentRiskRiskLookupTableModal #departmentRiskRiskLookupTableModal (modalSave)="getNewRiskId()">
+    </departmentRiskRiskLookupTableModal>
 
 </div>

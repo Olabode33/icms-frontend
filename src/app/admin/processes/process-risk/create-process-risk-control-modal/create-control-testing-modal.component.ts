@@ -7,6 +7,8 @@ import * as moment from 'moment';
 import { DepartmentRiskControlControlLookupTableModalComponent } from '@app/main/departmentRiskControls/departmentRiskControls/departmentRiskControl-control-lookup-table-modal.component';
 import { CreateOrEditControlModalComponent } from '../../../../main/controls/controls/create-or-edit-control-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { AddMemberModalComponent } from '@app/admin/organization-units/add-member-modal.component';
+import { LossEventUserLookupTableModalComponent } from '@app/main/lossEvents/lossEvent-user-lookup-table-modal.component';
 
 @Component({
     selector: 'app-create-control-testing',
@@ -18,6 +20,7 @@ export class CreateControlTestingModalComponent extends AppComponentBase {
     //@ViewChild('departmentRiskControlDepartmentRiskLookupTableModal', { static: true }) departmentRiskControlDepartmentRiskLookupTableModal: DepartmentRiskControlDepartmentRiskLookupTableModalComponent;
     @ViewChild('departmentRiskControlControlLookupTableModal', { static: true }) departmentRiskControlControlLookupTableModal: DepartmentRiskControlControlLookupTableModalComponent;
     @ViewChild('createOrEditControlModal', { static: true }) createOrEditControlModal: CreateOrEditControlModalComponent;
+    @ViewChild('lossEventUserLookupTableModal', { static: true }) lossEventUserLookupTableModal: LossEventUserLookupTableModalComponent;
 
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
@@ -59,7 +62,7 @@ export class CreateControlTestingModalComponent extends AppComponentBase {
         });
     }
 
-    show(processRiskControlId?: number, processRiskId?: number, processId?: number, processRisk?: GetProcessRiskForViewDto): void {
+    show(processRiskControlId?: number, processRiskId?: number, processId?: number, processRisk?: GetProcessRiskForViewDto, organizationUnit?: number): void {
 
         // this._processesServiceProxy.getProcessForEdit(processId).subscribe(result => {
         //     this.process = result.process;
@@ -73,6 +76,7 @@ export class CreateControlTestingModalComponent extends AppComponentBase {
 
         this.controlTesting = new CreateOrEditControlTestingDto();
         this.controlTesting.processRiskControlId = processRiskControlId;
+        this.controlTesting.organizationUnitId = organizationUnit;
         this.active = true;
         this.modal.show();
     }
@@ -129,5 +133,16 @@ export class CreateControlTestingModalComponent extends AppComponentBase {
     close(): void {
         this.active = false;
         this.modal.hide();
+    }
+
+    openSelectUserModal() {
+        this.lossEventUserLookupTableModal.id = this.controlTesting.assignedUserId;
+        this.lossEventUserLookupTableModal.displayName = this.controlTesting.name;
+        this.lossEventUserLookupTableModal.show();
+    }
+
+    getNewEmployeeUserId() {
+        this.controlTesting.assignedUserId = this.lossEventUserLookupTableModal.id;
+        this.controlTesting.name = this.lossEventUserLookupTableModal.displayName;
     }
 }

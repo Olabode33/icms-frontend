@@ -325,13 +325,13 @@
                                     </div>
                                     <div class="primeng-paging-container">
                                         <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
-                                                     #paginator
-                                                     (onPageChange)="getWorkingPaperNews($event)"
-                                                     [totalRecords]="primengTableHelper.totalRecordsCount"
+                                                     #assessmentPaginator
+                                                     (onPageChange)="getAssessment($event)"
+                                                     [totalRecords]="assessmentCount"
                                                      [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
                                         </p-paginator>
                                         <span class="total-records-count">
-                                            {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                            {{l('TotalRecordsCount', assessmentCount)}}
                                         </span>
                                     </div>
                                 </div>
@@ -340,12 +340,15 @@
                         </div>
                     </div>
 
-                    <div [hidden]="project.projectOwner === projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
+                    <div class="kt-portlet kt-portlet--mobile">
                         <div class="kt-portlet__head hoverable"
                             (click)="showWorkingPapersCard = !showWorkingPapersCard;">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    <span> <i class="fa fa-layer-group"></i> Working Papers</span>
+                                    <span> <i class="fa fa-layer-group"></i> 
+                                        {{project.projectOwner === projectOwnerEnum.OperationRisk ? 'Control Testing' : 'Working Papers' }}
+                                        
+                                    </span>
                                 </h3>
                             </div>
                         </div>
@@ -590,7 +593,7 @@
                     </div>
 
 
-                    <div [hidden]="project.projectOwner !== projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
+                    <!-- <div [hidden]="project.projectOwner !== projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
                         <div class="kt-portlet__head hoverable"
                             (click)="controlTesting = !controlTesting;">
                             <div class="kt-portlet__head-label">
@@ -610,7 +613,6 @@
                         <div [hidden]="!controlTesting" class="kt-portlet__body  ">
 
                             <div class="row align-items-center">
-                                <!--<Primeng-Datatable-Start>-->
                                 <div class="primeng-datatable-container col-12"
                                      [busyIf]="primengTableHelper.isLoading">
                                      <div class="table-responsive">
@@ -628,9 +630,6 @@
                                                 <tr *ngFor="let control of controlTests">
                                                     <td class="pl-0 py-3">
                                                         <div class="d-flex align-items-center">
-                                                            <!-- <div class="symbol symbol-50 symbol-light mr-4">
-                                                                <i class="fa fa-2x fa-exclamation-triangle kt-font-danger"></i>
-                                                            </div> -->
                                                             <div>
                                                                 <a href="javascript:void(0);"
                                                                     class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
@@ -668,10 +667,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!--<Primeng-Datatable-End>-->
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div [hidden]="project.projectOwner !== projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
                         <div class="kt-portlet__head hoverable"

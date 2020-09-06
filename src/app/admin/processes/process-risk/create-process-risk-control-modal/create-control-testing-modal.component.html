@@ -15,8 +15,20 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="Process_Name"> {{l("Name")}}</label>
-                                <input type="text" id="name" class="form-control" [(ngModel)]="controlTesting.name"
-                                       name="Name" />
+                                <div class="input-group">
+                                    <input class="form-control" id="UserName" name="userName" [(ngModel)]="controlTesting.name" type="text"
+                                        disabled>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i
+                                                class="fa fa-search"></i> {{l("Pick")}}</button>
+                                    </div>
+                                    <!-- <div class="input-group-prepend">
+                                        <button class="btn btn-danger btn-icon" type="button"
+                                            (click)="setEmployeeUserIdNull()"><i class="fa fa-times"></i></button>
+                                    </div> -->
+                                </div>
+                                <input class="form-control" name="lossEvent.employeeUserId" [(ngModel)]="controlTesting.assignedUserId"
+                            type="text" hidden>
                             </div>
 
                             <div class="form-row">
@@ -55,4 +67,6 @@
     <!-- <departmentRiskControlDepartmentRiskLookupTableModal #departmentRiskControlDepartmentRiskLookupTableModal (modalSave)="getNewDepartmentRiskId()"></departmentRiskControlDepartmentRiskLookupTableModal> -->
     <departmentRiskControlControlLookupTableModal #departmentRiskControlControlLookupTableModal (modalSave)="getNewControlId()"></departmentRiskControlControlLookupTableModal>
     <createOrEditControlModal #createOrEditControlModal (modalSave)="getNewControlId()"></createOrEditControlModal>
+    <lossEventUserLookupTableModal #lossEventUserLookupTableModal (modalSave)="getNewEmployeeUserId()">
+    </lossEventUserLookupTableModal>
 </div>

@@ -27705,6 +27705,7 @@ export class ControlTestingDto implements IControlTestingDto {
     name!: string | undefined;
     testingTemplateId!: number | undefined;
     endDate!: moment.Moment | undefined;
+    assignedUserId!: number | undefined;
     id!: number;
 
     constructor(data?: IControlTestingDto) {
@@ -27721,6 +27722,7 @@ export class ControlTestingDto implements IControlTestingDto {
             this.name = data["name"];
             this.testingTemplateId = data["testingTemplateId"];
             this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
+            this.assignedUserId = data["assignedUserId"];
             this.id = data["id"];
         }
     }
@@ -27737,6 +27739,7 @@ export class ControlTestingDto implements IControlTestingDto {
         data["name"] = this.name;
         data["testingTemplateId"] = this.testingTemplateId;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["assignedUserId"] = this.assignedUserId;
         data["id"] = this.id;
         return data; 
     }
@@ -27746,6 +27749,7 @@ export interface IControlTestingDto {
     name: string | undefined;
     testingTemplateId: number | undefined;
     endDate: moment.Moment | undefined;
+    assignedUserId: number | undefined;
     id: number;
 }
 
@@ -27754,6 +27758,7 @@ export class GetControlTestingForViewDto implements IGetControlTestingForViewDto
     name!: string | undefined;
     testingTemplateId!: number | undefined;
     id!: number | undefined;
+    assignedToUserFullName!: string | undefined;
     endDate!: moment.Moment | undefined;
 
     constructor(data?: IGetControlTestingForViewDto) {
@@ -27771,6 +27776,7 @@ export class GetControlTestingForViewDto implements IGetControlTestingForViewDto
             this.name = data["name"];
             this.testingTemplateId = data["testingTemplateId"];
             this.id = data["id"];
+            this.assignedToUserFullName = data["assignedToUserFullName"];
             this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
         }
     }
@@ -27788,6 +27794,7 @@ export class GetControlTestingForViewDto implements IGetControlTestingForViewDto
         data["name"] = this.name;
         data["testingTemplateId"] = this.testingTemplateId;
         data["id"] = this.id;
+        data["assignedToUserFullName"] = this.assignedToUserFullName;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         return data; 
     }
@@ -27798,6 +27805,7 @@ export interface IGetControlTestingForViewDto {
     name: string | undefined;
     testingTemplateId: number | undefined;
     id: number | undefined;
+    assignedToUserFullName: string | undefined;
     endDate: moment.Moment | undefined;
 }
 
@@ -27854,6 +27862,8 @@ export class CreateOrEditControlTestingDto implements ICreateOrEditControlTestin
     testingTemplateId!: number | undefined;
     endDate!: string | undefined;
     processRiskControlId!: number | undefined;
+    organizationUnitId!: number | undefined;
+    assignedUserId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditControlTestingDto) {
@@ -27871,6 +27881,8 @@ export class CreateOrEditControlTestingDto implements ICreateOrEditControlTestin
             this.testingTemplateId = data["testingTemplateId"];
             this.endDate = data["endDate"];
             this.processRiskControlId = data["processRiskControlId"];
+            this.organizationUnitId = data["organizationUnitId"];
+            this.assignedUserId = data["assignedUserId"];
             this.id = data["id"];
         }
     }
@@ -27888,6 +27900,8 @@ export class CreateOrEditControlTestingDto implements ICreateOrEditControlTestin
         data["testingTemplateId"] = this.testingTemplateId;
         data["endDate"] = this.endDate;
         data["processRiskControlId"] = this.processRiskControlId;
+        data["organizationUnitId"] = this.organizationUnitId;
+        data["assignedUserId"] = this.assignedUserId;
         data["id"] = this.id;
         return data; 
     }
@@ -27898,6 +27912,8 @@ export interface ICreateOrEditControlTestingDto {
     testingTemplateId: number | undefined;
     endDate: string | undefined;
     processRiskControlId: number | undefined;
+    organizationUnitId: number | undefined;
+    assignedUserId: number | undefined;
     id: number | undefined;
 }
 
@@ -34406,6 +34422,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
     exceptionTypeId!: number | undefined;
     userId!: number | undefined;
     dataInputMethod!: string | undefined;
+    riskId!: number | undefined;
     id!: number;
 
     constructor(data?: IKeyRiskIndicatorDto) {
@@ -34425,6 +34442,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
             this.exceptionTypeId = data["exceptionTypeId"];
             this.userId = data["userId"];
             this.dataInputMethod = data["dataInputMethod"];
+            this.riskId = data["riskId"];
             this.id = data["id"];
         }
     }
@@ -34444,6 +34462,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["userId"] = this.userId;
         data["dataInputMethod"] = this.dataInputMethod;
+        data["riskId"] = this.riskId;
         data["id"] = this.id;
         return data; 
     }
@@ -34456,6 +34475,7 @@ export interface IKeyRiskIndicatorDto {
     exceptionTypeId: number | undefined;
     userId: number | undefined;
     dataInputMethod: string | undefined;
+    riskId: number | undefined;
     id: number;
 }
 
@@ -34463,6 +34483,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
     keyRiskIndicator!: KeyRiskIndicatorDto;
     exceptionTypeCode!: string | undefined;
     userName!: string | undefined;
+    riskName!: string | undefined;
 
     constructor(data?: IGetKeyRiskIndicatorForViewDto) {
         if (data) {
@@ -34478,6 +34499,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
             this.keyRiskIndicator = data["keyRiskIndicator"] ? KeyRiskIndicatorDto.fromJS(data["keyRiskIndicator"]) : <any>undefined;
             this.exceptionTypeCode = data["exceptionTypeCode"];
             this.userName = data["userName"];
+            this.riskName = data["riskName"];
         }
     }
 
@@ -34493,6 +34515,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
         data["keyRiskIndicator"] = this.keyRiskIndicator ? this.keyRiskIndicator.toJSON() : <any>undefined;
         data["exceptionTypeCode"] = this.exceptionTypeCode;
         data["userName"] = this.userName;
+        data["riskName"] = this.riskName;
         return data; 
     }
 }
@@ -34501,6 +34524,7 @@ export interface IGetKeyRiskIndicatorForViewDto {
     keyRiskIndicator: KeyRiskIndicatorDto;
     exceptionTypeCode: string | undefined;
     userName: string | undefined;
+    riskName: string | undefined;
 }
 
 export class PagedResultDtoOfGetKeyRiskIndicatorForViewDto implements IPagedResultDtoOfGetKeyRiskIndicatorForViewDto {
@@ -34564,6 +34588,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
     highActionType!: string | undefined;
     exceptionTypeId!: number | undefined;
     userId!: number | undefined;
+    riskId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditKeyRiskIndicatorDto) {
@@ -34589,6 +34614,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
             this.highActionType = data["highActionType"];
             this.exceptionTypeId = data["exceptionTypeId"];
             this.userId = data["userId"];
+            this.riskId = data["riskId"];
             this.id = data["id"];
         }
     }
@@ -34614,6 +34640,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
         data["highActionType"] = this.highActionType;
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["userId"] = this.userId;
+        data["riskId"] = this.riskId;
         data["id"] = this.id;
         return data; 
     }
@@ -34632,6 +34659,7 @@ export interface ICreateOrEditKeyRiskIndicatorDto {
     highActionType: string | undefined;
     exceptionTypeId: number | undefined;
     userId: number | undefined;
+    riskId: number | undefined;
     id: number | undefined;
 }
 
@@ -34639,6 +34667,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
     keyRiskIndicator!: CreateOrEditKeyRiskIndicatorDto;
     exceptionTypeCode!: string | undefined;
     userName!: string | undefined;
+    riskName!: string | undefined;
 
     constructor(data?: IGetKeyRiskIndicatorForEditOutput) {
         if (data) {
@@ -34654,6 +34683,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
             this.keyRiskIndicator = data["keyRiskIndicator"] ? CreateOrEditKeyRiskIndicatorDto.fromJS(data["keyRiskIndicator"]) : <any>undefined;
             this.exceptionTypeCode = data["exceptionTypeCode"];
             this.userName = data["userName"];
+            this.riskName = data["riskName"];
         }
     }
 
@@ -34669,6 +34699,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
         data["keyRiskIndicator"] = this.keyRiskIndicator ? this.keyRiskIndicator.toJSON() : <any>undefined;
         data["exceptionTypeCode"] = this.exceptionTypeCode;
         data["userName"] = this.userName;
+        data["riskName"] = this.riskName;
         return data; 
     }
 }
@@ -34677,6 +34708,7 @@ export interface IGetKeyRiskIndicatorForEditOutput {
     keyRiskIndicator: CreateOrEditKeyRiskIndicatorDto;
     exceptionTypeCode: string | undefined;
     userName: string | undefined;
+    riskName: string | undefined;
 }
 
 export class KeyRiskIndicatorExceptionTypeLookupTableDto implements IKeyRiskIndicatorExceptionTypeLookupTableDto {
@@ -41258,6 +41290,7 @@ export class ProjectDto implements IProjectDto {
     controlUnitId!: number | undefined;
     scopeId!: number | undefined;
     commenced!: boolean;
+    closed!: boolean;
     projectOwner!: ProjectOwner;
     id!: number;
 
@@ -41287,6 +41320,7 @@ export class ProjectDto implements IProjectDto {
             this.controlUnitId = data["controlUnitId"];
             this.scopeId = data["scopeId"];
             this.commenced = data["commenced"];
+            this.closed = data["closed"];
             this.projectOwner = data["projectOwner"];
             this.id = data["id"];
         }
@@ -41316,6 +41350,7 @@ export class ProjectDto implements IProjectDto {
         data["controlUnitId"] = this.controlUnitId;
         data["scopeId"] = this.scopeId;
         data["commenced"] = this.commenced;
+        data["closed"] = this.closed;
         data["projectOwner"] = this.projectOwner;
         data["id"] = this.id;
         return data; 
@@ -41338,6 +41373,7 @@ export interface IProjectDto {
     controlUnitId: number | undefined;
     scopeId: number | undefined;
     commenced: boolean;
+    closed: boolean;
     projectOwner: ProjectOwner;
     id: number;
 }
@@ -42000,9 +42036,9 @@ export class RcsaProgramAssessmentDto implements IRcsaProgramAssessmentDto {
     tenantId!: number;
     projectId!: number;
     businessUnitId!: number;
-    dateVerified!: moment.Moment;
+    dateVerified!: moment.Moment | undefined;
     verificationStatus!: VerificationStatusEnum;
-    verifiedByUserId!: number;
+    verifiedByUserId!: number | undefined;
     changes!: boolean;
     id!: number | undefined;
 
@@ -42053,9 +42089,9 @@ export interface IRcsaProgramAssessmentDto {
     tenantId: number;
     projectId: number;
     businessUnitId: number;
-    dateVerified: moment.Moment;
+    dateVerified: moment.Moment | undefined;
     verificationStatus: VerificationStatusEnum;
-    verifiedByUserId: number;
+    verifiedByUserId: number | undefined;
     changes: boolean;
     id: number | undefined;
 }
@@ -47170,6 +47206,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
     completedUserId!: number | undefined;
     reviewedUserId!: number | undefined;
     assignedToId!: number | undefined;
+    projectId!: number | undefined;
     id!: string | undefined;
 
     constructor(data?: ICreateOrEditWorkingPaperNewDto) {
@@ -47201,6 +47238,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
             this.completedUserId = data["completedUserId"];
             this.reviewedUserId = data["reviewedUserId"];
             this.assignedToId = data["assignedToId"];
+            this.projectId = data["projectId"];
             this.id = data["id"];
         }
     }
@@ -47232,6 +47270,7 @@ export class CreateOrEditWorkingPaperNewDto implements ICreateOrEditWorkingPaper
         data["completedUserId"] = this.completedUserId;
         data["reviewedUserId"] = this.reviewedUserId;
         data["assignedToId"] = this.assignedToId;
+        data["projectId"] = this.projectId;
         data["id"] = this.id;
         return data; 
     }
@@ -47252,6 +47291,7 @@ export interface ICreateOrEditWorkingPaperNewDto {
     completedUserId: number | undefined;
     reviewedUserId: number | undefined;
     assignedToId: number | undefined;
+    projectId: number | undefined;
     id: string | undefined;
 }
 

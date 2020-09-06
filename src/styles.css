@@ -456,13 +456,17 @@ body{margin-top:20px;
     }
 
     .btn.btn-light-danger {
-        color: #f64e60;
+        color: #f44336;
         background-color: #ffe2e5;
         border-color: transparent;
     }
 
     .bg-border-danger {
-        border: 1px solid #fd397a !important;
+        border: 1px solid #f44336 !important;
+    }
+
+    .bg-danger {
+        background-color: #f44336 !important;
     }
 
     .bg-border-success {

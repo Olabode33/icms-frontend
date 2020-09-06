@@ -18,6 +18,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import listPlugin from '@fullcalendar/list';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './planning.component.html',
@@ -79,12 +80,33 @@ export class PlanningComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.entityHistoryEnabled = this.setIsEntityHistoryEnabled();
+        this.getModule();
         this.getProjects({ first: 0, sortField: undefined, rows: 10 });
     }
 
     private setIsEntityHistoryEnabled(): boolean {
         let customSettings = (abp as any).custom;
         return this.isGrantedAny('Pages.Administration.AuditLogs') && customSettings.EntityHistory && customSettings.EntityHistory.isEnabled && _.filter(customSettings.EntityHistory.enabledEntities, entityType => entityType === this._entityTypeFullName).length === 1;
+    }
+
+    getModule(): void {
+        switch (localStorage.getItem(AppConsts.SelectedModuleKey)) {
+            case AppConsts.ModuleKeyValueInternalControl:
+                this.projectOwner = ProjectOwner.InternalControl;
+                break;
+            case AppConsts.ModuleKeyValueInternalAudit:
+                this.projectOwner = ProjectOwner.InternalAudit;
+                break;
+            case AppConsts.ModuleKeyValueOpRisk:
+                this.projectOwner = ProjectOwner.OperationRisk;
+                break;
+            case AppConsts.ModuleKeyValueGeneral:
+                this.projectOwner = ProjectOwner.General;
+                break;
+            default:
+                this.projectOwner = ProjectOwner.General;
+                break;
+        }
     }
 
     getProjects(event?: LazyLoadEvent) {
