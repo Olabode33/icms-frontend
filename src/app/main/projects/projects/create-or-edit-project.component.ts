@@ -81,6 +81,7 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
                 break;
             case AppConsts.ModuleKeyValueOpRisk:
                 this.project.projectOwner = ProjectOwner.OperationRisk;
+                this.project.commenced = true;
                 break;
             case AppConsts.ModuleKeyValueGeneral:
                 this.project.projectOwner = ProjectOwner.General;
@@ -94,6 +95,11 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
     save(): void {
         this.saving = true;
 
+        if (this.project.projectOwner === ProjectOwner.OperationRisk) {
+
+            this.project.scopeStartDate = this.project.budgetedStartDate;
+            this.project.scopeEndDate = this.project.budgetedEndDate;
+        }
 
         this._projectsServiceProxy.createOrEdit(this.project)
             .pipe(finalize(() => { this.saving = false; }))

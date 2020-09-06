@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-6">
+                        <div *ngIf="project.projectOwner !== projectOwnerEnum.OperationRisk" class="form-group col-6">
                             <label for="Project_reviewType2">Review Type</label>
                             <select type="text" id="Project_reviewType2" class="form-control" name="reviewType2">
                                 <option value=0>Internal Policies</option>
@@ -112,7 +112,7 @@
                                     type="text" hidden>
                             </div>
 
-                            <div class="form-row">
+                            <div *ngIf="project.projectOwner !== projectOwnerEnum.OperationRisk" class="form-row">
                                 <div class="form-group col-lg-6 col-md-6">
                                     <label for="Project_scopeStartDate">Start Date (Scope) </label>
                                     <input required class="form-control m-input" type="datetime" bsDatepicker
