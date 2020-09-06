@@ -28,6 +28,24 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
     userName = '';
     staffs = [];
 
+    colorScheme = {
+        domain: ['#022e64']
+    };
+    lineChartData = [
+        {
+            name: 'Exception Trend',
+            series: [
+                { value: 28, name: '2020-Sept-1' },
+                { value: 61, name: '2020-Sept-2' },
+                { value: 34, name: '2020-Sept-3' },
+                { value: 44, name: '2020-Sept-4' },
+                { value: 75, name: '2020-Sept-5' },
+                { value: 20, name: '2020-Sept-6' },
+                { value: 61, name: '2020-Sept-7' }
+            ]
+        }
+    ];
+
 
     constructor(
         injector: Injector,

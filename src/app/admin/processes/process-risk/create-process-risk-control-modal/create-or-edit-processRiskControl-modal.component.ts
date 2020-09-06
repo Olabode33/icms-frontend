@@ -44,6 +44,8 @@ export class CreateOrEditProcessRiskControlModalComponent extends AppComponentBa
 
     _appConsts = AppConsts;
 
+    controlEffectiveness = 0;
+
     constructor(
         injector: Injector,
         private _departmentRiskControlsServiceProxy: ProcessRiskControlsServiceProxy,
