@@ -28,6 +28,9 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
     deptProcesses: {process: OrganizationUnitDto, isActive: boolean}[] = new Array();
     deptRisks: {risk: GetProcessRiskForViewDto, isActive: boolean}[] = new Array();
     riskControls: {control: GetProcessRiskControlForViewDto, isActive: boolean}[] = new Array();
+    parentProcess: OrganizationUnitDto[] = new Array();
+    filteredDeptProcesses: {process: OrganizationUnitDto, isActive: boolean}[] = new Array();
+    selectedProcess = -1;
 
     //Controls
     loadingProcess = false;
@@ -79,6 +82,8 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
         if (ou) {
             //this.refreshRisks();
             this.getDepartmentProcesses();
+        } else {
+            this.getAllDepartmentProcesses();
         }
         this._isViewOnly = false;
     }
@@ -117,11 +122,36 @@ export class DeptProcessRiskControlComponent extends AppComponentBase implements
         this._processService.getProcesses(this._organizationUnit.id)
             .pipe(finalize(() => this.loadingProcess = false ))
             .subscribe(result => {
-                console.log(result);
+                //console.log(result);
+                this.deptProcesses = Array.from(new Set(result. items.map((i) => {
+                    return {process: i, isActive: false};
+                })));
+                this.filteredDeptProcesses = this.deptProcesses;
+                this.parentProcess = result.items.filter(e => e.parentId === null);
+                this.calculateScore();
+            });
+    }
+
+    filterProcesses() {
+        //console.log(this.selectedProcess);
+        if (this.selectedProcess != -1) {
+            this.filteredDeptProcesses = this.deptProcesses.filter(e => e.process.parentId == this.selectedProcess);
+            //console.log(this.filteredDeptProcesses);
+        } else {
+            this.filteredDeptProcesses = this.deptProcesses;
+        }
+    }
+
+    getAllDepartmentProcesses() {
+        this.loadingProcess = true;
+        this._processService.getProcesses(null)
+            .pipe(finalize(() => this.loadingProcess = false ))
+            .subscribe(result => {
+                //console.log(result);
             this.deptProcesses = Array.from(new Set(result. items.map((i) => {
                 return {process: i, isActive: false};
             })));
-            this.calculateScore();
+            //this.calculateScore();
         });
     }
 

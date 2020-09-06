@@ -60,11 +60,11 @@
                             <tabset>
                                 <tab heading="Processes">
                                     <button (click)="submitForReview()" class="btn btn-primary" *ngIf="activeRcsaProgram && currentAssessment.verificationStatus !== verificationStatusEnum.Submitted">
-                                        <i class="fa fa-check"></i> {{"Submit for Review" | localize}}
+                                        <i class="fa fa-check"></i> {{"Review" | localize}}
                                     </button>
                                     <button (click)="submitForVerification()"
                                         class="btn btn-primary" *ngIf="activeRcsaProgram">
-                                        <i class="fa fa-check-double"></i> {{"Submit for Verify" | localize}}
+                                        <i class="fa fa-check-double"></i> {{"Verify" | localize}}
                                     </button>
                                     <app-dept-process-risk-control #ouProcess (riskScoreUpdated)="updateRiskScore($event)" ></app-dept-process-risk-control>
                                 </tab>

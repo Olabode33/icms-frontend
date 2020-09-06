@@ -12,6 +12,7 @@ import { Paginator } from 'primeng/paginator';
 import { WorkingPaperNewUserLookupTableModalComponent } from '@app/main/workingPaperNews/workingPaperNews/workingPaperNew-user-lookup-table-modal.component';
 import { CreateOrEditExceptionIncidentModalComponent } from '@app/main/exceptionIncidents/exceptionIncidents/create-or-edit-exceptionIncident-modal.component';
 import { AppConsts } from '@shared/AppConsts';
+import { DeptProcessRiskControlComponent } from '@app/admin/processes/dept-process-risk-control/dept-process-risk-control.component';
 
 @Component({
     selector: 'viewProject',
@@ -26,6 +27,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     @ViewChild('assessmentPaginator', { static: true }) assessmentPaginator: Paginator;
     @ViewChild('workingPaperNewUserLookupTableModal', { static: true }) workingPaperNewUserLookupTableModal: WorkingPaperNewUserLookupTableModalComponent;
     @ViewChild('createOrEditExceptionIncidentModal', { static: true }) createOrEditExceptionIncidentModal: CreateOrEditExceptionIncidentModalComponent;
+    @ViewChild('ouProcess', {static: true}) ouProcess: DeptProcessRiskControlComponent;
 
     active = false;
     saving = false;
@@ -33,7 +35,9 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     showWorkingPapersCard = false;
     showExceptionsCard = false;
     showAssessmentCard = false;
+    showConfirmationCard = false;
     showControlTestingCard = false;
+    showCorrectiveActionCard = false;
     controlTesting = false;
     loading = false;
     loadingWorkingPapers = false;
@@ -139,6 +143,7 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this.show(this._activatedRoute.snapshot.queryParams['id']);
+        this.ouProcess.organizationUnit = { id: -1, displayName: '' };
     }
 
     show(projectId: number): void {

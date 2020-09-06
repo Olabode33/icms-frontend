@@ -1,6 +1,9 @@
 <div class="row">
-    <div class="col-12">
-
+    <div class="col-6 pb-5">
+        <select class="form-control custom select" name="parentProcesses" id="parentProcesses" [(ngModel)]="selectedProcess" (change)="filterProcesses()">
+            <option [value]="-1">-- All --</option>
+            <option *ngFor="let item of parentProcess" [value]="item.id">{{item.displayName}}</option>
+        </select>
     </div>
     <div class="col-12">
         <div>
@@ -9,7 +12,7 @@
                     role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
-                <div class="card" *ngFor="let process of deptProcesses; let p = index;">
+                <div class="card" *ngFor="let process of filteredDeptProcesses; let p = index;">
                     <div class="card-header" id="headingOne{{process.process.id}}">
                         <div class="card-title" [ngClass]="{collapsed: !process.isActive}"
                             (click)="toggleProcessAccordion(p)" data-toggle="collapse" data-target="#collapseOne4"

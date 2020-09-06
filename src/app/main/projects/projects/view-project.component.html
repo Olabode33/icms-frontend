@@ -43,7 +43,7 @@
                                 </a>
                             </div>
                         </div>
-                        <button *ngIf="completedTaskPercent === 100" (click)="closeProject()" class="btn btn-success blue">
+                        <button *ngIf="completedTaskPercent === 100 || project.projectOwner === projectOwnerEnum.OperationRisk" (click)="closeProject()" class="btn btn-success blue">
                             <i class="fa fa-times"></i>
                            Close Project
                         </button>
@@ -217,7 +217,26 @@
                                 role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
                                 aria-valuemax="100"></div>
                         </div>
-                        <div [hidden]="!showAssessmentCard" class="kt-portlet__body  ">
+                        <div [hidden]="!showAssessmentCard" class="kt-portlet__body">
+                            <app-dept-process-risk-control #ouProcess></app-dept-process-risk-control>                            
+                        </div>
+                    </div>
+
+                    <div [hidden]="project.projectOwner !== projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
+                        <div class="kt-portlet__head hoverable"
+                            (click)="showConfirmationCard = !showConfirmationCard;">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    <span> <i class="fa fa-check-double"></i> Confirmation</span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingAssessments" class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                        <div [hidden]="!showConfirmationCard" class="kt-portlet__body  ">
 
                             <div class="row align-items-center">
                                 <!--<Primeng-Datatable-Start>-->
@@ -576,8 +595,8 @@
                             (click)="controlTesting = !controlTesting;">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    <span class="kt-font-primary">
-                                        <i class="fa fa-layer-group"></i>
+                                    <span>
+                                        <i class="fa fa-check-square"></i>
                                         Control Testing
                                     </span>
                                 </h3>
@@ -653,6 +672,111 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div [hidden]="project.projectOwner !== projectOwnerEnum.OperationRisk" class="kt-portlet kt-portlet--mobile">
+                        <div class="kt-portlet__head hoverable"
+                            (click)="showCorrectiveActionCard = !showCorrectiveActionCard;">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    <span>
+                                        <i class="fa fa-clock"></i>
+                                        Corrective Action / Tasks
+                                    </span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingExceptions" class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                        <div [hidden]="!showCorrectiveActionCard" class="kt-portlet__body  ">
+
+                            <div class="row align-items-center">
+                                <div class="table-responsive">
+                                    <table
+                                        class="table table-head-custom table-vertical-center table-head-bg table-borderless">
+                                        <thead>
+                                            <tr class="text-left">
+                                                <th style="min-width: 250px" class="pl-2">
+                                                    <span class="text-dark-75">Task(s)</span></th>
+                                                <!-- <th style="min-width: 200px">Project Name</th> -->
+                                                <th style="min-width: 100px">Status</th>
+                                                <th style="min-width: 100px">Due Date</th>
+                                                <th style="min-width: 100px">Completed By</th>
+                                                <th style="min-width: 100px">Completion Date</th>
+                                                <th style="min-width: 100px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- <tr *ngFor="let task of newWorkingPaper">
+                                                <td class="pl-0 py-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="symbol symbol-50 symbol-light mr-4">
+                                                            <i class="fa fa-2x fa-layer-group kt-font-success"></i>
+                                                        </div>
+                                                        <div>
+                                                            <a href="javascript:void(0);"
+                                                               class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">
+                                                                {{task.testingTemplateCode}}
+                                                            </a>
+                                                            <span class="text-muted d-block">
+                                                                {{task.organizationUnitDisplayName}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                        {{task.projectName}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                        <span *ngIf="task.workingPaperNew.taskStatus == 0"><i class="fa fa-2x fa-edit"></i></span>
+                                                        <span *ngIf="task.workingPaperNew.taskStatus == 1"><i class="fa fa-2x fa-circle kt-font-info"></i></span>
+                                                        <span *ngIf="task.workingPaperNew.taskStatus == 2"><i class="fa fa-2x exclamation-triangle kt-font-danger"></i></span>
+                                                        <span *ngIf="task.workingPaperNew.taskStatus == 3"><i class="fa fa-2x fa-check kt-font-success"></i></span>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                        {{task.workingPaperNew.dueDate | momentFormat:'LL'}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                        {{task.completedBy}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+                                                        {{task.workingPaperNew.completionDate | momentFormat:'LL'}}
+                                                    </span>
+                                                </td>
+                                                <td class="pr-0 text-right">
+                                                    <button *ngIf="task.workingPaperNew.taskStatus == 0 || task.workingPaperNew.taskStatus == 2" (click)="editWorkingPaper(task.workingPaperNew.id)"
+                                                            class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
+                                                        Test
+                                                    </button>
+                                                    <button *ngIf="task.workingPaperNew.taskStatus == 1" (click)="viewWorkingPaper(task.workingPaperNew.id)"
+                                                            class="btn btn-label-success btn-sm btn-bold btn-upper btn-sm">
+                                                        Review
+                                                    </button>
+                                                </td>
+                                            </tr> -->
+                                            <tr>
+                                                <td class="pl-0" colspan="5">
+                                                    <span class="text-muted d-block">No task found</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-lg-3">
                     <div class="kt-portlet kt-portlet--mobile bg-border-success">
