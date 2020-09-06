@@ -13,6 +13,7 @@ import * as shape from 'd3-shape';
 import * as d3 from 'd3';
 import { DepartmentRiskRiskLookupTableModalComponent } from '@app/main/departmentRisks/departmentRisks/departmentRisk-risk-lookup-table-modal.component';
 import { CreateOrEditRiskModalComponent } from '@app/main/risks/risks/create-or-edit-risk-modal.component';
+import { KeyRiskIndicatorBusinessObjectiveLookupTableModalComponent } from './keyRiskIndicator-businessObjective-table-modal.component';
 
 
 @Component({
@@ -27,12 +28,15 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
     @ViewChild('keyRiskIndicatorUserLookupTableModal2', { static: true }) keyRiskIndicatorUserLookupTableModal2: KeyRiskIndicatorUserLookupTableModalComponent;
     @ViewChild('departmentRiskRiskLookupTableModal', { static: true }) departmentRiskRiskLookupTableModal: DepartmentRiskRiskLookupTableModalComponent;
     @ViewChild('createOrEditRiskModal', { static: true }) createOrEditRiskModal: CreateOrEditRiskModalComponent;
+    @ViewChild('keyRiskIndicatorBusinessObjectiveLookupTableModal', { static: true }) keyRiskIndicatorBusinessObjectiveLookupTableModal: KeyRiskIndicatorBusinessObjectiveLookupTableModalComponent;
+
 
     keyRiskIndicator: CreateOrEditKeyRiskIndicatorDto = new CreateOrEditKeyRiskIndicatorDto();
 
     exceptionTypeCode = '';
     userName = '';
     riskName = '';
+    businessObjectiveName = '';
     staffs = [];
 
     curve = shape.curveCatmullRom;
@@ -83,6 +87,8 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
 
                 this.exceptionTypeCode = result.exceptionTypeCode;
                 this.userName = result.userName;
+                this.riskName = result.riskName;
+                this.businessObjectiveName = result.businessObjectiveName;
 
                 this.active = true;
             });
@@ -123,6 +129,11 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         this.keyRiskIndicatorUserLookupTableModal.displayName = this.userName;
         this.keyRiskIndicatorUserLookupTableModal.show();
     }
+    openSelectBusinessObjectiveModal() {
+        this.keyRiskIndicatorBusinessObjectiveLookupTableModal.id = this.keyRiskIndicator.businessObjectiveId;
+        this.keyRiskIndicatorBusinessObjectiveLookupTableModal.displayName = this.businessObjectiveName;
+        this.keyRiskIndicatorBusinessObjectiveLookupTableModal.show();
+    }
 
 
     openEscalationUserModal() {
@@ -140,6 +151,10 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         this.keyRiskIndicator.userId = null;
         this.userName = '';
     }
+    setBusinessObjectiveNull() {
+        this.keyRiskIndicator.businessObjectiveId = null;
+        this.businessObjectiveName = '';
+    }
 
 
     getNewExceptionTypeId() {
@@ -154,8 +169,12 @@ export class CreateOrEditKeyRiskIndicatorComponent extends AppComponentBase impl
         const staff = {
             id: this.keyRiskIndicatorUserLookupTableModal.id,
             name: this.keyRiskIndicatorUserLookupTableModal.displayName
-        }
+        };
         this.staffs.push(staff);
+    }
+    getNewBusinessObjectiveId() {
+        this.keyRiskIndicator.businessObjectiveId = this.keyRiskIndicatorBusinessObjectiveLookupTableModal.id;
+        this.businessObjectiveName = this.keyRiskIndicatorBusinessObjectiveLookupTableModal.displayName;
     }
 
     addToArray() {

@@ -125,6 +125,8 @@ import { LossEventSampleModalComponent } from './lossEvents/loss-event-sample-mo
 import { TreeModule } from 'primeng/tree';
 import { LossTypeColumnsComponent } from './lossEvents/lossTypeColumns/lossTypeColumns.component';
 import { ViewProcessComponent } from './departments/_subs/view-process/view-process.component';
+import { LogFormKriModalComponent } from './keyRiskIndicators/log-formKri-modal/log-formKri-modal.component';
+import { KeyRiskIndicatorBusinessObjectiveLookupTableModalComponent } from './keyRiskIndicators/keyRiskIndicators/keyRiskIndicator-businessObjective-table-modal.component';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -152,6 +154,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
     ],
     declarations: [
         //LossEventUserLookupTableModalComponent,
+        KeyRiskIndicatorBusinessObjectiveLookupTableModalComponent,
+        LogFormKriModalComponent,
         LossEventsComponent,
         ViewProcessComponent,
         LandingPageComponent,

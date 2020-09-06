@@ -126,6 +126,14 @@ export class ViewProjectComponent extends AppComponentBase implements OnInit {
     projectOwnerEnum = ProjectOwner;
     verificationStatusEnum = VerificationStatusEnum;
 
+    correctiveAction = [
+        {
+            task: 'IT should ensure that controls on Finacle to ensure segregation of duty is working',
+            status: TaskStatus.Open,
+            dueDate: moment().endOf('month')
+        }
+    ];
+
     constructor(
         injector: Injector,
         private _activatedRoute: ActivatedRoute,

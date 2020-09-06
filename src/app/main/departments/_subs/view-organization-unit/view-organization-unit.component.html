@@ -64,8 +64,8 @@
                                     </button> -->
                                     <button (click)="submitForVerification()"
                                         class="btn btn-primary" *ngIf="activeRcsaProgram">
-                                        <i class="fa fa-check-double"></i> {{"Verify" | localize}}
-                                    </button>
+                                        <i class="fa fa-check-double"></i> {{"Verify Risks and Controls" | localize}}
+                                    </button><br><hr>
                                     <app-dept-process-risk-control #ouProcess (riskScoreUpdated)="updateRiskScore($event)" ></app-dept-process-risk-control>
                                 </tab>
                                 <tab heading="Assurance Review">

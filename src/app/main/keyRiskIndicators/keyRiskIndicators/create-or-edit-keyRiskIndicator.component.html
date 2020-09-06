@@ -6,8 +6,8 @@
             <div [class]="containerClass">
                 <div class="kt-subheader__main">
                     <h3 class="kt-subheader__title">
-                        <span *ngIf="active && keyRiskIndicator.id">{{"EditKeyRiskIndicator" }}</span>
-                        <span *ngIf="active && !keyRiskIndicator.id">{{l("CreateKeyRiskIndicator")}}</span>
+                        <span *ngIf="active && keyRiskIndicator.id">{{"Edit Key Risk Indicator" }}</span>
+                        <span *ngIf="active && !keyRiskIndicator.id">{{l("Create Key Risk Indicator")}}</span>
                     </h3>
                     <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                     <div class="kt-subheader__breadcrumbs">
@@ -59,6 +59,26 @@
 
                     <div class="form-row">
                         <div class="form-group m-form__group col-lg-6">
+                            <label for="BusinessObjectiveName">Business Objective</label>
+                            <div class="input-group">
+                                <input class="form-control" id="BusinessObjectiveName" name="BusinessObjectiveName" [(ngModel)]="businessObjectiveName"
+                                    type="text" disabled>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary blue" (click)="openSelectBusinessObjectiveModal()"
+                                        type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-danger btn-icon" type="button"
+                                        (click)="setBusinessObjectiveNull()"><i class="fa fa-times"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="form-control" required name="keyRiskIndicator.businessObjectiveId"
+                            [(ngModel)]="keyRiskIndicator.businessObjectiveId" type="text" hidden>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group m-form__group col-lg-6">
                             <label for="RiskName">Select Risk</label>
                             <div class="input-group">
                                 <input class="form-control" id="RiskName" name="riskName" [(ngModel)]="riskName"
@@ -95,6 +115,7 @@
                             type="text" hidden>
 
                     </div>
+
                     <tabset>
                         <tab heading="Data Configuration">
                             <div class="form-row">
@@ -200,8 +221,8 @@
                                             <select type="text" id="KeyRiskIndicator_HighActionType"
                                                 class="form-control" [(ngModel)]="keyRiskIndicator.highActionType"
                                                 name="HighActionType">
+                                                <option value="No Action">No Action</option>
                                                 <option value="Action">Action</option>
-                                                <option value="Escalation">Escalation</option>
                                             </select>
                                         </div>
                                     </div>
@@ -209,10 +230,10 @@
                             </div>
 
                             <br><br>
-                            <div [hidden]="!keyRiskIndicator.exceptionTypeId" class="card bg-border-danger">
-                                <div class="card-header bg-danger text-white">Exception Trend</div>
+                            <div [hidden]="!keyRiskIndicator.exceptionTypeId" class="card bg-border-brand">
+                                <div class="card-header bg-brand text-white">Trend Indicator</div>
                                 <div class="card-body px-5" style="width: 100%;">
-                                    <div class="kt-widget11__chart pt-5" style="height:300px; width: 100%">
+                                    <div class="kt-widget11__chart pt-5" style="height:150px; width: 100%">
                                         <ngx-charts-area-chart [results]="lineChartData" [scheme]="colorScheme"
                                             [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxis]="true"
                                             [yAxis]="false" [autoScale]="false" [animations]="true" [curve]="curve"
@@ -274,5 +295,7 @@
     <createOrEditRiskModal #createOrEditRiskModal (modalSave)="saveNewRiskId($event)"></createOrEditRiskModal>
     <departmentRiskRiskLookupTableModal #departmentRiskRiskLookupTableModal (modalSave)="getNewRiskId()">
     </departmentRiskRiskLookupTableModal>
+    <keyRiskIndicatorBusinessObjectiveLookupTableModal #keyRiskIndicatorBusinessObjectiveLookupTableModal (modalSave)="getNewBusinessObjectiveId()">
+    </keyRiskIndicatorBusinessObjectiveLookupTableModal>
 
 </div>

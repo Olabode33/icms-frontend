@@ -4,8 +4,8 @@
             <form *ngIf="active" #businessObjectiveForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="businessObjective.id">{{l("EditBusinessObjective")}}</span>
-                        <span *ngIf="!businessObjective.id">{{l("CreateNewBusinessObjective")}}</span>
+                        <span *ngIf="businessObjective.id">{{l("Edit Business Objective")}}</span>
+                        <span *ngIf="!businessObjective.id">{{l("New Business Objective")}}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>

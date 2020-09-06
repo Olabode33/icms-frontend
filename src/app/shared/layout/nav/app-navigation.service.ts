@@ -122,13 +122,15 @@ export class AppNavigationService {
                 new AppMenuItem('Controls', 'Pages.Controls', 'fa fa-cog', '/app/main/controls/controls'),
                 //new AppMenuItem('Exception Types', 'Pages.ExceptionTypes', 'flaticon-more', '/app/main/exceptionTypes/exceptionTypes')
             ]),
-            new AppMenuItem('KeyRiskIndicators', 'Pages.KeyRiskIndicators', 'flaticon2-document', '/app/main/keyRiskIndicators/keyRiskIndicators'),
+            new AppMenuItem('KRI Management', '', 'flaticon2-document', '', [
+                new AppMenuItem('BusinessObjectives', 'Pages.BusinessObjectives', 'flaticon-notes', '/app/main/businessObjectives/businessObjectives'),
+                new AppMenuItem('KeyRiskIndicators', 'Pages.KeyRiskIndicators', 'flaticon2-document', '/app/main/keyRiskIndicators/keyRiskIndicators'),
+            ]),
             new AppMenuItem('Loss Events', '', 'fas fa-database', '', [
                 new AppMenuItem('Incidents', 'Pages.ExceptionIncidents', 'fa fa-gavel', '/app/main/lossEvents'),
                 new AppMenuItem('Configuration', 'Pages.ExceptionIncidents', 'flaticon-more', '/app/main/lossEvents/columns'),
             ]),
             new AppMenuItem('Capital Modeling', 'Pages.TestingTemplates', 'flaticon2-chart', '/app/main/testingTemplates/testingTemplates'),
-            new AppMenuItem('BusinessObjectives', 'Pages.BusinessObjectives', 'flaticon-notes', '/app/main/businessObjectives/businessObjectives'),
             new AppMenuItem('Administration', '', 'flaticon-interface-8', '', [
                 new AppMenuItem('Planning', '', 'fa fa-briefcase', '', [
                     new AppMenuItem('Project Scheduling', 'Pages.Projects', 'flaticon-calendar', '/app/main/projects/planning'),

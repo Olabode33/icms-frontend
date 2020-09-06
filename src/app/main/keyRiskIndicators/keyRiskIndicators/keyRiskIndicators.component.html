@@ -10,7 +10,7 @@
                         </h3>
                         <span class="kt-subheader__separator kt-subheader__separator--v"></span>
                         <span class="kt-subheader__desc">
-                            {{l("KeyRiskIndicatorsHeaderInfo")}}
+                            Manage Key Risk Indicators
                         </span>
                     </div>
                     <div class="kt-subheader__toolbar">
@@ -118,12 +118,10 @@
                                                 <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
-                                                <!--<li>
-                                                                <a *ngIf="permission.isGranted('Pages.KeyRiskIndicators.Edit')"
-                            [routerLink]="['/app/main/keyRiskIndicators/keyRiskIndicators/view']" [queryParams]="{id: record.keyRiskIndicator.id}">
-                  {{l('View')}}
-                </a>
-                                                            </li>-->
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="record.keyRiskIndicator.dataInputMethod == 'Form Input'"
+                                                        (click)="logKri()"> Log </a>
+                                                </li>
                                                 <li>
                                                     <a *ngIf="permission.isGranted('Pages.KeyRiskIndicators.Edit')"
                                                        [routerLink]="['/app/main/keyRiskIndicators/keyRiskIndicators/createOrEdit']" [queryParams]="{id: record.keyRiskIndicator.id}">
@@ -177,6 +175,6 @@
     </div>
         
     
-    
+    <app-log-formKri-modal #logKriModal></app-log-formKri-modal>
   </div>
 </div>

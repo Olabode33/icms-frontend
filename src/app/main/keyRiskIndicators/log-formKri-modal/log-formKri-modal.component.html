@@ -1,0 +1,36 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #exceptionIncidentForm="ngForm" novalidate autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Log KRI</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" id="StartDate" bsDatepicker class="form-control" name="StartDate" />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="text" id="EndDate" bsDatepicker class="form-control" name="EndDate" />
+                    </div>
+                    <div class="form-group">
+                        <label>Current Value</label>
+                        <input type="number" id="CurrentValue" class="form-control" name="CurrentValue" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-danger" (click)="close()">
+                        <i class="fa fa-times"></i>Cancel</button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-primary" (click)="save()">
+                        <i class="fa fa-check"></i>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

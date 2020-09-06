@@ -10469,6 +10469,77 @@ export class KeyRiskIndicatorsServiceProxy {
         }
         return _observableOf<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>(<any>null);
     }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAllBusinessObjectiveForLookupTable(filter: string | undefined, sorting: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto> {
+        let url_ = this.baseUrl + "/api/services/app/KeyRiskIndicators/GetAllBusinessObjectiveForLookupTable?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBusinessObjectiveForLookupTable(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBusinessObjectiveForLookupTable(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBusinessObjectiveForLookupTable(response: HttpResponseBase): Observable<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfKeyRiskIndicatorUserLookupTableDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -34423,6 +34494,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
     userId!: number | undefined;
     dataInputMethod!: string | undefined;
     riskId!: number | undefined;
+    businessObjectiveId!: number | undefined;
     id!: number;
 
     constructor(data?: IKeyRiskIndicatorDto) {
@@ -34443,6 +34515,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
             this.userId = data["userId"];
             this.dataInputMethod = data["dataInputMethod"];
             this.riskId = data["riskId"];
+            this.businessObjectiveId = data["businessObjectiveId"];
             this.id = data["id"];
         }
     }
@@ -34463,6 +34536,7 @@ export class KeyRiskIndicatorDto implements IKeyRiskIndicatorDto {
         data["userId"] = this.userId;
         data["dataInputMethod"] = this.dataInputMethod;
         data["riskId"] = this.riskId;
+        data["businessObjectiveId"] = this.businessObjectiveId;
         data["id"] = this.id;
         return data; 
     }
@@ -34476,6 +34550,7 @@ export interface IKeyRiskIndicatorDto {
     userId: number | undefined;
     dataInputMethod: string | undefined;
     riskId: number | undefined;
+    businessObjectiveId: number | undefined;
     id: number;
 }
 
@@ -34484,6 +34559,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
     exceptionTypeCode!: string | undefined;
     userName!: string | undefined;
     riskName!: string | undefined;
+    businessObjectiveName!: string | undefined;
 
     constructor(data?: IGetKeyRiskIndicatorForViewDto) {
         if (data) {
@@ -34500,6 +34576,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
             this.exceptionTypeCode = data["exceptionTypeCode"];
             this.userName = data["userName"];
             this.riskName = data["riskName"];
+            this.businessObjectiveName = data["businessObjectiveName"];
         }
     }
 
@@ -34516,6 +34593,7 @@ export class GetKeyRiskIndicatorForViewDto implements IGetKeyRiskIndicatorForVie
         data["exceptionTypeCode"] = this.exceptionTypeCode;
         data["userName"] = this.userName;
         data["riskName"] = this.riskName;
+        data["businessObjectiveName"] = this.businessObjectiveName;
         return data; 
     }
 }
@@ -34525,6 +34603,7 @@ export interface IGetKeyRiskIndicatorForViewDto {
     exceptionTypeCode: string | undefined;
     userName: string | undefined;
     riskName: string | undefined;
+    businessObjectiveName: string | undefined;
 }
 
 export class PagedResultDtoOfGetKeyRiskIndicatorForViewDto implements IPagedResultDtoOfGetKeyRiskIndicatorForViewDto {
@@ -34589,6 +34668,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
     exceptionTypeId!: number | undefined;
     userId!: number | undefined;
     riskId!: number | undefined;
+    businessObjectiveId!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateOrEditKeyRiskIndicatorDto) {
@@ -34615,6 +34695,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
             this.exceptionTypeId = data["exceptionTypeId"];
             this.userId = data["userId"];
             this.riskId = data["riskId"];
+            this.businessObjectiveId = data["businessObjectiveId"];
             this.id = data["id"];
         }
     }
@@ -34641,6 +34722,7 @@ export class CreateOrEditKeyRiskIndicatorDto implements ICreateOrEditKeyRiskIndi
         data["exceptionTypeId"] = this.exceptionTypeId;
         data["userId"] = this.userId;
         data["riskId"] = this.riskId;
+        data["businessObjectiveId"] = this.businessObjectiveId;
         data["id"] = this.id;
         return data; 
     }
@@ -34660,6 +34742,7 @@ export interface ICreateOrEditKeyRiskIndicatorDto {
     exceptionTypeId: number | undefined;
     userId: number | undefined;
     riskId: number | undefined;
+    businessObjectiveId: number | undefined;
     id: number | undefined;
 }
 
@@ -34668,6 +34751,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
     exceptionTypeCode!: string | undefined;
     userName!: string | undefined;
     riskName!: string | undefined;
+    businessObjectiveName!: string | undefined;
 
     constructor(data?: IGetKeyRiskIndicatorForEditOutput) {
         if (data) {
@@ -34684,6 +34768,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
             this.exceptionTypeCode = data["exceptionTypeCode"];
             this.userName = data["userName"];
             this.riskName = data["riskName"];
+            this.businessObjectiveName = data["businessObjectiveName"];
         }
     }
 
@@ -34700,6 +34785,7 @@ export class GetKeyRiskIndicatorForEditOutput implements IGetKeyRiskIndicatorFor
         data["exceptionTypeCode"] = this.exceptionTypeCode;
         data["userName"] = this.userName;
         data["riskName"] = this.riskName;
+        data["businessObjectiveName"] = this.businessObjectiveName;
         return data; 
     }
 }
@@ -34709,6 +34795,7 @@ export interface IGetKeyRiskIndicatorForEditOutput {
     exceptionTypeCode: string | undefined;
     userName: string | undefined;
     riskName: string | undefined;
+    businessObjectiveName: string | undefined;
 }
 
 export class KeyRiskIndicatorExceptionTypeLookupTableDto implements IKeyRiskIndicatorExceptionTypeLookupTableDto {

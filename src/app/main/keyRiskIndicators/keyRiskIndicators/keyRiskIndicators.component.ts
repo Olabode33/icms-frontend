@@ -1,6 +1,6 @@
 ﻿import { Component, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute , Router} from '@angular/router';
-import { KeyRiskIndicatorsServiceProxy, KeyRiskIndicatorDto  } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute, Router } from '@angular/router';
+import { KeyRiskIndicatorsServiceProxy, KeyRiskIndicatorDto } from '@shared/service-proxies/service-proxies';
 import { NotifyService } from '@abp/notify/notify.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -13,6 +13,7 @@ import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { LogFormKriModalComponent } from '../log-formKri-modal/log-formKri-modal.component';
 
 @Component({
     templateUrl: './keyRiskIndicators.component.html',
@@ -20,18 +21,16 @@ import * as moment from 'moment';
     animations: [appModuleAnimation()]
 })
 export class KeyRiskIndicatorsComponent extends AppComponentBase {
-    
-    
-       
-    
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @ViewChild('logKriModal', { static: true}) logKriModal: LogFormKriModalComponent;
 
     advancedFiltersAreShown = false;
     filterText = '';
     natureFilter = '';
-        exceptionTypeCodeFilter = '';
-        userNameFilter = '';
+    exceptionTypeCodeFilter = '';
+    userNameFilter = '';
 
 
 
@@ -43,7 +42,7 @@ export class KeyRiskIndicatorsComponent extends AppComponentBase {
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
         private _fileDownloadService: FileDownloadService,
-			private _router: Router
+        private _router: Router
     ) {
         super(injector);
     }
@@ -76,7 +75,11 @@ export class KeyRiskIndicatorsComponent extends AppComponentBase {
     }
 
     createKeyRiskIndicator(): void {
-        this._router.navigate(['/app/main/keyRiskIndicators/keyRiskIndicators/createOrEdit']);        
+        this._router.navigate(['/app/main/keyRiskIndicators/keyRiskIndicators/createOrEdit']);
+    }
+
+    logKri(): void {
+        this.logKriModal.show();
     }
 
 
@@ -98,13 +101,13 @@ export class KeyRiskIndicatorsComponent extends AppComponentBase {
 
     exportToExcel(): void {
         this._keyRiskIndicatorsServiceProxy.getKeyRiskIndicatorsToExcel(
-        this.filterText,
+            this.filterText,
             this.natureFilter,
             this.exceptionTypeCodeFilter,
             this.userNameFilter,
         )
-        .subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-         });
+            .subscribe(result => {
+                this._fileDownloadService.downloadTempFile(result);
+            });
     }
 }

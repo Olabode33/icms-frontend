@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-6 pb-5">
+    <div class="col-6 pb-3">
         <select class="form-control custom select" name="parentProcesses" id="parentProcesses" [(ngModel)]="selectedProcess" (change)="filterProcesses()">
             <option [value]="-1">-- All --</option>
             <option *ngFor="let item of parentProcess" [value]="item.id">{{item.displayName}}</option>
         </select>
     </div>
-    <div class="col-6 pb-5">
+    <div class="col-6 pb-3">
         <button (click)="exportToExcel()" class="btn btn-outline-success pull-right"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
     </div>
     <div class="col-12">
